@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchStrainById } from "@/services/strainService";
@@ -38,7 +37,6 @@ const StrainDetail: React.FC = () => {
           setError("Strain not found");
         } else {
           setStrain(strainData);
-          // Set document title to strain name
           document.title = `${strainData.name} | Strain Details`;
         }
       } catch (error) {
@@ -102,12 +100,10 @@ const StrainDetail: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Image skeleton */}
           <div className="md:col-span-1">
             <Skeleton className="aspect-square w-full rounded-xl" />
           </div>
           
-          {/* Content skeleton */}
           <div className="md:col-span-2 space-y-6">
             <Skeleton className="h-12 w-3/4" />
             <div className="flex gap-2">
@@ -148,10 +144,10 @@ const StrainDetail: React.FC = () => {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="rounded-full"
+              className="rounded-full bg-gray-800 hover:bg-gray-700"
               onClick={() => navigate(-1)}
             >
-              <ArrowLeft />
+              <ArrowLeft className="text-white" />
             </Button>
             <h1 className="text-3xl font-bold">{t("error")}</h1>
           </div>
@@ -190,7 +186,6 @@ const StrainDetail: React.FC = () => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Strain Image */}
         <div className="md:col-span-1">
           <div className="rounded-xl overflow-hidden bg-gray-800 aspect-square shadow-xl flex items-center justify-center">
             {strain.img_url ? (
@@ -223,7 +218,6 @@ const StrainDetail: React.FC = () => {
           </div>
         </div>
         
-        {/* Strain Content */}
         <div className="md:col-span-2">
           <h2 className="text-4xl font-bold mb-4 text-white">{strain.name}</h2>
           

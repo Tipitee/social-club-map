@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Strain, StrainFilters } from "@/types/strain";
 import { toast } from "@/components/ui/use-toast";
@@ -12,6 +11,93 @@ export class StrainServiceError extends Error {
     this.name = "StrainServiceError";
   }
 }
+
+/**
+ * Test connection to strains table and return count
+ * @returns Result object with success status, message and count
+ */
+export const testStrainsConnection = async () => {
+  try {
+    console.log('[DEBUG] Testing strains connection');
+    
+    const { count, error } = await supabase
+      .from('strains')
+      .select('*', { count: 'exact', head: true });
+    
+    if (error) {
+      console.error('[DEBUG] Strains connection test failed:', error);
+      return { 
+        success: false, 
+        message: `Database connection error: ${error.message}`,
+        count: 0
+      };
+    }
+    
+    return { 
+      success: true, 
+      message: count && count > 0 ? 
+        `Successfully connected to strains table (${count} records)` : 
+        'Connected to strains table but no records found',
+      count: count || 0
+    };
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+    console.error('[DEBUG] Strains connection test exception:', e);
+    return { 
+      success: false, 
+      message: `Exception testing strains connection: ${errorMessage}`,
+      count: 0
+    };
+  }
+};
+
+/**
+ * Helper function to transform raw DB data to Strain objects
+ * @param data Raw data from database
+ * @returns Properly formatted Strain objects
+ */
+const transformStrainData = (data: any[]): Strain[] => {
+  return data.map(item => {
+    // Extract effect data
+    const effects = [];
+    
+    // Add top effect if available
+    if (item.top_effect && item.top_percent) {
+      effects.push({
+        effect: item.top_effect,
+        intensity: parseFloat(item.top_percent) || 0
+      });
+    }
+    
+    // Add second effect if available
+    if (item.second_effect && item.second_percent) {
+      effects.push({
+        effect: item.second_effect,
+        intensity: parseFloat(item.second_percent) || 0
+      });
+    }
+    
+    // Add third effect if available
+    if (item.third_effect && item.third_percent) {
+      effects.push({
+        effect: item.third_effect,
+        intensity: parseFloat(item.third_percent) || 0
+      });
+    }
+    
+    // Create properly structured Strain object
+    return {
+      id: item.id || String(Math.random()),
+      name: item.name,
+      img_url: item.img_url,
+      type: (item.type as 'Indica' | 'Sativa' | 'Hybrid') || 'Hybrid',
+      thc_level: item.thc_level ? parseFloat(item.thc_level) : null,
+      most_common_terpene: item.most_common_terpene,
+      description: item.description,
+      effects: effects,
+    };
+  });
+};
 
 /**
  * Fetches strains with optional sorting, pagination, and filtering
@@ -82,7 +168,7 @@ export const fetchStrains = async (
       }
       
       return { 
-        strains: [...(dataWithImages || []), ...dataWithoutImages], 
+        strains: transformStrainData([...(dataWithImages || []), ...dataWithoutImages]), 
         total: count || 0 
       };
     } else {
@@ -94,7 +180,7 @@ export const fetchStrains = async (
         throw new StrainServiceError("Failed to fetch strains", error);
       }
       
-      return { strains: data || [], total: count || 0 };
+      return { strains: transformStrainData(data || []), total: count || 0 };
     }
   } catch (error) {
     console.error("Strain fetch error:", error);
@@ -119,7 +205,7 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
       throw new StrainServiceError(`Failed to fetch strain with ID ${id}`, error);
     }
     
-    return data as Strain;
+    return data ? transformStrainData([data])[0] : null;
   } catch (error) {
     console.error(`Error fetching strain ${id}:`, error);
     throw error instanceof StrainServiceError 

@@ -31,8 +31,8 @@ const translations: TranslationsType = {
     "filter": "Filter",
     "showing": "Showing",
     "of": "of",
-    "strain": "strain",
-    "strains": "strains",
+    "strainsCount": "strains",
+    "strainSingular": "strain",
     "page": "Page",
     "noStrainsFound": "No strains found",
     "tryAdjusting": "Try adjusting your filters to see more results.",
@@ -60,7 +60,6 @@ const translations: TranslationsType = {
     
     // Strain Detail
     "strainDetails": "Strain Details",
-    "thcLevel": "THC Level",
     "labDataPending": "Lab data pending",
     "dominantTerpene": "Dominant Terpene",
     "terpeneDataUnavailable": "Terpene data unavailable",
@@ -90,8 +89,8 @@ const translations: TranslationsType = {
     "filter": "Filter",
     "showing": "Anzeigen",
     "of": "von",
-    "strain": "Sorte",
-    "strains": "Sorten",
+    "strainsCount": "Sorten",
+    "strainSingular": "Sorte",
     "page": "Seite",
     "noStrainsFound": "Keine Sorten gefunden",
     "tryAdjusting": "Versuchen Sie, Ihre Filter anzupassen, um mehr Ergebnisse zu sehen.",
@@ -119,7 +118,6 @@ const translations: TranslationsType = {
     
     // Strain Detail
     "strainDetails": "Sorten-Details",
-    "thcLevel": "THC-Gehalt",
     "labDataPending": "Labordaten ausstehend",
     "dominantTerpene": "Dominantes Terpen",
     "terpeneDataUnavailable": "Terpen-Daten nicht verfügbar",

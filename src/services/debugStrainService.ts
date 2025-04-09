@@ -7,28 +7,25 @@ export interface RawStrainData {
 }
 
 /**
+ * Type guard to check if a value is a Strain object
+ * @param value - Any value that needs validation as a Strain
+ * @returns Boolean indicating if the value is a Strain object
+ */
+function isValidStrain(value: unknown): value is Strain {
+  return typeof value === 'object' && 
+         value !== null &&
+         'name' in value && 
+         typeof (value as any).name === 'string';
+}
+
+/**
  * Function to check if data is a Strain array
  * @param data - Any data that needs validation
  * @returns Boolean indicating if the data is a Strain array
  */
 function isStrainArray(data: unknown): data is Strain[] {
-  return Array.isArray(data) && data.every(item => 
-    typeof item === 'object' && 
-    item !== null && 
-    'name' in item
-  );
-}
-
-/**
- * Validates individual strain data against expected shape
- * @param strain - Potentially a strain object
- * @returns Boolean indicating if the data matches expected Strain shape
- */
-function isValidStrain(strain: unknown): strain is Strain {
-  return typeof strain === 'object' && 
-         strain !== null &&
-         'name' in strain && 
-         typeof (strain as any).name === 'string';
+  return Array.isArray(data) && 
+         data.every(item => isValidStrain(item));
 }
 
 /**
@@ -94,7 +91,7 @@ export const testDirectQuery = async () => {
  */
 export const parseStrainData = (jsonString: string): Strain[] | null => {
   try {
-    // Add explicit type assertion to fix the error
+    // Add explicit type assertion to unknown first
     const parsedData = JSON.parse(jsonString) as unknown;
     
     if (isStrainArray(parsedData)) {
