@@ -1,6 +1,5 @@
-
 import { supabase } from "@/integrations/supabase/client";
-import { Strain, StrainFilters, RawStrainData } from "@/types/strain";
+import { Strain, StrainFilters, RawStrainData, StrainEffect } from "@/types/strain";
 import { toast } from "@/components/ui/use-toast";
 import { z } from "zod";
 
@@ -92,7 +91,7 @@ function safeJsonParse<T>(jsonString: string | null | undefined, defaultValue: T
 const transformStrainData = (data: any[]): Strain[] => {
   return data.map(item => {
     // Extract effect data
-    const effects = [];
+    const effects: StrainEffect[] = [];
     
     // Add top effect if available
     if (item.top_effect && item.top_percent) {
