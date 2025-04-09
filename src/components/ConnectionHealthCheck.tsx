@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, CheckCircle2, RefreshCw, Database } from 'lucide-react';
+import { AlertCircle, CheckCircle2, RefreshCw, Database, Bug } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { testStrainsConnection } from "@/services/strainService";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchRawStrains, getSupabaseInfo } from "@/services/debugStrainService";
 
 export const ConnectionHealthCheck: React.FC = () => {
   const [status, setStatus] = useState<{
@@ -13,10 +14,13 @@ export const ConnectionHealthCheck: React.FC = () => {
     success: boolean | null;
     message: string;
     count?: number;
+    rawData?: any;
+    debugMode: boolean;
   }>({
     isLoading: true,
     success: null,
     message: "Checking connection...",
+    debugMode: false
   });
 
   const checkConnection = async () => {
@@ -32,10 +36,14 @@ export const ConnectionHealthCheck: React.FC = () => {
           isLoading: false,
           success: false,
           message: "Supabase API connection failed",
-          count: 0
+          count: 0,
+          debugMode: status.debugMode
         });
         return;
       }
+      
+      // Get raw data for debugging
+      const rawResult = await fetchRawStrains();
       
       // If basic connection works, test the strains table
       const result = await testStrainsConnection();
@@ -45,7 +53,9 @@ export const ConnectionHealthCheck: React.FC = () => {
         isLoading: false,
         success: result.success,
         message: result.message,
-        count: result.count || 0
+        count: result.count || 0,
+        rawData: rawResult,
+        debugMode: status.debugMode
       });
     } catch (error) {
       console.error("[DEBUG] Health check exception:", error);
@@ -53,7 +63,8 @@ export const ConnectionHealthCheck: React.FC = () => {
         isLoading: false,
         success: false,
         message: error instanceof Error ? error.message : "Unknown error occurred",
-        count: 0
+        count: 0,
+        debugMode: status.debugMode
       });
     }
   };
@@ -61,13 +72,29 @@ export const ConnectionHealthCheck: React.FC = () => {
   // Helper function to test raw connection
   const testRawConnection = async (): Promise<boolean> => {
     try {
+      console.log('[DEBUG] Testing raw Supabase connection');
       // Simple health check to see if we can reach Supabase
       const { error } = await supabase.from('strains').select('name', { count: 'exact', head: true });
+      
+      if (error) {
+        console.error('[DEBUG] Raw connection test failed with error:', error);
+      } else {
+        console.log('[DEBUG] Raw connection test succeeded');
+      }
+      
       return !error;
     } catch (e) {
-      console.error('[DEBUG] Raw connection test failed:', e);
+      console.error('[DEBUG] Raw connection test failed with exception:', e);
       return false;
     }
+  };
+  
+  // Toggle debug mode
+  const toggleDebugMode = () => {
+    setStatus(prev => ({
+      ...prev,
+      debugMode: !prev.debugMode
+    }));
   };
 
   useEffect(() => {
@@ -123,19 +150,39 @@ export const ConnectionHealthCheck: React.FC = () => {
                 </p>
               )}
               
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="w-full mt-2" 
-                onClick={checkConnection}
-                disabled={status.isLoading}
-              >
-                {status.isLoading ? (
-                  <>Checking... <RefreshCw className="ml-2 h-3 w-3 animate-spin" /></>
-                ) : (
-                  <>Retry connection <Database className="ml-2 h-3 w-3" /></>
-                )}
-              </Button>
+              {status.debugMode && (
+                <div className="mt-2 space-y-1 text-xs">
+                  <p className="font-semibold">Debug Info:</p>
+                  <p>Supabase URL: {supabase.supabaseUrl}</p>
+                  <p>Auth Status: {supabase.auth.session() ? 'Logged in' : 'Anonymous'}</p>
+                  <p>Raw Data: {status.rawData?.success ? `Found ${status.rawData.data?.length || 0} records` : 'No raw data'}</p>
+                </div>
+              )}
+              
+              <div className="flex gap-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="flex-1" 
+                  onClick={checkConnection}
+                  disabled={status.isLoading}
+                >
+                  {status.isLoading ? (
+                    <>Checking... <RefreshCw className="ml-2 h-3 w-3 animate-spin" /></>
+                  ) : (
+                    <>Retry <Database className="ml-2 h-3 w-3" /></>
+                  )}
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={toggleDebugMode}
+                  className="flex-none"
+                >
+                  <Bug className="h-3 w-3" />
+                </Button>
+              </div>
             </div>
           </TooltipContent>
         </Tooltip>

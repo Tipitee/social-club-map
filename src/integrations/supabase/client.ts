@@ -9,8 +9,9 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJ
 
 console.log("[DEBUG] Initializing Supabase with URL:", SUPABASE_URL);
 console.log("[DEBUG] Key starts with:", SUPABASE_ANON_KEY.substring(0, 10) + "...");
+console.log("[DEBUG] Client initialization timestamp:", new Date().toISOString());
 
-// Create the client with additional options to show more detailed errors
+// Create the client with debug logging enabled
 export const supabase = createClient<Database>(
   SUPABASE_URL, 
   SUPABASE_ANON_KEY,
