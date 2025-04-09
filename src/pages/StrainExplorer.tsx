@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -8,11 +7,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { Filter, ArrowDown, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ConnectionHealthCheck } from "@/components/ConnectionHealthCheck";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const StrainExplorer: React.FC = () => {
   const [strains, setStrains] = useState<Strain[]>([]);
   const [filteredStrains, setFilteredStrains] = useState<Strain[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const { toast } = useToast();
   
@@ -29,16 +31,19 @@ const StrainExplorer: React.FC = () => {
     const loadStrains = async () => {
       try {
         setLoading(true);
+        setError(null);
         const data = await fetchStrains(filters.sort);
         setStrains(data);
         setFilteredStrains(data);
-        setLoading(false);
       } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown error loading strains";
+        setError(message);
         toast({
           title: "Error loading strains",
-          description: "There was a problem loading the strain data.",
+          description: message,
           variant: "destructive",
         });
+      } finally {
         setLoading(false);
       }
     };
@@ -123,6 +128,29 @@ const StrainExplorer: React.FC = () => {
     </Card>
   );
 
+  const renderSkeletonLoader = () => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <Card key={index} className="overflow-hidden">
+          <div className="h-40 bg-gray-800">
+            <Skeleton className="h-full w-full" />
+          </div>
+          <CardContent className="p-4">
+            <Skeleton className="h-6 w-3/4 mb-4" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-2/3 mb-2" />
+            <div className="mt-4">
+              <Skeleton className="h-3 w-full mb-1" />
+              <Skeleton className="h-2 w-full mb-3" />
+              <Skeleton className="h-3 w-full mb-1" />
+              <Skeleton className="h-2 w-full" />
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+
   const renderLoader = () => (
     <div className="flex justify-center items-center h-64">
       <div className="text-center">
@@ -132,7 +160,6 @@ const StrainExplorer: React.FC = () => {
     </div>
   );
 
-  // Get active filters for display
   const activeFilterCount = [
     filters.type, 
     filters.effect, 
@@ -144,7 +171,10 @@ const StrainExplorer: React.FC = () => {
   return (
     <div className="container px-4 py-6 pb-20">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-white">Strain Explorer</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-white">Strain Explorer</h1>
+          <ConnectionHealthCheck />
+        </div>
         <button
           onClick={toggleFilters}
           className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-secondary text-white text-sm"
@@ -223,8 +253,21 @@ const StrainExplorer: React.FC = () => {
 
         {/* Strains Grid */}
         <div className="lg:col-span-3">
-          {loading ? (
-            renderLoader()
+          {error ? (
+            <Card className="bg-card p-8 rounded-xl text-center border border-destructive">
+              <CardContent className="pt-6">
+                <h3 className="text-xl font-semibold mb-2">Error Loading Strains</h3>
+                <p className="text-gray-400 mb-4">{error}</p>
+                <button 
+                  onClick={() => fetchStrains(filters.sort).then(setStrains).catch(() => {})}
+                  className="px-4 py-2 bg-primary rounded-md"
+                >
+                  Retry
+                </button>
+              </CardContent>
+            </Card>
+          ) : loading ? (
+            renderSkeletonLoader()
           ) : filteredStrains.length > 0 ? (
             <div>
               <div className="flex justify-between items-center mb-4">

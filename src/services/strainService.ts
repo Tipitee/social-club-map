@@ -1,7 +1,17 @@
 
-import { Strain } from "../types/strain";
+import { Strain, StrainEffect } from "../types/strain";
 import { supabase } from "@/integrations/supabase/client";
 
+class StrainServiceError extends Error {
+  constructor(message: string, public originalError?: any) {
+    super(message);
+    this.name = "StrainServiceError";
+  }
+}
+
+/**
+ * Fetches strains from Supabase with sorting
+ */
 export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name'): Promise<Strain[]> => {
   try {
     // Determine sort order
@@ -22,14 +32,16 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
       .order(column, { ascending });
     
     if (error) {
-      console.error('Error fetching strains:', error);
-      throw new Error(error.message);
+      throw new StrainServiceError(`Error fetching strains: ${error.message}`, error);
+    }
+
+    if (!data) {
+      return [];
     }
 
     // Transform the data to match our Strain type
-    return (data || []).map(item => ({
-      // Generate ID from name for consistency, fallback to random if name is empty
-      id: item.name ? item.name.toLowerCase().replace(/\s+/g, '-') : String(Math.random()), 
+    return data.map(item => ({
+      id: item.name ? item.name.toLowerCase().replace(/\s+/g, '-') : crypto.randomUUID(),
       name: item.name,
       img_url: item.img_url,
       type: item.type as 'Indica' | 'Sativa' | 'Hybrid',
@@ -40,11 +52,47 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
         { effect: item.top_effect, intensity: parseInt(item.top_percent) || 0 },
         { effect: item.second_effect, intensity: parseInt(item.second_percent) || 0 },
         { effect: item.third_effect, intensity: parseInt(item.third_percent) || 0 }
-      ].filter(e => e.effect && e.intensity > 0)
+      ].filter(e => e.effect && e.intensity > 0) as StrainEffect[]
     }));
   } catch (error) {
-    console.error('Error in fetchStrains:', error);
-    return [];
+    if (error instanceof StrainServiceError) {
+      throw error;
+    }
+    throw new StrainServiceError('Error in fetchStrains', error);
+  }
+};
+
+/**
+ * Tests the connection to the strains table
+ */
+export const testStrainsConnection = async (): Promise<{
+  success: boolean;
+  message: string;
+  count?: number;
+}> => {
+  try {
+    const { data, error, count } = await supabase
+      .from('strains')
+      .select('*', { count: 'exact' })
+      .limit(1);
+    
+    if (error) {
+      return {
+        success: false,
+        message: `Connection failed: ${error.message}`
+      };
+    }
+    
+    return {
+      success: true,
+      message: 'Connection successful',
+      count: count || 0
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: `Connection test error: ${error instanceof Error ? error.message : String(error)}`
+    };
   }
 };
 
@@ -64,7 +112,7 @@ export const getAllEffects = async (): Promise<string[]> => {
     return Array.from(effectsSet).sort();
   } catch (error) {
     console.error('Error getting effects:', error);
-    return [];
+    throw new StrainServiceError('Error getting effects', error);
   }
 };
 
@@ -82,6 +130,6 @@ export const getTerpenes = async (): Promise<string[]> => {
     return Array.from(terpenesSet).sort();
   } catch (error) {
     console.error('Error getting terpenes:', error);
-    return [];
+    throw new StrainServiceError('Error getting terpenes', error);
   }
 };

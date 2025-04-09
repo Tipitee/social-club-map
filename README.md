@@ -1,3 +1,4 @@
+
 # Welcome to your Lovable project
 
 ## Project info
@@ -59,6 +60,66 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+- Supabase for backend services
+
+## Supabase Row Level Security (RLS) Policies
+
+This project uses Supabase for data storage and retrieval. For secure data access, it's important to set up proper Row Level Security (RLS) policies in your Supabase project.
+
+### Current Tables
+
+- `strains`: This table contains strain data with their properties.
+
+### Setting Up RLS for Public Read Access
+
+If you want to make strain data publicly readable but require authentication for modifications:
+
+```sql
+-- Enable RLS on the strains table
+ALTER TABLE public.strains ENABLE ROW LEVEL SECURITY;
+
+-- Create policy for public reading
+CREATE POLICY "Allow public read access" ON public.strains
+    FOR SELECT USING (true);
+
+-- Allow authenticated users to insert their own data
+CREATE POLICY "Allow authenticated insert" ON public.strains
+    FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+
+-- Allow row owners to update/delete their data
+CREATE POLICY "Allow owners to update" ON public.strains
+    FOR UPDATE USING (auth.uid() = created_by);
+
+CREATE POLICY "Allow owners to delete" ON public.strains
+    FOR DELETE USING (auth.uid() = created_by);
+```
+
+### Setting Up User-Specific Data Access
+
+If you want each user to only see their own data:
+
+```sql
+-- Enable RLS on the strains table
+ALTER TABLE public.strains ENABLE ROW LEVEL SECURITY;
+
+-- Allow users to read only their own data
+CREATE POLICY "Allow users to read own data" ON public.strains
+    FOR SELECT USING (auth.uid() = created_by);
+
+-- Allow users to insert their own data
+CREATE POLICY "Allow users to insert own data" ON public.strains
+    FOR INSERT WITH CHECK (auth.uid() = created_by);
+
+-- Allow users to update their own data
+CREATE POLICY "Allow users to update own data" ON public.strains
+    FOR UPDATE USING (auth.uid() = created_by);
+
+-- Allow users to delete their own data
+CREATE POLICY "Allow users to delete own data" ON public.strains
+    FOR DELETE USING (auth.uid() = created_by);
+```
+
+> **Note**: Make sure to add a `created_by` column to your table to use these policies. The column should reference the authenticated user's UUID.
 
 ## How can I deploy this project?
 
