@@ -16,10 +16,6 @@ export type Strain = {
   created_at?: string;
 };
 
-export type ProcessedStrain = Omit<Strain, 'effects'> & {
-  effects: StrainEffect[];
-};
-
 export type RawStrainData = {
   id?: string;
   name: string;
@@ -44,4 +40,10 @@ export type StrainFilters = {
   terpene: string | null;
   sort: 'name' | 'thc_high' | 'thc_low';
   search: string;
+};
+
+// Define a response type to avoid recursive types
+export type StrainResponse = {
+  strains: Strain[];
+  total: number;
 };

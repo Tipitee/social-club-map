@@ -1,6 +1,5 @@
-
 import { supabase } from "@/integrations/supabase/client";
-import { Strain, StrainFilters, RawStrainData, StrainEffect } from "@/types/strain";
+import { Strain, StrainFilters, RawStrainData, StrainEffect, StrainResponse } from "@/types/strain";
 import { toast } from "@/components/ui/use-toast";
 import { z } from "zod";
 
@@ -148,12 +147,6 @@ const StrainSchema = z.object({
     })
   )
 });
-
-// Define StrainResponse type to avoid deep recursion
-type StrainResponse = {
-  strains: Strain[];
-  total: number;
-};
 
 /**
  * Fetches strains with optional sorting, pagination, and filtering

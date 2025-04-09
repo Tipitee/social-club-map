@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { RawStrainData, Strain } from "@/types/strain";
 
@@ -101,7 +100,6 @@ export const testDirectQuery = async () => {
  */
 export const parseStrainData = (jsonString: string): Strain[] | null => {
   try {
-    // Fix the type issue here - using empty array as default
     const parsedData = safeParse<unknown[]>(jsonString, []);
     
     if (isStrainArray(parsedData)) {
