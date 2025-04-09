@@ -53,7 +53,11 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
     }
 
     console.log('[DEBUG] Raw data from Supabase, count:', data.length);
-    console.log('[DEBUG] First item sample:', data.length > 0 ? JSON.stringify(data[0]) : 'No items');
+    if (data.length > 0) {
+      console.log('[DEBUG] First item sample:', JSON.stringify(data[0]));
+    } else {
+      console.log('[DEBUG] No items returned from Supabase');
+    }
     
     // Transform the data to match our Strain type with safe parsing
     return data.map(item => {
@@ -65,15 +69,15 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
           : typeof item.thc_level === 'number' ? item.thc_level : null;
       }
 
-      // Safely create effects array from individual effect fields
-      const effects: StrainEffect[] = [];
-      
       // Helper function to safely parse percentage values
-      const safeParsePercent = (value: string | null | undefined): number => {
+      const safeParsePercent = (value: string | number | null | undefined): number => {
         if (value === null || value === undefined) return 0;
         const parsed = typeof value === 'string' ? parseInt(value, 10) : value;
         return isNaN(parsed) ? 0 : parsed;
       };
+      
+      // Safely create effects array from individual effect fields
+      const effects: StrainEffect[] = [];
       
       // Safely add top effect if both name and percent exist
       if (item.top_effect) {

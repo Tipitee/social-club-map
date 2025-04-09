@@ -29,7 +29,7 @@ export const ConnectionHealthCheck: React.FC = () => {
         isLoading: false,
         success: result.success,
         message: result.message,
-        count: result.count
+        count: result.count || 0
       });
     } catch (error) {
       console.error("[DEBUG] Health check exception:", error);

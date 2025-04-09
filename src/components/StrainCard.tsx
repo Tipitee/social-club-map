@@ -32,6 +32,11 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
+  // Filter out invalid effects
+  const validEffects = strain.effects.filter(
+    effect => effect && effect.effect && effect.intensity > 0
+  );
+
   return (
     <div className="strain-card">
       <div className="strain-image-container">
@@ -40,6 +45,11 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             src={strain.img_url}
             alt={strain.name}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.style.display = 'none';
+              e.currentTarget.parentElement!.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gray-800">${getTypeIcon()}</div>`;
+            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-800">
@@ -74,26 +84,24 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         </div>
         
         <div className="strain-effects">
-          {strain.effects && strain.effects.length > 0 ? (
-            strain.effects.map((effect, index) => (
-              effect && effect.effect && effect.intensity > 0 ? (
-                <div key={`${effect.effect}-${index}`}>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span>{effect.effect}</span>
-                    <span>{effect.intensity}%</span>
-                  </div>
-                  <div className="effect-bar">
-                    <div 
-                      className="effect-indicator" 
-                      style={{ 
-                        width: `${effect.intensity}%`,
-                        backgroundColor: index === 0 ? '#4CAF50' : 
-                                        index === 1 ? '#673AB7' : '#FFC107'  
-                      }}
-                    />
-                  </div>
+          {validEffects && validEffects.length > 0 ? (
+            validEffects.map((effect, index) => (
+              <div key={`${effect.effect}-${index}`}>
+                <div className="flex justify-between text-xs mb-1">
+                  <span>{effect.effect}</span>
+                  <span>{effect.intensity}%</span>
                 </div>
-              ) : null
+                <div className="effect-bar">
+                  <div 
+                    className="effect-indicator" 
+                    style={{ 
+                      width: `${effect.intensity}%`,
+                      backgroundColor: index === 0 ? '#4CAF50' : 
+                                      index === 1 ? '#673AB7' : '#FFC107'  
+                    }}
+                  />
+                </div>
+              </div>
             ))
           ) : (
             <p className="text-gray-400 text-xs mt-2">No effects data available</p>

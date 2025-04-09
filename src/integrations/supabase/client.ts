@@ -9,9 +9,20 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJ
 
 console.log("[DEBUG] Initializing Supabase with URL:", SUPABASE_URL);
 
-// Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Create the client with additional options to show more detailed errors
+export const supabase = createClient<Database>(
+  SUPABASE_URL, 
+  SUPABASE_ANON_KEY,
+  { 
+    auth: {
+      persistSession: true
+    },
+    // Debug mode to get more detailed logs
+    db: {
+      schema: 'public'
+    }
+  }
+);
 
 /**
  * Tests the connection to Supabase
@@ -21,7 +32,7 @@ export const testSupabaseConnection = async (): Promise<boolean> => {
   try {
     console.log("[DEBUG] Testing basic Supabase connection");
     const { data, error } = await supabase.from('strains').select('name').limit(1);
-    console.log("[DEBUG] Basic connection test result:", { success: !error, data: data?.length || 0 });
+    console.log("[DEBUG] Basic connection test result:", { success: !error, data: data?.length || 0, error });
     return !error && Array.isArray(data);
   } catch (error) {
     console.error('[DEBUG] Supabase connection test failed:', error);
