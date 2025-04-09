@@ -94,6 +94,7 @@ export const testDirectQuery = async () => {
  */
 export const parseStrainData = (jsonString: string): Strain[] | null => {
   try {
+    // Add explicit type assertion to fix the error
     const parsedData = JSON.parse(jsonString) as unknown;
     
     if (isStrainArray(parsedData)) {

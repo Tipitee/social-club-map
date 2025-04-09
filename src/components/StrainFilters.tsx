@@ -5,13 +5,7 @@ import { Input } from "@/components/ui/input";
 import { StrainFilters as StrainFiltersType } from "@/types/strain";
 import { getAllEffects, getTerpenes } from "@/services/strainService";
 import { ArrowDown, ArrowUp, Search } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface StrainFiltersProps {
   filters: StrainFiltersType;
@@ -29,6 +23,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
   const [effects, setEffects] = useState<string[]>([]);
   const [terpenes, setTerpenes] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
   
   useEffect(() => {
     const loadFiltersData = async () => {
@@ -77,11 +72,11 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
   };
 
   return (
-    <div className="bg-gray-900 p-4 rounded-xl border border-gray-700 shadow-md space-y-4">
+    <div className="bg-gray-900 p-5 rounded-xl border border-gray-700 shadow-lg space-y-5">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-lg text-white">Filter Strains</h2>
-        <span className="text-xs text-gray-300">
-          Showing {filteredCount} of {totalStrains}
+        <h2 className="font-bold text-lg text-white">{t("filterStrains")}</h2>
+        <span className="text-xs text-gray-300 bg-gray-800 px-2 py-1 rounded-md">
+          {filteredCount} / {totalStrains}
         </span>
       </div>
       
@@ -90,10 +85,10 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <div className="relative">
           <Input
             type="text"
-            placeholder="Search strains..."
+            placeholder={t("search")}
             value={filters.search || ''}
             onChange={handleSearchChange}
-            className="pl-9 bg-gray-800 border-gray-600 text-white"
+            className="pl-9 bg-gray-800 border-gray-600 text-white shadow-inner focus:border-secondary"
           />
           <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
         </div>
@@ -101,54 +96,54 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* Type Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">Type</h3>
+        <h3 className="text-sm font-medium mb-2 text-gray-300">{t("type")}</h3>
         <div className="flex flex-wrap gap-2">
           <button
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-3 py-1.5 rounded-full text-sm transition-all ${
               filters.type === null
-                ? "bg-emerald-600 text-white"
-                : "bg-gray-700 text-gray-300"
+                ? "bg-emerald-600 text-white shadow-md"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => handleTypeChange(null)}
           >
-            All
+            {t("all")}
           </button>
           <button
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-3 py-1.5 rounded-full text-sm transition-all ${
               filters.type === "Indica"
-                ? "bg-purple-600 text-white"
-                : "bg-gray-700 text-gray-300"
+                ? "bg-purple-600 text-white shadow-md"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => handleTypeChange("Indica")}
           >
-            Indica
+            {t("indica")}
           </button>
           <button
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-3 py-1.5 rounded-full text-sm transition-all ${
               filters.type === "Sativa"
-                ? "bg-amber-500 text-white"
-                : "bg-gray-700 text-gray-300"
+                ? "bg-amber-500 text-white shadow-md"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => handleTypeChange("Sativa")}
           >
-            Sativa
+            {t("sativa")}
           </button>
           <button
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-3 py-1.5 rounded-full text-sm transition-all ${
               filters.type === "Hybrid"
-                ? "bg-emerald-500 text-white"
-                : "bg-gray-700 text-gray-300"
+                ? "bg-emerald-500 text-white shadow-md"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => handleTypeChange("Hybrid")}
           >
-            Hybrid
+            {t("hybrid")}
           </button>
         </div>
       </div>
       
       {/* THC Range Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">THC Level (%)</h3>
+        <h3 className="text-sm font-medium mb-2 text-gray-300">{t("thcLevel")}</h3>
         <div className="px-1">
           <Slider
             defaultValue={[filters.thcRange[0], filters.thcRange[1]]}
@@ -166,33 +161,33 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* Effect Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">Dominant Effect</h3>
+        <h3 className="text-sm font-medium mb-2 text-gray-300">{t("dominantEffect")}</h3>
         <select
-          className="w-full bg-gray-800 text-white rounded-md p-2 text-sm border-gray-600"
+          className="w-full bg-gray-800 text-white rounded-lg p-2.5 text-sm border-gray-700 cursor-pointer focus:border-secondary focus:ring-secondary shadow-inner"
           value={filters.effect || "all"}
           onChange={handleEffectChange}
           disabled={loading}
         >
-          <option value="all">All Effects</option>
+          <option value="all">{t("allEffects")}</option>
           {effects.map((effect) => (
             <option key={effect} value={effect}>
               {effect}
             </option>
           ))}
         </select>
-        {loading && <p className="text-xs text-gray-400 mt-1">Loading effects...</p>}
+        {loading && <p className="text-xs text-gray-400 mt-1">{t("loading")}</p>}
       </div>
 
       {/* Terpene Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">Terpene</h3>
+        <h3 className="text-sm font-medium mb-2 text-gray-300">{t("terpene")}</h3>
         <select
-          className="w-full bg-gray-800 text-white rounded-md p-2 text-sm border-gray-600"
+          className="w-full bg-gray-800 text-white rounded-lg p-2.5 text-sm border-gray-700 cursor-pointer focus:border-secondary focus:ring-secondary shadow-inner"
           value={filters.terpene || "all"}
           onChange={handleTerpeneChange}
           disabled={loading}
         >
-          <option value="all">All Terpenes</option>
+          <option value="all">{t("allTerpenes")}</option>
           {terpenes.map((terpene) => (
             <option key={terpene} value={terpene}>
               {terpene}
@@ -203,27 +198,27 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* Sort Options */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">Sort By</h3>
-        <div className="flex flex-col gap-1">
+        <h3 className="text-sm font-medium mb-2 text-gray-300">{t("sortBy")}</h3>
+        <div className="flex flex-col gap-1 bg-gray-800 rounded-lg overflow-hidden">
           <button 
-            className={`flex justify-between items-center px-3 py-2 rounded-md text-sm ${filters.sort === 'name' ? 'bg-gray-800 text-emerald-400' : 'hover:bg-gray-800 text-gray-300'}`}
+            className={`flex justify-between items-center px-4 py-2.5 text-sm transition-colors ${filters.sort === 'name' ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 text-gray-300'}`}
             onClick={() => handleSortChange('name')}
           >
-            <span>Name</span>
+            <span>{t("name")}</span>
             {filters.sort === 'name' && <ArrowDown size={16} />}
           </button>
           <button 
-            className={`flex justify-between items-center px-3 py-2 rounded-md text-sm ${filters.sort === 'thc_high' ? 'bg-gray-800 text-emerald-400' : 'hover:bg-gray-800 text-gray-300'}`}
+            className={`flex justify-between items-center px-4 py-2.5 text-sm transition-colors ${filters.sort === 'thc_high' ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 text-gray-300'}`}
             onClick={() => handleSortChange('thc_high')}
           >
-            <span>THC (High to Low)</span>
+            <span>{t("thcHighToLow")}</span>
             {filters.sort === 'thc_high' && <ArrowDown size={16} />}
           </button>
           <button 
-            className={`flex justify-between items-center px-3 py-2 rounded-md text-sm ${filters.sort === 'thc_low' ? 'bg-gray-800 text-emerald-400' : 'hover:bg-gray-800 text-gray-300'}`}
+            className={`flex justify-between items-center px-4 py-2.5 text-sm transition-colors ${filters.sort === 'thc_low' ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 text-gray-300'}`}
             onClick={() => handleSortChange('thc_low')}
           >
-            <span>THC (Low to High)</span>
+            <span>{t("thcLowToHigh")}</span>
             {filters.sort === 'thc_low' && <ArrowUp size={16} />}
           </button>
         </div>

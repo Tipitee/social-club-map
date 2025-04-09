@@ -2,19 +2,21 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Home, Book, Cannabis, User } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
+  const { t } = useLanguage();
   
   const isActive = (path: string) => {
     return location.pathname === path;
   };
 
   const navItems = [
-    { path: "/", label: "Home", icon: Home },
-    { path: "/journal", label: "Journal", icon: Book },
-    { path: "/strains", label: "Strains", icon: Cannabis },
-    { path: "/profile", label: "Profile", icon: User },
+    { path: "/", label: t("home"), icon: Home },
+    { path: "/journal", label: t("journal"), icon: Book },
+    { path: "/strains", label: t("strains"), icon: Cannabis },
+    { path: "/profile", label: t("profile"), icon: User },
   ];
 
   return (
@@ -24,12 +26,12 @@ const BottomNav: React.FC = () => {
           <Link
             key={item.path}
             to={item.path}
-            className={`flex flex-col items-center justify-center w-full h-full ${
-              isActive(item.path) ? "text-secondary" : "text-gray-500"
+            className={`flex flex-col items-center justify-center w-full h-full transition-colors duration-200 ${
+              isActive(item.path) ? "text-secondary" : "text-gray-500 hover:text-gray-300"
             }`}
           >
             <item.icon size={24} className={isActive(item.path) ? "text-secondary" : ""} />
-            <span className="text-xs mt-1">{item.label}</span>
+            <span className="text-xs mt-1 font-medium">{item.label}</span>
           </Link>
         ))}
       </div>

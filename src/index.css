@@ -109,7 +109,7 @@
 
 @layer components {
   .effect-bar {
-    @apply w-full h-2 bg-gray-800 rounded-full overflow-hidden relative mb-1;
+    @apply w-full h-2 bg-gray-800 rounded-full overflow-hidden relative mb-1 shadow-inner;
   }
   
   .effect-indicator {
@@ -117,7 +117,7 @@
   }
 
   .thc-bar {
-    @apply w-full h-3 bg-gray-800 rounded-full overflow-hidden relative;
+    @apply w-full h-3 bg-gray-800 rounded-full overflow-hidden relative shadow-inner;
   }
   
   .thc-indicator {
@@ -160,29 +160,75 @@
     @apply font-bold text-lg mb-2;
   }
   
-  /* New glow effects for icons */
+  /* Glow effects for icons with improved contrast */
   .drop-shadow-glow-purple {
-    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.7));
   }
   
   .drop-shadow-glow-amber {
-    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.7));
   }
   
   .drop-shadow-glow-emerald {
-    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.7));
   }
   
-  /* Improved filter styles */
+  /* Improved filter styles with better contrast */
   .filter-section {
-    @apply bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg p-4 border border-gray-800 mb-4 shadow-md;
+    @apply bg-gray-900 backdrop-blur-sm rounded-lg p-4 border border-gray-800 mb-4 shadow-md;
   }
   
   .filter-heading {
-    @apply text-lg font-semibold mb-3 text-foreground flex items-center;
+    @apply text-lg font-semibold mb-3 text-white flex items-center;
   }
   
   .filter-option {
     @apply transition-colors duration-200 hover:bg-gray-800 rounded-md px-3 py-2;
+  }
+  
+  /* Button improvements */
+  .button-primary {
+    @apply bg-primary hover:bg-primary/90 text-white rounded-lg px-4 py-2 transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+  
+  .button-secondary {
+    @apply bg-secondary hover:bg-secondary/90 text-white rounded-lg px-4 py-2 transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+  
+  .button-outline {
+    @apply border border-gray-700 text-white hover:bg-gray-800 rounded-lg px-4 py-2 transition-all duration-200;
+  }
+  
+  .button-ghost {
+    @apply text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg px-4 py-2 transition-all duration-200;
+  }
+  
+  /* Language switcher styles */
+  .language-button {
+    @apply rounded-full p-2 bg-gray-800 bg-opacity-50 hover:bg-gray-700 transition-colors;
+  }
+  
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-scale {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .animate-scale:hover {
+    transform: scale(1.03);
   }
 }

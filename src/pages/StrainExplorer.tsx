@@ -20,6 +20,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const StrainExplorer: React.FC = () => {
   const [strains, setStrains] = useState<Strain[]>([]);
@@ -31,6 +33,7 @@ const StrainExplorer: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
   
   const [filters, setFilters] = useState<StrainFiltersType>({
     type: null,
@@ -44,6 +47,9 @@ const StrainExplorer: React.FC = () => {
   const strainsPerPage = 20;
 
   useEffect(() => {
+    // Set document title
+    document.title = "Strain Explorer";
+    
     const loadStrains = async () => {
       try {
         setLoading(true);
@@ -60,7 +66,7 @@ const StrainExplorer: React.FC = () => {
         const message = error instanceof Error ? error.message : "Unknown error loading strains";
         setError(message);
         toast({
-          title: "Error loading strains",
+          title: t("errorLoadingStrains"),
           description: message,
           variant: "destructive",
         });
@@ -70,7 +76,7 @@ const StrainExplorer: React.FC = () => {
     };
 
     loadStrains();
-  }, [filters.sort, currentPage, toast]);
+  }, [filters.sort, currentPage, toast, t]);
 
   useEffect(() => {
     let result = [...strains];
@@ -159,7 +165,7 @@ const StrainExplorer: React.FC = () => {
     } catch (error) {
       console.error("Error loading more strains:", error);
       toast({
-        title: "Error loading more strains",
+        title: t("errorLoadingStrains"),
         description: "Could not load additional strains. Please try again.",
         variant: "destructive",
       });
@@ -176,11 +182,11 @@ const StrainExplorer: React.FC = () => {
   };
 
   const renderNoResults = () => (
-    <Card className="bg-card p-8 rounded-xl text-center border border-gray-800">
+    <Card className="bg-card p-8 rounded-xl text-center border border-gray-800 shadow-lg">
       <CardContent className="pt-6">
-        <h3 className="text-xl font-semibold mb-2">No strains found</h3>
+        <h3 className="text-xl font-semibold mb-2 text-white">{t("noStrainsFound")}</h3>
         <p className="text-gray-400">
-          Try adjusting your filters to see more results.
+          {t("tryAdjusting")}
         </p>
       </CardContent>
     </Card>
@@ -189,7 +195,7 @@ const StrainExplorer: React.FC = () => {
   const renderSkeletonLoader = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {Array.from({ length: 6 }).map((_, index) => (
-        <Card key={index} className="overflow-hidden">
+        <Card key={index} className="overflow-hidden border border-gray-700">
           <div className="h-40 bg-gray-800">
             <Skeleton className="h-full w-full" />
           </div>
@@ -275,21 +281,27 @@ const StrainExplorer: React.FC = () => {
     <div className="container px-4 py-6 pb-20">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-3xl font-bold text-white">Strain Explorer</h1>
+          <h1 className="text-3xl font-bold text-white">{t("strainExplorer")}</h1>
           <ConnectionHealthCheck />
         </div>
-        <button
-          onClick={toggleFilters}
-          className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-secondary text-white text-sm"
-        >
-          <Filter size={16} /> 
-          {showFilters ? "Hide Filters" : "Show Filters"}
-          {activeFilterCount > 0 && (
-            <Badge variant="destructive" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full">
-              {activeFilterCount}
-            </Badge>
-          )}
-        </button>
+        
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          
+          <Button
+            onClick={toggleFilters}
+            className="flex items-center gap-1.5 py-2 px-4 bg-secondary hover:bg-secondary/90 text-white rounded-lg shadow-md"
+            variant="secondary"
+          >
+            <Filter size={16} /> 
+            {showFilters ? t("hideFilters") : t("showFilters")}
+            {activeFilterCount > 0 && (
+              <Badge variant="destructive" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full">
+                {activeFilterCount}
+              </Badge>
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Active Filters Display */}
@@ -298,46 +310,46 @@ const StrainExplorer: React.FC = () => {
           {filters.type && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
             >
-              Type: {filters.type}
-              <X size={14} className="cursor-pointer" onClick={() => clearFilter('type')} />
+              {t("type")}: {filters.type}
+              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('type')} />
             </Badge>
           )}
           {filters.effect && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
             >
-              Effect: {filters.effect}
-              <X size={14} className="cursor-pointer" onClick={() => clearFilter('effect')} />
+              {t("dominantEffect")}: {filters.effect}
+              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('effect')} />
             </Badge>
           )}
           {filters.terpene && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
             >
-              Terpene: {filters.terpene}
-              <X size={14} className="cursor-pointer" onClick={() => clearFilter('terpene')} />
+              {t("terpene")}: {filters.terpene}
+              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('terpene')} />
             </Badge>
           )}
           {filters.search && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
             >
-              Search: "{filters.search}"
-              <X size={14} className="cursor-pointer" onClick={() => clearFilter('search')} />
+              {t("search")}: "{filters.search}"
+              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('search')} />
             </Badge>
           )}
           {(filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
             >
-              THC: {filters.thcRange[0]}% - {filters.thcRange[1]}%
-              <X size={14} className="cursor-pointer" onClick={() => clearFilter('thcRange')} />
+              {t("thc")}: {filters.thcRange[0]}% - {filters.thcRange[1]}%
+              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('thcRange')} />
             </Badge>
           )}
         </div>
@@ -357,21 +369,21 @@ const StrainExplorer: React.FC = () => {
         {/* Strains Grid */}
         <div className="lg:col-span-3">
           {error ? (
-            <Card className="bg-card p-8 rounded-xl text-center border border-destructive">
+            <Card className="bg-card p-8 rounded-xl text-center border border-destructive shadow-lg">
               <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-2">Error Loading Strains</h3>
+                <h3 className="text-xl font-semibold mb-2 text-white">{t("errorLoadingStrains")}</h3>
                 <p className="text-gray-400 mb-4">{error}</p>
-                <button 
+                <Button 
                   onClick={() => {
                     setCurrentPage(1);
                     fetchStrains(filters.sort, 1, strainsPerPage)
                       .then(({strains}) => setStrains(strains))
                       .catch(() => {});
                   }}
-                  className="px-4 py-2 bg-primary rounded-md"
+                  className="bg-primary hover:bg-primary/90 text-white"
                 >
-                  Retry
-                </button>
+                  {t("retry")}
+                </Button>
               </CardContent>
             </Card>
           ) : loading ? (
@@ -379,11 +391,11 @@ const StrainExplorer: React.FC = () => {
           ) : filteredStrains.length > 0 ? (
             <div>
               <div className="flex justify-between items-center mb-4">
-                <p className="text-sm text-gray-400">
-                  Showing {filteredStrains.length} of {totalStrains} strain{totalStrains !== 1 ? 's' : ''}
+                <p className="text-sm text-gray-300">
+                  {t("showing")} {filteredStrains.length} {t("of")} {totalStrains} {totalStrains !== 1 ? t("strains") : t("strain")}
                 </p>
-                <p className="text-sm text-gray-400">
-                  Page {currentPage}
+                <p className="text-sm text-gray-300">
+                  {t("page")} {currentPage}
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -402,15 +414,15 @@ const StrainExplorer: React.FC = () => {
                     onClick={handleLoadMore} 
                     disabled={loadingMore}
                     variant="secondary"
-                    className="px-8"
+                    className="px-8 py-2 bg-secondary hover:bg-secondary/90 text-white shadow-md"
                   >
                     {loadingMore ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Loading...
+                        {t("loading")}
                       </>
                     ) : (
-                      'Load More Strains'
+                      t("loadMore")
                     )}
                   </Button>
                 </div>

@@ -9,6 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Cannabis, Sun, Circle, AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const StrainDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +19,7 @@ const StrainDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const loadStrain = async () => {
@@ -35,6 +38,8 @@ const StrainDetail: React.FC = () => {
           setError("Strain not found");
         } else {
           setStrain(strainData);
+          // Set document title to strain name
+          document.title = `${strainData.name} | Strain Details`;
         }
       } catch (error) {
         console.error("Error loading strain:", error);
@@ -42,7 +47,7 @@ const StrainDetail: React.FC = () => {
         setError(message);
         
         toast({
-          title: "Error loading strain",
+          title: t("error"),
           description: message,
           variant: "destructive",
         });
@@ -52,7 +57,7 @@ const StrainDetail: React.FC = () => {
     };
 
     loadStrain();
-  }, [id, toast]);
+  }, [id, toast, t]);
 
   const getTypeIcon = (type: string | null) => {
     switch (type) {
@@ -81,16 +86,19 @@ const StrainDetail: React.FC = () => {
   if (loading) {
     return (
       <div className="container px-4 py-8">
-        <div className="flex items-center gap-2 mb-6">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="rounded-full"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft />
-          </Button>
-          <Skeleton className="h-10 w-40" />
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft />
+            </Button>
+            <Skeleton className="h-10 w-40" />
+          </div>
+          <LanguageSwitcher />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -135,25 +143,28 @@ const StrainDetail: React.FC = () => {
   if (error || !strain) {
     return (
       <div className="container px-4 py-8">
-        <div className="flex items-center gap-2 mb-6">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="rounded-full"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft />
-          </Button>
-          <h1 className="text-3xl font-bold">Strain Not Found</h1>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft />
+            </Button>
+            <h1 className="text-3xl font-bold">{t("error")}</h1>
+          </div>
+          <LanguageSwitcher />
         </div>
         
         <Card className="border-destructive">
           <CardContent className="p-8 flex flex-col items-center">
             <AlertCircle className="h-20 w-20 text-destructive mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Error Loading Strain</h2>
-            <p className="text-muted-foreground mb-6">{error || "The requested strain could not be found."}</p>
+            <h2 className="text-2xl font-bold mb-2">{t("errorLoadingStrains")}</h2>
+            <p className="text-gray-400 mb-6">{error || t("noStrainsFound")}</p>
             <Button onClick={() => navigate('/strains')}>
-              Back to Strain Explorer
+              {t("backToAllStrains")}
             </Button>
           </CardContent>
         </Card>
@@ -163,16 +174,19 @@ const StrainDetail: React.FC = () => {
 
   return (
     <div className="container px-4 py-8 pb-20">
-      <div className="flex items-center gap-2 mb-6">
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="rounded-full"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft />
-        </Button>
-        <h1 className="text-3xl font-bold">Strain Details</h1>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="rounded-full bg-gray-800 hover:bg-gray-700"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="text-white" />
+          </Button>
+          <h1 className="text-3xl font-bold text-white">{t("strainDetails")}</h1>
+        </div>
+        <LanguageSwitcher />
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -183,7 +197,7 @@ const StrainDetail: React.FC = () => {
               <img
                 src={strain.img_url}
                 alt={strain.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain p-2"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
                   e.currentTarget.style.display = 'none';
@@ -202,7 +216,7 @@ const StrainDetail: React.FC = () => {
           </div>
           
           <div className="mt-4">
-            <Badge className={`${getTypeColor(strain.type)} px-4 py-2 text-base inline-flex items-center gap-2`}>
+            <Badge className={`${getTypeColor(strain.type)} px-4 py-2 text-base inline-flex items-center gap-2 shadow-lg`}>
               {getTypeIcon(strain.type)}
               <span>{strain.type || "Hybrid"}</span>
             </Badge>
@@ -211,15 +225,15 @@ const StrainDetail: React.FC = () => {
         
         {/* Strain Content */}
         <div className="md:col-span-2">
-          <h2 className="text-4xl font-bold mb-4">{strain.name}</h2>
+          <h2 className="text-4xl font-bold mb-4 text-white">{strain.name}</h2>
           
           {strain.thc_level !== null && (
             <div className="mb-6">
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">THC Level</span>
-                <span className="font-bold">{strain.thc_level}%</span>
+                <span className="font-medium text-gray-300">{t("thcLevel")}</span>
+                <span className="font-bold text-white">{strain.thc_level}%</span>
               </div>
-              <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden shadow-inner">
                 <div 
                   className="h-full bg-primary transition-all duration-500 ease-out"
                   style={{ width: `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` }}
@@ -230,33 +244,33 @@ const StrainDetail: React.FC = () => {
           
           {strain.most_common_terpene && (
             <div className="flex items-center gap-2 mb-6">
-              <span className="text-sm text-muted-foreground">Dominant Terpene:</span>
-              <Badge variant="outline" className="text-base px-3 py-1">
+              <span className="text-sm text-gray-300">{t("dominantTerpene")}:</span>
+              <Badge variant="outline" className="text-base px-3 py-1 bg-gray-800 bg-opacity-50 border-gray-700 text-white">
                 {strain.most_common_terpene}
               </Badge>
             </div>
           )}
           
           {strain.description && (
-            <div className="mb-8">
-              <h3 className="text-xl font-semibold mb-3">Description</h3>
+            <div className="mb-8 p-4 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700">
+              <h3 className="text-xl font-semibold mb-3 text-white">{t("description")}</h3>
               <div className="prose prose-sm prose-invert max-w-none">
-                <p>{strain.description}</p>
+                <p className="text-gray-300">{strain.description}</p>
               </div>
             </div>
           )}
           
           {strain.effects && strain.effects.length > 0 && (
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold mb-4">Effects</h3>
+            <div className="mt-8 p-4 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700">
+              <h3 className="text-xl font-semibold mb-4 text-white">{t("effects")}</h3>
               <div className="space-y-4">
                 {strain.effects.map((effect, index) => (
                   <div key={`${effect.effect}-${index}`} className="mb-4">
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="font-medium text-base">{effect.effect}</span>
-                      <span className="font-bold text-base">{effect.intensity}%</span>
+                      <span className="font-medium text-base text-gray-300">{effect.effect}</span>
+                      <span className="font-bold text-base text-white">{effect.intensity}%</span>
                     </div>
-                    <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-4 w-full bg-gray-900 rounded-full overflow-hidden shadow-inner">
                       <div 
                         className={`h-full ${index === 0 ? 'bg-emerald-500' : index === 1 ? 'bg-purple-500' : 'bg-amber-500'} transition-all duration-500 ease-out`}
                         style={{ width: `${effect.intensity}%` }}
@@ -272,9 +286,9 @@ const StrainDetail: React.FC = () => {
             <Button
               onClick={() => navigate('/strains')}
               variant="outline"
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto bg-gray-800 border-gray-700 text-white hover:bg-gray-700 hover:text-white"
             >
-              Back to All Strains
+              {t("backToAllStrains")}
             </Button>
           </div>
         </div>
