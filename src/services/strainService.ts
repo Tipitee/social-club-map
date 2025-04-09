@@ -22,7 +22,7 @@ export const fetchStrains = async (): Promise<Strain[]> => {
       thc_level: parseFloat(item.thc_level) || null,
       most_common_terpene: item.most_common_terpene,
       description: item.description,
-      effects: item.effects || [
+      effects: [
         { effect: item.top_effect, intensity: parseInt(item.top_percent) || 0 },
         { effect: item.second_effect, intensity: parseInt(item.second_percent) || 0 },
         { effect: item.third_effect, intensity: parseInt(item.third_percent) || 0 }

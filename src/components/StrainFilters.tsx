@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { StrainFilters as StrainFiltersType } from "@/types/strain";
 import { getAllEffects } from "@/services/strainService";
@@ -13,7 +13,23 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
   filters, 
   onFilterChange 
 }) => {
-  const effects = getAllEffects();
+  const [effects, setEffects] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const loadEffects = async () => {
+      try {
+        const effectsList = await getAllEffects();
+        setEffects(effectsList);
+      } catch (error) {
+        console.error("Error loading effects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadEffects();
+  }, []);
   
   const handleTypeChange = (type: string | null) => {
     onFilterChange({ ...filters, type });
@@ -104,6 +120,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
           className="w-full bg-gray-800 text-white rounded-md p-2 text-sm border-gray-700"
           value={filters.effect || "all"}
           onChange={handleEffectChange}
+          disabled={loading}
         >
           <option value="all">All Effects</option>
           {effects.map((effect) => (
@@ -112,6 +129,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             </option>
           ))}
         </select>
+        {loading && <p className="text-xs text-gray-400 mt-1">Loading effects...</p>}
       </div>
     </div>
   );

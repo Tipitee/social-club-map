@@ -10,3 +10,11 @@ export type JournalEntry = {
   sideEffects: string[];
   notes: string;
 };
+
+export type JournalFilter = {
+  startDate: Date | null;
+  endDate: Date | null;
+  minEffectiveness: number;
+  maxEffectiveness: number;
+  searchTerm: string;
+};
