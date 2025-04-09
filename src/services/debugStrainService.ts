@@ -1,8 +1,20 @@
 
 import { supabase } from "@/integrations/supabase/client";
+import { Strain } from "@/types/strain";
 
 export interface RawStrainData {
   [key: string]: any;
+}
+
+/**
+ * Function to check if data is a Strain array
+ */
+function isStrainArray(data: unknown): data is Strain[] {
+  return Array.isArray(data) && data.every(item => 
+    typeof item === 'object' && 
+    item !== null && 
+    'name' in item
+  );
 }
 
 /**

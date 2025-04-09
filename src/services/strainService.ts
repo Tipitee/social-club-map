@@ -24,7 +24,9 @@ export interface HealthCheckResult {
 export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name'): Promise<Strain[]> => {
   try {
     console.log('[DEBUG] Starting strain fetch with sort:', sort);
-    console.log('[DEBUG] Supabase URL being used:', supabase.supabaseUrl);
+    // Use a safer way to access the URL
+    const supabaseUrl = supabase.getUrl() || 'https://default-url.supabase.co';
+    console.log('[DEBUG] Supabase URL being used:', supabaseUrl);
     
     // Determine sort order
     let column = 'name';

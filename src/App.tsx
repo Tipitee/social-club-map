@@ -11,6 +11,7 @@ import Journal from "./pages/Journal";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import BottomNav from "./components/BottomNav";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
@@ -23,10 +24,10 @@ const App = () => (
         <div className="min-h-screen bg-[#121212] text-white">
           <main>
             <Routes>
-              <Route path="/" element={<StrainExplorer />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/strains" element={<StrainExplorer />} />
               <Route path="/clubs" element={<ClubMap />} />
               <Route path="/journal" element={<Journal />} />
-              <Route path="/home" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
