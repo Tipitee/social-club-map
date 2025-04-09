@@ -22,4 +22,5 @@ export type StrainFilters = {
   effect: string | null;
   terpene: string | null;
   sort: 'name' | 'thc_high' | 'thc_low';
+  search: string;
 };

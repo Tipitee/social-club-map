@@ -1,9 +1,17 @@
 
 import React, { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
 import { StrainFilters as StrainFiltersType } from "@/types/strain";
 import { getAllEffects, getTerpenes } from "@/services/strainService";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, Search } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface StrainFiltersProps {
   filters: StrainFiltersType;
@@ -63,6 +71,10 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
   const handleSortChange = (sort: 'name' | 'thc_high' | 'thc_low') => {
     onFilterChange({ ...filters, sort });
   };
+  
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onFilterChange({ ...filters, search: e.target.value });
+  };
 
   return (
     <div className="bg-card p-4 rounded-xl border border-gray-800 shadow-md space-y-4">
@@ -71,6 +83,20 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <span className="text-xs text-gray-400">
           Showing {filteredCount} of {totalStrains}
         </span>
+      </div>
+      
+      {/* Search Input */}
+      <div>
+        <div className="relative">
+          <Input
+            type="text"
+            placeholder="Search strains..."
+            value={filters.search || ''}
+            onChange={handleSearchChange}
+            className="pl-9 bg-gray-800 border-gray-700"
+          />
+          <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+        </div>
       </div>
       
       {/* Type Filter */}

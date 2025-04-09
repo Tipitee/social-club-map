@@ -5,8 +5,9 @@ import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
 import StrainCard from "@/components/StrainCard";
 import StrainFilters from "@/components/StrainFilters";
 import { useToast } from "@/components/ui/use-toast";
-import { Filter, ArrowDown } from "lucide-react";
+import { Filter, ArrowDown, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const StrainExplorer: React.FC = () => {
   const [strains, setStrains] = useState<Strain[]>([]);
@@ -21,12 +22,14 @@ const StrainExplorer: React.FC = () => {
     effect: null,
     terpene: null,
     sort: 'name',
+    search: '',
   });
 
   useEffect(() => {
     const loadStrains = async () => {
       try {
-        const data = await fetchStrains();
+        setLoading(true);
+        const data = await fetchStrains(filters.sort);
         setStrains(data);
         setFilteredStrains(data);
         setLoading(false);
@@ -41,10 +44,19 @@ const StrainExplorer: React.FC = () => {
     };
 
     loadStrains();
-  }, [toast]);
+  }, [filters.sort, toast]);
 
   useEffect(() => {
     let result = [...strains];
+
+    // Search filter
+    if (filters.search) {
+      const searchTerm = filters.search.toLowerCase();
+      result = result.filter(strain => 
+        strain.name.toLowerCase().includes(searchTerm) ||
+        (strain.description && strain.description.toLowerCase().includes(searchTerm))
+      );
+    }
 
     // Filter by type
     if (filters.type) {
@@ -75,25 +87,6 @@ const StrainExplorer: React.FC = () => {
       );
     }
 
-    // Apply sorting
-    if (filters.sort === 'name') {
-      result.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (filters.sort === 'thc_high') {
-      result.sort((a, b) => {
-        // Handle nulls by putting them at the end
-        if (a.thc_level === null) return 1;
-        if (b.thc_level === null) return -1;
-        return b.thc_level - a.thc_level;
-      });
-    } else if (filters.sort === 'thc_low') {
-      result.sort((a, b) => {
-        // Handle nulls by putting them at the end
-        if (a.thc_level === null) return 1;
-        if (b.thc_level === null) return -1;
-        return a.thc_level - b.thc_level;
-      });
-    }
-
     setFilteredStrains(result);
   }, [filters, strains]);
 
@@ -103,6 +96,20 @@ const StrainExplorer: React.FC = () => {
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
+  };
+
+  const clearFilter = (filterType: keyof StrainFiltersType) => {
+    if (filterType === 'type') {
+      setFilters(prev => ({ ...prev, type: null }));
+    } else if (filterType === 'effect') {
+      setFilters(prev => ({ ...prev, effect: null }));
+    } else if (filterType === 'terpene') {
+      setFilters(prev => ({ ...prev, terpene: null }));
+    } else if (filterType === 'search') {
+      setFilters(prev => ({ ...prev, search: '' }));
+    } else if (filterType === 'thcRange') {
+      setFilters(prev => ({ ...prev, thcRange: [0, 30] }));
+    }
   };
 
   const renderNoResults = () => (
@@ -125,6 +132,15 @@ const StrainExplorer: React.FC = () => {
     </div>
   );
 
+  // Get active filters for display
+  const activeFilterCount = [
+    filters.type, 
+    filters.effect, 
+    filters.terpene, 
+    filters.search, 
+    filters.thcRange[0] > 0 || filters.thcRange[1] < 30 ? 'thc' : null
+  ].filter(Boolean).length;
+
   return (
     <div className="container px-4 py-6 pb-20">
       <div className="flex justify-between items-center mb-6">
@@ -135,8 +151,64 @@ const StrainExplorer: React.FC = () => {
         >
           <Filter size={16} /> 
           {showFilters ? "Hide Filters" : "Show Filters"}
+          {activeFilterCount > 0 && (
+            <Badge variant="destructive" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full">
+              {activeFilterCount}
+            </Badge>
+          )}
         </button>
       </div>
+
+      {/* Active Filters Display */}
+      {activeFilterCount > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {filters.type && (
+            <Badge 
+              variant="secondary"
+              className="flex items-center gap-1"
+            >
+              Type: {filters.type}
+              <X size={14} className="cursor-pointer" onClick={() => clearFilter('type')} />
+            </Badge>
+          )}
+          {filters.effect && (
+            <Badge 
+              variant="secondary"
+              className="flex items-center gap-1"
+            >
+              Effect: {filters.effect}
+              <X size={14} className="cursor-pointer" onClick={() => clearFilter('effect')} />
+            </Badge>
+          )}
+          {filters.terpene && (
+            <Badge 
+              variant="secondary"
+              className="flex items-center gap-1"
+            >
+              Terpene: {filters.terpene}
+              <X size={14} className="cursor-pointer" onClick={() => clearFilter('terpene')} />
+            </Badge>
+          )}
+          {filters.search && (
+            <Badge 
+              variant="secondary"
+              className="flex items-center gap-1"
+            >
+              Search: "{filters.search}"
+              <X size={14} className="cursor-pointer" onClick={() => clearFilter('search')} />
+            </Badge>
+          )}
+          {(filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && (
+            <Badge 
+              variant="secondary"
+              className="flex items-center gap-1"
+            >
+              THC: {filters.thcRange[0]}% - {filters.thcRange[1]}%
+              <X size={14} className="cursor-pointer" onClick={() => clearFilter('thcRange')} />
+            </Badge>
+          )}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Filters Section - Only visible on mobile when toggled */}

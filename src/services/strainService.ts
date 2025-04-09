@@ -2,11 +2,24 @@
 import { Strain } from "../types/strain";
 import { supabase } from "@/integrations/supabase/client";
 
-export const fetchStrains = async (): Promise<Strain[]> => {
+export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name'): Promise<Strain[]> => {
   try {
+    // Determine sort order
+    let column = 'name';
+    let ascending = true;
+    
+    if (sort === 'thc_high') {
+      column = 'thc_level';
+      ascending = false;
+    } else if (sort === 'thc_low') {
+      column = 'thc_level';
+      ascending = true;
+    }
+    
     const { data, error } = await supabase
       .from('strains')
-      .select('*');
+      .select('*')
+      .order(column, { ascending });
     
     if (error) {
       console.error('Error fetching strains:', error);
@@ -15,7 +28,8 @@ export const fetchStrains = async (): Promise<Strain[]> => {
 
     // Transform the data to match our Strain type
     return (data || []).map(item => ({
-      id: item.name.toLowerCase().replace(/\s+/g, '-') || String(Math.random()), // Generate ID from name
+      // Generate ID from name for consistency, fallback to random if name is empty
+      id: item.name ? item.name.toLowerCase().replace(/\s+/g, '-') : String(Math.random()), 
       name: item.name,
       img_url: item.img_url,
       type: item.type as 'Indica' | 'Sativa' | 'Hybrid',
