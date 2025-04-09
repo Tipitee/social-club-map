@@ -19,9 +19,12 @@ export const ConnectionHealthCheck: React.FC = () => {
   });
 
   const checkConnection = async () => {
-    setStatus({ ...status, isLoading: true });
+    setStatus({ ...status, isLoading: true, message: "Checking connection..." });
     try {
+      console.log("[DEBUG] Starting connection health check");
       const result = await testStrainsConnection();
+      console.log("[DEBUG] Health check result:", result);
+      
       setStatus({
         isLoading: false,
         success: result.success,
@@ -29,6 +32,7 @@ export const ConnectionHealthCheck: React.FC = () => {
         count: result.count
       });
     } catch (error) {
+      console.error("[DEBUG] Health check exception:", error);
       setStatus({
         isLoading: false,
         success: false,
@@ -46,10 +50,13 @@ export const ConnectionHealthCheck: React.FC = () => {
       <div className="flex items-center space-x-2">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Badge 
-              variant={status.success ? "success" : status.success === false ? "destructive" : "secondary"}
-              className="cursor-pointer"
-            >
+            <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
+              status.success 
+                ? "border-transparent bg-green-500 text-white hover:bg-green-600" 
+                : status.success === false 
+                  ? "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80"
+                  : "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            } cursor-pointer`}>
               {status.isLoading ? (
                 <RefreshCw className="h-3 w-3 animate-spin mr-1" />
               ) : status.success ? (
@@ -58,7 +65,7 @@ export const ConnectionHealthCheck: React.FC = () => {
                 <AlertCircle className="h-3 w-3 mr-1" />
               )}
               {status.success ? `DB (${status.count} strains)` : "DB Connection"}
-            </Badge>
+            </span>
           </TooltipTrigger>
           <TooltipContent>
             <p>{status.message}</p>
