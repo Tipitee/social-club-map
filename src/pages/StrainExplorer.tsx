@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -40,7 +39,6 @@ const StrainExplorer: React.FC = () => {
 
   const strainsPerPage = 20;
 
-  // Handle intersection for infinite scrolling
   const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
     const [entry] = entries;
     if (entry.isIntersecting && hasMore && !loading && !loadingMore) {
@@ -48,7 +46,6 @@ const StrainExplorer: React.FC = () => {
     }
   }, [hasMore, loading, loadingMore]);
 
-  // Setup intersection observer for infinite scroll
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
     
@@ -67,7 +64,6 @@ const StrainExplorer: React.FC = () => {
   }, [handleIntersection, filteredStrains, hasMore]);
 
   useEffect(() => {
-    // Set document title
     document.title = t("strainExplorer");
     
     const loadStrains = async () => {
@@ -103,7 +99,6 @@ const StrainExplorer: React.FC = () => {
   useEffect(() => {
     let result = [...strains];
 
-    // Search filter
     if (filters.search) {
       const searchTerm = filters.search.toLowerCase();
       result = result.filter(strain => 
@@ -112,12 +107,10 @@ const StrainExplorer: React.FC = () => {
       );
     }
 
-    // Filter by type
     if (filters.type) {
       result = result.filter((strain) => strain.type === filters.type);
     }
 
-    // Filter by THC range
     result = result.filter(
       (strain) => 
         !strain.thc_level || 
@@ -125,7 +118,6 @@ const StrainExplorer: React.FC = () => {
          strain.thc_level <= filters.thcRange[1])
     );
 
-    // Filter by effect
     if (filters.effect) {
       result = result.filter((strain) =>
         strain.effects.some(
@@ -134,7 +126,6 @@ const StrainExplorer: React.FC = () => {
       );
     }
 
-    // Filter by terpene
     if (filters.terpene) {
       result = result.filter((strain) =>
         strain.most_common_terpene === filters.terpene
@@ -267,7 +258,6 @@ const StrainExplorer: React.FC = () => {
         </div>
       </div>
 
-      {/* Active Filters Display */}
       {activeFilterCount > 0 && (
         <div className="flex flex-wrap gap-2 mb-4">
           {filters.type && (
@@ -349,7 +339,6 @@ const StrainExplorer: React.FC = () => {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Filters Section - Only visible on mobile when toggled, always visible on larger screens */}
         <div 
           className={`${showFilters ? "block" : "hidden"} lg:block bg-gray-800 rounded-xl p-4 border border-gray-700 h-fit sticky top-4`}
         >
@@ -361,7 +350,6 @@ const StrainExplorer: React.FC = () => {
           />
         </div>
 
-        {/* Strains Grid */}
         <div className="lg:col-span-3">
           {error ? (
             <Card className="bg-gray-800 p-8 rounded-xl text-center border border-red-800 shadow-lg">
@@ -387,12 +375,11 @@ const StrainExplorer: React.FC = () => {
             <div>
               <div className="flex justify-between items-center mb-4">
                 <p className="text-sm text-gray-300">
-                  {t("showing")} {filteredStrains.length} {t("of")} {totalStrains} {totalStrains !== 1 ? t("strains") : t("strain")}
+                  {t("showing")} {filteredStrains.length} {t("of")} {totalStrains} {totalStrains !== 1 ? t("strains_count") : t("strain_singular")}
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredStrains.map((strain, index) => {
-                  // Add ref to last element for infinite scrolling
                   if (index === filteredStrains.length - 1) {
                     return (
                       <div ref={lastStrainElementRef} key={strain.id}>

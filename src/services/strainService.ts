@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Strain, StrainFilters } from "@/types/strain";
 import { toast } from "@/components/ui/use-toast";
@@ -52,12 +51,30 @@ export const testStrainsConnection = async () => {
   }
 };
 
+// Define a simpler type for internal use to avoid recursive type issues
+type RawStrainData = {
+  id?: string;
+  name: string;
+  img_url?: string | null;
+  type?: string;
+  thc_level?: number | null;
+  most_common_terpene?: string | null;
+  description?: string | null;
+  top_effect?: string | null;
+  top_percent?: string | null;
+  second_effect?: string | null;
+  second_percent?: string | null;
+  third_effect?: string | null;
+  third_percent?: string | null;
+  [key: string]: any;
+};
+
 /**
  * Helper function to transform raw DB data to Strain objects
  * @param data Raw data from database
  * @returns Properly formatted Strain objects
  */
-const transformStrainData = (data: any[]): Strain[] => {
+const transformStrainData = (data: RawStrainData[]): Strain[] => {
   return data.map(item => {
     // Extract effect data
     const effects = [];
@@ -92,7 +109,7 @@ const transformStrainData = (data: any[]): Strain[] => {
       name: item.name,
       img_url: item.img_url,
       type: (item.type as 'Indica' | 'Sativa' | 'Hybrid') || 'Hybrid',
-      thc_level: item.thc_level ? parseFloat(item.thc_level) : null,
+      thc_level: item.thc_level ? parseFloat(String(item.thc_level)) : null,
       most_common_terpene: item.most_common_terpene,
       description: item.description,
       effects: effects,
@@ -196,7 +213,7 @@ export const fetchStrains = async (
     ];
     
     return { 
-      strains: transformStrainData(allStrains), 
+      strains: transformStrainData(allStrains as RawStrainData[]), 
       total: count || 0 
     };
   } catch (error) {
@@ -222,7 +239,7 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
       throw new StrainServiceError(`Failed to fetch strain with ID ${id}`, error);
     }
     
-    return data ? transformStrainData([data])[0] : null;
+    return data ? transformStrainData([data as RawStrainData])[0] : null;
   } catch (error) {
     console.error(`Error fetching strain ${id}:`, error);
     throw error instanceof StrainServiceError 

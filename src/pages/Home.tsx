@@ -21,7 +21,7 @@ const Home: React.FC = () => {
             <div className="flex justify-center items-center h-24 w-24 bg-gray-700 rounded-full mb-4 mx-auto">
               <Cannabis className="h-12 w-12 text-secondary" />
             </div>
-            <h2 className="text-xl font-bold text-white text-center mb-2">{t("strains")}</h2>
+            <h2 className="text-xl font-bold text-white text-center mb-2">{t("strains_nav")}</h2>
             <p className="text-gray-300 text-center">
               {t("exploreStrains")}
             </p>

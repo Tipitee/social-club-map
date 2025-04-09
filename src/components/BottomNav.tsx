@@ -14,7 +14,7 @@ const BottomNav: React.FC = () => {
 
   const navItems = [
     { path: "/", label: t("home"), icon: Home },
-    { path: "/strains", label: t("strains"), icon: Cannabis },
+    { path: "/strains", label: t("strains_nav"), icon: Cannabis },
     { path: "/clubs", label: t("clubs"), icon: Map },
     { path: "/journal", label: t("journal"), icon: Book },
     { path: "/profile", label: t("profile"), icon: User },

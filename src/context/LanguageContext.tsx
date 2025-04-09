@@ -21,7 +21,7 @@ const translations: TranslationsType = {
     // Navigation
     "home": "Home",
     "journal": "Journal",
-    "strains": "Strains",
+    "strains_nav": "Strains",
     "profile": "Profile",
     "clubs": "Clubs",
     
@@ -32,8 +32,8 @@ const translations: TranslationsType = {
     "filter": "Filter",
     "showing": "Showing",
     "of": "of",
-    "strains": "strains",
-    "strain": "strain",
+    "strains_count": "strains",
+    "strain_singular": "strain",
     "page": "Page",
     "noStrainsFound": "No strains found",
     "tryAdjusting": "Try adjusting your filters to see more results.",
@@ -72,6 +72,11 @@ const translations: TranslationsType = {
     // Cards
     "thc": "THC",
     
+    // Home
+    "exploreStrains": "Explore cannabis strains",
+    "findClubs": "Find cannabis clubs",
+    "keepJournal": "Keep track of your experiences",
+    
     // Errors
     "error": "Error",
     "loading": "Loading...",
@@ -80,7 +85,7 @@ const translations: TranslationsType = {
     // Navigation
     "home": "Startseite",
     "journal": "Tagebuch",
-    "strains": "Sorten",
+    "strains_nav": "Sorten",
     "profile": "Profil",
     "clubs": "Clubs",
     
@@ -91,8 +96,8 @@ const translations: TranslationsType = {
     "filter": "Filter",
     "showing": "Anzeigen",
     "of": "von",
-    "strains": "Sorten",
-    "strain": "Sorte",
+    "strains_count": "Sorten",
+    "strain_singular": "Sorte",
     "page": "Seite",
     "noStrainsFound": "Keine Sorten gefunden",
     "tryAdjusting": "Versuchen Sie, Ihre Filter anzupassen, um mehr Ergebnisse zu sehen.",
@@ -130,6 +135,11 @@ const translations: TranslationsType = {
     
     // Cards
     "thc": "THC",
+    
+    // Home
+    "exploreStrains": "Entdecke Cannabis-Sorten",
+    "findClubs": "Finde Cannabis-Clubs",
+    "keepJournal": "Führe ein Tagebuch über deine Erfahrungen",
     
     // Errors
     "error": "Fehler",
