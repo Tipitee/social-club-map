@@ -25,7 +25,7 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
   try {
     console.log('[DEBUG] Starting strain fetch with sort:', sort);
     // Use a safer way to access the URL
-    const supabaseUrl = supabase.getUrl() || 'https://default-url.supabase.co';
+    const supabaseUrl = (supabase as any).restUrl?.replace('/rest/v1', '') || 'https://default-url.supabase.co';
     console.log('[DEBUG] Supabase URL being used:', supabaseUrl);
     
     // Determine sort order
