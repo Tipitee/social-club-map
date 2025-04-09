@@ -19,7 +19,7 @@ export type Database = {
           second_effect: string | null
           second_percent: string | null
           terpenes_json: string | null
-          thc_level: string | null
+          thc_level: number | null
           third_effect: string | null
           third_percent: string | null
           top_effect: string | null
@@ -35,7 +35,7 @@ export type Database = {
           second_effect?: string | null
           second_percent?: string | null
           terpenes_json?: string | null
-          thc_level?: string | null
+          thc_level?: number | null
           third_effect?: string | null
           third_percent?: string | null
           top_effect?: string | null
@@ -51,7 +51,7 @@ export type Database = {
           second_effect?: string | null
           second_percent?: string | null
           terpenes_json?: string | null
-          thc_level?: string | null
+          thc_level?: number | null
           third_effect?: string | null
           third_percent?: string | null
           top_effect?: string | null

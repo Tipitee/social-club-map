@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { Strain, StrainFilters, RawStrainData, StrainEffect } from "@/types/strain";
 import { toast } from "@/components/ui/use-toast";
@@ -148,6 +149,12 @@ const StrainSchema = z.object({
   )
 });
 
+// Define StrainResponse type to avoid deep recursion
+type StrainResponse = {
+  strains: Strain[];
+  total: number;
+};
+
 /**
  * Fetches strains with optional sorting, pagination, and filtering
  */
@@ -155,7 +162,7 @@ export const fetchStrains = async (
   sort: 'name' | 'thc_high' | 'thc_low' = 'name',
   page: number = 1,
   limit: number = 20
-): Promise<{ strains: Strain[], total: number }> => {
+): Promise<StrainResponse> => {
   try {
     console.log(`Fetching strains with sort: ${sort}, page: ${page}, limit: ${limit}`);
     

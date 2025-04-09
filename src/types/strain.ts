@@ -1,5 +1,4 @@
 
-
 export type StrainEffect = {
   effect: string;
   intensity: number;
@@ -46,4 +45,3 @@ export type StrainFilters = {
   sort: 'name' | 'thc_high' | 'thc_low';
   search: string;
 };
-

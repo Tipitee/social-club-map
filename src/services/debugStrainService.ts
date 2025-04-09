@@ -101,7 +101,7 @@ export const testDirectQuery = async () => {
  */
 export const parseStrainData = (jsonString: string): Strain[] | null => {
   try {
-    // Parse with explicit default empty array
+    // Fix the type issue here - using empty array as default
     const parsedData = safeParse<unknown[]>(jsonString, []);
     
     if (isStrainArray(parsedData)) {
