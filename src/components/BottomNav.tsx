@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Book, Cannabis, User } from "lucide-react";
+import { Home, Book, Cannabis, User, Map } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const BottomNav: React.FC = () => {
@@ -14,8 +14,9 @@ const BottomNav: React.FC = () => {
 
   const navItems = [
     { path: "/", label: t("home"), icon: Home },
-    { path: "/journal", label: t("journal"), icon: Book },
     { path: "/strains", label: t("strains"), icon: Cannabis },
+    { path: "/clubs", label: t("clubs"), icon: Map },
+    { path: "/journal", label: t("journal"), icon: Book },
     { path: "/profile", label: t("profile"), icon: User },
   ];
 

@@ -117,3 +117,42 @@ export const getSupabaseInfo = () => {
     timestamp: new Date().toISOString()
   };
 };
+
+/**
+ * Test connection to strains table and return count
+ * @returns Result object with success status, message and count
+ */
+export const testStrainsConnection = async () => {
+  try {
+    console.log('[DEBUG] Testing strains connection');
+    
+    const { count, error } = await supabase
+      .from('strains')
+      .select('*', { count: 'exact', head: true });
+    
+    if (error) {
+      console.error('[DEBUG] Strains connection test failed:', error);
+      return { 
+        success: false, 
+        message: `Database connection error: ${error.message}`,
+        count: 0
+      };
+    }
+    
+    return { 
+      success: true, 
+      message: count && count > 0 ? 
+        `Successfully connected to strains table (${count} records)` : 
+        'Connected to strains table but no records found',
+      count: count || 0
+    };
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+    console.error('[DEBUG] Strains connection test exception:', e);
+    return { 
+      success: false, 
+      message: `Exception testing strains connection: ${errorMessage}`,
+      count: 0
+    };
+  }
+};

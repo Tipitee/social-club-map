@@ -12,11 +12,13 @@ export type Database = {
       strains: {
         Row: {
           description: string | null
+          effects_json: string | null
           img_url: string | null
           most_common_terpene: string | null
           name: string
           second_effect: string | null
           second_percent: string | null
+          terpenes_json: string | null
           thc_level: string | null
           third_effect: string | null
           third_percent: string | null
@@ -26,11 +28,13 @@ export type Database = {
         }
         Insert: {
           description?: string | null
+          effects_json?: string | null
           img_url?: string | null
           most_common_terpene?: string | null
           name: string
           second_effect?: string | null
           second_percent?: string | null
+          terpenes_json?: string | null
           thc_level?: string | null
           third_effect?: string | null
           third_percent?: string | null
@@ -40,11 +44,13 @@ export type Database = {
         }
         Update: {
           description?: string | null
+          effects_json?: string | null
           img_url?: string | null
           most_common_terpene?: string | null
           name?: string
           second_effect?: string | null
           second_percent?: string | null
+          terpenes_json?: string | null
           thc_level?: string | null
           third_effect?: string | null
           third_percent?: string | null

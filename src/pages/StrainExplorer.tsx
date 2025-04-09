@@ -1,25 +1,16 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
 import StrainCard from "@/components/StrainCard";
 import StrainFilters from "@/components/StrainFilters";
 import { useToast } from "@/components/ui/use-toast";
-import { Filter, ArrowDown, X, Loader2 } from "lucide-react";
+import { Filter, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ConnectionHealthCheck } from "@/components/ConnectionHealthCheck";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -27,13 +18,16 @@ const StrainExplorer: React.FC = () => {
   const [strains, setStrains] = useState<Strain[]>([]);
   const [filteredStrains, setFilteredStrains] = useState<Strain[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [totalStrains, setTotalStrains] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const { toast } = useToast();
   const { t } = useLanguage();
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastStrainElementRef = useRef<HTMLDivElement | null>(null);
   
   const [filters, setFilters] = useState<StrainFiltersType>({
     type: null,
@@ -46,9 +40,35 @@ const StrainExplorer: React.FC = () => {
 
   const strainsPerPage = 20;
 
+  // Handle intersection for infinite scrolling
+  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
+    const [entry] = entries;
+    if (entry.isIntersecting && hasMore && !loading && !loadingMore) {
+      loadMoreStrains();
+    }
+  }, [hasMore, loading, loadingMore]);
+
+  // Setup intersection observer for infinite scroll
+  useEffect(() => {
+    if (observer.current) observer.current.disconnect();
+    
+    observer.current = new IntersectionObserver(handleIntersection, {
+      rootMargin: '100px',
+      threshold: 0.1,
+    });
+    
+    if (lastStrainElementRef.current && hasMore) {
+      observer.current.observe(lastStrainElementRef.current);
+    }
+    
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, [handleIntersection, filteredStrains, hasMore]);
+
   useEffect(() => {
     // Set document title
-    document.title = "Strain Explorer";
+    document.title = t("strainExplorer");
     
     const loadStrains = async () => {
       try {
@@ -56,12 +76,14 @@ const StrainExplorer: React.FC = () => {
         setError(null);
         const { strains: data, total } = await fetchStrains(
           filters.sort, 
-          currentPage, 
+          1, // Start from first page
           strainsPerPage
         );
         setStrains(data);
         setFilteredStrains(data);
         setTotalStrains(total);
+        setCurrentPage(1);
+        setHasMore(data.length < total);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unknown error loading strains";
         setError(message);
@@ -76,7 +98,7 @@ const StrainExplorer: React.FC = () => {
     };
 
     loadStrains();
-  }, [filters.sort, currentPage, toast, t]);
+  }, [filters.sort, toast, t]);
 
   useEffect(() => {
     let result = [...strains];
@@ -124,7 +146,7 @@ const StrainExplorer: React.FC = () => {
 
   const handleFilterChange = (newFilters: StrainFiltersType) => {
     setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   const toggleFilters = () => {
@@ -145,14 +167,14 @@ const StrainExplorer: React.FC = () => {
     }
   };
 
-  const handleLoadMore = async () => {
-    if (loadingMore) return;
+  const loadMoreStrains = async () => {
+    if (loadingMore || !hasMore) return;
     
     try {
       setLoadingMore(true);
       const nextPage = currentPage + 1;
       
-      const { strains: newStrains } = await fetchStrains(
+      const { strains: newStrains, total } = await fetchStrains(
         filters.sort,
         nextPage,
         strainsPerPage
@@ -161,6 +183,9 @@ const StrainExplorer: React.FC = () => {
       if (newStrains.length > 0) {
         setStrains(prev => [...prev, ...newStrains]);
         setCurrentPage(nextPage);
+        setHasMore(strains.length + newStrains.length < total);
+      } else {
+        setHasMore(false);
       }
     } catch (error) {
       console.error("Error loading more strains:", error);
@@ -174,15 +199,8 @@ const StrainExplorer: React.FC = () => {
     }
   };
 
-  const handlePageChange = (page: number) => {
-    if (page !== currentPage) {
-      setCurrentPage(page);
-      window.scrollTo(0, 0);
-    }
-  };
-
   const renderNoResults = () => (
-    <Card className="bg-card p-8 rounded-xl text-center border border-gray-800 shadow-lg">
+    <Card className="bg-gray-800 p-8 rounded-xl text-center border border-gray-700 shadow-lg">
       <CardContent className="pt-6">
         <h3 className="text-xl font-semibold mb-2 text-white">{t("noStrainsFound")}</h3>
         <p className="text-gray-400">
@@ -195,79 +213,25 @@ const StrainExplorer: React.FC = () => {
   const renderSkeletonLoader = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {Array.from({ length: 6 }).map((_, index) => (
-        <Card key={index} className="overflow-hidden border border-gray-700">
-          <div className="h-40 bg-gray-800">
-            <Skeleton className="h-full w-full" />
+        <Card key={index} className="overflow-hidden border border-gray-700 bg-gray-800">
+          <div className="h-40 bg-gray-700">
+            <Skeleton className="h-full w-full bg-gray-700" />
           </div>
           <CardContent className="p-4">
-            <Skeleton className="h-6 w-3/4 mb-4" />
-            <Skeleton className="h-4 w-full mb-2" />
-            <Skeleton className="h-4 w-2/3 mb-2" />
+            <Skeleton className="h-6 w-3/4 mb-4 bg-gray-700" />
+            <Skeleton className="h-4 w-full mb-2 bg-gray-700" />
+            <Skeleton className="h-4 w-2/3 mb-2 bg-gray-700" />
             <div className="mt-4">
-              <Skeleton className="h-3 w-full mb-1" />
-              <Skeleton className="h-2 w-full mb-3" />
-              <Skeleton className="h-3 w-full mb-1" />
-              <Skeleton className="h-2 w-full" />
+              <Skeleton className="h-3 w-full mb-1 bg-gray-700" />
+              <Skeleton className="h-2 w-full mb-3 bg-gray-700" />
+              <Skeleton className="h-3 w-full mb-1 bg-gray-700" />
+              <Skeleton className="h-2 w-full bg-gray-700" />
             </div>
           </CardContent>
         </Card>
       ))}
     </div>
   );
-
-  const renderPagination = () => {
-    const totalPages = Math.ceil(totalStrains / strainsPerPage);
-    if (totalPages <= 1) return null;
-
-    return (
-      <Pagination className="mt-8">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious 
-              onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-              className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-            />
-          </PaginationItem>
-          
-          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-            // Show pagination centered around current page
-            let pageToShow: number;
-            if (totalPages <= 5) {
-              // If we have 5 or fewer pages, just show all of them
-              pageToShow = i + 1;
-            } else if (currentPage <= 3) {
-              // If we're near the start
-              pageToShow = i + 1;
-            } else if (currentPage >= totalPages - 2) {
-              // If we're near the end
-              pageToShow = totalPages - 4 + i;
-            } else {
-              // We're in the middle, center the current page
-              pageToShow = currentPage - 2 + i;
-            }
-
-            return (
-              <PaginationItem key={pageToShow}>
-                <PaginationLink
-                  isActive={pageToShow === currentPage}
-                  onClick={() => handlePageChange(pageToShow)}
-                >
-                  {pageToShow}
-                </PaginationLink>
-              </PaginationItem>
-            );
-          })}
-          
-          <PaginationItem>
-            <PaginationNext 
-              onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-              className={currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
-  };
 
   const activeFilterCount = [
     filters.type, 
@@ -282,7 +246,6 @@ const StrainExplorer: React.FC = () => {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <h1 className="text-3xl font-bold text-white">{t("strainExplorer")}</h1>
-          <ConnectionHealthCheck />
         </div>
         
         <div className="flex items-center gap-2">
@@ -290,10 +253,10 @@ const StrainExplorer: React.FC = () => {
           
           <Button
             onClick={toggleFilters}
-            className="flex items-center gap-1.5 py-2 px-4 bg-secondary hover:bg-secondary/90 text-white rounded-lg shadow-md"
+            className="flex items-center gap-2 py-2 px-4 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded-xl shadow-md transition-all duration-300"
             variant="secondary"
           >
-            <Filter size={16} /> 
+            <Filter size={18} /> 
             {showFilters ? t("hideFilters") : t("showFilters")}
             {activeFilterCount > 0 && (
               <Badge variant="destructive" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full">
@@ -310,54 +273,86 @@ const StrainExplorer: React.FC = () => {
           {filters.type && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
+              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-purple-800 text-white shadow-md"
             >
               {t("type")}: {filters.type}
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('type')} />
+              <button 
+                className="ml-2 hover:text-gray-200"
+                onClick={() => clearFilter('type')}
+                aria-label="Clear type filter"
+              >
+                ×
+              </button>
             </Badge>
           )}
           {filters.effect && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
+              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-blue-800 text-white shadow-md"
             >
               {t("dominantEffect")}: {filters.effect}
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('effect')} />
+              <button
+                className="ml-2 hover:text-gray-200"
+                onClick={() => clearFilter('effect')}
+                aria-label="Clear effect filter"
+              >
+                ×
+              </button>
             </Badge>
           )}
           {filters.terpene && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
+              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-green-800 text-white shadow-md"
             >
               {t("terpene")}: {filters.terpene}
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('terpene')} />
+              <button
+                className="ml-2 hover:text-gray-200"
+                onClick={() => clearFilter('terpene')}
+                aria-label="Clear terpene filter"
+              >
+                ×
+              </button>
             </Badge>
           )}
           {filters.search && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
+              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-amber-700 text-white shadow-md"
             >
               {t("search")}: "{filters.search}"
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('search')} />
+              <button
+                className="ml-2 hover:text-gray-200"
+                onClick={() => clearFilter('search')}
+                aria-label="Clear search filter"
+              >
+                ×
+              </button>
             </Badge>
           )}
           {(filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && (
             <Badge 
               variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 shadow-md"
+              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-800 text-white shadow-md"
             >
               {t("thc")}: {filters.thcRange[0]}% - {filters.thcRange[1]}%
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('thcRange')} />
+              <button
+                className="ml-2 hover:text-gray-200"
+                onClick={() => clearFilter('thcRange')}
+                aria-label="Clear THC range filter"
+              >
+                ×
+              </button>
             </Badge>
           )}
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Filters Section - Only visible on mobile when toggled */}
-        <div className={`${showFilters ? "block" : "hidden"} lg:block`}>
+        {/* Filters Section - Only visible on mobile when toggled, always visible on larger screens */}
+        <div 
+          className={`${showFilters ? "block" : "hidden"} lg:block bg-gray-800 rounded-xl p-4 border border-gray-700 h-fit sticky top-4`}
+        >
           <StrainFilters 
             filters={filters} 
             onFilterChange={handleFilterChange}
@@ -369,7 +364,7 @@ const StrainExplorer: React.FC = () => {
         {/* Strains Grid */}
         <div className="lg:col-span-3">
           {error ? (
-            <Card className="bg-card p-8 rounded-xl text-center border border-destructive shadow-lg">
+            <Card className="bg-gray-800 p-8 rounded-xl text-center border border-red-800 shadow-lg">
               <CardContent className="pt-6">
                 <h3 className="text-xl font-semibold mb-2 text-white">{t("errorLoadingStrains")}</h3>
                 <p className="text-gray-400 mb-4">{error}</p>
@@ -394,37 +389,34 @@ const StrainExplorer: React.FC = () => {
                 <p className="text-sm text-gray-300">
                   {t("showing")} {filteredStrains.length} {t("of")} {totalStrains} {totalStrains !== 1 ? t("strains") : t("strain")}
                 </p>
-                <p className="text-sm text-gray-300">
-                  {t("page")} {currentPage}
-                </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredStrains.map((strain) => (
-                  <Link to={`/strains/${strain.id}`} key={strain.id} className="block">
-                    <StrainCard strain={strain} />
-                  </Link>
-                ))}
+                {filteredStrains.map((strain, index) => {
+                  // Add ref to last element for infinite scrolling
+                  if (index === filteredStrains.length - 1) {
+                    return (
+                      <div ref={lastStrainElementRef} key={strain.id}>
+                        <Link to={`/strains/${strain.id}`}>
+                          <StrainCard strain={strain} />
+                        </Link>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <Link to={`/strains/${strain.id}`} key={strain.id}>
+                        <StrainCard strain={strain} />
+                      </Link>
+                    );
+                  }
+                })}
               </div>
               
-              {renderPagination()}
-              
-              {currentPage * strainsPerPage < totalStrains && (
-                <div className="mt-6 text-center">
-                  <Button 
-                    onClick={handleLoadMore} 
-                    disabled={loadingMore}
-                    variant="secondary"
-                    className="px-8 py-2 bg-secondary hover:bg-secondary/90 text-white shadow-md"
-                  >
-                    {loadingMore ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        {t("loading")}
-                      </>
-                    ) : (
-                      t("loadMore")
-                    )}
-                  </Button>
+              {loadingMore && (
+                <div className="mt-6 flex justify-center">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-gray-800 rounded-lg border border-gray-700">
+                    <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                    <span className="text-gray-300">{t("loading")}</span>
+                  </div>
                 </div>
               )}
             </div>

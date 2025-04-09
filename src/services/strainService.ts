@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { Strain, StrainFilters } from "@/types/strain";
 import { toast } from "@/components/ui/use-toast";
@@ -134,54 +135,70 @@ export const fetchStrains = async (
       query = query.order('thc_level', { ascending: true });
     }
     
-    // Prioritize strains with images when sorting by name
-    if (sort === 'name') {
-      // First query to get strains with images
-      const { data: dataWithImages, error: errorWithImages } = await query
-        .not('img_url', 'is', null)
-        .range((page - 1) * limit, page * limit - 1);
-        
-      // Second query to get strains without images if needed
-      let dataWithoutImages: any[] = [];
-      let remainingCount = 0;
+    // First get strains with images
+    const { data: dataWithImages, error: errorWithImages } = await query
+      .not('img_url', 'is', null)
+      .range((page - 1) * limit, page * limit - 1);
       
-      if (errorWithImages) {
-        throw new StrainServiceError("Failed to fetch strains with images", errorWithImages);
-      }
-      
-      const withImagesCount = dataWithImages?.length || 0;
-      
-      if (withImagesCount < limit) {
-        remainingCount = limit - withImagesCount;
-        const { data: remaining, error: errorNoImages } = await supabase
-          .from('strains')
-          .select('*')
-          .is('img_url', null)
-          .order('name')
-          .range(0, remainingCount - 1);
-          
-        if (errorNoImages) {
-          throw new StrainServiceError("Failed to fetch strains without images", errorNoImages);
-        }
-        
-        dataWithoutImages = remaining || [];
-      }
-      
-      return { 
-        strains: transformStrainData([...(dataWithImages || []), ...dataWithoutImages]), 
-        total: count || 0 
-      };
-    } else {
-      // Regular pagination for non-name sorts
-      const { data, error } = await query
-        .range((page - 1) * limit, page * limit - 1);
-        
-      if (error) {
-        throw new StrainServiceError("Failed to fetch strains", error);
-      }
-      
-      return { strains: transformStrainData(data || []), total: count || 0 };
+    if (errorWithImages) {
+      throw new StrainServiceError("Failed to fetch strains with images", errorWithImages);
     }
+    
+    const withImagesCount = dataWithImages?.length || 0;
+    
+    // Then get strains with THC levels but no images
+    let dataWithThc: any[] = [];
+    if (withImagesCount < limit) {
+      const remainingForThc = limit - withImagesCount;
+      
+      const { data: remaining, error: errorThc } = await supabase
+        .from('strains')
+        .select('*')
+        .is('img_url', null)
+        .not('thc_level', 'is', null)
+        .order('thc_level', { ascending: false })
+        .range(0, remainingForThc - 1);
+        
+      if (errorThc) {
+        throw new StrainServiceError("Failed to fetch strains with THC data", errorThc);
+      }
+      
+      dataWithThc = remaining || [];
+    }
+    
+    // Finally get remaining strains
+    let remainingStrains: any[] = [];
+    const totalWithPriority = withImagesCount + (dataWithThc?.length || 0);
+    
+    if (totalWithPriority < limit) {
+      const finalRemaining = limit - totalWithPriority;
+      
+      const { data: others, error: errorOthers } = await supabase
+        .from('strains')
+        .select('*')
+        .is('img_url', null)
+        .is('thc_level', null)
+        .order('name')
+        .range(0, finalRemaining - 1);
+        
+      if (errorOthers) {
+        throw new StrainServiceError("Failed to fetch remaining strains", errorOthers);
+      }
+      
+      remainingStrains = others || [];
+    }
+    
+    // Combine all results
+    const allStrains = [
+      ...(dataWithImages || []), 
+      ...(dataWithThc || []),
+      ...(remainingStrains || [])
+    ];
+    
+    return { 
+      strains: transformStrainData(allStrains), 
+      total: count || 0 
+    };
   } catch (error) {
     console.error("Strain fetch error:", error);
     throw error instanceof StrainServiceError 
@@ -219,13 +236,27 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
  */
 export const getAllEffects = async (): Promise<string[]> => {
   try {
-    const { data, error } = await supabase.rpc('get_distinct_effects');
+    const { data, error } = await supabase
+      .from('strains')
+      .select('top_effect, second_effect, third_effect');
     
     if (error) {
       throw new StrainServiceError("Failed to fetch effects", error);
     }
     
-    return data || [];
+    // Extract all effects and remove duplicates
+    const effectSet = new Set<string>();
+    
+    data?.forEach(strain => {
+      if (strain.top_effect) effectSet.add(strain.top_effect);
+      if (strain.second_effect) effectSet.add(strain.second_effect);
+      if (strain.third_effect) effectSet.add(strain.third_effect);
+    });
+    
+    // Convert to array, filter out nulls and empty strings, and sort
+    return Array.from(effectSet)
+      .filter(effect => effect && effect.trim() !== '')
+      .sort();
   } catch (error) {
     console.error("Error fetching effects:", error);
     return [];
@@ -237,13 +268,27 @@ export const getAllEffects = async (): Promise<string[]> => {
  */
 export const getTerpenes = async (): Promise<string[]> => {
   try {
-    const { data, error } = await supabase.rpc('get_distinct_terpenes');
+    const { data, error } = await supabase
+      .from('strains')
+      .select('most_common_terpene');
     
     if (error) {
       throw new StrainServiceError("Failed to fetch terpenes", error);
     }
     
-    return data || [];
+    // Extract terpenes and remove duplicates
+    const terpeneSet = new Set<string>();
+    
+    data?.forEach(strain => {
+      if (strain.most_common_terpene) {
+        terpeneSet.add(strain.most_common_terpene);
+      }
+    });
+    
+    // Convert to array, filter out nulls and empty strings, and sort
+    return Array.from(terpeneSet)
+      .filter(terpene => terpene && terpene.trim() !== '')
+      .sort();
   } catch (error) {
     console.error("Error fetching terpenes:", error);
     return [];

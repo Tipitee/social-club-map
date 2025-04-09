@@ -23,6 +23,7 @@ const translations: TranslationsType = {
     "journal": "Journal",
     "strains": "Strains",
     "profile": "Profile",
+    "clubs": "Clubs",
     
     // Strain Explorer
     "strainExplorer": "Strain Explorer",
@@ -31,8 +32,8 @@ const translations: TranslationsType = {
     "filter": "Filter",
     "showing": "Showing",
     "of": "of",
-    "strainsCount": "strains",
-    "strainSingular": "strain",
+    "strains": "strains",
+    "strain": "strain",
     "page": "Page",
     "noStrainsFound": "No strains found",
     "tryAdjusting": "Try adjusting your filters to see more results.",
@@ -81,6 +82,7 @@ const translations: TranslationsType = {
     "journal": "Tagebuch",
     "strains": "Sorten",
     "profile": "Profil",
+    "clubs": "Clubs",
     
     // Strain Explorer
     "strainExplorer": "Sorten-Explorer",
@@ -89,8 +91,8 @@ const translations: TranslationsType = {
     "filter": "Filter",
     "showing": "Anzeigen",
     "of": "von",
-    "strainsCount": "Sorten",
-    "strainSingular": "Sorte",
+    "strains": "Sorten",
+    "strain": "Sorte",
     "page": "Seite",
     "noStrainsFound": "Keine Sorten gefunden",
     "tryAdjusting": "Versuchen Sie, Ihre Filter anzupassen, um mehr Ergebnisse zu sehen.",

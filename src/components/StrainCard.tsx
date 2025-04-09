@@ -51,13 +51,13 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
   );
 
   return (
-    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-card">
-      <div className="relative h-48 overflow-hidden">
+    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-800">
+      <div className="relative h-48 overflow-hidden bg-gray-900">
         {strain.img_url ? (
           <img
             src={strain.img_url}
             alt={strain.name}
-            className="w-full h-full object-contain bg-gray-900 p-1"
+            className="w-full h-full object-cover bg-gray-900"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.style.display = 'none';
@@ -79,7 +79,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
       </div>
       
       <div className="p-5">
-        <h3 className="text-lg font-bold mb-2 text-foreground">{strain.name}</h3>
+        <h3 className="text-lg font-bold mb-2 text-white">{strain.name}</h3>
         
         <div className="mt-3">
           {strain.thc_level !== null && strain.thc_level !== undefined ? (
@@ -88,7 +88,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                 <span className="font-medium text-gray-300">{t("thcLevel")}</span>
                 <span className="font-bold text-white">{strain.thc_level}%</span>
               </div>
-              <div className="h-3 w-full bg-gray-800 rounded-full overflow-hidden mb-4">
+              <div className="h-3 w-full bg-gray-700 rounded-full overflow-hidden mb-4">
                 <div 
                   className="h-full bg-primary transition-all duration-500 ease-out"
                   style={{ width: `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` }}
@@ -108,7 +108,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                   <span className="font-medium text-gray-300">{effect.effect}</span>
                   <span className="font-bold text-white">{effect.intensity}%</span>
                 </div>
-                <div className="h-2 w-full bg-gray-800 rounded-full overflow-hidden mb-1">
+                <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden mb-1">
                   <div 
                     className={`h-full ${getEffectColor(index)} transition-all duration-500 ease-out`}
                     style={{ width: `${effect.intensity}%` }}
@@ -124,7 +124,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         {strain.most_common_terpene ? (
           <div className="mt-4 flex items-center">
             <span className="text-xs text-gray-400 mr-2">{t("dominantTerpene")}:</span>
-            <Badge variant="outline" className="font-medium text-xs">
+            <Badge variant="outline" className="font-medium text-xs border-gray-600 text-gray-300">
               {strain.most_common_terpene}
             </Badge>
           </div>
