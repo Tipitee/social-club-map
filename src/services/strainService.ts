@@ -20,19 +20,19 @@ export interface HealthCheckResult {
 /**
  * Fetches strains from Supabase with sorting and detailed logging
  */
-export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name'): Promise<Strain[]> => {
+export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name', page: number = 1, limit: number = 20): Promise<{strains: Strain[], total: number}> => {
   try {
-    console.log('[DEBUG] Starting strain fetch with sort:', sort);
+    console.log('[DEBUG] Starting strain fetch with sort:', sort, 'page:', page, 'limit:', limit);
     
     // Use safer approach to get URL for logging
     let supabaseUrl = "https://database-url.supabase.co";
     try {
-      // Try to get URL using modern method
-      if (supabase.getUrl) {
-        supabaseUrl = supabase.getUrl();
+      // Try to get URL using property access, not method
+      if (supabase.supabaseUrl) {
+        supabaseUrl = supabase.supabaseUrl;
       }
     } catch (e) {
-      console.warn('[DEBUG] Could not get Supabase URL using modern method:', e);
+      console.warn('[DEBUG] Could not get Supabase URL:', e);
     }
     
     console.log('[DEBUG] Supabase URL being used:', supabaseUrl);
@@ -49,14 +49,29 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
       ascending = true;
     }
     
-    // Log the query we're about to make
-    console.log('[DEBUG] Executing strain query with params:', { column, ascending });
+    // Calculate offset based on page and limit
+    const offset = (page - 1) * limit;
     
-    // Execute the query with full logging
+    // Log the query we're about to make
+    console.log('[DEBUG] Executing strain query with params:', { column, ascending, limit, offset });
+    
+    // First get total count
+    const { count, error: countError } = await supabase
+      .from('strains')
+      .select('*', { count: 'exact', head: true });
+      
+    if (countError) {
+      console.error('[DEBUG] Count query error:', countError);
+      throw new StrainServiceError(`Error counting strains: ${countError.message}`, countError);
+    }
+    
+    // Prioritize strains with images by using conditional ordering
     const { data, error } = await supabase
       .from('strains')
       .select('*')
-      .order(column, { ascending });
+      .order('img_url', { ascending: false, nullsLast: true })  // Put strains with images first
+      .order(column, { ascending })                            // Then apply the user's chosen sort
+      .range(offset, offset + limit - 1);
     
     // Enhanced error handling with detailed logs
     if (error) {
@@ -70,7 +85,7 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
     // Check for null or empty data with detailed logging
     if (!data) {
       console.log('[DEBUG] No data returned from Supabase');
-      return [];
+      return { strains: [], total: 0 };
     }
 
     // Log the raw response
@@ -166,13 +181,159 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
       firstItem: transformedStrains.length > 0 ? transformedStrains[0] : null
     });
     
-    return transformedStrains;
+    return { strains: transformedStrains, total: count || 0 };
   } catch (error) {
     console.error('[DEBUG] Error in fetchStrains:', error);
     if (error instanceof StrainServiceError) {
       throw error;
     }
     throw new StrainServiceError('Error in fetchStrains', error);
+  }
+};
+
+/**
+ * Fetches a single strain by ID
+ * @param id - The strain ID to fetch
+ */
+export const fetchStrainById = async (id: string): Promise<Strain | null> => {
+  try {
+    console.log(`[DEBUG] Fetching strain by ID: ${id}`);
+    
+    // First try to find by ID
+    let query = supabase
+      .from('strains')
+      .select('*');
+      
+    // Try to match by ID or by name slug (converted to lowercase with hyphens)
+    const { data, error } = await query
+      .or(`name.ilike.${id.replace(/-/g, ' ')}`)
+      .maybeSingle();
+    
+    if (error) {
+      console.error('[DEBUG] Error fetching strain by ID:', error);
+      throw new StrainServiceError(`Error fetching strain: ${error.message}`, error);
+    }
+    
+    if (!data) {
+      console.log(`[DEBUG] No strain found with ID: ${id}`);
+      return null;
+    }
+    
+    console.log('[DEBUG] Found strain by ID:', data);
+    
+    // Use the same transformation logic from fetchStrains
+    const name = data.name || 'Unknown Strain';
+    
+    let thcLevel: number | null = null;
+    if (data.thc_level !== null && data.thc_level !== undefined) {
+      thcLevel = typeof data.thc_level === 'string' 
+        ? parseFloat(data.thc_level) || null
+        : typeof data.thc_level === 'number' 
+          ? data.thc_level 
+          : null;
+    }
+
+    // Helper function to safely parse percentage values
+    const safeParsePercent = (value: string | number | null | undefined): number => {
+      if (value === null || value === undefined) return 0;
+      if (typeof value === 'string') {
+        const parsedInt = parseInt(value, 10);
+        if (!isNaN(parsedInt)) return parsedInt;
+        const parsedFloat = parseFloat(value);
+        return isNaN(parsedFloat) ? 0 : parsedFloat;
+      }
+      return typeof value === 'number' ? value : 0;
+    };
+    
+    // Safely create effects array
+    const effects: StrainEffect[] = [];
+    
+    if (data.top_effect) {
+      effects.push({ 
+        effect: data.top_effect, 
+        intensity: safeParsePercent(data.top_percent)
+      });
+    }
+    
+    if (data.second_effect) {
+      effects.push({ 
+        effect: data.second_effect, 
+        intensity: safeParsePercent(data.second_percent)
+      });
+    }
+    
+    if (data.third_effect) {
+      effects.push({ 
+        effect: data.third_effect,
+        intensity: safeParsePercent(data.third_percent)
+      });
+    }
+
+    return {
+      id: id,
+      name,
+      img_url: data.img_url || null,
+      type: (data.type || 'Hybrid') as 'Indica' | 'Sativa' | 'Hybrid',
+      thc_level: thcLevel,
+      most_common_terpene: data.most_common_terpene || null,
+      description: data.description || null,
+      effects
+    };
+  } catch (error) {
+    console.error('[DEBUG] Error in fetchStrainById:', error);
+    if (error instanceof StrainServiceError) {
+      throw error;
+    }
+    throw new StrainServiceError('Error fetching strain by ID', error);
+  }
+};
+
+// Helper functions with added logging
+export const getAllEffects = async (): Promise<string[]> => {
+  try {
+    console.log('[DEBUG] Getting all effects');
+    const { strains } = await fetchStrains('name', 1, 100);
+    const effectsSet = new Set<string>();
+    
+    strains.forEach(strain => {
+      if (strain.effects && Array.isArray(strain.effects)) {
+        strain.effects.forEach(effect => {
+          if (effect && effect.effect && effect.intensity > 0) {
+            effectsSet.add(effect.effect);
+          }
+        });
+      }
+    });
+    
+    const effects = Array.from(effectsSet).sort();
+    console.log('[DEBUG] Found effects:', effects);
+    
+    return effects;
+  } catch (error) {
+    console.error('[DEBUG] Error getting effects:', error);
+    throw new StrainServiceError('Error getting effects', error);
+  }
+};
+
+export const getTerpenes = async (): Promise<string[]> => {
+  try {
+    console.log('[DEBUG] Getting all terpenes');
+    const { strains } = await fetchStrains('name', 1, 100);
+    const terpenesSet = new Set<string>();
+    
+    strains.forEach(strain => {
+      if (strain.most_common_terpene) {
+        terpenesSet.add(strain.most_common_terpene);
+      }
+    });
+    
+    const terpenes = Array.from(terpenesSet).sort();
+    console.log('[DEBUG] Found terpenes:', terpenes);
+    
+    return terpenes;
+  } catch (error) {
+    console.error('[DEBUG] Error getting terpenes:', error);
+    throw new StrainServiceError('Error getting terpenes', error);
   }
 };
 
@@ -240,54 +401,5 @@ export const testStrainsConnection = async (): Promise<HealthCheckResult> => {
       message: `Connection test error: ${error instanceof Error ? error.message : String(error)}`,
       count: 0
     };
-  }
-};
-
-// Helper functions with added logging
-export const getAllEffects = async (): Promise<string[]> => {
-  try {
-    console.log('[DEBUG] Getting all effects');
-    const strains = await fetchStrains();
-    const effectsSet = new Set<string>();
-    
-    strains.forEach(strain => {
-      if (strain.effects && Array.isArray(strain.effects)) {
-        strain.effects.forEach(effect => {
-          if (effect && effect.effect && effect.intensity > 0) {
-            effectsSet.add(effect.effect);
-          }
-        });
-      }
-    });
-    
-    const effects = Array.from(effectsSet).sort();
-    console.log('[DEBUG] Found effects:', effects);
-    
-    return effects;
-  } catch (error) {
-    console.error('[DEBUG] Error getting effects:', error);
-    throw new StrainServiceError('Error getting effects', error);
-  }
-};
-
-export const getTerpenes = async (): Promise<string[]> => {
-  try {
-    console.log('[DEBUG] Getting all terpenes');
-    const strains = await fetchStrains();
-    const terpenesSet = new Set<string>();
-    
-    strains.forEach(strain => {
-      if (strain.most_common_terpene) {
-        terpenesSet.add(strain.most_common_terpene);
-      }
-    });
-    
-    const terpenes = Array.from(terpenesSet).sort();
-    console.log('[DEBUG] Found terpenes:', terpenes);
-    
-    return terpenes;
-  } catch (error) {
-    console.error('[DEBUG] Error getting terpenes:', error);
-    throw new StrainServiceError('Error getting terpenes', error);
   }
 };
