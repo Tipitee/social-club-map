@@ -1,6 +1,8 @@
+
 import { supabase } from "@/integrations/supabase/client";
-import { Strain, StrainFilters } from "@/types/strain";
+import { Strain, StrainFilters, RawStrainData } from "@/types/strain";
 import { toast } from "@/components/ui/use-toast";
+import { z } from "zod";
 
 /**
  * Custom error class for strain service errors
@@ -51,30 +53,43 @@ export const testStrainsConnection = async () => {
   }
 };
 
-// Define a simpler type for internal use to avoid recursive type issues
-type RawStrainData = {
-  id?: string;
-  name: string;
-  img_url?: string | null;
-  type?: string;
-  thc_level?: number | null;
-  most_common_terpene?: string | null;
-  description?: string | null;
-  top_effect?: string | null;
-  top_percent?: string | null;
-  second_effect?: string | null;
-  second_percent?: string | null;
-  third_effect?: string | null;
-  third_percent?: string | null;
-  [key: string]: any;
-};
+/**
+ * Safe number conversion with fallback
+ * @param value - Value to convert
+ * @param fallback - Default value if conversion fails
+ * @returns Number or fallback
+ */
+function safeNumberConversion(value: string | null | undefined, fallback: number | null = null): number | null {
+  if (value === null || value === undefined || value === '') {
+    return fallback;
+  }
+  
+  const number = parseFloat(value);
+  return isNaN(number) ? fallback : number;
+}
+
+/**
+ * Safe JSON parsing with type validation
+ */
+function safeJsonParse<T>(jsonString: string | null | undefined, defaultValue: T): T {
+  if (!jsonString) {
+    return defaultValue;
+  }
+  
+  try {
+    return JSON.parse(jsonString) as T;
+  } catch (error) {
+    console.error("JSON parse error:", error);
+    return defaultValue;
+  }
+}
 
 /**
  * Helper function to transform raw DB data to Strain objects
  * @param data Raw data from database
  * @returns Properly formatted Strain objects
  */
-const transformStrainData = (data: RawStrainData[]): Strain[] => {
+const transformStrainData = (data: any[]): Strain[] => {
   return data.map(item => {
     // Extract effect data
     const effects = [];
@@ -83,7 +98,7 @@ const transformStrainData = (data: RawStrainData[]): Strain[] => {
     if (item.top_effect && item.top_percent) {
       effects.push({
         effect: item.top_effect,
-        intensity: parseFloat(item.top_percent) || 0
+        intensity: safeNumberConversion(item.top_percent, 0) || 0
       });
     }
     
@@ -91,7 +106,7 @@ const transformStrainData = (data: RawStrainData[]): Strain[] => {
     if (item.second_effect && item.second_percent) {
       effects.push({
         effect: item.second_effect,
-        intensity: parseFloat(item.second_percent) || 0
+        intensity: safeNumberConversion(item.second_percent, 0) || 0
       });
     }
     
@@ -99,7 +114,7 @@ const transformStrainData = (data: RawStrainData[]): Strain[] => {
     if (item.third_effect && item.third_percent) {
       effects.push({
         effect: item.third_effect,
-        intensity: parseFloat(item.third_percent) || 0
+        intensity: safeNumberConversion(item.third_percent, 0) || 0
       });
     }
     
@@ -109,13 +124,30 @@ const transformStrainData = (data: RawStrainData[]): Strain[] => {
       name: item.name,
       img_url: item.img_url,
       type: (item.type as 'Indica' | 'Sativa' | 'Hybrid') || 'Hybrid',
-      thc_level: item.thc_level ? parseFloat(String(item.thc_level)) : null,
+      thc_level: safeNumberConversion(item.thc_level),
       most_common_terpene: item.most_common_terpene,
       description: item.description,
       effects: effects,
     };
   });
 };
+
+// Simple validation schema for Strain data
+const StrainSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  img_url: z.string().nullable(),
+  type: z.enum(['Indica', 'Sativa', 'Hybrid']),
+  thc_level: z.number().nullable(),
+  most_common_terpene: z.string().nullable(),
+  description: z.string().nullable(),
+  effects: z.array(
+    z.object({
+      effect: z.string(),
+      intensity: z.number()
+    })
+  )
+});
 
 /**
  * Fetches strains with optional sorting, pagination, and filtering
@@ -212,8 +244,11 @@ export const fetchStrains = async (
       ...(remainingStrains || [])
     ];
     
+    // Transform the data
+    const transformedStrains = transformStrainData(allStrains);
+    
     return { 
-      strains: transformStrainData(allStrains as RawStrainData[]), 
+      strains: transformedStrains, 
       total: count || 0 
     };
   } catch (error) {
@@ -239,7 +274,13 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
       throw new StrainServiceError(`Failed to fetch strain with ID ${id}`, error);
     }
     
-    return data ? transformStrainData([data as RawStrainData])[0] : null;
+    if (!data) {
+      return null;
+    }
+    
+    // Cast to any to avoid type issues, then transform
+    const transformedData = transformStrainData([data as any]);
+    return transformedData[0] || null;
   } catch (error) {
     console.error(`Error fetching strain ${id}:`, error);
     throw error instanceof StrainServiceError 

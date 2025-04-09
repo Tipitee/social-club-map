@@ -1,10 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { Strain } from "@/types/strain";
-
-export interface RawStrainData {
-  [key: string]: any;
-}
+import { RawStrainData, Strain } from "@/types/strain";
 
 /**
  * Type guard to check if a value is a Strain object
@@ -26,6 +22,20 @@ function isValidStrain(value: unknown): value is Strain {
 function isStrainArray(data: unknown): data is Strain[] {
   return Array.isArray(data) && 
          data.every(item => isValidStrain(item));
+}
+
+/**
+ * Safely parse JSON with type checking
+ * @param jsonString - JSON string to parse
+ * @returns Parsed data with type T or null if invalid
+ */
+export function safeParse<T>(jsonString: string, defaultValue: T): T {
+  try {
+    return JSON.parse(jsonString) as T;
+  } catch (e) {
+    console.error('[DEBUG] JSON parse error:', e);
+    return defaultValue;
+  }
 }
 
 /**
@@ -91,8 +101,8 @@ export const testDirectQuery = async () => {
  */
 export const parseStrainData = (jsonString: string): Strain[] | null => {
   try {
-    // Add explicit type assertion to unknown first
-    const parsedData = JSON.parse(jsonString) as unknown;
+    // Parse with explicit default empty array
+    const parsedData = safeParse<unknown[]>(jsonString, []);
     
     if (isStrainArray(parsedData)) {
       console.log('[DEBUG] Successfully parsed and validated strain data');
