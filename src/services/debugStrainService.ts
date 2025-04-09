@@ -43,6 +43,7 @@ export const testDirectQuery = async () => {
   try {
     console.log('[DEBUG] Testing direct query');
     
+    // Using proper typing for the function call
     const { data, error } = await supabase.rpc('get_strain_count');
     
     console.log('[DEBUG] Direct query result:', { data, error });
@@ -59,7 +60,7 @@ export const testDirectQuery = async () => {
  */
 export const getSupabaseInfo = () => {
   return {
-    url: supabase.supabaseUrl,
+    url: 'Using Supabase client',
     clientVersion: '@supabase/supabase-js',
     timestamp: new Date().toISOString()
   };

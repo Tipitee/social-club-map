@@ -18,7 +18,7 @@
     --primary-foreground: 210 40% 98%;
 
     --secondary: 271 59% 47%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -101,7 +101,7 @@
 
 @layer components {
   .effect-bar {
-    @apply w-full h-2 bg-gray-700 rounded-full overflow-hidden relative mb-1;
+    @apply w-full h-2 bg-gray-800 rounded-full overflow-hidden relative mb-1;
   }
   
   .effect-indicator {
@@ -109,15 +109,15 @@
   }
 
   .thc-bar {
-    @apply w-full h-3 bg-gray-700 rounded-full overflow-hidden relative;
+    @apply w-full h-3 bg-gray-800 rounded-full overflow-hidden relative;
   }
   
   .thc-indicator {
-    @apply h-full absolute left-0 top-0 bg-primary;
+    @apply h-full absolute left-0 top-0 bg-emerald-500;
   }
 
   .strain-card {
-    @apply bg-card rounded-xl shadow-lg overflow-hidden border border-gray-800 transition-transform hover:scale-[1.02];
+    @apply bg-gray-900 rounded-xl shadow-lg overflow-hidden border border-gray-700 transition-transform hover:scale-[1.02];
   }
 
   .strain-image-container {
@@ -129,15 +129,15 @@
   }
   
   .type-indicator-Indica {
-    @apply bg-purple-800 text-white;
+    @apply bg-purple-600 text-white;
   }
   
   .type-indicator-Sativa {
-    @apply bg-yellow-600 text-white;
+    @apply bg-amber-500 text-white;
   }
   
   .type-indicator-Hybrid {
-    @apply bg-green-600 text-white;
+    @apply bg-emerald-500 text-white;
   }
 
   .strain-content {

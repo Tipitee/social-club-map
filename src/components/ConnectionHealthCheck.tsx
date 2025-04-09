@@ -108,11 +108,9 @@ export const ConnectionHealthCheck: React.FC = () => {
   }, []);
 
   const getBadgeColor = () => {
-    if (status.isLoading) return "bg-secondary text-secondary-foreground";
-    if (!status.success) return "bg-destructive text-destructive-foreground";
-    return status.count && status.count > 0 
-      ? "bg-green-500 text-white" 
-      : "bg-yellow-500 text-white";
+    if (status.isLoading) return "loading";
+    if (!status.success) return "error";
+    return status.count && status.count > 0 ? "success" : "warning";
   };
 
   return (
@@ -120,17 +118,19 @@ export const ConnectionHealthCheck: React.FC = () => {
       <div className="flex items-center space-x-2">
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${getBadgeColor()} cursor-pointer`}>
-              {status.isLoading ? (
-                <RefreshCw className="h-3 w-3 animate-spin mr-1" />
-              ) : status.success ? (
-                <CheckCircle2 className="h-3 w-3 mr-1" />
-              ) : (
-                <AlertCircle className="h-3 w-3 mr-1" />
-              )}
-              {status.success 
-                ? `DB (${status.count || 0} strain${status.count === 1 ? '' : 's'})` 
-                : "DB Connection"}
+            <span className="cursor-pointer">
+              <Badge variant={getBadgeColor()}>
+                {status.isLoading ? (
+                  <RefreshCw className="h-3 w-3 animate-spin mr-1" />
+                ) : status.success ? (
+                  <CheckCircle2 className="h-3 w-3 mr-1" />
+                ) : (
+                  <AlertCircle className="h-3 w-3 mr-1" />
+                )}
+                {status.success 
+                  ? `DB (${status.count || 0} strain${status.count === 1 ? '' : 's'})` 
+                  : "DB Connection"}
+              </Badge>
             </span>
           </TooltipTrigger>
           <TooltipContent className="max-w-xs">
@@ -153,8 +153,8 @@ export const ConnectionHealthCheck: React.FC = () => {
               {status.debugMode && (
                 <div className="mt-2 space-y-1 text-xs">
                   <p className="font-semibold">Debug Info:</p>
-                  <p>Supabase URL: {supabase.supabaseUrl}</p>
-                  <p>Auth Status: {supabase.auth.session() ? 'Logged in' : 'Anonymous'}</p>
+                  <p>Connection Config: Present</p>
+                  <p>Auth Status: {supabase.auth ? 'Initialized' : 'Not initialized'}</p>
                   <p>Raw Data: {status.rawData?.success ? `Found ${status.rawData.data?.length || 0} records` : 'No raw data'}</p>
                 </div>
               )}

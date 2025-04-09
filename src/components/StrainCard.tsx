@@ -13,10 +13,10 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
       case "Indica":
         return <Cannabis className="h-12 w-12 text-purple-400" />;
       case "Sativa":
-        return <Sun className="h-12 w-12 text-yellow-400" />;
+        return <Sun className="h-12 w-12 text-amber-400" />;
       case "Hybrid":
       default:
-        return <Circle className="h-12 w-12 text-green-400" />;
+        return <Circle className="h-12 w-12 text-emerald-400" />;
     }
   };
 
@@ -29,6 +29,15 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
       case "Hybrid":
       default:
         return "type-indicator-Hybrid";
+    }
+  };
+
+  const getEffectColor = (index: number) => {
+    switch (index) {
+      case 0: return 'bg-emerald-500'; // Primary effect
+      case 1: return 'bg-purple-500';  // Secondary effect
+      case 2: return 'bg-amber-500';   // Tertiary effect
+      default: return 'bg-blue-500';   // Other effects
     }
   };
 
@@ -96,8 +105,8 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                     className="effect-indicator" 
                     style={{ 
                       width: `${effect.intensity}%`,
-                      backgroundColor: index === 0 ? '#4CAF50' : 
-                                      index === 1 ? '#673AB7' : '#FFC107'  
+                      backgroundColor: index === 0 ? '#10b981' : 
+                                      index === 1 ? '#8b5cf6' : '#f59e0b'  
                     }}
                   />
                 </div>

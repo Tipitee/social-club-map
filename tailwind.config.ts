@@ -62,6 +62,11 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				strain: {
+					indica: '#9333ea', // purple-600
+					sativa: '#f59e0b', // amber-500
+					hybrid: '#10b981', // emerald-500
 				}
 			},
 			borderRadius: {
