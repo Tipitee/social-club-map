@@ -20,4 +20,6 @@ export type StrainFilters = {
   type: string | null;
   thcRange: [number, number];
   effect: string | null;
+  terpene: string | null;
+  sort: 'name' | 'thc_high' | 'thc_low';
 };

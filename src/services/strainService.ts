@@ -15,7 +15,7 @@ export const fetchStrains = async (): Promise<Strain[]> => {
 
     // Transform the data to match our Strain type
     return (data || []).map(item => ({
-      id: item.id || String(Math.random()),
+      id: item.name.toLowerCase().replace(/\s+/g, '-') || String(Math.random()), // Generate ID from name
       name: item.name,
       img_url: item.img_url,
       type: item.type as 'Indica' | 'Sativa' | 'Hybrid',
@@ -50,6 +50,24 @@ export const getAllEffects = async (): Promise<string[]> => {
     return Array.from(effectsSet).sort();
   } catch (error) {
     console.error('Error getting effects:', error);
+    return [];
+  }
+};
+
+export const getTerpenes = async (): Promise<string[]> => {
+  try {
+    const strains = await fetchStrains();
+    const terpenesSet = new Set<string>();
+    
+    strains.forEach(strain => {
+      if (strain.most_common_terpene) {
+        terpenesSet.add(strain.most_common_terpene);
+      }
+    });
+    
+    return Array.from(terpenesSet).sort();
+  } catch (error) {
+    console.error('Error getting terpenes:', error);
     return [];
   }
 };

@@ -5,7 +5,8 @@ import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
 import StrainCard from "@/components/StrainCard";
 import StrainFilters from "@/components/StrainFilters";
 import { useToast } from "@/components/ui/use-toast";
-import { Filter } from "lucide-react";
+import { Filter, ArrowDown } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 const StrainExplorer: React.FC = () => {
   const [strains, setStrains] = useState<Strain[]>([]);
@@ -18,6 +19,8 @@ const StrainExplorer: React.FC = () => {
     type: null,
     thcRange: [0, 30],
     effect: null,
+    terpene: null,
+    sort: 'name',
   });
 
   useEffect(() => {
@@ -65,6 +68,32 @@ const StrainExplorer: React.FC = () => {
       );
     }
 
+    // Filter by terpene
+    if (filters.terpene) {
+      result = result.filter((strain) =>
+        strain.most_common_terpene === filters.terpene
+      );
+    }
+
+    // Apply sorting
+    if (filters.sort === 'name') {
+      result.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (filters.sort === 'thc_high') {
+      result.sort((a, b) => {
+        // Handle nulls by putting them at the end
+        if (a.thc_level === null) return 1;
+        if (b.thc_level === null) return -1;
+        return b.thc_level - a.thc_level;
+      });
+    } else if (filters.sort === 'thc_low') {
+      result.sort((a, b) => {
+        // Handle nulls by putting them at the end
+        if (a.thc_level === null) return 1;
+        if (b.thc_level === null) return -1;
+        return a.thc_level - b.thc_level;
+      });
+    }
+
     setFilteredStrains(result);
   }, [filters, strains]);
 
@@ -76,10 +105,30 @@ const StrainExplorer: React.FC = () => {
     setShowFilters(!showFilters);
   };
 
+  const renderNoResults = () => (
+    <Card className="bg-card p-8 rounded-xl text-center border border-gray-800">
+      <CardContent className="pt-6">
+        <h3 className="text-xl font-semibold mb-2">No strains found</h3>
+        <p className="text-gray-400">
+          Try adjusting your filters to see more results.
+        </p>
+      </CardContent>
+    </Card>
+  );
+
+  const renderLoader = () => (
+    <div className="flex justify-center items-center h-64">
+      <div className="text-center">
+        <div className="w-8 h-8 border-4 border-t-primary rounded-full animate-spin mx-auto"></div>
+        <p className="mt-2 text-gray-400">Loading strains...</p>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="container px-4 py-6">
+    <div className="container px-4 py-6 pb-20">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Strain Explorer</h1>
+        <h1 className="text-3xl font-bold text-white">Strain Explorer</h1>
         <button
           onClick={toggleFilters}
           className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-secondary text-white text-sm"
@@ -94,32 +143,31 @@ const StrainExplorer: React.FC = () => {
         <div className={`${showFilters ? "block" : "hidden"} lg:block`}>
           <StrainFilters 
             filters={filters} 
-            onFilterChange={handleFilterChange} 
+            onFilterChange={handleFilterChange}
+            totalStrains={strains.length}
+            filteredCount={filteredStrains.length}
           />
         </div>
 
         {/* Strains Grid */}
         <div className="lg:col-span-3">
           {loading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="text-center">
-                <div className="w-8 h-8 border-4 border-t-primary rounded-full animate-spin mx-auto"></div>
-                <p className="mt-2 text-gray-400">Loading strains...</p>
+            renderLoader()
+          ) : filteredStrains.length > 0 ? (
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <p className="text-sm text-gray-400">
+                  Found {filteredStrains.length} strain{filteredStrains.length !== 1 ? 's' : ''}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredStrains.map((strain) => (
+                  <StrainCard key={strain.id} strain={strain} />
+                ))}
               </div>
             </div>
-          ) : filteredStrains.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredStrains.map((strain) => (
-                <StrainCard key={strain.id} strain={strain} />
-              ))}
-            </div>
           ) : (
-            <div className="bg-card p-8 rounded-xl text-center border border-gray-800">
-              <h3 className="text-xl font-semibold mb-2">No strains found</h3>
-              <p className="text-gray-400">
-                Try adjusting your filters to see more results.
-              </p>
-            </div>
+            renderNoResults()
           )}
         </div>
       </div>
