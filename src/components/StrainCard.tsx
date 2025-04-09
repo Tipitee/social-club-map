@@ -15,9 +15,8 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
       case "Sativa":
         return <Sun className="h-12 w-12 text-yellow-400" />;
       case "Hybrid":
-        return <Circle className="h-12 w-12 text-green-400" />;
       default:
-        return null;
+        return <Circle className="h-12 w-12 text-green-400" />;
     }
   };
 
@@ -28,9 +27,8 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
       case "Sativa":
         return "type-indicator-Sativa";
       case "Hybrid":
-        return "type-indicator-Hybrid";
       default:
-        return "";
+        return "type-indicator-Hybrid";
     }
   };
 
@@ -57,7 +55,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         <h3 className="strain-title">{strain.name}</h3>
         
         <div className="mt-2">
-          {strain.thc_level ? (
+          {strain.thc_level !== null && strain.thc_level !== undefined ? (
             <>
               <div className="flex justify-between text-sm mb-1">
                 <span>THC:</span>
@@ -66,7 +64,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               <div className="thc-bar">
                 <div 
                   className="thc-indicator" 
-                  style={{ width: `${Math.min(100, (strain.thc_level / 30) * 100)}%` }}
+                  style={{ width: `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` }}
                 />
               </div>
             </>
@@ -76,32 +74,40 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         </div>
         
         <div className="strain-effects">
-          {strain.effects.map((effect, index) => (
-            effect.effect && effect.intensity > 0 ? (
-              <div key={index}>
-                <div className="flex justify-between text-xs mb-1">
-                  <span>{effect.effect}</span>
-                  <span>{effect.intensity}%</span>
+          {strain.effects && strain.effects.length > 0 ? (
+            strain.effects.map((effect, index) => (
+              effect && effect.effect && effect.intensity > 0 ? (
+                <div key={`${effect.effect}-${index}`}>
+                  <div className="flex justify-between text-xs mb-1">
+                    <span>{effect.effect}</span>
+                    <span>{effect.intensity}%</span>
+                  </div>
+                  <div className="effect-bar">
+                    <div 
+                      className="effect-indicator" 
+                      style={{ 
+                        width: `${effect.intensity}%`,
+                        backgroundColor: index === 0 ? '#4CAF50' : 
+                                        index === 1 ? '#673AB7' : '#FFC107'  
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="effect-bar">
-                  <div 
-                    className="effect-indicator" 
-                    style={{ 
-                      width: `${effect.intensity}%`,
-                      backgroundColor: index === 0 ? '#4CAF50' : 
-                                      index === 1 ? '#673AB7' : '#FFC107'  
-                    }}
-                  />
-                </div>
-              </div>
-            ) : null
-          ))}
+              ) : null
+            ))
+          ) : (
+            <p className="text-gray-400 text-xs mt-2">No effects data available</p>
+          )}
         </div>
         
-        {strain.most_common_terpene && (
+        {strain.most_common_terpene ? (
           <div className="mt-3">
             <span className="text-xs text-gray-400">Dominant Terpene:</span>
             <span className="ml-1 text-sm font-medium">{strain.most_common_terpene}</span>
+          </div>
+        ) : (
+          <div className="mt-3">
+            <span className="text-xs text-gray-400">Terpene data unavailable</span>
           </div>
         )}
       </div>

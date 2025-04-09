@@ -1,3 +1,4 @@
+
 import { Strain, StrainEffect } from "../types/strain";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -51,52 +52,58 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
       return [];
     }
 
-    console.log('[DEBUG] Raw data from Supabase (first item):', data.length > 0 ? data[0] : 'No items');
+    console.log('[DEBUG] Raw data from Supabase, count:', data.length);
+    console.log('[DEBUG] First item sample:', data.length > 0 ? JSON.stringify(data[0]) : 'No items');
     
-    // Transform the data to match our Strain type
+    // Transform the data to match our Strain type with safe parsing
     return data.map(item => {
-      // Parse THC level from string to number if needed
+      // Parse THC level safely
       let thcLevel = null;
-      if (item.thc_level !== null) {
+      if (item.thc_level !== null && item.thc_level !== undefined) {
         thcLevel = typeof item.thc_level === 'string' 
-          ? parseFloat(item.thc_level) 
-          : item.thc_level;
+          ? parseFloat(item.thc_level) || null
+          : typeof item.thc_level === 'number' ? item.thc_level : null;
       }
 
-      // Create effects array from individual effect fields
+      // Safely create effects array from individual effect fields
       const effects: StrainEffect[] = [];
-      if (item.top_effect && item.top_percent) {
+      
+      // Helper function to safely parse percentage values
+      const safeParsePercent = (value: string | null | undefined): number => {
+        if (value === null || value === undefined) return 0;
+        const parsed = typeof value === 'string' ? parseInt(value, 10) : value;
+        return isNaN(parsed) ? 0 : parsed;
+      };
+      
+      // Safely add top effect if both name and percent exist
+      if (item.top_effect) {
         effects.push({ 
           effect: item.top_effect, 
-          intensity: typeof item.top_percent === 'string' 
-            ? parseInt(item.top_percent, 10) || 0 
-            : item.top_percent || 0 
+          intensity: safeParsePercent(item.top_percent)
         });
       }
       
-      if (item.second_effect && item.second_percent) {
+      // Safely add second effect if it exists
+      if (item.second_effect) {
         effects.push({ 
           effect: item.second_effect, 
-          intensity: typeof item.second_percent === 'string' 
-            ? parseInt(item.second_percent, 10) || 0 
-            : item.second_percent || 0 
+          intensity: safeParsePercent(item.second_percent)
         });
       }
       
-      if (item.third_effect && item.third_percent) {
+      // Safely add third effect if it exists
+      if (item.third_effect) {
         effects.push({ 
-          effect: item.third_effect, 
-          intensity: typeof item.third_percent === 'string' 
-            ? parseInt(item.third_percent, 10) || 0 
-            : item.third_percent || 0 
+          effect: item.third_effect,
+          intensity: safeParsePercent(item.third_percent)
         });
       }
 
       return {
         id: item.name ? item.name.toLowerCase().replace(/\s+/g, '-') : crypto.randomUUID(),
-        name: item.name,
+        name: item.name || 'Unknown Strain',
         img_url: item.img_url,
-        type: item.type as 'Indica' | 'Sativa' | 'Hybrid',
+        type: (item.type || 'Hybrid') as 'Indica' | 'Sativa' | 'Hybrid',
         thc_level: thcLevel,
         most_common_terpene: item.most_common_terpene,
         description: item.description,
@@ -119,7 +126,7 @@ export const testStrainsConnection = async (): Promise<HealthCheckResult> => {
   try {
     console.log('[DEBUG] Testing strains connection');
     // Use count: 'exact' to get the actual count of records
-    const { data, error, count } = await supabase
+    const { count, error } = await supabase
       .from('strains')
       .select('*', { count: 'exact', head: true });
     

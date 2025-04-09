@@ -64,7 +64,9 @@ export const ConnectionHealthCheck: React.FC = () => {
               ) : (
                 <AlertCircle className="h-3 w-3 mr-1" />
               )}
-              {status.success ? `DB (${status.count} strains)` : "DB Connection"}
+              {status.success 
+                ? `DB (${status.count || 0} strains)` 
+                : "DB Connection"}
             </span>
           </TooltipTrigger>
           <TooltipContent>
