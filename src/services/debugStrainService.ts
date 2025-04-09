@@ -8,6 +8,8 @@ export interface RawStrainData {
 
 /**
  * Function to check if data is a Strain array
+ * @param data - Any data that needs validation
+ * @returns Boolean indicating if the data is a Strain array
  */
 function isStrainArray(data: unknown): data is Strain[] {
   return Array.isArray(data) && data.every(item => 
@@ -15,6 +17,18 @@ function isStrainArray(data: unknown): data is Strain[] {
     item !== null && 
     'name' in item
   );
+}
+
+/**
+ * Validates individual strain data against expected shape
+ * @param strain - Potentially a strain object
+ * @returns Boolean indicating if the data matches expected Strain shape
+ */
+function isValidStrain(strain: unknown): strain is Strain {
+  return typeof strain === 'object' && 
+         strain !== null &&
+         'name' in strain && 
+         typeof (strain as any).name === 'string';
 }
 
 /**
@@ -41,6 +55,12 @@ export const fetchRawStrains = async () => {
       return { success: false, data: null, error };
     }
 
+    // Validate data shape
+    if (!Array.isArray(data)) {
+      console.error('[DEBUG] Invalid data format, expected array:', data);
+      return { success: false, data: null, error: new Error('Invalid data format') };
+    }
+
     return { success: true, data, error: null };
   } catch (e) {
     console.error('[DEBUG] Exception in raw fetch:', e);
@@ -64,6 +84,28 @@ export const testDirectQuery = async () => {
   } catch (e) {
     console.error('[DEBUG] Exception in direct query:', e);
     return { success: false, data: null, error: e };
+  }
+};
+
+/**
+ * Safely parses and validates JSON string as Strain data
+ * @param jsonString - JSON string to parse
+ * @returns Validated Strain array or null if invalid
+ */
+export const parseStrainData = (jsonString: string): Strain[] | null => {
+  try {
+    const parsedData = JSON.parse(jsonString);
+    
+    if (isStrainArray(parsedData)) {
+      console.log('[DEBUG] Successfully parsed and validated strain data');
+      return parsedData;
+    } else {
+      console.error('[DEBUG] Data failed strain array validation:', parsedData);
+      return null;
+    }
+  } catch (e) {
+    console.error('[DEBUG] JSON parse error:', e);
+    return null;
   }
 };
 

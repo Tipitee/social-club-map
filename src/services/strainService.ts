@@ -1,4 +1,3 @@
-
 import { Strain, StrainEffect } from "../types/strain";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -24,8 +23,18 @@ export interface HealthCheckResult {
 export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name'): Promise<Strain[]> => {
   try {
     console.log('[DEBUG] Starting strain fetch with sort:', sort);
-    // Use a safer way to access the URL
-    const supabaseUrl = (supabase as any).restUrl?.replace('/rest/v1', '') || 'https://default-url.supabase.co';
+    
+    // Use safer approach to get URL for logging
+    let supabaseUrl = "https://database-url.supabase.co";
+    try {
+      // Try to get URL using modern method
+      if (supabase.getUrl) {
+        supabaseUrl = supabase.getUrl();
+      }
+    } catch (e) {
+      console.warn('[DEBUG] Could not get Supabase URL using modern method:', e);
+    }
+    
     console.log('[DEBUG] Supabase URL being used:', supabaseUrl);
     
     // Determine sort order
