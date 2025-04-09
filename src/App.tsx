@@ -7,7 +7,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import StrainExplorer from "./pages/StrainExplorer";
 import ClubMap from "./pages/ClubMap";
 import NotFound from "./pages/NotFound";
-import Navbar from "./components/Navbar";
+import Journal from "./pages/Journal";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import BottomNav from "./components/BottomNav";
 
 const queryClient = new QueryClient();
 
@@ -18,14 +21,17 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <div className="min-h-screen bg-[#121212] text-white">
-          <Navbar />
           <main>
             <Routes>
               <Route path="/" element={<StrainExplorer />} />
               <Route path="/clubs" element={<ClubMap />} />
+              <Route path="/journal" element={<Journal />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
+          <BottomNav />
         </div>
       </BrowserRouter>
     </TooltipProvider>

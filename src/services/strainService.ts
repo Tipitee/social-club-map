@@ -1,112 +1,55 @@
 
 import { Strain } from "../types/strain";
+import { supabase } from "@/integrations/supabase/client";
 
-// This is mock data to simulate data from Supabase
-export const mockStrains: Strain[] = [
-  {
-    id: "1",
-    name: "Northern Lights",
-    img_url: "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843",
-    type: "Indica",
-    thc_level: 18.5,
-    most_common_terpene: "Myrcene",
-    description: "A classic indica known for its relaxing effects and sweet, spicy flavor profile.",
-    effects: [
-      { effect: "Relaxed", intensity: 85 },
-      { effect: "Sleepy", intensity: 70 },
-      { effect: "Happy", intensity: 60 }
-    ]
-  },
-  {
-    id: "2",
-    name: "Sour Diesel",
-    img_url: null,
-    type: "Sativa",
-    thc_level: 22.1,
-    most_common_terpene: "Limonene",
-    description: "Energizing sativa with a pungent diesel-like aroma and uplifting effects.",
-    effects: [
-      { effect: "Energetic", intensity: 80 },
-      { effect: "Creative", intensity: 75 },
-      { effect: "Focused", intensity: 65 }
-    ]
-  },
-  {
-    id: "3",
-    name: "Blue Dream",
-    img_url: "https://images.unsplash.com/photo-1500673922987-e212871fec22",
-    type: "Hybrid",
-    thc_level: 20.0,
-    most_common_terpene: null,
-    description: null,
-    effects: [
-      { effect: "Relaxed", intensity: 70 },
-      { effect: "Creative", intensity: 65 },
-      { effect: "", intensity: 0 }
-    ]
-  },
-  {
-    id: "4",
-    name: "Granddaddy Purple",
-    img_url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    type: "Indica",
-    thc_level: null,
-    most_common_terpene: "Pinene",
-    description: "A potent indica with deep purple hues and grape-like flavor and aroma.",
-    effects: [
-      { effect: "Relaxed", intensity: 90 },
-      { effect: "Sleepy", intensity: 85 },
-      { effect: "Hungry", intensity: 60 }
-    ]
-  },
-  {
-    id: "5",
-    name: "Green Crack",
-    img_url: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9",
-    type: "Sativa",
-    thc_level: 19.3,
-    most_common_terpene: "Caryophyllene",
-    description: "Invigorating sativa strain noted for its sharp energy and focus effects.",
-    effects: [
-      { effect: "Focused", intensity: 85 },
-      { effect: "Energetic", intensity: 80 },
-      { effect: "", intensity: 0 }
-    ]
-  },
-  {
-    id: "6",
-    name: "Wedding Cake",
-    img_url: null,
-    type: "Hybrid",
-    thc_level: 25.0,
-    most_common_terpene: "Limonene",
-    description: "A potent hybrid with a sweet, rich flavor profile and relaxing effects.",
-    effects: [
-      { effect: "Relaxed", intensity: 75 },
-      { effect: "Happy", intensity: 70 },
-      { effect: "Euphoric", intensity: 65 }
-    ]
-  },
-];
+export const fetchStrains = async (): Promise<Strain[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('strains')
+      .select('*');
+    
+    if (error) {
+      console.error('Error fetching strains:', error);
+      throw new Error(error.message);
+    }
 
-export const fetchStrains = (): Promise<Strain[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockStrains);
-    }, 500);
-  });
+    // Transform the data to match our Strain type
+    return (data || []).map(item => ({
+      id: item.id || String(Math.random()),
+      name: item.name,
+      img_url: item.img_url,
+      type: item.type as 'Indica' | 'Sativa' | 'Hybrid',
+      thc_level: parseFloat(item.thc_level) || null,
+      most_common_terpene: item.most_common_terpene,
+      description: item.description,
+      effects: item.effects || [
+        { effect: item.top_effect, intensity: parseInt(item.top_percent) || 0 },
+        { effect: item.second_effect, intensity: parseInt(item.second_percent) || 0 },
+        { effect: item.third_effect, intensity: parseInt(item.third_percent) || 0 }
+      ].filter(e => e.effect && e.intensity > 0)
+    }));
+  } catch (error) {
+    console.error('Error in fetchStrains:', error);
+    return [];
+  }
 };
 
-export const getAllEffects = (): string[] => {
-  const effectsSet = new Set<string>();
-  
-  mockStrains.forEach(strain => {
-    strain.effects.forEach(effect => {
-      if (effect.effect && effect.intensity > 0) {
-        effectsSet.add(effect.effect);
-      }
+export const getAllEffects = async (): Promise<string[]> => {
+  try {
+    const strains = await fetchStrains();
+    const effectsSet = new Set<string>();
+    
+    strains.forEach(strain => {
+      strain.effects.forEach(effect => {
+        if (effect.effect && effect.intensity > 0) {
+          effectsSet.add(effect.effect);
+        }
+      });
     });
-  });
-  
-  return Array.from(effectsSet).sort();
+    
+    return Array.from(effectsSet).sort();
+  } catch (error) {
+    console.error('Error getting effects:', error);
+    return [];
+  }
 };
