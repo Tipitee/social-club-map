@@ -37,49 +37,66 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
       ascending = true;
     }
     
+    // Execute the query with full logging
+    console.log('[DEBUG] Executing strain query with params:', { column, ascending });
     const { data, error } = await supabase
       .from('strains')
       .select('*')
       .order(column, { ascending });
     
+    // Enhanced error handling
     if (error) {
-      console.error('[DEBUG] Supabase error:', error);
+      console.error('[DEBUG] Supabase query error:', error);
       throw new StrainServiceError(`Error fetching strains: ${error.message}`, error);
     }
 
+    // Check for null or empty data
     if (!data) {
       console.log('[DEBUG] No data returned from Supabase');
       return [];
     }
 
-    console.log('[DEBUG] Raw data from Supabase, count:', data.length);
-    if (data.length > 0) {
-      console.log('[DEBUG] First item sample:', JSON.stringify(data[0]));
-    } else {
-      console.log('[DEBUG] No items returned from Supabase');
-    }
+    // Log the raw response
+    console.log('[DEBUG] Raw data from Supabase:', {
+      count: data.length,
+      firstItem: data.length > 0 ? data[0] : null
+    });
     
     // Transform the data to match our Strain type with safe parsing
-    return data.map(item => {
-      // Parse THC level safely
-      let thcLevel = null;
+    const transformedStrains = data.map(item => {
+      // Handle missing name by generating a unique ID
+      const name = item.name || 'Unknown Strain';
+      const id = name.toLowerCase().replace(/\s+/g, '-');
+      
+      // Parse THC level safely - handle both string and number types
+      let thcLevel: number | null = null;
       if (item.thc_level !== null && item.thc_level !== undefined) {
         thcLevel = typeof item.thc_level === 'string' 
-          ? parseFloat(item.thc_level) || null
-          : typeof item.thc_level === 'number' ? item.thc_level : null;
+          ? parseFloat(item.thc_level) || null  // Convert string to number or null if NaN
+          : typeof item.thc_level === 'number' 
+            ? item.thc_level 
+            : null;
       }
 
       // Helper function to safely parse percentage values
       const safeParsePercent = (value: string | number | null | undefined): number => {
         if (value === null || value === undefined) return 0;
-        const parsed = typeof value === 'string' ? parseInt(value, 10) : value;
-        return isNaN(parsed) ? 0 : parsed;
+        if (typeof value === 'string') {
+          // Try to parse as integer first
+          const parsedInt = parseInt(value, 10);
+          if (!isNaN(parsedInt)) return parsedInt;
+          
+          // If that fails, try parsing as float
+          const parsedFloat = parseFloat(value);
+          return isNaN(parsedFloat) ? 0 : parsedFloat;
+        }
+        return typeof value === 'number' ? value : 0;
       };
       
       // Safely create effects array from individual effect fields
       const effects: StrainEffect[] = [];
       
-      // Safely add top effect if both name and percent exist
+      // Add effects only if they exist
       if (item.top_effect) {
         effects.push({ 
           effect: item.top_effect, 
@@ -87,7 +104,6 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
         });
       }
       
-      // Safely add second effect if it exists
       if (item.second_effect) {
         effects.push({ 
           effect: item.second_effect, 
@@ -95,7 +111,6 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
         });
       }
       
-      // Safely add third effect if it exists
       if (item.third_effect) {
         effects.push({ 
           effect: item.third_effect,
@@ -103,17 +118,25 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
         });
       }
 
+      // Create the strain object with safe defaults
       return {
-        id: item.name ? item.name.toLowerCase().replace(/\s+/g, '-') : crypto.randomUUID(),
-        name: item.name || 'Unknown Strain',
-        img_url: item.img_url,
+        id: id || crypto.randomUUID(), // Ensure we always have an ID
+        name,
+        img_url: item.img_url || null,
         type: (item.type || 'Hybrid') as 'Indica' | 'Sativa' | 'Hybrid',
         thc_level: thcLevel,
-        most_common_terpene: item.most_common_terpene,
-        description: item.description,
-        effects: effects
+        most_common_terpene: item.most_common_terpene || null,
+        description: item.description || null,
+        effects
       };
     });
+    
+    console.log('[DEBUG] Transformed strains:', {
+      count: transformedStrains.length,
+      firstItem: transformedStrains.length > 0 ? transformedStrains[0] : null
+    });
+    
+    return transformedStrains;
   } catch (error) {
     console.error('[DEBUG] Error in fetchStrains:', error);
     if (error instanceof StrainServiceError) {
@@ -129,7 +152,8 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
 export const testStrainsConnection = async (): Promise<HealthCheckResult> => {
   try {
     console.log('[DEBUG] Testing strains connection');
-    // Use count: 'exact' to get the actual count of records
+    
+    // Using count to get exact count of records
     const { count, error } = await supabase
       .from('strains')
       .select('*', { count: 'exact', head: true });
@@ -138,36 +162,66 @@ export const testStrainsConnection = async (): Promise<HealthCheckResult> => {
       console.error('[DEBUG] Connection test error:', error);
       return {
         success: false,
-        message: `Connection failed: ${error.message}`
+        message: `Connection failed: ${error.message}`,
+        count: 0
       };
     }
     
-    console.log('[DEBUG] Connection test successful, count:', count);
+    // Additional validation query to make sure we can actually fetch data
+    const { data: sampleData, error: sampleError } = await supabase
+      .from('strains')
+      .select('name')
+      .limit(1);
+      
+    const recordsExist = Array.isArray(sampleData) && sampleData.length > 0;
+    
+    console.log('[DEBUG] Connection test results:', { 
+      count, 
+      error,
+      sampleQuery: {
+        success: !sampleError,
+        recordsExist,
+        error: sampleError
+      }
+    });
+    
+    if (sampleError) {
+      return {
+        success: false,
+        message: `Connection successful but data fetch failed: ${sampleError.message}`,
+        count: count || 0
+      };
+    }
+    
     return {
       success: true,
-      message: 'Connection successful',
+      message: `Connection successful${recordsExist ? ' with data' : ''}`,
       count: count || 0
     };
   } catch (error) {
     console.error('[DEBUG] Connection test exception:', error);
     return {
       success: false,
-      message: `Connection test error: ${error instanceof Error ? error.message : String(error)}`
+      message: `Connection test error: ${error instanceof Error ? error.message : String(error)}`,
+      count: 0
     };
   }
 };
 
+// Helper functions
 export const getAllEffects = async (): Promise<string[]> => {
   try {
     const strains = await fetchStrains();
     const effectsSet = new Set<string>();
     
     strains.forEach(strain => {
-      strain.effects.forEach(effect => {
-        if (effect.effect && effect.intensity > 0) {
-          effectsSet.add(effect.effect);
-        }
-      });
+      if (strain.effects && Array.isArray(strain.effects)) {
+        strain.effects.forEach(effect => {
+          if (effect && effect.effect && effect.intensity > 0) {
+            effectsSet.add(effect.effect);
+          }
+        });
+      }
     });
     
     return Array.from(effectsSet).sort();
