@@ -101,7 +101,7 @@ export const testDirectQuery = async () => {
  */
 export const parseStrainData = (jsonString: string): Strain[] | null => {
   try {
-    const parsedData = safeParse<unknown[]>(jsonString, []);
+    const parsedData = safeParse<Strain[]>(jsonString, []);
     
     if (isStrainArray(parsedData)) {
       console.log('[DEBUG] Successfully parsed and validated strain data');

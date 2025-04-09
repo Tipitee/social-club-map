@@ -30,7 +30,6 @@ export type RawStrainData = {
   second_percent?: string | null;
   third_effect?: string | null;
   third_percent?: string | null;
-  [key: string]: any;
 };
 
 export type StrainFilters = {
