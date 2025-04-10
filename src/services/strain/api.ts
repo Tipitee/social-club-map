@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { Strain } from "@/types/strain";
 import { transformStrainData } from "./transformers";
@@ -14,8 +15,9 @@ export interface Result<T> {
   error?: Error;
 }
 
-// Define a simple type for the insert data to avoid complex type recursion
-export type StrainInsertData = {
+// Define a simple standalone type for the insert data
+// We define it inline here to avoid the duplicate export issue
+type SimpleStrainInsertData = {
   name: string;
   type: 'Indica' | 'Sativa' | 'Hybrid' | null;
   thc_level: number | null;
@@ -256,8 +258,9 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
       // Get effects data in a simplified way
       const effects = strainData.effects || [];
       
-      // Create a clean StrainInsertData object without complex nesting
-      const insertData: StrainInsertData = {
+      // Create a clean insert data object without complex nesting
+      // Using a simple object literal instead of complex type instantiation
+      const insertData = {
         name: strainData.name,
         type: strainData.type || 'Hybrid',
         thc_level: strainData.thc_level || null,

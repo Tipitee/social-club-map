@@ -1,9 +1,10 @@
 
-// Re-export everything from individual modules
-export * from './api';
-export * from './errors';
-export * from './transformers';
-export * from './validation';
+// Export specific members from individual modules to avoid duplicates
+export { fetchStrains, fetchStrainById, getAllEffects, getTerpenes, testStrainsConnection, upsertStrain } from './api';
+export { Result } from './api';
+export { StrainServiceError } from './errors';
+export { transformStrainData, safeNumberConversion, safeJsonParse } from './transformers';
+export { strainInsertSchema, StrainSchema, StrainCreateSchema, StrainUpdateSchema } from './validation';
 
 // Add mock strains for debug purposes
 import { Strain } from "@/types/strain";
@@ -39,6 +40,3 @@ export const mockStrains: Strain[] = [
     ],
   }
 ];
-
-// This index file allows imports like:
-// import { fetchStrains, transformStrainData } from '@/services/strain';
