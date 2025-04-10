@@ -56,7 +56,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
           <img
             src={strain.img_url}
             alt={strain.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover object-center scale-50 transform-gpu group-hover:scale-[0.55] transition-transform duration-500"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.style.display = 'none';

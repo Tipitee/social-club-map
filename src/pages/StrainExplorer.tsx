@@ -1,24 +1,15 @@
-
 import React, { useState, useEffect } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
 import StrainCard from "@/components/StrainCard";
 import StrainFilters from "@/components/StrainFilters";
 import { useToast } from "@/components/ui/use-toast";
-import { Filter, ArrowDown, X, Loader2 } from "lucide-react";
+import { Filter, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 
 const StrainExplorer: React.FC = () => {
   const [strains, setStrains] = useState<Strain[]>([]);
@@ -40,7 +31,7 @@ const StrainExplorer: React.FC = () => {
     search: '',
   });
 
-  const strainsPerPage = 20; // Changed to show more results per page
+  const strainsPerPage = 20;
 
   useEffect(() => {
     const loadStrains = async () => {
@@ -74,7 +65,6 @@ const StrainExplorer: React.FC = () => {
   useEffect(() => {
     let result = [...strains];
 
-    // Search filter
     if (filters.search) {
       const searchTerm = filters.search.toLowerCase();
       result = result.filter(strain => 
@@ -83,12 +73,10 @@ const StrainExplorer: React.FC = () => {
       );
     }
 
-    // Filter by type
     if (filters.type) {
       result = result.filter((strain) => strain.type === filters.type);
     }
 
-    // Filter by THC range
     result = result.filter(
       (strain) => 
         !strain.thc_level || 
@@ -96,7 +84,6 @@ const StrainExplorer: React.FC = () => {
          strain.thc_level <= filters.thcRange[1])
     );
 
-    // Filter by effect
     if (filters.effect) {
       result = result.filter((strain) =>
         strain.effects.some(
@@ -104,7 +91,6 @@ const StrainExplorer: React.FC = () => {
         )
       );
       
-      // Sort by effect intensity from lowest to highest
       result.sort((a, b) => {
         const aEffect = a.effects.find(e => e.effect === filters.effect);
         const bEffect = b.effects.find(e => e.effect === filters.effect);
@@ -116,7 +102,6 @@ const StrainExplorer: React.FC = () => {
       });
     }
 
-    // Filter by terpene
     if (filters.terpene) {
       result = result.filter((strain) =>
         strain.most_common_terpene === filters.terpene
@@ -128,7 +113,7 @@ const StrainExplorer: React.FC = () => {
 
   const handleFilterChange = (newFilters: StrainFiltersType) => {
     setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   const toggleFilters = () => {
@@ -243,7 +228,6 @@ const StrainExplorer: React.FC = () => {
         </Button>
       </div>
 
-      {/* Active Filters Display */}
       {activeFilterCount > 0 && (
         <div className="flex flex-wrap gap-2 mb-6 bg-gray-800/50 p-3 rounded-lg">
           {filters.type && (
@@ -295,7 +279,6 @@ const StrainExplorer: React.FC = () => {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Filters Section - Only visible on mobile when toggled */}
         <div className={`${showFilters ? "block" : "hidden"} lg:block`}>
           <StrainFilters 
             filters={filters} 
@@ -305,7 +288,6 @@ const StrainExplorer: React.FC = () => {
           />
         </div>
 
-        {/* Strains Grid */}
         <div className="lg:col-span-3">
           {error ? (
             <Card className="bg-gray-900 p-8 rounded-xl text-center border border-destructive">
@@ -320,7 +302,7 @@ const StrainExplorer: React.FC = () => {
                       .catch(() => {});
                   }}
                   variant="default"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white"
                 >
                   Retry
                 </Button>
@@ -343,7 +325,6 @@ const StrainExplorer: React.FC = () => {
                 ))}
               </div>
               
-              {/* Load More Button - Show only when there are more strains to load */}
               {remainingStrains > 0 && (
                 <div className="mt-8 text-center">
                   <Button 
@@ -358,7 +339,7 @@ const StrainExplorer: React.FC = () => {
                         Loading...
                       </>
                     ) : (
-                      `Load ${Math.min(strainsPerPage, remainingStrains)} More Strains`
+                      `Load More Strains`
                     )}
                   </Button>
                 </div>

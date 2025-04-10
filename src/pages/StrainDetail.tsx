@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchStrainById } from "@/services/strainService";
@@ -58,12 +57,12 @@ const StrainDetail: React.FC = () => {
   const getTypeIcon = (type: string | null) => {
     switch (type) {
       case "Indica":
-        return <Cannabis className="h-10 w-10 text-purple-500 drop-shadow-md" />;
+        return <Cannabis className="h-5 w-5 text-purple-500 drop-shadow-md" />;
       case "Sativa":
-        return <Sun className="h-10 w-10 text-amber-500 drop-shadow-md" />;
+        return <Sun className="h-5 w-5 text-amber-500 drop-shadow-md" />;
       case "Hybrid":
       default:
-        return <Circle className="h-10 w-10 text-emerald-500 drop-shadow-md" />;
+        return <Circle className="h-5 w-5 text-emerald-500 drop-shadow-md" />;
     }
   };
 
@@ -84,7 +83,7 @@ const StrainDetail: React.FC = () => {
       case 0: return 'bg-emerald-500'; // Primary effect
       case 1: return 'bg-purple-500';  // Secondary effect
       case 2: return 'bg-amber-500';   // Tertiary effect
-      default: return 'bg-blue-500';   // Other effects
+      default: return 'blue-500';      // Other effects
     }
   };
 
@@ -182,7 +181,7 @@ const StrainDetail: React.FC = () => {
         >
           <ArrowLeft />
         </Button>
-        <h1 className="text-3xl font-bold">Strain Details</h1>
+        <h1 className="text-3xl font-bold text-white">Strain Details</h1>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -193,26 +192,26 @@ const StrainDetail: React.FC = () => {
               <img
                 src={strain.img_url}
                 alt={strain.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover scale-50 transform-gpu"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.parentElement!.innerHTML = `
                     <div class="w-full h-full flex items-center justify-center bg-gray-800">
-                      ${getTypeIcon(strain.type)?.props?.outerHTML || ''}
+                      <div class="text-4xl">${getTypeIcon(strain.type)?.props?.outerHTML || ''}</div>
                     </div>
                   `;
                 }}
               />
             ) : (
               <div className="flex items-center justify-center h-full w-full">
-                {getTypeIcon(strain.type)}
+                <div className="text-4xl">{getTypeIcon(strain.type)}</div>
               </div>
             )}
           </div>
           
           <div className="mt-4">
-            <Badge className={`${getTypeColor(strain.type)} px-3 py-1.5 text-base inline-flex items-center gap-2`}>
+            <Badge className={`${getTypeColor(strain.type)} px-2 py-1 text-sm inline-flex items-center gap-1.5`}>
               {getTypeIcon(strain.type)}
               <span>{strain.type || "Hybrid"}</span>
             </Badge>
@@ -258,19 +257,22 @@ const StrainDetail: React.FC = () => {
             <div className="mt-8 bg-gray-800/40 p-4 rounded-lg">
               <h3 className="text-xl font-semibold mb-4 text-white">Effects</h3>
               <div className="space-y-4">
-                {strain.effects.map((effect, index) => (
-                  <div key={`${effect.effect}-${index}`} className="mb-4">
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="font-medium text-base text-white">{effect.effect}</span>
-                      <span className="font-bold text-base text-white">{effect.intensity}%</span>
+                {strain.effects
+                  .filter(effect => effect && effect.effect && effect.intensity > 0)
+                  .sort((a, b) => a.intensity - b.intensity) // Sort from lowest to highest
+                  .map((effect, index) => (
+                    <div key={`${effect.effect}-${index}`} className="mb-4">
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="font-medium text-base text-white">{effect.effect}</span>
+                        <span className="font-bold text-base text-white">{effect.intensity}%</span>
+                      </div>
+                      <Progress 
+                        className="h-4 rounded-full"
+                        value={effect.intensity}
+                        indicatorClassName={getEffectColor(index)}
+                      />
                     </div>
-                    <Progress 
-                      className="h-4 rounded-full"
-                      value={effect.intensity}
-                      indicatorClassName={getEffectColor(index)}
-                    />
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           )}
