@@ -82,19 +82,18 @@ const StrainDetail: React.FC = () => {
   };
 
   const getDisplayEffects = (strain: Strain | null) => {
-    if (!strain) return [];
+    if (!strain) return Array(3).fill({ effect: "Unknown", intensity: 50 });
     
     const validEffects = strain.effects.filter(
       effect => effect && effect.effect && effect.intensity > 0
     );
     
-    return validEffects.length > 0 
-      ? validEffects
-      : [
-          { effect: "Unknown", intensity: 50 },
-          { effect: "Unknown", intensity: 50 },
-          { effect: "Unknown", intensity: 50 }
-        ];
+    return Array(3).fill(null).map((_, index) => {
+      if (validEffects && validEffects[index]) {
+        return validEffects[index];
+      }
+      return { effect: "Unknown", intensity: 50 };
+    });
   };
 
   if (loading) {
@@ -247,7 +246,7 @@ const StrainDetail: React.FC = () => {
             <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden shadow-inner">
               <div 
                 className="h-full bg-primary transition-all duration-500 ease-out"
-                style={{ width: strain.thc_level !== null ? `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` : "50%" }}
+                style={{ width: strain.thc_level !== null && strain.thc_level !== undefined ? `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` : "50%" }}
               />
             </div>
           </div>
@@ -284,7 +283,7 @@ const StrainDetail: React.FC = () => {
                 <div key={`${effect.effect}-${index}`} className="mb-4">
                   <div className="flex justify-between text-sm mb-2">
                     <span className="font-medium text-base text-gray-300">{effect.effect}</span>
-                    <span className="font-bold text-base text-white">{effect.intensity}%</span>
+                    <span className="font-bold text-base text-white">{effect.effect === "Unknown" ? "?%" : `${effect.intensity}%`}</span>
                   </div>
                   <div className="h-4 w-full bg-gray-900 rounded-full overflow-hidden shadow-inner">
                     <div 

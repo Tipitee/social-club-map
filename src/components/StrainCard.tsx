@@ -44,19 +44,20 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
-  // Generate placeholder effects if no valid effects
+  // Filter valid effects (those with effect name and intensity > 0)
   const validEffects = strain.effects && strain.effects.filter(
     effect => effect && effect.effect && effect.intensity > 0
   );
 
-  // Create placeholder effects if no valid effects exist
-  const displayEffects = validEffects && validEffects.length > 0 
-    ? validEffects
-    : [
-        { effect: "Unknown", intensity: 50 },
-        { effect: "Unknown", intensity: 50 },
-        { effect: "Unknown", intensity: 50 }
-      ];
+  // Always ensure we have exactly 3 effects to display
+  const displayEffects = Array(3).fill(null).map((_, index) => {
+    // If we have a valid effect at this index, use it
+    if (validEffects && validEffects[index]) {
+      return validEffects[index];
+    }
+    // Otherwise create a placeholder "Unknown" effect
+    return { effect: "Unknown", intensity: 50 };
+  });
 
   return (
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-800">
@@ -106,12 +107,12 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         </div>
         
         <div className="space-y-2">
-          {/* Display effects (real or placeholder) */}
-          {displayEffects.slice(0, 3).map((effect, index) => (
+          {/* Always display exactly 3 effects (real or placeholder) */}
+          {displayEffects.map((effect, index) => (
             <div key={`${effect.effect}-${index}`}>
               <div className="flex justify-between text-xs mb-1">
                 <span className="font-medium text-gray-300">{effect.effect}</span>
-                <span className="font-bold text-white">{effect.intensity}%</span>
+                <span className="font-bold text-white">{effect.effect === "Unknown" ? "?%" : `${effect.intensity}%`}</span>
               </div>
               <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden mb-1">
                 <div 

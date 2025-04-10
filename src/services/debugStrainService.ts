@@ -6,38 +6,7 @@ import {
   type StrainCreateSchema,
   type StrainUpdateSchema,
 } from './strain/validation';
-
-// Create mock strains since they aren't exported from strain/index
-export const mockStrains: Strain[] = [
-  {
-    id: "mock-1",
-    name: "OG Kush",
-    img_url: null,
-    type: "Hybrid",
-    thc_level: 22,
-    most_common_terpene: "Myrcene",
-    description: "A classic strain known for its potent effects and earthy flavor profile.",
-    effects: [
-      { effect: "Relaxed", intensity: 80 },
-      { effect: "Euphoric", intensity: 65 },
-      { effect: "Sleepy", intensity: 50 }
-    ],
-  },
-  {
-    id: "mock-2",
-    name: "Blue Dream",
-    img_url: null,
-    type: "Sativa",
-    thc_level: 18,
-    most_common_terpene: "Pinene",
-    description: "A balanced hybrid that provides gentle cerebral stimulation.",
-    effects: [
-      { effect: "Creative", intensity: 70 },
-      { effect: "Uplifted", intensity: 65 },
-      { effect: "Focused", intensity: 60 }
-    ],
-  }
-];
+import { mockStrains } from './strain/index';
 
 // Define the Result type that was missing
 export interface Result<T> {
@@ -93,12 +62,16 @@ export const create = async (
   strain: StrainCreateSchema
 ): Promise<Result<Strain>> => {
   try {
+    // Ensure name is always provided with a fallback
+    const strainName = strain.name || "Unknown Strain";
+    
+    // Create valid Strain object with required fields
     const validatedResult = StrainSchema.safeParse({
       ...strain,
+      name: strainName, // Ensure name is always provided
       id: Math.random().toString(36).substring(2, 15),
       effects: [],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      // Removed updatedAt and createdAt as they're not in the Strain type
     });
 
     if (!validatedResult.success) {
@@ -110,9 +83,16 @@ export const create = async (
 
     const validatedStrain = validatedResult.data;
 
+    // Create a new Strain that strictly follows the Strain type
     const newStrain: Strain = {
-      ...validatedStrain,
       id: Math.random().toString(36).substring(2, 15),
+      name: validatedStrain.name,
+      img_url: validatedStrain.img_url || null,
+      type: validatedStrain.type || 'Hybrid',
+      thc_level: validatedStrain.thc_level || null,
+      most_common_terpene: validatedStrain.most_common_terpene || null,
+      description: validatedStrain.description || null,
+      effects: [], // Empty effects array as it's required
     };
 
     // In a real implementation, we'd add the strain to the database here
@@ -145,11 +125,18 @@ export const update = async (
     }
 
     const existingStrain = mockStrains[strainIndex];
-    const updatedStrain = { ...existingStrain, ...strain };
+    
+    // Merge the existing strain with updates, ensuring name is always present
+    const updatedStrain = { 
+      ...existingStrain, 
+      ...strain,
+      name: strain.name || existingStrain.name || "Unknown Strain" // Ensure name is always present
+    };
 
+    // Validate the merged strain with Zod
     const validatedResult = StrainSchema.safeParse({
       ...updatedStrain,
-      updatedAt: new Date().toISOString(),
+      // Remove fields not in Strain type
     });
 
     if (!validatedResult.success) {
@@ -161,12 +148,21 @@ export const update = async (
 
     const validatedStrain = validatedResult.data;
 
-    mockStrains[strainIndex] = {
-      ...validatedStrain,
-      updatedAt: new Date().toISOString(),
+    // Create a new object that strictly conforms to Strain type
+    const finalStrain: Strain = {
+      id: validatedStrain.id,
+      name: validatedStrain.name,
+      img_url: validatedStrain.img_url,
+      type: validatedStrain.type || 'Hybrid',
+      thc_level: validatedStrain.thc_level,
+      most_common_terpene: validatedStrain.most_common_terpene,
+      description: validatedStrain.description,
+      effects: validatedStrain.effects || [],
     };
 
-    return { success: true, data: mockStrains[strainIndex] };
+    mockStrains[strainIndex] = finalStrain;
+
+    return { success: true, data: finalStrain };
   } catch (error) {
     if (error instanceof z.ZodError) {
       return { success: false, error };

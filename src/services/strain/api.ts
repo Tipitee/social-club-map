@@ -134,7 +134,7 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
       .from('strains')
       .select('*')
       .eq('id', id)
-      .single();
+      .maybeSingle(); // Changed from single() to maybeSingle() to avoid errors
       
     if (error) {
       throw new StrainServiceError(`Failed to fetch strain with ID ${id}`, error);
@@ -260,7 +260,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
       // Validate with Zod
       strainInsertSchema.parse(insertData);
       
-      // Explicitly define effects-related fields to avoid recursion
+      // Define effects data directly without complex nested objects
       const effectsData = {
         top_effect: effects.length > 0 ? effects[0].effect : null,
         top_percent: effects.length > 0 ? String(effects[0].intensity) : null,
@@ -270,7 +270,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
         third_percent: effects.length > 2 ? String(effects[2].intensity) : null
       };
       
-      // Combine basic data with effects data
+      // Simple merge of data objects to avoid deep nesting
       const fullInsertData = {
         ...insertData,
         ...effectsData
@@ -286,7 +286,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
           .update(fullInsertData)
           .eq('id', strainId)
           .select()
-          .single();
+          .maybeSingle();  // Changed from single() to maybeSingle()
           
         if (error) {
           throw new StrainServiceError(`Failed to update strain: ${error.message}`, error);
@@ -299,7 +299,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
           .from('strains')
           .insert(fullInsertData)
           .select()
-          .single();
+          .maybeSingle();  // Changed from single() to maybeSingle()
           
         if (error) {
           throw new StrainServiceError(`Failed to insert strain: ${error.message}`, error);
