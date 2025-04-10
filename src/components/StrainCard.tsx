@@ -57,7 +57,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             <img
               src={strain.img_url}
               alt={strain.name}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-contain p-2"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 const container = e.currentTarget.parentElement;

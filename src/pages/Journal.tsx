@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
-import { format } from "date-fns";
+import NewJournalEntry from "@/components/NewJournalEntry";
+import { v4 as uuidv4 } from "uuid";
 
 // Mock journal entries (in a real app, these would come from Supabase)
 const mockEntries: JournalEntry[] = [
@@ -55,6 +56,7 @@ type FilterState = {
 const Journal: React.FC = () => {
   const [entries, setEntries] = useState<JournalEntry[]>(mockEntries);
   const [showFilters, setShowFilters] = useState(false);
+  const [showNewEntryDialog, setShowNewEntryDialog] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     effectiveness: null,
     dateRange: { start: null, end: null },
@@ -83,6 +85,21 @@ const Journal: React.FC = () => {
       ...prev,
       effectiveness: prev.effectiveness === rating ? null : rating
     }));
+  };
+
+  const handleSaveNewEntry = (newEntryData: Omit<JournalEntry, "id">) => {
+    const newEntry: JournalEntry = {
+      ...newEntryData,
+      id: uuidv4(),
+    };
+    
+    setEntries(prev => [newEntry, ...prev]);
+    setShowNewEntryDialog(false);
+    
+    toast({
+      title: "Entry added",
+      description: "Your journal entry has been saved successfully",
+    });
   };
 
   const filteredEntries = entries.filter(entry => {
@@ -122,6 +139,7 @@ const Journal: React.FC = () => {
           </Button>
           <Button 
             className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            onClick={() => setShowNewEntryDialog(true)}
           >
             <Plus size={18} />
             <span className="hidden sm:inline ml-1">New Entry</span>
@@ -217,12 +235,21 @@ const Journal: React.FC = () => {
               ? "No entries match your current filters. Try adjusting your search criteria."
               : "Start tracking your cannabis experiences"}
           </p>
-          <Button className="px-4 py-2 bg-emerald-600 text-white rounded-md flex items-center gap-2 mx-auto hover:bg-emerald-700">
+          <Button 
+            className="px-4 py-2 bg-emerald-600 text-white rounded-md flex items-center gap-2 mx-auto hover:bg-emerald-700"
+            onClick={() => setShowNewEntryDialog(true)}
+          >
             <Plus size={18} />
             {entries.length > 0 ? "Add New Entry" : "Add First Entry"}
           </Button>
         </Card>
       )}
+
+      <NewJournalEntry 
+        isOpen={showNewEntryDialog}
+        onClose={() => setShowNewEntryDialog(false)}
+        onSave={handleSaveNewEntry}
+      />
     </div>
   );
 };

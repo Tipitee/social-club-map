@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -120,6 +121,7 @@ const StrainExplorer: React.FC = () => {
           );
         }
         
+        // Always prioritize strains with images first, then sort alphabetically
         filteredData.sort((a, b) => {
           const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
           const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
@@ -238,6 +240,7 @@ const StrainExplorer: React.FC = () => {
         );
       }
       
+      // Always prioritize strains with images first, then sort alphabetically
       filteredData.sort((a, b) => {
         const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
         const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
@@ -378,8 +381,6 @@ const StrainExplorer: React.FC = () => {
           <StrainFilters 
             filters={filters} 
             onFilterChange={handleFilterChange}
-            totalStrains={totalStrains}
-            filteredCount={strains.length}
           />
         </div>
 

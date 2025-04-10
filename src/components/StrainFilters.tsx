@@ -16,15 +16,11 @@ import {
 interface StrainFiltersProps {
   filters: StrainFiltersType;
   onFilterChange: (filters: StrainFiltersType) => void;
-  totalStrains: number;
-  filteredCount: number;
 }
 
 const StrainFilters: React.FC<StrainFiltersProps> = ({ 
   filters, 
   onFilterChange,
-  totalStrains,
-  filteredCount
 }) => {
   const [effects, setEffects] = useState<string[]>([]);
   const [terpenes, setTerpenes] = useState<string[]>([]);
