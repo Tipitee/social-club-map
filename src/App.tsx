@@ -16,29 +16,31 @@ import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <div className="min-h-screen bg-[#121212] text-white">
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/strains" element={<StrainExplorer />} />
-              <Route path="/strains/:id" element={<StrainDetail />} />
-              <Route path="/clubs" element={<ClubMap />} />
-              <Route path="/journal" element={<Journal />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <BottomNav />
-        </div>
+        <TooltipProvider>
+          <div className="min-h-screen bg-[#121212] text-white">
+            <main>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/strains" element={<StrainExplorer />} />
+                <Route path="/strains/:id" element={<StrainDetail />} />
+                <Route path="/clubs" element={<ClubMap />} />
+                <Route path="/journal" element={<Journal />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <BottomNav />
+          </div>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
       </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    </QueryClientProvider>
+  );
+};
 
 export default App;

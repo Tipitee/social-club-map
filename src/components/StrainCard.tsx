@@ -43,7 +43,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
-  // Filter out invalid effects and show top 3 (changed from 2 to 3)
+  // Filter out invalid effects and show top 3
   const validEffects = strain.effects
     .filter(effect => effect && effect.effect && effect.intensity > 0)
     .sort((a, b) => b.intensity - a.intensity)
@@ -102,6 +102,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             <>
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-medium text-gray-300">THC Level</span>
+                <span className="font-bold text-white">Lab data pending</span>
               </div>
               <Progress 
                 className="h-3 rounded-full mb-5 bg-gray-800"
