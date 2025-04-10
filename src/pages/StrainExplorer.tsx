@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -128,8 +127,11 @@ const StrainExplorer: React.FC = () => {
         // Sort: First by image presence, then by name
         filteredData.sort((a, b) => {
           // First priority: has image vs. no image
-          if (a.img_url && !b.img_url) return -1;
-          if (!a.img_url && b.img_url) return 1;
+          const aHasImage = Boolean(a.img_url);
+          const bHasImage = Boolean(b.img_url);
+          
+          if (aHasImage && !bHasImage) return -1;
+          if (!aHasImage && bHasImage) return 1;
           
           // Second priority: alphabetical by name
           return a.name.localeCompare(b.name);
@@ -247,8 +249,11 @@ const StrainExplorer: React.FC = () => {
       // Sort: First by image presence, then by name (same as initial load)
       filteredData.sort((a, b) => {
         // First priority: has image vs. no image
-        if (a.img_url && !b.img_url) return -1;
-        if (!a.img_url && b.img_url) return 1;
+        const aHasImage = Boolean(a.img_url);
+        const bHasImage = Boolean(b.img_url);
+        
+        if (aHasImage && !bHasImage) return -1;
+        if (!aHasImage && bHasImage) return 1;
         
         // Second priority: alphabetical by name
         return a.name.localeCompare(b.name);

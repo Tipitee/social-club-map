@@ -12,7 +12,6 @@ import Journal from "./pages/Journal";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import BottomNav from "./components/BottomNav";
-import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
