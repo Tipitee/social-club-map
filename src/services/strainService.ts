@@ -191,7 +191,7 @@ export const fetchStrains = async (
       query = query.ilike("name", `%${searchQuery}%`);
     }
     
-    // Apply sorting - FIX: Replace 'nullsLast' with 'nullsFirst: false'
+    // Apply sorting
     if (sort === "name") {
       query = query.order("name", { ascending: true });
     } else if (sort === "thc_high") {
@@ -216,7 +216,7 @@ export const fetchStrains = async (
       let effects: StrainEffect[] = [];
       const thcLevel = extractThcLevel(item);
       
-      // Add top effect if available
+      // Add effects from top/second/third effect fields with their respective percentages
       if (item.top_effect) {
         effects.push({
           effect: item.top_effect,
@@ -224,9 +224,22 @@ export const fetchStrains = async (
         });
       }
       
-      // Parse effects
+      if (item.second_effect) {
+        effects.push({
+          effect: item.second_effect,
+          intensity: safeParsePercent(item.second_percent || 80),
+        });
+      }
+      
+      if (item.third_effect) {
+        effects.push({
+          effect: item.third_effect,
+          intensity: safeParsePercent(item.third_percent || 70),
+        });
+      }
+      
+      // Try to parse effects from JSON as well
       try {
-        // Some strains have effects_json as a JSON string
         if (item.effects_json && typeof item.effects_json === 'string') {
           let parsedEffects;
           try {
@@ -255,35 +268,14 @@ export const fetchStrains = async (
               }
             }
           } catch (e) {
-            // Parse individual effects from non-JSON fields
-            const effectsRawData = [
-              item.top_effect ? `${item.top_effect}: ${safeParsePercent(item.highest_percent)}%` : null,
-              item.second_effect ? `${item.second_effect}: ${safeParsePercent(item.highest_percent || 0)}%` : null, 
-              item.third_effect ? `${item.third_effect}: ${safeParsePercent(item.highest_percent || 0)}%` : null
-            ].filter(Boolean);
+            console.warn("Could not parse effects_json for strain:", item.name);
           }
         }
       } catch (e) {
-        console.error("Error parsing effects for strain:", item.name, e);
+        console.error("Error handling effects for strain:", item.name, e);
       }
       
-      // Add second effect if available - fixed property names
-      if (item.second_effect) {
-        effects.push({ 
-          effect: item.second_effect, 
-          intensity: safeParsePercent(item.highest_percent || 80)
-        });
-      }
-      
-      // Add third effect if available
-      if (item.third_effect) {
-        effects.push({ 
-          effect: item.third_effect,
-          intensity: safeParsePercent(item.highest_percent || 70)
-        });
-      }
-
-      // Ensure we have a valid ID - use name if unique_identifier is missing
+      // Ensure we have a valid ID
       const strainId = item.unique_identifier || item.name.replace(/\s+/g, '-').toLowerCase();
 
       // Create strain object
@@ -389,10 +381,10 @@ export const fetchStrainById = async (idOrName: string): Promise<Strain | null> 
     const item = data[0];
     console.log("Found strain:", item.name);
     
-    // Extract effects
+    // Extract effects - use the same logic as in fetchStrains for consistency
     let effects: StrainEffect[] = [];
     
-    // Add top effect if available
+    // Add effects from top/second/third effect fields with their respective percentages
     if (item.top_effect) {
       effects.push({
         effect: item.top_effect,
@@ -400,19 +392,17 @@ export const fetchStrainById = async (idOrName: string): Promise<Strain | null> 
       });
     }
     
-    // Add second effect if available - fixed property names
     if (item.second_effect) {
-      effects.push({ 
-        effect: item.second_effect, 
-        intensity: safeParsePercent(item.highest_percent || 80)
+      effects.push({
+        effect: item.second_effect,
+        intensity: safeParsePercent(item.second_percent || 80),
       });
     }
     
-    // Add third effect if available
     if (item.third_effect) {
-      effects.push({ 
+      effects.push({
         effect: item.third_effect,
-        intensity: safeParsePercent(item.highest_percent || 70)
+        intensity: safeParsePercent(item.third_percent || 70),
       });
     }
     

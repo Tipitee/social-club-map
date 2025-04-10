@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
 import StrainCard from "@/components/StrainCard";
@@ -19,6 +20,7 @@ const StrainExplorer: React.FC = () => {
   const [totalStrains, setTotalStrains] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   
   const [filters, setFilters] = useState<StrainFiltersType>({
@@ -39,7 +41,7 @@ const StrainExplorer: React.FC = () => {
         setError(null);
         const { strains: data, total } = await fetchStrains(
           filters.sort, 
-          currentPage, 
+          1, // Reset to first page when filters change
           strainsPerPage,
           filters.search
         );
@@ -87,6 +89,7 @@ const StrainExplorer: React.FC = () => {
         
         setStrains(filteredData);
         setTotalStrains(total);
+        setCurrentPage(1);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unknown error loading strains";
         setError(message);
@@ -101,11 +104,33 @@ const StrainExplorer: React.FC = () => {
     };
 
     loadStrains();
-  }, [filters, currentPage, toast]);
+  }, [filters, toast]);
+
+  // Set up intersection observer for infinite scrolling
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading && !loadingMore && strains.length < totalStrains) {
+          handleLoadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+    
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [loadingMore, loading, strains, totalStrains]);
 
   const handleFilterChange = (newFilters: StrainFiltersType) => {
     setFilters(newFilters);
-    setCurrentPage(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleFilters = () => {
@@ -127,7 +152,7 @@ const StrainExplorer: React.FC = () => {
   };
 
   const handleLoadMore = async () => {
-    if (loadingMore) return;
+    if (loadingMore || currentPage * strainsPerPage >= totalStrains) return;
     
     try {
       setLoadingMore(true);
@@ -140,8 +165,38 @@ const StrainExplorer: React.FC = () => {
         filters.search
       );
       
-      if (newStrains.length > 0) {
-        setStrains(prev => [...prev, ...newStrains]);
+      // Apply the same filters as initial load
+      let filteredData = [...newStrains];
+      
+      if (filters.type) {
+        filteredData = filteredData.filter(strain => strain.type === filters.type);
+      }
+
+      if (filters.thcRange[0] > 0 || filters.thcRange[1] < 30) {
+        filteredData = filteredData.filter(
+          strain => 
+            strain.thc_level !== null && 
+            strain.thc_level >= filters.thcRange[0] && 
+            strain.thc_level <= filters.thcRange[1]
+        );
+      }
+
+      if (filters.effect) {
+        filteredData = filteredData.filter(strain =>
+          strain.effects.some(
+            effect => effect.effect === filters.effect && effect.intensity > 0
+          )
+        );
+      }
+
+      if (filters.terpene) {
+        filteredData = filteredData.filter(
+          strain => strain.most_common_terpene === filters.terpene
+        );
+      }
+      
+      if (filteredData.length > 0) {
+        setStrains(prev => [...prev, ...filteredData]);
         setCurrentPage(nextPage);
       }
     } catch (error) {
@@ -156,19 +211,8 @@ const StrainExplorer: React.FC = () => {
     }
   };
 
-  const renderNoResults = () => (
-    <Card className="bg-gray-900 p-8 rounded-xl text-center border border-gray-700">
-      <CardContent className="pt-6">
-        <h3 className="text-xl font-semibold mb-2 text-white">No strains found</h3>
-        <p className="text-gray-400">
-          Try adjusting your filters to see more results.
-        </p>
-      </CardContent>
-    </Card>
-  );
-
   const renderSkeletonLoader = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {Array.from({ length: 8 }).map((_, index) => (
         <Card key={index} className="overflow-hidden bg-gray-900 border-gray-700">
           <div className="h-40 bg-gray-800">
@@ -302,28 +346,9 @@ const StrainExplorer: React.FC = () => {
               </CardContent>
             </Card>
           ) : loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {Array.from({ length: 8 }).map((_, index) => (
-                <Card key={index} className="overflow-hidden bg-gray-900 border-gray-700">
-                  <div className="h-40 bg-gray-800">
-                    <Skeleton className="h-full w-full bg-gray-800" />
-                  </div>
-                  <CardContent className="p-4">
-                    <Skeleton className="h-6 w-3/4 mb-4 bg-gray-800" />
-                    <Skeleton className="h-4 w-full mb-2 bg-gray-800" />
-                    <Skeleton className="h-4 w-2/3 mb-2 bg-gray-800" />
-                    <div className="mt-4">
-                      <Skeleton className="h-3 w-full mb-1 bg-gray-800" />
-                      <Skeleton className="h-2 w-full mb-3 bg-gray-800" />
-                      <Skeleton className="h-3 w-full mb-1 bg-gray-800" />
-                      <Skeleton className="h-2 w-full bg-gray-800" />
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            renderSkeletonLoader()
           ) : strains.length > 0 ? (
-            <div>
+            <>
               <div className="flex justify-between items-center mb-6 bg-gray-800/50 p-3 rounded-lg">
                 <p className="text-sm text-gray-300">
                   Showing {strains.length} strain{strains.length !== 1 ? 's' : ''}
@@ -338,25 +363,20 @@ const StrainExplorer: React.FC = () => {
               </div>
               
               {remainingStrains > 0 && (
-                <div className="mt-8 text-center">
-                  <Button 
-                    onClick={handleLoadMore} 
-                    disabled={loadingMore}
-                    variant="outline"
-                    className="px-8 py-2 bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-800"
-                  >
-                    {loadingMore ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Loading...
-                      </>
-                    ) : (
-                      `Load More Strains`
-                    )}
-                  </Button>
+                <div 
+                  ref={loadMoreRef} 
+                  className="mt-8 text-center py-8" 
+                  aria-hidden="true"
+                >
+                  {loadingMore && (
+                    <div className="flex items-center justify-center">
+                      <Loader2 className="h-6 w-6 animate-spin text-emerald-500 mr-2" />
+                      <span className="text-gray-400">Loading more strains...</span>
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
+            </>
           ) : (
             <Card className="bg-gray-900 p-8 rounded-xl text-center border border-gray-700">
               <CardContent className="pt-6">

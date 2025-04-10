@@ -99,7 +99,16 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               />
             </>
           ) : (
-            <p className="text-gray-400 text-sm mb-5">THC: Lab data pending</p>
+            <>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="font-medium text-gray-300">THC Level</span>
+              </div>
+              <Progress 
+                className="h-3 rounded-full mb-5 bg-gray-800"
+                value={50}
+                indicatorClassName="bg-white/30"
+              />
+            </>
           )}
         </div>
         
@@ -119,7 +128,18 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               </div>
             ))
           ) : (
-            <p className="text-gray-400 text-xs">No effects data available</p>
+            <>
+              {[0, 1, 2].map((index) => (
+                <div key={`placeholder-effect-${index}`}>
+                  <div className="h-4 mb-1"></div>
+                  <Progress 
+                    className="h-2 rounded-full mb-1 bg-gray-800"
+                    value={50}
+                    indicatorClassName="bg-white/30"
+                  />
+                </div>
+              ))}
+            </>
           )}
         </div>
         
