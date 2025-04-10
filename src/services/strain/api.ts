@@ -1,9 +1,9 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Strain } from "@/types/strain";
 import { transformStrainData } from "./transformers";
 import { StrainServiceError } from "./errors";
 import { strainInsertSchema, StrainInsertData } from "./validation";
+import { z } from "zod";
 
 /**
  * Fetches strains with optional sorting, pagination, and filtering
@@ -254,11 +254,18 @@ export const upsertStrain = async (strain: Partial<Strain>): Promise<{success: b
       strainInsertSchema.parse(strainData);
       
       // Insert or update the strain
-      const { data, error } = await supabase
-        .from('strains')
-        .upsert(strain.id ? { id: strain.id, ...strainData, ...additionalData } : { ...strainData, ...additionalData })
-        .select()
-        .single();
+      const { data, error } = strain.id ? 
+        await supabase
+          .from('strains')
+          .update({ ...strainData, ...additionalData })
+          .eq('id', strain.id)
+          .select()
+          .single() :
+        await supabase
+          .from('strains')
+          .insert({ ...strainData, ...additionalData })
+          .select()
+          .single();
         
       if (error) {
         throw new StrainServiceError(`Failed to save strain: ${error.message}`, error);
