@@ -33,7 +33,7 @@ export type Database = {
           highest_percent?: string | null
           img_url?: string | null
           most_common_terpene?: string | null
-          name: string
+          name?: string
           new_column_name?: string | null
           second_effect?: string | null
           terpenes_json?: string | null

@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { fetchStrains } from "@/services/strainService";
+import { fetchStrains } from "@/services/strain";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
 import StrainCard from "@/components/StrainCard";
 import StrainFilters from "@/components/StrainFilters";

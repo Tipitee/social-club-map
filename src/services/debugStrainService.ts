@@ -102,7 +102,7 @@ export const testDirectQuery = async () => {
  */
 export const parseStrainData = (jsonString: string): Strain[] | null => {
   try {
-    // Fix the type issue by using proper typing
+    // Fix the type issue by using an explicit type assertion
     const parsedData = safeParse<unknown>(jsonString, []);
     
     if (isStrainArray(parsedData)) {
