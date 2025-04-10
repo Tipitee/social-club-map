@@ -3,15 +3,12 @@ import React from "react";
 import { Strain } from "@/types/strain";
 import { Cannabis, Sun, Circle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface StrainCardProps {
   strain: Strain;
 }
 
 const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
-  const { t } = useLanguage();
-
   const getTypeIcon = () => {
     switch (strain.type) {
       case "Indica":
@@ -27,12 +24,12 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
   const getTypeColor = () => {
     switch (strain.type) {
       case "Indica":
-        return "bg-purple-600 hover:bg-purple-700 text-white";
+        return "bg-purple-600 hover:bg-purple-700 text-white drop-shadow-md";
       case "Sativa":
-        return "bg-amber-500 hover:bg-amber-600 text-white";
+        return "bg-amber-500 hover:bg-amber-600 text-white drop-shadow-md";
       case "Hybrid":
       default:
-        return "bg-emerald-500 hover:bg-emerald-600 text-white";
+        return "bg-emerald-500 hover:bg-emerald-600 text-white drop-shadow-md";
     }
   };
 
@@ -45,29 +42,19 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
-  // Filter valid effects (those with effect name and intensity > 0)
-  const validEffects = strain.effects && strain.effects.filter(
+  // Filter out invalid effects
+  const validEffects = strain.effects.filter(
     effect => effect && effect.effect && effect.intensity > 0
   );
 
-  // Always ensure we have exactly 3 effects to display
-  const displayEffects = Array(3).fill(null).map((_, index) => {
-    // If we have a valid effect at this index, use it
-    if (validEffects && validEffects[index]) {
-      return validEffects[index];
-    }
-    // Otherwise create a placeholder "Unknown" effect
-    return { effect: "Unknown", intensity: 50 };
-  });
-
   return (
-    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-800">
-      <div className="relative h-48 overflow-hidden bg-gray-900">
+    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-card">
+      <div className="relative h-48 overflow-hidden group">
         {strain.img_url ? (
           <img
             src={strain.img_url}
             alt={strain.name}
-            className="w-full h-full object-cover bg-gray-900"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.style.display = 'none';
@@ -83,61 +70,66 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             {getTypeIcon()}
           </div>
         )}
-        <Badge className={`absolute top-3 right-3 ${getTypeColor()} px-3 py-1 text-xs font-semibold shadow-md`}>
+        <Badge className={`absolute top-3 right-3 ${getTypeColor()} px-3 py-1 text-xs font-semibold`}>
           {strain.type}
         </Badge>
       </div>
       
       <div className="p-5">
-        <h3 className="text-lg font-bold mb-2 text-white">{strain.name}</h3>
+        <h3 className="text-lg font-bold mb-2 text-foreground group-hover:text-primary-foreground">{strain.name}</h3>
         
         <div className="mt-3">
-          {/* Always show THC level - either actual or placeholder */}
-          <div className="flex justify-between text-sm mb-1">
-            <span className="font-medium text-gray-300">{t("thcLevel")}</span>
-            <span className="font-bold text-white">{strain.thc_level !== null && strain.thc_level !== undefined ? `${strain.thc_level}%` : "?%"}</span>
-          </div>
-          <div className="h-3 w-full bg-gray-700 rounded-full overflow-hidden mb-4">
-            <div 
-              className="h-full bg-primary transition-all duration-500 ease-out"
-              style={{ width: strain.thc_level !== null && strain.thc_level !== undefined ? 
-                `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` : 
-                "50%" }}
-            />
-          </div>
+          {strain.thc_level !== null && strain.thc_level !== undefined ? (
+            <>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="font-medium text-muted-foreground">THC Level</span>
+                <span className="font-bold text-foreground">{strain.thc_level}%</span>
+              </div>
+              <div className="h-3 w-full bg-gray-800 rounded-full overflow-hidden mb-4">
+                <div 
+                  className="h-full bg-primary transition-all duration-500 ease-out"
+                  style={{ width: `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` }}
+                />
+              </div>
+            </>
+          ) : (
+            <p className="text-muted-foreground text-sm mb-4">THC: Lab data pending</p>
+          )}
         </div>
         
         <div className="space-y-2">
-          {/* Always display exactly 3 effects (real or placeholder) */}
-          {displayEffects.map((effect, index) => (
-            <div key={`${effect.effect}-${index}`}>
-              <div className="flex justify-between text-xs mb-1">
-                <span className="font-medium text-gray-300">{effect.effect}</span>
-                <span className="font-bold text-white">{effect.effect === "Unknown" ? "?%" : `${effect.intensity}%`}</span>
+          {validEffects && validEffects.length > 0 ? (
+            validEffects.map((effect, index) => (
+              <div key={`${effect.effect}-${index}`}>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="font-medium">{effect.effect}</span>
+                  <span className="font-bold">{effect.intensity}%</span>
+                </div>
+                <div className="h-2 w-full bg-gray-800 rounded-full overflow-hidden mb-1">
+                  <div 
+                    className={`h-full ${index === 0 ? 'bg-emerald-500' : index === 1 ? 'bg-purple-500' : 'bg-amber-500'} transition-all duration-500 ease-out`}
+                    style={{ width: `${effect.intensity}%` }}
+                  />
+                </div>
               </div>
-              <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden mb-1">
-                <div 
-                  className={`h-full ${getEffectColor(index)} transition-all duration-500 ease-out`}
-                  style={{ width: `${effect.intensity}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        {/* Improved terpene section with consistent height */}
-        <div className="mt-4 h-9 flex items-center justify-between">
-          <span className="text-xs text-gray-400">{t("dominantTerpene")}:</span>
-          {strain.most_common_terpene ? (
-            <Badge variant="outline" className="font-medium text-xs border-gray-600 text-gray-300">
-              {strain.most_common_terpene}
-            </Badge>
+            ))
           ) : (
-            <Badge variant="outline" className="font-medium text-xs border-gray-600 text-gray-400">
-              {t("terpeneDataUnavailable")}
-            </Badge>
+            <p className="text-muted-foreground text-xs">No effects data available</p>
           )}
         </div>
+        
+        {strain.most_common_terpene ? (
+          <div className="mt-4 flex items-center">
+            <span className="text-xs text-muted-foreground mr-2">Dominant Terpene:</span>
+            <Badge variant="outline" className="font-medium text-xs">
+              {strain.most_common_terpene}
+            </Badge>
+          </div>
+        ) : (
+          <div className="mt-4">
+            <span className="text-xs text-muted-foreground">Terpene data unavailable</span>
+          </div>
+        )}
       </div>
     </div>
   );

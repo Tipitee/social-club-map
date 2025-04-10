@@ -12,34 +12,32 @@ import Journal from "./pages/Journal";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import BottomNav from "./components/BottomNav";
-import { LanguageProvider } from "./context/LanguageContext";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen bg-[#121212] text-white">
-            <main>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/strains" element={<StrainExplorer />} />
-                <Route path="/strains/:id" element={<StrainDetail />} />
-                <Route path="/clubs" element={<ClubMap />} />
-                <Route path="/journal" element={<Journal />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <BottomNav />
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </LanguageProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <div className="min-h-screen bg-[#121212] text-white">
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/strains" element={<StrainExplorer />} />
+              <Route path="/strains/:id" element={<StrainDetail />} />
+              <Route path="/clubs" element={<ClubMap />} />
+              <Route path="/journal" element={<Journal />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <BottomNav />
+        </div>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 

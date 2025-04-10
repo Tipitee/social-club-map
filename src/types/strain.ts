@@ -16,22 +16,6 @@ export type Strain = {
   created_at?: string;
 };
 
-export type RawStrainData = {
-  id?: string;
-  name: string;
-  img_url?: string | null;
-  type?: string;
-  thc_level?: string | null; // String from database
-  most_common_terpene?: string | null;
-  description?: string | null;
-  top_effect?: string | null;
-  top_percent?: string | null;
-  second_effect?: string | null;
-  second_percent?: string | null;
-  third_effect?: string | null;
-  third_percent?: string | null;
-};
-
 export type StrainFilters = {
   type: string | null;
   thcRange: [number, number];
@@ -39,10 +23,4 @@ export type StrainFilters = {
   terpene: string | null;
   sort: 'name' | 'thc_high' | 'thc_low';
   search: string;
-};
-
-// Define a response type to avoid recursive types
-export type StrainResponse = {
-  strains: Strain[];
-  total: number;
 };

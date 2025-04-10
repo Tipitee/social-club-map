@@ -12,54 +12,45 @@ export type Database = {
       strains: {
         Row: {
           description: string | null
-          effects_json: string | null
-          highest_percent: string | null
           img_url: string | null
           most_common_terpene: string | null
           name: string
-          new_column_name: string | null
           second_effect: string | null
-          terpenes_json: string | null
-          thc_level: number | null
+          second_percent: string | null
+          thc_level: string | null
           third_effect: string | null
           third_percent: string | null
           top_effect: string | null
+          top_percent: string | null
           type: string | null
-          unique_identifier: string | null
         }
         Insert: {
           description?: string | null
-          effects_json?: string | null
-          highest_percent?: string | null
           img_url?: string | null
           most_common_terpene?: string | null
-          name?: string
-          new_column_name?: string | null
+          name: string
           second_effect?: string | null
-          terpenes_json?: string | null
-          thc_level?: number | null
+          second_percent?: string | null
+          thc_level?: string | null
           third_effect?: string | null
           third_percent?: string | null
           top_effect?: string | null
+          top_percent?: string | null
           type?: string | null
-          unique_identifier?: string | null
         }
         Update: {
           description?: string | null
-          effects_json?: string | null
-          highest_percent?: string | null
           img_url?: string | null
           most_common_terpene?: string | null
           name?: string
-          new_column_name?: string | null
           second_effect?: string | null
-          terpenes_json?: string | null
-          thc_level?: number | null
+          second_percent?: string | null
+          thc_level?: string | null
           third_effect?: string | null
           third_percent?: string | null
           top_effect?: string | null
+          top_percent?: string | null
           type?: string | null
-          unique_identifier?: string | null
         }
         Relationships: []
       }
