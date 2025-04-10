@@ -12,10 +12,10 @@ export const strainInsertSchema = z.object({
   top_effect: z.string().nullable()
 });
 
-// Export a type based on the schema
+// Export types based on the schema
 export type StrainInsertData = z.infer<typeof strainInsertSchema>;
 
-// Add the missing schemas needed by debugStrainService.ts
+// Additional schemas needed by debugStrainService.ts
 export const StrainSchema = z.object({
   id: z.string(),
   name: z.string().min(1, "Strain name is required"),

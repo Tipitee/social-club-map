@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Strain } from "@/types/strain";
 import { transformStrainData } from "./transformers";
@@ -258,8 +257,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
       // Get effects data in a simplified way
       const effects = strainData.effects || [];
       
-      // Create a clean insert data object without complex nesting
-      // Using a simple object literal instead of complex type instantiation
+      // Create a simplified data object to avoid complex type instantiation
       const insertData = {
         name: strainData.name,
         type: strainData.type || 'Hybrid',
@@ -270,7 +268,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
         top_effect: effects.length > 0 ? effects[0].effect : null
       };
       
-      // Validate with Zod
+      // Validate with Zod - use direct parsing without complex type inference
       strainInsertSchema.parse(insertData);
       
       // Define effects data directly as simple properties

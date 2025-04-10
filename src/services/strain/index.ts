@@ -1,10 +1,10 @@
 
 // Export specific members from individual modules to avoid duplicates
 export { fetchStrains, fetchStrainById, getAllEffects, getTerpenes, testStrainsConnection, upsertStrain } from './api';
-export { Result } from './api';
+export type { Result } from './api';
 export { StrainServiceError } from './errors';
 export { transformStrainData, safeNumberConversion, safeJsonParse } from './transformers';
-export { strainInsertSchema, StrainSchema, StrainCreateSchema, StrainUpdateSchema } from './validation';
+export type { strainInsertSchema, StrainSchema, StrainCreateSchema, StrainUpdateSchema } from './validation';
 
 // Add mock strains for debug purposes
 import { Strain } from "@/types/strain";

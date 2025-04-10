@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Strain } from "@/types/strain";
 import { Cannabis, Sun, Circle } from "lucide-react";
@@ -125,17 +126,17 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         </div>
         
         {/* Improved terpene section with consistent height */}
-        <div className="mt-4 h-9 flex items-center">
-          <div className="flex items-center w-full">
-            <span className="text-xs text-gray-400 mr-2">{t("dominantTerpene")}:</span>
-            {strain.most_common_terpene ? (
-              <Badge variant="outline" className="font-medium text-xs border-gray-600 text-gray-300">
-                {strain.most_common_terpene}
-              </Badge>
-            ) : (
-              <span className="text-xs text-gray-400">{t("terpeneDataUnavailable")}</span>
-            )}
-          </div>
+        <div className="mt-4 h-9 flex items-center justify-between">
+          <span className="text-xs text-gray-400">{t("dominantTerpene")}:</span>
+          {strain.most_common_terpene ? (
+            <Badge variant="outline" className="font-medium text-xs border-gray-600 text-gray-300">
+              {strain.most_common_terpene}
+            </Badge>
+          ) : (
+            <Badge variant="outline" className="font-medium text-xs border-gray-600 text-gray-400">
+              {t("terpeneDataUnavailable")}
+            </Badge>
+          )}
         </div>
       </div>
     </div>

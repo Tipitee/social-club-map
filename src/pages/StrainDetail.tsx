@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchStrainById } from "@/services/strainService";
@@ -246,26 +247,25 @@ const StrainDetail: React.FC = () => {
             <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden shadow-inner">
               <div 
                 className="h-full bg-primary transition-all duration-500 ease-out"
-                style={{ width: strain.thc_level !== null && strain.thc_level !== undefined ? `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` : "50%" }}
+                style={{ width: strain.thc_level !== null && strain.thc_level !== undefined ? 
+                  `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` : 
+                  "50%" }}
               />
             </div>
           </div>
           
-          {strain.most_common_terpene ? (
-            <div className="flex items-center gap-2 mb-6">
-              <span className="text-sm text-gray-300">{t("dominantTerpene")}:</span>
+          <div className="flex items-center justify-between mb-6 p-4 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700">
+            <span className="text-sm text-gray-300">{t("dominantTerpene")}:</span>
+            {strain.most_common_terpene ? (
               <Badge variant="outline" className="text-base px-3 py-1 bg-gray-800 bg-opacity-50 border-gray-700 text-white">
                 {strain.most_common_terpene}
               </Badge>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2 mb-6">
-              <span className="text-sm text-gray-300">{t("dominantTerpene")}:</span>
+            ) : (
               <Badge variant="outline" className="text-base px-3 py-1 bg-gray-800 bg-opacity-50 border-gray-700 text-white">
                 {t("terpeneDataUnavailable")}
               </Badge>
-            </div>
-          )}
+            )}
+          </div>
           
           {strain.description && (
             <div className="mb-8 p-4 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700">
