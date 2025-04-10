@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -73,8 +74,8 @@ const StrainDetail: React.FC = () => {
             <div className="flex justify-between items-start">
               <h1 className="text-2xl md:text-3xl font-bold text-white">{strain.name}</h1>
               <Badge className={`
-                ${strain.type === 'indica' ? 'bg-purple-600' : 
-                  strain.type === 'sativa' ? 'bg-red-600' : 'bg-blue-600'}
+                ${strain.type === 'Indica' ? 'bg-purple-600' : 
+                  strain.type === 'Sativa' ? 'bg-red-600' : 'bg-blue-600'}
               `}>
                 {strain.type}
               </Badge>
@@ -97,7 +98,7 @@ const StrainDetail: React.FC = () => {
 
             <div className="mt-8 space-y-3">
               <OfflineSaveButton 
-                itemId={strain.unique_identifier || id || '1'} 
+                itemId={strain.unique_identifier || strain.id || '1'} 
                 itemName={strain.name} 
                 itemType="strain" 
               />
@@ -114,16 +115,18 @@ const StrainDetail: React.FC = () => {
           
           <TabsContent value="effects" className="mt-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-gray-800 rounded-lg p-4">
-                <h3 className="font-medium mb-2">{strain.top_effect}</h3>
-                <div className="w-full bg-gray-700 rounded-full h-2.5">
-                  <div 
-                    className="bg-emerald-600 h-2.5 rounded-full" 
-                    style={{ width: `${strain.highest_percent || '80'}%` }}
-                  ></div>
+              {strain.top_effect && (
+                <div className="bg-gray-800 rounded-lg p-4">
+                  <h3 className="font-medium mb-2">{strain.top_effect}</h3>
+                  <div className="w-full bg-gray-700 rounded-full h-2.5">
+                    <div 
+                      className="bg-emerald-600 h-2.5 rounded-full" 
+                      style={{ width: `${strain.highest_percent || '80'}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-right text-sm text-gray-400 mt-1">{strain.highest_percent}%</p>
                 </div>
-                <p className="text-right text-sm text-gray-400 mt-1">{strain.highest_percent}%</p>
-              </div>
+              )}
 
               {strain.second_effect && (
                 <div className="bg-gray-800 rounded-lg p-4">
@@ -149,6 +152,22 @@ const StrainDetail: React.FC = () => {
                   </div>
                   <p className="text-right text-sm text-gray-400 mt-1">{strain.third_percent}%</p>
                 </div>
+              )}
+              
+              {/* If no effect data available, show the effects array data */}
+              {(!strain.top_effect && strain.effects && strain.effects.length > 0) && (
+                strain.effects.slice(0, 3).map((effect, index) => (
+                  <div key={`effect-${index}`} className="bg-gray-800 rounded-lg p-4">
+                    <h3 className="font-medium mb-2">{effect.effect}</h3>
+                    <div className="w-full bg-gray-700 rounded-full h-2.5">
+                      <div 
+                        className="bg-emerald-600 h-2.5 rounded-full" 
+                        style={{ width: `${effect.intensity}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-right text-sm text-gray-400 mt-1">{effect.intensity}%</p>
+                  </div>
+                ))
               )}
             </div>
           </TabsContent>
