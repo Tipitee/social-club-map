@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { Strain, StrainFilters, RawStrainData, StrainEffect, StrainResponse } from "@/types/strain";
 import { toast } from "@/components/ui/use-toast";
@@ -83,6 +84,17 @@ function safeJsonParse<T>(jsonString: string | null | undefined, defaultValue: T
   }
 }
 
+// Define a validation schema for strain data to prevent database errors
+const strainInsertSchema = z.object({
+  name: z.string().min(1, "Strain name is required"),
+  type: z.enum(['Indica', 'Sativa', 'Hybrid']).nullable(),
+  thc_level: z.number().nullable(),
+  img_url: z.string().nullable(),
+  description: z.string().nullable(),
+  most_common_terpene: z.string().nullable(),
+  top_effect: z.string().nullable()
+});
+
 /**
  * Helper function to transform raw DB data to Strain objects
  * @param data Raw data from database
@@ -90,6 +102,13 @@ function safeJsonParse<T>(jsonString: string | null | undefined, defaultValue: T
  */
 const transformStrainData = (data: any[]): Strain[] => {
   return data.map(item => {
+    // Validate required fields
+    if (!item.name) {
+      console.error("Invalid strain data, missing name:", item);
+      // Use a default name to prevent null constraint violations
+      item.name = "Unknown Strain";
+    }
+    
     // Extract effect data
     const effects: StrainEffect[] = [];
     
@@ -130,23 +149,6 @@ const transformStrainData = (data: any[]): Strain[] => {
     };
   });
 };
-
-// Simple validation schema for Strain data
-const StrainSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  img_url: z.string().nullable(),
-  type: z.enum(['Indica', 'Sativa', 'Hybrid']),
-  thc_level: z.number().nullable(),
-  most_common_terpene: z.string().nullable(),
-  description: z.string().nullable(),
-  effects: z.array(
-    z.object({
-      effect: z.string(),
-      intensity: z.number()
-    })
-  )
-});
 
 /**
  * Fetches strains with optional sorting, pagination, and filtering
@@ -243,8 +245,8 @@ export const fetchStrains = async (
       ...(remainingStrains || [])
     ];
     
-    // Transform the data
-    const transformedStrains = transformStrainData(allStrains);
+    // Transform the data - filter out any invalid entries
+    const transformedStrains = transformStrainData(allStrains.filter(strain => strain !== null));
     
     return { 
       strains: transformedStrains, 
@@ -275,6 +277,13 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
     
     if (!data) {
       return null;
+    }
+    
+    // Validate required fields
+    if (!data.name) {
+      console.error(`Invalid strain data for ID ${id}, missing name:`, data);
+      // Use a default name to prevent null constraint violations
+      data.name = "Unknown Strain";
     }
     
     // Cast to any to avoid type issues, then transform
@@ -349,5 +358,79 @@ export const getTerpenes = async (): Promise<string[]> => {
   } catch (error) {
     console.error("Error fetching terpenes:", error);
     return [];
+  }
+};
+
+/**
+ * Create or update a strain
+ * - Handles data validation
+ * - Ensures required fields are present
+ */
+export const upsertStrain = async (strain: Partial<Strain>): Promise<{success: boolean, data?: Strain, error?: Error}> => {
+  try {
+    // Validate the strain data
+    try {
+      // Ensure name is present
+      if (!strain.name || strain.name.trim() === '') {
+        throw new Error("Strain name is required");
+      }
+      
+      // Prepare the data for insertion
+      const strainData = {
+        name: strain.name,
+        type: strain.type || 'Hybrid',
+        thc_level: strain.thc_level || null,
+        img_url: strain.img_url || null,
+        description: strain.description || null,
+        most_common_terpene: strain.most_common_terpene || null,
+        top_effect: strain.effects && strain.effects.length > 0 ? strain.effects[0].effect : null,
+        top_percent: strain.effects && strain.effects.length > 0 ? String(strain.effects[0].intensity) : null,
+        second_effect: strain.effects && strain.effects.length > 1 ? strain.effects[1].effect : null,
+        second_percent: strain.effects && strain.effects.length > 1 ? String(strain.effects[1].intensity) : null,
+        third_effect: strain.effects && strain.effects.length > 2 ? strain.effects[2].effect : null,
+        third_percent: strain.effects && strain.effects.length > 2 ? String(strain.effects[2].intensity) : null
+      };
+      
+      // Validate with Zod
+      strainInsertSchema.parse(strainData);
+      
+      // Insert or update the strain
+      const { data, error } = await supabase
+        .from('strains')
+        .upsert(strain.id ? { id: strain.id, ...strainData } : strainData)
+        .select()
+        .single();
+        
+      if (error) {
+        throw new StrainServiceError(`Failed to save strain: ${error.message}`, error);
+      }
+      
+      if (!data) {
+        throw new StrainServiceError("No data returned from strain insert");
+      }
+      
+      // Transform the returned data
+      const transformedData = transformStrainData([data]);
+      return { success: true, data: transformedData[0] };
+      
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        const errors = validationError.errors.map(e => e.message).join(", ");
+        throw new Error(`Validation error: ${errors}`);
+      }
+      throw validationError;
+    }
+  } catch (error) {
+    console.error("Error saving strain:", error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error saving strain";
+    toast({
+      title: "Error Saving Strain",
+      description: errorMessage,
+      variant: "destructive"
+    });
+    return { 
+      success: false, 
+      error: error instanceof Error ? error : new Error(errorMessage) 
+    };
   }
 };

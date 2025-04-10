@@ -31,7 +31,8 @@ function isStrainArray(data: unknown): data is Strain[] {
  */
 export function safeParse<T>(jsonString: string, defaultValue: T): T {
   try {
-    return JSON.parse(jsonString) as T;
+    const parsed = JSON.parse(jsonString);
+    return parsed as T;
   } catch (e) {
     console.error('[DEBUG] JSON parse error:', e);
     return defaultValue;
@@ -101,8 +102,8 @@ export const testDirectQuery = async () => {
  */
 export const parseStrainData = (jsonString: string): Strain[] | null => {
   try {
-    // Fix the type issue by explicitly providing the type parameter
-    const parsedData = safeParse<Strain[]>(jsonString, []);
+    // Fix the type issue by using proper typing
+    const parsedData = safeParse<unknown>(jsonString, []);
     
     if (isStrainArray(parsedData)) {
       console.log('[DEBUG] Successfully parsed and validated strain data');
