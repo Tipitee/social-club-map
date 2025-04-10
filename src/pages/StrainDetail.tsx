@@ -81,6 +81,22 @@ const StrainDetail: React.FC = () => {
     }
   };
 
+  const getDisplayEffects = (strain: Strain | null) => {
+    if (!strain) return [];
+    
+    const validEffects = strain.effects.filter(
+      effect => effect && effect.effect && effect.intensity > 0
+    );
+    
+    return validEffects.length > 0 
+      ? validEffects
+      : [
+          { effect: "Unknown", intensity: 50 },
+          { effect: "Unknown", intensity: 50 },
+          { effect: "Unknown", intensity: 50 }
+        ];
+  };
+
   if (loading) {
     return (
       <div className="container px-4 py-8">
@@ -168,6 +184,8 @@ const StrainDetail: React.FC = () => {
     );
   }
 
+  const displayEffects = getDisplayEffects(strain);
+
   return (
     <div className="container px-4 py-8 pb-20">
       <div className="flex items-center justify-between mb-6">
@@ -221,26 +239,31 @@ const StrainDetail: React.FC = () => {
         <div className="md:col-span-2">
           <h2 className="text-4xl font-bold mb-4 text-white">{strain.name}</h2>
           
-          {strain.thc_level !== null && (
-            <div className="mb-6">
-              <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium text-gray-300">{t("thcLevel")}</span>
-                <span className="font-bold text-white">{strain.thc_level}%</span>
-              </div>
-              <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden shadow-inner">
-                <div 
-                  className="h-full bg-primary transition-all duration-500 ease-out"
-                  style={{ width: `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` }}
-                />
-              </div>
+          <div className="mb-6">
+            <div className="flex justify-between text-sm mb-1">
+              <span className="font-medium text-gray-300">{t("thcLevel")}</span>
+              <span className="font-bold text-white">{strain.thc_level !== null && strain.thc_level !== undefined ? `${strain.thc_level}%` : "?%"}</span>
             </div>
-          )}
+            <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden shadow-inner">
+              <div 
+                className="h-full bg-primary transition-all duration-500 ease-out"
+                style={{ width: strain.thc_level !== null ? `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` : "50%" }}
+              />
+            </div>
+          </div>
           
-          {strain.most_common_terpene && (
+          {strain.most_common_terpene ? (
             <div className="flex items-center gap-2 mb-6">
               <span className="text-sm text-gray-300">{t("dominantTerpene")}:</span>
               <Badge variant="outline" className="text-base px-3 py-1 bg-gray-800 bg-opacity-50 border-gray-700 text-white">
                 {strain.most_common_terpene}
+              </Badge>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 mb-6">
+              <span className="text-sm text-gray-300">{t("dominantTerpene")}:</span>
+              <Badge variant="outline" className="text-base px-3 py-1 bg-gray-800 bg-opacity-50 border-gray-700 text-white">
+                {t("terpeneDataUnavailable")}
               </Badge>
             </div>
           )}
@@ -254,27 +277,25 @@ const StrainDetail: React.FC = () => {
             </div>
           )}
           
-          {strain.effects && strain.effects.length > 0 && (
-            <div className="mt-8 p-4 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700">
-              <h3 className="text-xl font-semibold mb-4 text-white">{t("effects")}</h3>
-              <div className="space-y-4">
-                {strain.effects.map((effect, index) => (
-                  <div key={`${effect.effect}-${index}`} className="mb-4">
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="font-medium text-base text-gray-300">{effect.effect}</span>
-                      <span className="font-bold text-base text-white">{effect.intensity}%</span>
-                    </div>
-                    <div className="h-4 w-full bg-gray-900 rounded-full overflow-hidden shadow-inner">
-                      <div 
-                        className={`h-full ${index === 0 ? 'bg-emerald-500' : index === 1 ? 'bg-purple-500' : 'bg-amber-500'} transition-all duration-500 ease-out`}
-                        style={{ width: `${effect.intensity}%` }}
-                      />
-                    </div>
+          <div className="mt-8 p-4 bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700">
+            <h3 className="text-xl font-semibold mb-4 text-white">{t("effects")}</h3>
+            <div className="space-y-4">
+              {displayEffects.map((effect, index) => (
+                <div key={`${effect.effect}-${index}`} className="mb-4">
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="font-medium text-base text-gray-300">{effect.effect}</span>
+                    <span className="font-bold text-base text-white">{effect.intensity}%</span>
                   </div>
-                ))}
-              </div>
+                  <div className="h-4 w-full bg-gray-900 rounded-full overflow-hidden shadow-inner">
+                    <div 
+                      className={`h-full ${index === 0 ? 'bg-emerald-500' : index === 1 ? 'bg-purple-500' : 'bg-amber-500'} transition-all duration-500 ease-out`}
+                      style={{ width: `${effect.intensity}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
           
           <div className="mt-8">
             <Button

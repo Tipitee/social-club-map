@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Strain } from "@/types/strain";
 import { transformStrainData } from "./transformers";
@@ -231,8 +230,11 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<{succes
         throw new Error("Strain name is required");
       }
       
+      // Extract ID separately (don't include it in insertData)
+      const strainId = strainData.id;
+      
       // Prepare the data for insertion
-      const insertData: StrainInsertData = {
+      const insertData = {
         name: strainData.name,
         type: strainData.type || 'Hybrid',
         thc_level: strainData.thc_level || null,
@@ -240,10 +242,6 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<{succes
         description: strainData.description || null,
         most_common_terpene: strainData.most_common_terpene || null,
         top_effect: strainData.effects && strainData.effects.length > 0 ? strainData.effects[0].effect : null,
-      };
-      
-      // Additional fields for database
-      const additionalData = {
         top_percent: strainData.effects && strainData.effects.length > 0 ? String(strainData.effects[0].intensity) : null,
         second_effect: strainData.effects && strainData.effects.length > 1 ? strainData.effects[1].effect : null,
         second_percent: strainData.effects && strainData.effects.length > 1 ? String(strainData.effects[1].intensity) : null,
@@ -257,12 +255,12 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<{succes
       let result;
       
       // Insert or update the strain
-      if (strainData.id) {
+      if (strainId) {
         // Update existing strain
         const { data, error } = await supabase
           .from('strains')
-          .update({ ...insertData, ...additionalData })
-          .eq('id', strainData.id)
+          .update(insertData)
+          .eq('id', strainId)
           .select()
           .single();
           
@@ -275,7 +273,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<{succes
         // Insert new strain
         const { data, error } = await supabase
           .from('strains')
-          .insert({ ...insertData, ...additionalData })
+          .insert(insertData)
           .select()
           .single();
           

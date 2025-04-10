@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Strain } from "@/types/strain";
 import { Cannabis, Sun, Circle } from "lucide-react";
@@ -45,10 +44,19 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
-  // Filter out invalid effects
-  const validEffects = strain.effects.filter(
+  // Generate placeholder effects if no valid effects
+  const validEffects = strain.effects && strain.effects.filter(
     effect => effect && effect.effect && effect.intensity > 0
   );
+
+  // Create placeholder effects if no valid effects exist
+  const displayEffects = validEffects && validEffects.length > 0 
+    ? validEffects
+    : [
+        { effect: "Unknown", intensity: 50 },
+        { effect: "Unknown", intensity: 50 },
+        { effect: "Unknown", intensity: 50 }
+      ];
 
   return (
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-800">
@@ -82,45 +90,40 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         <h3 className="text-lg font-bold mb-2 text-white">{strain.name}</h3>
         
         <div className="mt-3">
-          {strain.thc_level !== null && strain.thc_level !== undefined ? (
-            <>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium text-gray-300">{t("thcLevel")}</span>
-                <span className="font-bold text-white">{strain.thc_level}%</span>
-              </div>
-              <div className="h-3 w-full bg-gray-700 rounded-full overflow-hidden mb-4">
-                <div 
-                  className="h-full bg-primary transition-all duration-500 ease-out"
-                  style={{ width: `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` }}
-                />
-              </div>
-            </>
-          ) : (
-            <p className="text-gray-400 text-sm mb-4">{t("labDataPending")}</p>
-          )}
+          {/* Always show THC level - either actual or placeholder */}
+          <div className="flex justify-between text-sm mb-1">
+            <span className="font-medium text-gray-300">{t("thcLevel")}</span>
+            <span className="font-bold text-white">{strain.thc_level !== null && strain.thc_level !== undefined ? `${strain.thc_level}%` : "?%"}</span>
+          </div>
+          <div className="h-3 w-full bg-gray-700 rounded-full overflow-hidden mb-4">
+            <div 
+              className="h-full bg-primary transition-all duration-500 ease-out"
+              style={{ width: strain.thc_level !== null && strain.thc_level !== undefined ? 
+                `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` : 
+                "50%" }}
+            />
+          </div>
         </div>
         
         <div className="space-y-2">
-          {validEffects && validEffects.length > 0 ? (
-            validEffects.slice(0, 3).map((effect, index) => (
-              <div key={`${effect.effect}-${index}`}>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="font-medium text-gray-300">{effect.effect}</span>
-                  <span className="font-bold text-white">{effect.intensity}%</span>
-                </div>
-                <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden mb-1">
-                  <div 
-                    className={`h-full ${getEffectColor(index)} transition-all duration-500 ease-out`}
-                    style={{ width: `${effect.intensity}%` }}
-                  />
-                </div>
+          {/* Display effects (real or placeholder) */}
+          {displayEffects.slice(0, 3).map((effect, index) => (
+            <div key={`${effect.effect}-${index}`}>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="font-medium text-gray-300">{effect.effect}</span>
+                <span className="font-bold text-white">{effect.intensity}%</span>
               </div>
-            ))
-          ) : (
-            <p className="text-gray-400 text-xs">{t("noEffectsData")}</p>
-          )}
+              <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden mb-1">
+                <div 
+                  className={`h-full ${getEffectColor(index)} transition-all duration-500 ease-out`}
+                  style={{ width: `${effect.intensity}%` }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
         
+        {/* Keep terpene message as is */}
         {strain.most_common_terpene ? (
           <div className="mt-4 flex items-center">
             <span className="text-xs text-gray-400 mr-2">{t("dominantTerpene")}:</span>

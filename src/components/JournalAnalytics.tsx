@@ -1,8 +1,7 @@
-
 import React from "react";
 import { JournalAnalytics } from "@/types/journal";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { StarIcon, BarChart4, ThumbsUp, Pills } from "lucide-react";
+import { StarIcon, BarChart4, ThumbsUp, Pill } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 interface JournalAnalyticsProps {
@@ -61,7 +60,7 @@ const JournalAnalyticsComponent: React.FC<JournalAnalyticsProps> = ({ analytics 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Best Dosage Type</CardTitle>
-            <Pills className="h-4 w-4 text-green-500" />
+            <Pill className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold capitalize">
