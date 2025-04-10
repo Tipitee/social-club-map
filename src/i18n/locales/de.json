@@ -8,7 +8,9 @@
       "strains": "Sorten",
       "clubs": "Clubs",
       "profile": "Profil",
-      "mobileMenu": "Hauptmenü öffnen"
+      "mobileMenu": "Hauptmenü öffnen",
+      "legal": "Rechtliche Updates",
+      "guide": "Cannabis-Ratgeber"
     }
   },
   "home": {
@@ -24,6 +26,18 @@
       "clubs": {
         "title": "Clubs finden",
         "description": "Finde Cannabis-Clubs in deiner Nähe mit unserer interaktiven Karte"
+      },
+      "legal": {
+        "title": "Rechtliche Updates",
+        "description": "Bleibe informiert über Änderungen der Cannabis-Gesetzgebung und Politik in Deutschland"
+      },
+      "guide": {
+        "title": "Cannabis-Ratgeber",
+        "description": "Erfahre mehr über Cannabis-Gesetze, sichere Anwendung und grundlegende Informationen"
+      },
+      "offline": {
+        "title": "Offline-Zugang",
+        "description": "Speichere wichtige Informationen zur Nutzung ohne Internetverbindung"
       }
     }
   },
@@ -91,7 +105,19 @@
     "strainDetails": "Sortendetails",
     "strainNotFound": "Sorte nicht gefunden",
     "errorLoadingStrain": "Fehler beim Laden der Sorte",
-    "requestedStrainNotFound": "Die angeforderte Sorte konnte nicht gefunden werden."
+    "requestedStrainNotFound": "Die angeforderte Sorte konnte nicht gefunden werden.",
+    "reviews": {
+      "title": "Benutzerbewertungen",
+      "addReview": "Bewertung hinzufügen",
+      "yourRating": "Deine Bewertung",
+      "writeReview": "Bewertung schreiben",
+      "submitReview": "Bewertung absenden",
+      "thankYou": "Vielen Dank für deine Bewertung!",
+      "noReviews": "Noch keine Bewertungen. Sei der Erste, der diese Sorte bewertet!",
+      "anonymous": "Anonymer Benutzer",
+      "photoUpload": "Foto hochladen",
+      "averageRating": "Durchschnittliche Bewertung"
+    }
   },
   "profile": {
     "title": "Profil",
@@ -119,5 +145,104 @@
     "select": "Sprache",
     "english": "Englisch",
     "german": "Deutsch"
+  },
+  "legal": {
+    "title": "Rechtliche Updates",
+    "subtitle": "Bleibe informiert über die Cannabis-Gesetzgebung in Deutschland",
+    "latestUpdates": "Neueste Updates",
+    "loadMore": "Weitere Updates laden",
+    "source": "Quelle",
+    "readMore": "Mehr lesen",
+    "postedOn": "Veröffentlicht am",
+    "noUpdates": "Derzeit sind keine rechtlichen Updates verfügbar",
+    "filterByCategory": "Nach Kategorie filtern",
+    "categories": {
+      "all": "Alle Kategorien",
+      "federal": "Bundesgesetz",
+      "state": "Länderregelungen",
+      "medical": "Medizinisches Cannabis",
+      "recreational": "Freizeitnutzung",
+      "business": "Geschäft & Lizenzen"
+    }
+  },
+  "guide": {
+    "title": "Cannabis-Ratgeber",
+    "sections": {
+      "laws": "Gesetze & Vorschriften",
+      "safeUse": "Sichere Anwendung",
+      "basics": "Cannabis-Grundlagen"
+    },
+    "lawsContent": {
+      "title": "Deutsche Cannabis-Gesetze",
+      "possession": {
+        "title": "Besitz",
+        "content": "Erwachsene dürfen bis zu 25 Gramm in der Öffentlichkeit und bis zu 50 Gramm zu Hause besitzen. Der Heimanbau von bis zu drei Pflanzen pro Erwachsenem ist erlaubt."
+      },
+      "consumption": {
+        "title": "Konsum",
+        "content": "Konsum in der Öffentlichkeit ist erlaubt, jedoch nicht in der Nähe von Schulen, Sportanlagen oder in Anwesenheit von Minderjährigen."
+      },
+      "driving": {
+        "title": "Fahren",
+        "content": "Fahren unter Einfluss ist streng verboten und mit Strafen belegt."
+      },
+      "clubs": {
+        "title": "Cannabis-Clubs",
+        "content": "Gemeinnützige Vereine dürfen Cannabis anbauen und nur an Mitglieder verteilen."
+      }
+    },
+    "safeUseContent": {
+      "title": "Praktiken für sichere Anwendung",
+      "startLow": {
+        "title": "Niedrig beginnen, langsam steigern",
+        "content": "Beginne mit einer niedrigen Dosis, besonders bei Esswaren, und warte die Wirkung ab, bevor du mehr konsumierst."
+      },
+      "knowSource": {
+        "title": "Kenne deine Quelle",
+        "content": "Beziehe Cannabis aus legalen, zuverlässigen Quellen, um Verunreinigungen und unbekannte Wirkstoffgehalte zu vermeiden."
+      },
+      "mindset": {
+        "title": "Set und Setting",
+        "content": "Konsumiere in einer angenehmen Umgebung mit vertrauten Personen und in einer positiven Grundstimmung."
+      },
+      "hydration": {
+        "title": "Bleib hydriert",
+        "content": "Trinke ausreichend Wasser und vermeide die Mischung mit Alkohol oder anderen Substanzen."
+      }
+    },
+    "basicsContent": {
+      "title": "Cannabis-Grundlagen",
+      "compounds": {
+        "title": "Schlüsselverbindungen",
+        "content": "THC (psychoaktiv), CBD (nicht-psychoaktiv) und Terpene (Aromen) sind die wichtigsten aktiven Komponenten."
+      },
+      "methods": {
+        "title": "Konsummethoden",
+        "content": "Rauchen, Verdampfen, Essbare Produkte, Tinkturen und topische Anwendungen haben jeweils unterschiedliche Wirkungseintrittszeiten und -dauern."
+      },
+      "types": {
+        "title": "Cannabis-Typen",
+        "content": "Indica (entspannend), Sativa (energetisierend) und Hybride bieten unterschiedliche Wirkungen und therapeutische Eigenschaften."
+      },
+      "tolerance": {
+        "title": "Toleranz",
+        "content": "Regelmäßiger Konsum kann eine Toleranz aufbauen, die höhere Dosen für die gleiche Wirkung erfordert. Pausen können die Empfindlichkeit zurücksetzen."
+      }
+    }
+  },
+  "offline": {
+    "title": "Offline-Zugang",
+    "description": "Speichere Inhalte für den Offline-Zugriff",
+    "saveStrain": "Sorte für Offline-Nutzung speichern",
+    "saveClub": "Club für Offline-Nutzung speichern",
+    "savedItems": "Gespeicherte Elemente",
+    "noSavedItems": "Keine Elemente für den Offline-Zugriff gespeichert",
+    "strainSaved": "Sorte für Offline-Zugriff gespeichert",
+    "clubSaved": "Club für Offline-Zugriff gespeichert",
+    "removedFromOffline": "Element vom Offline-Zugriff entfernt",
+    "availableOffline": "Offline verfügbar",
+    "manage": "Offline-Inhalte verwalten",
+    "storageUsage": "Speichernutzung",
+    "clearAll": "Alle gespeicherten Daten löschen"
   }
 }

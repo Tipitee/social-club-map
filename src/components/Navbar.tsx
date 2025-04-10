@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Cannabis, MapPin } from "lucide-react";
+import { Cannabis, MapPin, Book, BookOpen, Scale } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -15,8 +15,16 @@ const Navbar: React.FC = () => {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path;
+    return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
+
+  const navItems = [
+    { path: "/strains", icon: Cannabis, label: t('app.navigation.strains') },
+    { path: "/clubs", icon: MapPin, label: t('app.navigation.clubs') },
+    { path: "/journal", icon: Book, label: t('app.navigation.journal') },
+    { path: "/legal", icon: Scale, label: t('app.navigation.legal') },
+    { path: "/guide", icon: BookOpen, label: t('app.navigation.guide') },
+  ];
 
   return (
     <nav className="bg-gray-900 border-b border-gray-800 shadow-md">
@@ -75,33 +83,22 @@ const Navbar: React.FC = () => {
           
           {/* Desktop menu */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/"
-              className={`px-3 py-2 rounded-md text-sm font-medium ${
-                isActive("/")
-                  ? "bg-primary text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
-              }`}
-            >
-              <div className="flex items-center gap-1.5">
-                <Cannabis size={16} />
-                <span>{t('app.navigation.strains')}</span>
-              </div>
-            </Link>
-            
-            <Link
-              to="/clubs"
-              className={`px-3 py-2 rounded-md text-sm font-medium ${
-                isActive("/clubs")
-                  ? "bg-primary text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
-              }`}
-            >
-              <div className="flex items-center gap-1.5">
-                <MapPin size={16} />
-                <span>{t('app.navigation.clubs')}</span>
-              </div>
-            </Link>
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  isActive(item.path)
+                    ? "bg-primary text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <item.icon size={16} />
+                  <span>{item.label}</span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -109,35 +106,23 @@ const Navbar: React.FC = () => {
       {/* Mobile menu, show/hide based on menu state */}
       <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link
-            to="/"
-            className={`block px-3 py-2 rounded-md text-base font-medium ${
-              isActive("/")
-                ? "bg-primary text-white"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            <div className="flex items-center gap-1.5">
-              <Cannabis size={18} />
-              <span>{t('app.navigation.strains')}</span>
-            </div>
-          </Link>
-          
-          <Link
-            to="/clubs"
-            className={`block px-3 py-2 rounded-md text-base font-medium ${
-              isActive("/clubs")
-                ? "bg-primary text-white"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            <div className="flex items-center gap-1.5">
-              <MapPin size={18} />
-              <span>{t('app.navigation.clubs')}</span>
-            </div>
-          </Link>
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`block px-3 py-2 rounded-md text-base font-medium ${
+                isActive(item.path)
+                  ? "bg-primary text-white"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              <div className="flex items-center gap-1.5">
+                <item.icon size={18} />
+                <span>{item.label}</span>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </nav>

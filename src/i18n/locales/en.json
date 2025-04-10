@@ -8,7 +8,9 @@
       "strains": "Strains",
       "clubs": "Clubs",
       "profile": "Profile",
-      "mobileMenu": "Open main menu"
+      "mobileMenu": "Open main menu",
+      "legal": "Legal Updates",
+      "guide": "Cannabis Guide"
     }
   },
   "home": {
@@ -24,6 +26,18 @@
       "clubs": {
         "title": "Find Clubs",
         "description": "Locate cannabis clubs in your area with our interactive map"
+      },
+      "legal": {
+        "title": "Legal Updates",
+        "description": "Stay informed about cannabis legislation and policy changes in Germany"
+      },
+      "guide": {
+        "title": "Cannabis Guide",
+        "description": "Learn about cannabis laws, safe use practices, and basic information"
+      },
+      "offline": {
+        "title": "Offline Access",
+        "description": "Save important information for use without internet connection"
       }
     }
   },
@@ -91,7 +105,19 @@
     "strainDetails": "Strain Details",
     "strainNotFound": "Strain Not Found",
     "errorLoadingStrain": "Error Loading Strain",
-    "requestedStrainNotFound": "The requested strain could not be found."
+    "requestedStrainNotFound": "The requested strain could not be found.",
+    "reviews": {
+      "title": "User Reviews",
+      "addReview": "Add Review",
+      "yourRating": "Your Rating",
+      "writeReview": "Write a review",
+      "submitReview": "Submit Review",
+      "thankYou": "Thank you for your review!",
+      "noReviews": "No reviews yet. Be the first to review this strain!",
+      "anonymous": "Anonymous User",
+      "photoUpload": "Upload Photo",
+      "averageRating": "Average Rating"
+    }
   },
   "profile": {
     "title": "Profile",
@@ -119,5 +145,104 @@
     "select": "Language",
     "english": "English",
     "german": "German"
+  },
+  "legal": {
+    "title": "Legal Updates",
+    "subtitle": "Stay informed about cannabis legislation in Germany",
+    "latestUpdates": "Latest Updates",
+    "loadMore": "Load More Updates",
+    "source": "Source",
+    "readMore": "Read More",
+    "postedOn": "Posted on",
+    "noUpdates": "No legal updates available at this time",
+    "filterByCategory": "Filter by Category",
+    "categories": {
+      "all": "All Categories",
+      "federal": "Federal Law",
+      "state": "State Regulations",
+      "medical": "Medical Cannabis",
+      "recreational": "Recreational Use",
+      "business": "Business & Licensing"
+    }
+  },
+  "guide": {
+    "title": "Cannabis Guide",
+    "sections": {
+      "laws": "Laws & Regulations",
+      "safeUse": "Safe Use",
+      "basics": "Cannabis Basics"
+    },
+    "lawsContent": {
+      "title": "German Cannabis Laws",
+      "possession": {
+        "title": "Possession",
+        "content": "Adults may possess up to 25 grams in public and up to 50 grams at home. Home growing of up to three plants per adult is permitted."
+      },
+      "consumption": {
+        "title": "Consumption",
+        "content": "Public consumption is allowed, but not near schools, sports facilities, or in the presence of minors."
+      },
+      "driving": {
+        "title": "Driving",
+        "content": "Driving under the influence is strictly prohibited and subject to penalties."
+      },
+      "clubs": {
+        "title": "Cannabis Clubs",
+        "content": "Non-profit associations are permitted to grow and distribute cannabis to members only."
+      }
+    },
+    "safeUseContent": {
+      "title": "Safe Use Practices",
+      "startLow": {
+        "title": "Start Low, Go Slow",
+        "content": "Begin with a low dose, especially with edibles, and wait for effects before consuming more."
+      },
+      "knowSource": {
+        "title": "Know Your Source",
+        "content": "Obtain cannabis from legal, reliable sources to avoid contaminants and unknown potency."
+      },
+      "mindset": {
+        "title": "Set and Setting",
+        "content": "Use in a comfortable environment with trusted people when in a positive mindset."
+      },
+      "hydration": {
+        "title": "Stay Hydrated",
+        "content": "Drink plenty of water and avoid mixing with alcohol or other substances."
+      }
+    },
+    "basicsContent": {
+      "title": "Cannabis Basics",
+      "compounds": {
+        "title": "Key Compounds",
+        "content": "THC (psychoactive), CBD (non-psychoactive), and terpenes (aromas) are the main active components."
+      },
+      "methods": {
+        "title": "Consumption Methods",
+        "content": "Smoking, vaporizing, edibles, tinctures, and topicals each have different onset times and effect durations."
+      },
+      "types": {
+        "title": "Cannabis Types",
+        "content": "Indica (relaxing), Sativa (energizing), and Hybrid strains offer different effects and therapeutic properties."
+      },
+      "tolerance": {
+        "title": "Tolerance",
+        "content": "Regular use can build tolerance requiring higher doses for the same effect. Taking breaks can reset sensitivity."
+      }
+    }
+  },
+  "offline": {
+    "title": "Offline Access",
+    "description": "Save content for offline access",
+    "saveStrain": "Save Strain for Offline",
+    "saveClub": "Save Club for Offline",
+    "savedItems": "Saved Items",
+    "noSavedItems": "No items saved for offline access",
+    "strainSaved": "Strain saved for offline access",
+    "clubSaved": "Club saved for offline access",
+    "removedFromOffline": "Item removed from offline access",
+    "availableOffline": "Available Offline",
+    "manage": "Manage Offline Content",
+    "storageUsage": "Storage Usage",
+    "clearAll": "Clear All Saved Data"
   }
 }
