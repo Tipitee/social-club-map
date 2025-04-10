@@ -1,9 +1,19 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { Strain } from "@/types/strain";
 import { transformStrainData } from "./transformers";
 import { StrainServiceError } from "./errors";
 import { strainInsertSchema, StrainInsertData } from "./validation";
 import { z } from "zod";
+
+/**
+ * Result type for API operations
+ */
+export interface Result<T> {
+  success: boolean;
+  data?: T;
+  error?: Error;
+}
 
 /**
  * Fetches strains with optional sorting, pagination, and filtering
@@ -221,7 +231,7 @@ export const getTerpenes = async (): Promise<string[]> => {
  * - Handles data validation
  * - Ensures required fields are present
  */
-export const upsertStrain = async (strainData: Partial<Strain>): Promise<{success: boolean, data?: Strain, error?: Error}> => {
+export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<Strain>> => {
   try {
     // Validate the strain data
     try {
@@ -233,24 +243,38 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<{succes
       // Extract ID separately (don't include it in insertData)
       const strainId = strainData.id;
       
-      // Prepare the data for insertion
-      const insertData = {
+      // Fix: Simplify the data structure to avoid deep instantiation issues
+      const effects = strainData.effects || [];
+      
+      // Prepare the data for insertion - explicitly define each field without recursive references
+      const insertData: StrainInsertData = {
         name: strainData.name,
         type: strainData.type || 'Hybrid',
         thc_level: strainData.thc_level || null,
         img_url: strainData.img_url || null,
         description: strainData.description || null,
         most_common_terpene: strainData.most_common_terpene || null,
-        top_effect: strainData.effects && strainData.effects.length > 0 ? strainData.effects[0].effect : null,
-        top_percent: strainData.effects && strainData.effects.length > 0 ? String(strainData.effects[0].intensity) : null,
-        second_effect: strainData.effects && strainData.effects.length > 1 ? strainData.effects[1].effect : null,
-        second_percent: strainData.effects && strainData.effects.length > 1 ? String(strainData.effects[1].intensity) : null,
-        third_effect: strainData.effects && strainData.effects.length > 2 ? strainData.effects[2].effect : null,
-        third_percent: strainData.effects && strainData.effects.length > 2 ? String(strainData.effects[2].intensity) : null
+        top_effect: effects.length > 0 ? effects[0].effect : null
       };
       
       // Validate with Zod
       strainInsertSchema.parse(insertData);
+      
+      // Explicitly define effects-related fields to avoid recursion
+      const effectsData = {
+        top_effect: effects.length > 0 ? effects[0].effect : null,
+        top_percent: effects.length > 0 ? String(effects[0].intensity) : null,
+        second_effect: effects.length > 1 ? effects[1].effect : null,
+        second_percent: effects.length > 1 ? String(effects[1].intensity) : null,
+        third_effect: effects.length > 2 ? effects[2].effect : null,
+        third_percent: effects.length > 2 ? String(effects[2].intensity) : null
+      };
+      
+      // Combine basic data with effects data
+      const fullInsertData = {
+        ...insertData,
+        ...effectsData
+      };
       
       let result;
       
@@ -259,7 +283,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<{succes
         // Update existing strain
         const { data, error } = await supabase
           .from('strains')
-          .update(insertData)
+          .update(fullInsertData)
           .eq('id', strainId)
           .select()
           .single();
@@ -273,7 +297,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<{succes
         // Insert new strain
         const { data, error } = await supabase
           .from('strains')
-          .insert(insertData)
+          .insert(fullInsertData)
           .select()
           .single();
           
