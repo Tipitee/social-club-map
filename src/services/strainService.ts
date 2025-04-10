@@ -1,4 +1,3 @@
-
 import { Strain, StrainEffect } from "../types/strain";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -125,8 +124,8 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
         parsed_thc: thcLevel,
         effects: [
           item.top_effect ? `${item.top_effect}: ${safeParsePercent(item.highest_percent)}%` : null,
-          item.second_effect ? `${item.second_effect}: ${safeParsePercent(item.second_highest_percent)}%` : null, 
-          item.third_effect ? `${item.third_effect}: ${safeParsePercent(item.third_highest_percent)}%` : null
+          item.second_effect ? `${item.second_effect}: ${safeParsePercent(item.second_percent)}%` : null, 
+          item.third_effect ? `${item.third_effect}: ${safeParsePercent(item.third_percent)}%` : null
         ].filter(Boolean)
       });
       
@@ -144,14 +143,14 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
       if (item.second_effect) {
         effects.push({ 
           effect: item.second_effect, 
-          intensity: safeParsePercent(item.second_highest_percent || 0)
+          intensity: safeParsePercent(item.second_percent || 0)
         });
       }
       
       if (item.third_effect) {
         effects.push({ 
           effect: item.third_effect,
-          intensity: safeParsePercent(item.third_highest_percent || 0)
+          intensity: safeParsePercent(item.third_percent || 0)
         });
       }
 
@@ -250,14 +249,14 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
     if (data.second_effect) {
       effects.push({ 
         effect: data.second_effect, 
-        intensity: safeParsePercent(data.second_highest_percent || 0)
+        intensity: safeParsePercent(data.second_percent || 0)
       });
     }
     
     if (data.third_effect) {
       effects.push({ 
         effect: data.third_effect,
-        intensity: safeParsePercent(data.third_highest_percent || 0)
+        intensity: safeParsePercent(data.third_percent || 0)
       });
     }
 
