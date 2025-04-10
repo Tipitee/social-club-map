@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { StrainFilters as StrainFiltersType } from "@/types/strain";
 import { getAllEffects, getTerpenes } from "@/services/strainService";
 import { Search, ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
   Select,
   SelectContent,
@@ -22,6 +23,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
   filters, 
   onFilterChange,
 }) => {
+  const { t } = useTranslation();
   const [effects, setEffects] = useState<string[]>([]);
   const [terpenes, setTerpenes] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -75,7 +77,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
   return (
     <div className="bg-gray-800/80 p-6 rounded-xl border border-gray-700 shadow-md space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-xl text-white">Filter Strains</h2>
+        <h2 className="font-bold text-xl text-white">{t('strains.filterStrains')}</h2>
       </div>
       
       {/* Search Input */}
@@ -83,7 +85,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <div className="relative">
           <Input
             type="text"
-            placeholder="Search strains..."
+            placeholder={t('strains.filters.searchPlaceholder')}
             value={filters.search || ''}
             onChange={handleSearchChange}
             className="pl-10 bg-gray-700/50 border-gray-600 text-white h-12 text-base"
@@ -94,7 +96,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* Type Filter - All buttons in one row */}
       <div>
-        <h3 className="text-base font-medium mb-3 text-gray-300">Type</h3>
+        <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.type')}</h3>
         <div className="flex flex-row gap-2 flex-nowrap">
           <button
             className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
@@ -104,7 +106,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             }`}
             onClick={() => handleTypeChange(null)}
           >
-            All
+            {t('strains.filters.all')}
           </button>
           <button
             className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
@@ -114,7 +116,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             }`}
             onClick={() => handleTypeChange("Indica")}
           >
-            Indica
+            {t('strains.filters.indica')}
           </button>
           <button
             className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
@@ -124,7 +126,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             }`}
             onClick={() => handleTypeChange("Sativa")}
           >
-            Sativa
+            {t('strains.filters.sativa')}
           </button>
           <button
             className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
@@ -134,7 +136,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             }`}
             onClick={() => handleTypeChange("Hybrid")}
           >
-            Hybrid
+            {t('strains.filters.hybrid')}
           </button>
         </div>
       </div>
@@ -142,7 +144,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       {/* THC Range Filter */}
       <div>
         <div className="flex justify-between mb-3">
-          <h3 className="text-base font-medium text-gray-300">THC Level</h3>
+          <h3 className="text-base font-medium text-gray-300">{t('strains.thcLevel')}</h3>
           <span className="text-sm text-white font-medium">
             {filters.thcRange[0]}% - {filters.thcRange[1]}%
           </span>
@@ -165,17 +167,17 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* Effect Filter */}
       <div>
-        <h3 className="text-base font-medium mb-3 text-gray-300">Dominant Effect</h3>
+        <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.dominantEffect')}</h3>
         <Select 
           value={filters.effect || "all"} 
           onValueChange={handleEffectChange}
           disabled={loading}
         >
           <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
-            <SelectValue placeholder="All Effects" />
+            <SelectValue placeholder={t('strains.filters.allEffects')} />
           </SelectTrigger>
           <SelectContent className="bg-gray-800 border-gray-700">
-            <SelectItem value="all" className="text-white">All Effects</SelectItem>
+            <SelectItem value="all" className="text-white">{t('strains.filters.allEffects')}</SelectItem>
             {effects.map((effect) => (
               <SelectItem key={effect} value={effect} className="text-white">
                 {effect}
@@ -187,17 +189,17 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
 
       {/* Terpene Filter */}
       <div>
-        <h3 className="text-base font-medium mb-3 text-gray-300">Terpene</h3>
+        <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.terpene')}</h3>
         <Select 
           value={filters.terpene || "all"} 
           onValueChange={handleTerpeneChange}
           disabled={loading}
         >
           <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
-            <SelectValue placeholder="All Terpenes" />
+            <SelectValue placeholder={t('strains.filters.allTerpenes')} />
           </SelectTrigger>
           <SelectContent className="bg-gray-800 border-gray-700">
-            <SelectItem value="all" className="text-white">All Terpenes</SelectItem>
+            <SelectItem value="all" className="text-white">{t('strains.filters.allTerpenes')}</SelectItem>
             {terpenes.map((terpene) => (
               <SelectItem key={terpene} value={terpene} className="text-white">
                 {terpene}
@@ -209,18 +211,18 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* Sort Options */}
       <div>
-        <h3 className="text-base font-medium mb-3 text-gray-300">Sort By</h3>
+        <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.sortBy')}</h3>
         <Select 
           value={filters.sort} 
           onValueChange={(value: string) => handleSortChange(value as 'name' | 'thc_high' | 'thc_low')}
         >
           <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
-            <SelectValue placeholder="Sort By" />
+            <SelectValue placeholder={t('strains.filters.sortBy')} />
           </SelectTrigger>
           <SelectContent className="bg-gray-800 border-gray-700 max-h-[200px]">
-            <SelectItem value="name" className="text-white">Name (A-Z)</SelectItem>
-            <SelectItem value="thc_high" className="text-white">THC (High to Low)</SelectItem>
-            <SelectItem value="thc_low" className="text-white">THC (Low to High)</SelectItem>
+            <SelectItem value="name" className="text-white">{t('strains.filters.nameAZ')}</SelectItem>
+            <SelectItem value="thc_high" className="text-white">{t('strains.filters.thcHighToLow')}</SelectItem>
+            <SelectItem value="thc_low" className="text-white">{t('strains.filters.thcLowToHigh')}</SelectItem>
           </SelectContent>
         </Select>
       </div>

@@ -2,10 +2,13 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Cannabis, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Navbar: React.FC = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -26,14 +29,18 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           
+          <div className="flex items-center">
+            <LanguageSwitcher />
+          </div>
+          
           {/* Mobile menu button */}
-          <div className="flex md:hidden items-center">
+          <div className="flex md:hidden items-center ml-2">
             <button
               onClick={toggleMenu}
               className="p-2 rounded-md text-gray-400"
               aria-expanded="false"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">{t('app.navigation.mobileMenu')}</span>
               {isOpen ? (
                 <svg
                   className="h-6 w-6"
@@ -78,7 +85,7 @@ const Navbar: React.FC = () => {
             >
               <div className="flex items-center gap-1.5">
                 <Cannabis size={16} />
-                <span>Strains</span>
+                <span>{t('app.navigation.strains')}</span>
               </div>
             </Link>
             
@@ -92,7 +99,7 @@ const Navbar: React.FC = () => {
             >
               <div className="flex items-center gap-1.5">
                 <MapPin size={16} />
-                <span>Club Map</span>
+                <span>{t('app.navigation.clubs')}</span>
               </div>
             </Link>
           </div>
@@ -113,7 +120,7 @@ const Navbar: React.FC = () => {
           >
             <div className="flex items-center gap-1.5">
               <Cannabis size={18} />
-              <span>Strain Explorer</span>
+              <span>{t('app.navigation.strains')}</span>
             </div>
           </Link>
           
@@ -128,7 +135,7 @@ const Navbar: React.FC = () => {
           >
             <div className="flex items-center gap-1.5">
               <MapPin size={18} />
-              <span>Club Map</span>
+              <span>{t('app.navigation.clubs')}</span>
             </div>
           </Link>
         </div>

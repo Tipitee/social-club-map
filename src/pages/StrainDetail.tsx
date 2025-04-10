@@ -10,8 +10,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Cannabis, Sun, CircleDashed, AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Progress } from "@/components/ui/progress";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const StrainDetail: React.FC = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [strain, setStrain] = useState<Strain | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,17 +36,17 @@ const StrainDetail: React.FC = () => {
         const strainData = await fetchStrainById(id);
         
         if (!strainData) {
-          setError("Strain not found");
+          setError(t('strains.requestedStrainNotFound'));
         } else {
           setStrain(strainData);
         }
       } catch (error) {
         console.error("Error loading strain:", error);
-        const message = error instanceof Error ? error.message : "Unknown error loading strain";
+        const message = error instanceof Error ? error.message : t('strains.errorLoadingStrain');
         setError(message);
         
         toast({
-          title: "Error loading strain",
+          title: t('strains.errorLoadingStrain'),
           description: message,
           variant: "destructive",
         });
@@ -53,7 +56,7 @@ const StrainDetail: React.FC = () => {
     };
 
     loadStrain();
-  }, [id, toast]);
+  }, [id, toast, t]);
 
   const getTypeIcon = (type: string | null) => {
     switch (type) {
@@ -166,16 +169,16 @@ const StrainDetail: React.FC = () => {
           >
             <ArrowLeft />
           </Button>
-          <h1 className="text-3xl font-bold">Strain Not Found</h1>
+          <h1 className="text-3xl font-bold">{t('strains.strainNotFound')}</h1>
         </div>
         
         <Card className="border-destructive">
           <CardContent className="p-8 flex flex-col items-center">
             <AlertCircle className="h-20 w-20 text-destructive mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Error Loading Strain</h2>
-            <p className="text-muted-foreground mb-6">{error || "The requested strain could not be found."}</p>
+            <h2 className="text-2xl font-bold mb-2">{t('strains.errorLoadingStrain')}</h2>
+            <p className="text-muted-foreground mb-6">{error || t('strains.requestedStrainNotFound')}</p>
             <Button onClick={() => navigate('/strains')}>
-              Back to Strain Explorer
+              {t('strains.backToAllStrains')}
             </Button>
           </CardContent>
         </Card>
@@ -185,16 +188,19 @@ const StrainDetail: React.FC = () => {
 
   return (
     <div className="container px-4 py-8 pb-20">
-      <div className="flex items-center gap-2 mb-6">
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="rounded-full"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft />
-        </Button>
-        <h1 className="text-3xl font-bold text-white">Strain Details</h1>
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="rounded-full"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft />
+          </Button>
+          <h1 className="text-3xl font-bold text-white">{t('strains.strainDetails')}</h1>
+        </div>
+        <LanguageSwitcher />
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -240,7 +246,7 @@ const StrainDetail: React.FC = () => {
           {strain.thc_level !== null && (
             <div className="mb-6">
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium text-white">THC Level</span>
+                <span className="font-medium text-white">{t('strains.thcLevel')}</span>
                 <span className="font-bold text-white">{strain.thc_level}%</span>
               </div>
               <Progress 
@@ -252,7 +258,7 @@ const StrainDetail: React.FC = () => {
           
           {strain.most_common_terpene && (
             <div className="flex items-center gap-2 mb-6">
-              <span className="text-sm text-white">Dominant Terpene:</span>
+              <span className="text-sm text-white">{t('strains.dominantTerpene')}:</span>
               <Badge variant="outline" className="text-base px-3 py-1 bg-gray-800 border-gray-600 text-white">
                 {strain.most_common_terpene}
               </Badge>
@@ -261,7 +267,7 @@ const StrainDetail: React.FC = () => {
           
           {strain.description && (
             <div className="mb-8 bg-gray-800/40 p-4 rounded-lg">
-              <h3 className="text-xl font-semibold mb-3 text-white">Description</h3>
+              <h3 className="text-xl font-semibold mb-3 text-white">{t('strains.description')}</h3>
               <div className="prose prose-sm prose-invert max-w-none">
                 <p className="text-gray-300">{strain.description}</p>
               </div>
@@ -270,7 +276,7 @@ const StrainDetail: React.FC = () => {
           
           {strain.effects && strain.effects.length > 0 && (
             <div className="mt-8 bg-gray-800/40 p-4 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4 text-white">Effects</h3>
+              <h3 className="text-xl font-semibold mb-4 text-white">{t('strains.effects')}</h3>
               <div className="space-y-4">
                 {strain.effects
                   .filter(effect => effect && effect.effect && effect.intensity > 0)
@@ -298,7 +304,7 @@ const StrainDetail: React.FC = () => {
               variant="outline"
               className="w-full sm:w-auto border border-gray-600 text-white bg-gray-800 hover:bg-gray-700"
             >
-              Back to All Strains
+              {t('strains.backToAllStrains')}
             </Button>
           </div>
         </div>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -11,11 +10,14 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const LAST_VIEWED_STRAIN_KEY = "last-viewed-strain";
 const LAST_SCROLL_POSITION_KEY = "last-scroll-position";
 
 const StrainExplorer: React.FC = () => {
+  const { t } = useTranslation();
   const [strains, setStrains] = useState<Strain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -139,7 +141,7 @@ const StrainExplorer: React.FC = () => {
         const message = error instanceof Error ? error.message : "Unknown error loading strains";
         setError(message);
         toast({
-          title: "Error loading strains",
+          title: t('strains.errorLoading'),
           description: message,
           variant: "destructive",
         });
@@ -149,7 +151,7 @@ const StrainExplorer: React.FC = () => {
     };
 
     loadStrains();
-  }, [filters, toast]);
+  }, [filters, toast, t]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -258,8 +260,8 @@ const StrainExplorer: React.FC = () => {
     } catch (error) {
       console.error("Error loading more strains:", error);
       toast({
-        title: "Error loading more strains",
-        description: "Could not load additional strains. Please try again.",
+        title: t('strains.errorLoadingMore'),
+        description: t('strains.couldNotLoadAdditional'),
         variant: "destructive",
       });
     } finally {
@@ -309,21 +311,24 @@ const StrainExplorer: React.FC = () => {
     <div className="container px-4 py-6 pb-20">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold text-white">Strain Explorer</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-white">{t('strains.explorer')}</h1>
         </div>
-        <Button
-          onClick={toggleFilters}
-          variant="secondary"
-          className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700"
-        >
-          <Filter size={18} /> 
-          {showFilters ? "Hide Filters" : "Filters"}
-          {activeFilterCount > 0 && (
-            <Badge variant="destructive" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full">
-              {activeFilterCount}
-            </Badge>
-          )}
-        </Button>
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <Button
+            onClick={toggleFilters}
+            variant="secondary"
+            className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700"
+          >
+            <Filter size={18} /> 
+            {showFilters ? t('strains.hideFilters') : t('strains.filters')}
+            {activeFilterCount > 0 && (
+              <Badge variant="destructive" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full">
+                {activeFilterCount}
+              </Badge>
+            )}
+          </Button>
+        </div>
       </div>
 
       {activeFilterCount > 0 && (
@@ -333,7 +338,7 @@ const StrainExplorer: React.FC = () => {
               variant="secondary"
               className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
             >
-              Type: {filters.type}
+              {t('strains.filters.type')}: {filters.type}
               <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('type')} />
             </Badge>
           )}
@@ -342,7 +347,7 @@ const StrainExplorer: React.FC = () => {
               variant="secondary"
               className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
             >
-              Effect: {filters.effect}
+              {t('strains.filters.effect')}: {filters.effect}
               <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('effect')} />
             </Badge>
           )}
@@ -351,7 +356,7 @@ const StrainExplorer: React.FC = () => {
               variant="secondary"
               className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
             >
-              Terpene: {filters.terpene}
+              {t('strains.filters.terpene')}: {filters.terpene}
               <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('terpene')} />
             </Badge>
           )}
@@ -360,7 +365,7 @@ const StrainExplorer: React.FC = () => {
               variant="secondary"
               className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
             >
-              Search: "{filters.search}"
+              {t('strains.filters.search')}: "{filters.search}"
               <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('search')} />
             </Badge>
           )}
@@ -369,7 +374,7 @@ const StrainExplorer: React.FC = () => {
               variant="secondary"
               className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
             >
-              THC: {filters.thcRange[0]}% - {filters.thcRange[1]}%
+              {t('strains.thcLevel')}: {filters.thcRange[0]}% - {filters.thcRange[1]}%
               <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('thcRange')} />
             </Badge>
           )}
@@ -388,7 +393,7 @@ const StrainExplorer: React.FC = () => {
           {error ? (
             <Card className="bg-gray-900 p-8 rounded-xl text-center border border-destructive">
               <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-2 text-white">Error Loading Strains</h3>
+                <h3 className="text-xl font-semibold mb-2 text-white">{t('strains.errorLoadingStrains')}</h3>
                 <p className="text-gray-400 mb-4">{error}</p>
                 <Button 
                   onClick={() => {
@@ -400,7 +405,7 @@ const StrainExplorer: React.FC = () => {
                   variant="default"
                   className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white"
                 >
-                  Retry
+                  {t('strains.retry')}
                 </Button>
               </CardContent>
             </Card>
@@ -431,7 +436,7 @@ const StrainExplorer: React.FC = () => {
                   {loadingMore && (
                     <div className="flex items-center justify-center">
                       <Loader2 className="h-6 w-6 animate-spin text-emerald-500 mr-2" />
-                      <span className="text-gray-400">Loading more strains...</span>
+                      <span className="text-gray-400">{t('strains.loadingMore')}</span>
                     </div>
                   )}
                 </div>
@@ -440,9 +445,9 @@ const StrainExplorer: React.FC = () => {
           ) : (
             <Card className="bg-gray-900 p-8 rounded-xl text-center border border-gray-700">
               <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-2 text-white">No strains found</h3>
+                <h3 className="text-xl font-semibold mb-2 text-white">{t('strains.noStrainsFound')}</h3>
                 <p className="text-gray-400">
-                  Try adjusting your filters to see more results.
+                  {t('strains.tryAdjustingFilters')}
                 </p>
               </CardContent>
             </Card>

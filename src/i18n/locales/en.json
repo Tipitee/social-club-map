@@ -7,7 +7,8 @@
       "journal": "Journal",
       "strains": "Strains",
       "clubs": "Clubs",
-      "profile": "Profile"
+      "profile": "Profile",
+      "mobileMenu": "Open main menu"
     }
   },
   "home": {
@@ -49,11 +50,48 @@
     "entryAddedDesc": "Your journal entry has been saved successfully"
   },
   "strains": {
+    "explorer": "Strain Explorer",
+    "filters": "Filters",
+    "hideFilters": "Hide Filters",
+    "filterStrains": "Filter Strains",
     "thcLevel": "THC Level",
     "labDataPending": "Lab data pending",
     "noData": "No data",
     "dominantTerpene": "Dominant Terpene",
-    "terpeneUnavailable": "Terpene data unavailable"
+    "terpeneUnavailable": "Terpene data unavailable",
+    "noStrainsFound": "No strains found",
+    "tryAdjustingFilters": "Try adjusting your filters to see more results.",
+    "errorLoading": "Error loading strains",
+    "errorLoadingStrains": "Error Loading Strains",
+    "errorLoadingMore": "Error loading more strains",
+    "couldNotLoadAdditional": "Could not load additional strains. Please try again.",
+    "loadingMore": "Loading more strains...",
+    "retry": "Retry",
+    "filters": {
+      "type": "Type",
+      "effect": "Effect",
+      "terpene": "Terpene",
+      "search": "Search",
+      "searchPlaceholder": "Search strains...",
+      "all": "All",
+      "indica": "Indica",
+      "sativa": "Sativa",
+      "hybrid": "Hybrid",
+      "dominantEffect": "Dominant Effect",
+      "allEffects": "All Effects",
+      "allTerpenes": "All Terpenes",
+      "sortBy": "Sort By",
+      "nameAZ": "Name (A-Z)",
+      "thcHighToLow": "THC (High to Low)",
+      "thcLowToHigh": "THC (Low to High)"
+    },
+    "backToAllStrains": "Back to All Strains",
+    "effects": "Effects",
+    "description": "Description",
+    "strainDetails": "Strain Details",
+    "strainNotFound": "Strain Not Found",
+    "errorLoadingStrain": "Error Loading Strain",
+    "requestedStrainNotFound": "The requested strain could not be found."
   },
   "profile": {
     "title": "Profile",

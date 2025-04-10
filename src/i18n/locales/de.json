@@ -7,7 +7,8 @@
       "journal": "Tagebuch",
       "strains": "Sorten",
       "clubs": "Clubs",
-      "profile": "Profil"
+      "profile": "Profil",
+      "mobileMenu": "Hauptmenü öffnen"
     }
   },
   "home": {
@@ -49,11 +50,48 @@
     "entryAddedDesc": "Dein Tagebucheintrag wurde erfolgreich gespeichert"
   },
   "strains": {
+    "explorer": "Sorten-Explorer",
+    "filters": "Filter",
+    "hideFilters": "Filter ausblenden",
+    "filterStrains": "Sorten filtern",
     "thcLevel": "THC-Gehalt",
     "labDataPending": "Labordaten ausstehend",
     "noData": "Keine Daten",
     "dominantTerpene": "Dominantes Terpen",
-    "terpeneUnavailable": "Terpendaten nicht verfügbar"
+    "terpeneUnavailable": "Terpendaten nicht verfügbar",
+    "noStrainsFound": "Keine Sorten gefunden",
+    "tryAdjustingFilters": "Versuche, deine Filter anzupassen, um mehr Ergebnisse zu sehen.",
+    "errorLoading": "Fehler beim Laden der Sorten",
+    "errorLoadingStrains": "Fehler beim Laden der Sorten",
+    "errorLoadingMore": "Fehler beim Laden weiterer Sorten",
+    "couldNotLoadAdditional": "Konnte keine weiteren Sorten laden. Bitte versuche es erneut.",
+    "loadingMore": "Lade weitere Sorten...",
+    "retry": "Wiederholen",
+    "filters": {
+      "type": "Typ",
+      "effect": "Wirkung",
+      "terpene": "Terpen",
+      "search": "Suche",
+      "searchPlaceholder": "Sorten suchen...",
+      "all": "Alle",
+      "indica": "Indica",
+      "sativa": "Sativa",
+      "hybrid": "Hybrid",
+      "dominantEffect": "Dominante Wirkung",
+      "allEffects": "Alle Wirkungen",
+      "allTerpenes": "Alle Terpene",
+      "sortBy": "Sortieren nach",
+      "nameAZ": "Name (A-Z)",
+      "thcHighToLow": "THC (Hoch nach Niedrig)",
+      "thcLowToHigh": "THC (Niedrig nach Hoch)"
+    },
+    "backToAllStrains": "Zurück zu allen Sorten",
+    "effects": "Wirkungen",
+    "description": "Beschreibung",
+    "strainDetails": "Sortendetails",
+    "strainNotFound": "Sorte nicht gefunden",
+    "errorLoadingStrain": "Fehler beim Laden der Sorte",
+    "requestedStrainNotFound": "Die angeforderte Sorte konnte nicht gefunden werden."
   },
   "profile": {
     "title": "Profil",
