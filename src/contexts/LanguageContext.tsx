@@ -1,5 +1,6 @@
 
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type Language = 'en' | 'de';
 
@@ -12,12 +13,14 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // Get language from localStorage or default to English
-  const storedLanguage = localStorage.getItem('language') as Language;
-  const [language, setLanguage] = useState<Language>(storedLanguage || 'en');
+  const storedLanguage = localStorage.getItem('language') as Language || 'en';
+  const [language, setLanguage] = useState<Language>(storedLanguage);
+  const { i18n } = useTranslation();
 
   const handleSetLanguage = (newLanguage: Language) => {
     localStorage.setItem('language', newLanguage);
     setLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage);
   };
 
   return (
