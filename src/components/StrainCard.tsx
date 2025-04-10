@@ -3,6 +3,7 @@ import React from "react";
 import { Strain } from "@/types/strain";
 import { Cannabis, Sun, CircleDashed } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 interface StrainCardProps {
   strain: Strain;
@@ -12,12 +13,12 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
   const getTypeIcon = () => {
     switch (strain.type) {
       case "Indica":
-        return <Cannabis className="h-16 w-16 text-purple-400 drop-shadow-glow-purple" />;
+        return <Cannabis className="h-16 w-16 text-purple-500 drop-shadow-md" />;
       case "Sativa":
-        return <Sun className="h-16 w-16 text-amber-400 drop-shadow-glow-amber" />;
+        return <Sun className="h-16 w-16 text-amber-500 drop-shadow-md" />;
       case "Hybrid":
       default:
-        return <CircleDashed className="h-16 w-16 text-emerald-400 drop-shadow-glow-emerald" />;
+        return <CircleDashed className="h-16 w-16 text-emerald-500 drop-shadow-md" />;
     }
   };
 
@@ -49,7 +50,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     .slice(0, 3); // Only show top 3 effects
 
   return (
-    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-800">
+    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900">
       <div className="relative h-48 overflow-hidden group">
         {strain.img_url ? (
           <img
@@ -86,12 +87,10 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                 <span className="font-medium text-gray-300">THC Level</span>
                 <span className="font-bold text-white">{strain.thc_level}%</span>
               </div>
-              <div className="h-3 w-full bg-gray-700 rounded-full overflow-hidden mb-5">
-                <div 
-                  className="h-full bg-emerald-500 transition-all duration-500 ease-out"
-                  style={{ width: `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` }}
-                />
-              </div>
+              <Progress 
+                className="h-3 rounded-full mb-5"
+                value={Math.min(100, ((strain.thc_level || 0) / 30) * 100)}
+              />
             </>
           ) : (
             <p className="text-gray-400 text-sm mb-5">THC: Lab data pending</p>
@@ -106,12 +105,11 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                   <span className="font-medium text-gray-300">{effect.effect}</span>
                   <span className="font-bold text-white">{effect.intensity}%</span>
                 </div>
-                <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden mb-1">
-                  <div 
-                    className={`h-full ${getEffectColor(index)} transition-all duration-500 ease-out`}
-                    style={{ width: `${effect.intensity}%` }}
-                  />
-                </div>
+                <Progress 
+                  className={`h-2 rounded-full mb-1`}
+                  value={effect.intensity}
+                  indicatorClassName={getEffectColor(index)}
+                />
               </div>
             ))
           ) : (

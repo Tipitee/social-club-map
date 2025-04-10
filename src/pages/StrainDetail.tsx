@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Cannabis, Sun, Circle, AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { Progress } from "@/components/ui/progress";
 
 const StrainDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -57,12 +58,12 @@ const StrainDetail: React.FC = () => {
   const getTypeIcon = (type: string | null) => {
     switch (type) {
       case "Indica":
-        return <Cannabis className="h-14 w-14 text-purple-400 drop-shadow-glow-purple" />;
+        return <Cannabis className="h-14 w-14 text-purple-500 drop-shadow-md" />;
       case "Sativa":
-        return <Sun className="h-14 w-14 text-amber-400 drop-shadow-glow-amber" />;
+        return <Sun className="h-14 w-14 text-amber-500 drop-shadow-md" />;
       case "Hybrid":
       default:
-        return <Circle className="h-14 w-14 text-emerald-400 drop-shadow-glow-emerald" />;
+        return <Circle className="h-14 w-14 text-emerald-500 drop-shadow-md" />;
     }
   };
 
@@ -75,6 +76,15 @@ const StrainDetail: React.FC = () => {
       case "Hybrid":
       default:
         return "bg-emerald-500 text-white";
+    }
+  };
+
+  const getEffectColor = (index: number) => {
+    switch (index) {
+      case 0: return 'bg-emerald-500'; // Primary effect
+      case 1: return 'bg-purple-500';  // Secondary effect
+      case 2: return 'bg-amber-500';   // Tertiary effect
+      default: return 'bg-blue-500';   // Other effects
     }
   };
 
@@ -211,57 +221,54 @@ const StrainDetail: React.FC = () => {
         
         {/* Strain Content */}
         <div className="md:col-span-2">
-          <h2 className="text-4xl font-bold mb-4">{strain.name}</h2>
+          <h2 className="text-4xl font-bold mb-4 text-white">{strain.name}</h2>
           
           {strain.thc_level !== null && (
             <div className="mb-6">
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">THC Level</span>
-                <span className="font-bold">{strain.thc_level}%</span>
+                <span className="font-medium text-white">THC Level</span>
+                <span className="font-bold text-white">{strain.thc_level}%</span>
               </div>
-              <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-primary transition-all duration-500 ease-out"
-                  style={{ width: `${Math.min(100, ((strain.thc_level || 0) / 30) * 100)}%` }}
-                />
-              </div>
+              <Progress 
+                className="h-4 rounded-full"
+                value={Math.min(100, ((strain.thc_level || 0) / 30) * 100)}
+              />
             </div>
           )}
           
           {strain.most_common_terpene && (
             <div className="flex items-center gap-2 mb-6">
-              <span className="text-sm text-muted-foreground">Dominant Terpene:</span>
-              <Badge variant="outline" className="text-base px-3 py-1">
+              <span className="text-sm text-white">Dominant Terpene:</span>
+              <Badge variant="outline" className="text-base px-3 py-1 bg-gray-800 border-gray-600 text-white">
                 {strain.most_common_terpene}
               </Badge>
             </div>
           )}
           
           {strain.description && (
-            <div className="mb-8">
-              <h3 className="text-xl font-semibold mb-3">Description</h3>
+            <div className="mb-8 bg-gray-800/40 p-4 rounded-lg">
+              <h3 className="text-xl font-semibold mb-3 text-white">Description</h3>
               <div className="prose prose-sm prose-invert max-w-none">
-                <p>{strain.description}</p>
+                <p className="text-gray-300">{strain.description}</p>
               </div>
             </div>
           )}
           
           {strain.effects && strain.effects.length > 0 && (
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold mb-4">Effects</h3>
+            <div className="mt-8 bg-gray-800/40 p-4 rounded-lg">
+              <h3 className="text-xl font-semibold mb-4 text-white">Effects</h3>
               <div className="space-y-4">
                 {strain.effects.map((effect, index) => (
                   <div key={`${effect.effect}-${index}`} className="mb-4">
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="font-medium text-base">{effect.effect}</span>
-                      <span className="font-bold text-base">{effect.intensity}%</span>
+                      <span className="font-medium text-base text-white">{effect.effect}</span>
+                      <span className="font-bold text-base text-white">{effect.intensity}%</span>
                     </div>
-                    <div className="h-4 w-full bg-gray-800 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full ${index === 0 ? 'bg-emerald-500' : index === 1 ? 'bg-purple-500' : 'bg-amber-500'} transition-all duration-500 ease-out`}
-                        style={{ width: `${effect.intensity}%` }}
-                      />
-                    </div>
+                    <Progress 
+                      className="h-4 rounded-full"
+                      value={effect.intensity}
+                      indicatorClassName={getEffectColor(index)}
+                    />
                   </div>
                 ))}
               </div>
@@ -272,7 +279,7 @@ const StrainDetail: React.FC = () => {
             <Button
               onClick={() => navigate('/strains')}
               variant="outline"
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto border border-gray-600 text-white"
             >
               Back to All Strains
             </Button>

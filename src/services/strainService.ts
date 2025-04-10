@@ -24,18 +24,8 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
   try {
     console.log('[DEBUG] Starting strain fetch with sort:', sort, 'page:', page, 'limit:', limit);
     
-    // Use safer approach to get URL for logging
-    let supabaseUrl = "https://database-url.supabase.co";
-    try {
-      // Try to get URL using property access, not method
-      if (supabase.supabaseUrl) {
-        supabaseUrl = supabase.supabaseUrl;
-      }
-    } catch (e) {
-      console.warn('[DEBUG] Could not get Supabase URL:', e);
-    }
-    
-    console.log('[DEBUG] Supabase URL being used:', supabaseUrl);
+    // Don't access protected properties like supabaseUrl
+    console.log('[DEBUG] Using Supabase client to fetch strains');
     
     // Determine sort order
     let column = 'name';
@@ -65,12 +55,13 @@ export const fetchStrains = async (sort: 'name' | 'thc_high' | 'thc_low' = 'name
       throw new StrainServiceError(`Error counting strains: ${countError.message}`, countError);
     }
     
-    // Prioritize strains with images by using conditional ordering
+    // Prioritize strains with images - using PostgreSQL's natural behavior with nulls
+    // Note: Removing the nullsLast property, as it's not supported
     const { data, error } = await supabase
       .from('strains')
       .select('*')
-      .order('img_url', { ascending: false, nullsLast: true })  // Put strains with images first
-      .order(column, { ascending })                            // Then apply the user's chosen sort
+      .order('img_url', { ascending: false }) // Images first, nulls last by default
+      .order(column, { ascending })            // Then apply the user's chosen sort
       .range(offset, offset + limit - 1);
     
     // Enhanced error handling with detailed logs
