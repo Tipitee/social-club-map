@@ -1,4 +1,3 @@
-
 import { Strain, StrainEffect } from "../types/strain";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -192,13 +191,13 @@ export const fetchStrains = async (
       query = query.ilike("name", `%${searchQuery}%`);
     }
     
-    // Apply sorting
+    // Apply sorting - FIX: Replace 'nullsLast' with 'nullsFirst: false'
     if (sort === "name") {
       query = query.order("name", { ascending: true });
     } else if (sort === "thc_high") {
-      query = query.order("thc_level", { ascending: false, nullsLast: true });
+      query = query.order("thc_level", { ascending: false, nullsFirst: false });
     } else if (sort === "thc_low") {
-      query = query.order("thc_level", { ascending: true, nullsLast: true });
+      query = query.order("thc_level", { ascending: true, nullsFirst: false });
     }
     
     // Apply pagination
@@ -315,6 +314,8 @@ export const fetchStrains = async (
  */
 export const fetchStrainById = async (idOrName: string): Promise<Strain | null> => {
   try {
+    console.log("Fetching strain with ID or name:", idOrName);
+    
     // First try to find by unique_identifier
     let { data, error } = await supabase
       .from("strains")
@@ -322,32 +323,56 @@ export const fetchStrainById = async (idOrName: string): Promise<Strain | null> 
       .eq("unique_identifier", idOrName);
     
     if (error) {
+      console.error("Error searching by unique_identifier:", error);
       throw new Error(error.message);
     }
 
     // If no results, try to find by name
     if (!data || data.length === 0) {
-      // Try to find by name (case insensitive)
+      console.log("No results by unique_identifier, trying by name...");
+      
+      // Try to find by exact name match
       const nameResult = await supabase
         .from("strains")
         .select("*")
-        .ilike("name", idOrName);
+        .eq("name", idOrName);
       
       if (nameResult.error) {
+        console.error("Error searching by exact name:", nameResult.error);
         throw new Error(nameResult.error.message);
       }
       
       data = nameResult.data;
       
-      // If still no results, try with URL-decoded name
+      // If still no results, try with case-insensitive name match
       if (!data || data.length === 0) {
+        console.log("No results by exact name, trying case-insensitive match...");
+        const insensitiveResult = await supabase
+          .from("strains")
+          .select("*")
+          .ilike("name", idOrName);
+          
+        if (insensitiveResult.error) {
+          console.error("Error searching by case-insensitive name:", insensitiveResult.error);
+          throw new Error(insensitiveResult.error.message);
+        }
+        
+        data = insensitiveResult.data;
+      }
+      
+      // If still no results, try with URL-decoded name with fuzzy match
+      if (!data || data.length === 0) {
+        console.log("No results by name matching, trying with decoded name...");
         const decodedName = decodeURIComponent(idOrName).replace(/-/g, ' ');
+        console.log("Decoded name:", decodedName);
+        
         const decodedResult = await supabase
           .from("strains")
           .select("*")
           .ilike("name", `%${decodedName}%`);
         
         if (decodedResult.error) {
+          console.error("Error searching by decoded name:", decodedResult.error);
           throw new Error(decodedResult.error.message);
         }
         
@@ -356,11 +381,13 @@ export const fetchStrainById = async (idOrName: string): Promise<Strain | null> 
     }
     
     if (!data || data.length === 0) {
+      console.log("No strain found with ID or name:", idOrName);
       return null;
     }
     
     // Take the first result if multiple were found
     const item = data[0];
+    console.log("Found strain:", item.name);
     
     // Extract effects
     let effects: StrainEffect[] = [];

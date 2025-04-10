@@ -50,7 +50,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     .slice(0, 3); // Only show top 3 effects
 
   return (
-    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900">
+    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900 h-full">
       <div className="relative h-48 overflow-hidden group">
         {strain.img_url ? (
           <div className="w-full h-full flex items-center justify-center bg-gray-800 overflow-hidden">
