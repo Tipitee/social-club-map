@@ -1,0 +1,85 @@
+
+{
+  "app": {
+    "title": "German Cannabis Explorer",
+    "navigation": {
+      "home": "Home",
+      "journal": "Journal",
+      "strains": "Strains",
+      "clubs": "Clubs",
+      "profile": "Profile"
+    }
+  },
+  "home": {
+    "sections": {
+      "journal": {
+        "title": "Track in Journal",
+        "description": "Keep a personal cannabis journal to record your experiences"
+      },
+      "strains": {
+        "title": "Explore Strains",
+        "description": "Discover cannabis strains with detailed profiles and effects"
+      },
+      "clubs": {
+        "title": "Find Clubs",
+        "description": "Locate cannabis clubs in your area with our interactive map"
+      }
+    }
+  },
+  "journal": {
+    "title": "Journal",
+    "filters": "Filters",
+    "newEntry": "New Entry",
+    "effectiveness": "Effectiveness",
+    "filterByTime": "Filter by Time",
+    "thisMonth": "This Month",
+    "lastWeek": "Last Week",
+    "customRange": "Custom Range",
+    "rating": "Rating",
+    "entries": "entries",
+    "entry": "entry",
+    "noEntriesFound": "No journal entries found",
+    "noMatchingEntries": "No entries match your current filters. Try adjusting your search criteria.",
+    "startTracking": "Start tracking your cannabis experiences",
+    "addFirstEntry": "Add First Entry",
+    "addNewEntry": "Add New Entry",
+    "entryDeleted": "Entry deleted",
+    "entryDeletedDesc": "Journal entry has been removed successfully",
+    "entryAdded": "Entry added",
+    "entryAddedDesc": "Your journal entry has been saved successfully"
+  },
+  "strains": {
+    "thcLevel": "THC Level",
+    "labDataPending": "Lab data pending",
+    "noData": "No data",
+    "dominantTerpene": "Dominant Terpene",
+    "terpeneUnavailable": "Terpene data unavailable"
+  },
+  "profile": {
+    "title": "Profile",
+    "guestUser": "Guest User",
+    "createAccount": "Create an account to save your journal entries and preferences",
+    "signUp": "Sign Up",
+    "login": "Login"
+  },
+  "clubs": {
+    "title": "Cannabis Clubs in Germany",
+    "description": "Explore cannabis clubs across Germany. The map below shows clubs in major cities:",
+    "mockNotice": "*Currently displaying mock data - Real club locations coming soon",
+    "cities": {
+      "berlin": "Berlin - Northeastern Germany",
+      "munich": "Munich - Southern Bavaria",
+      "hamburg": "Hamburg - Northern Germany",
+      "cologne": "Cologne - Western Germany"
+    },
+    "about": {
+      "title": "About German Cannabis Clubs",
+      "description": "Cannabis Social Clubs in Germany are part of the country's new cannabis policy. These non-profit associations allow members to collectively cultivate and distribute cannabis for personal use, providing a regulated alternative to the illicit market."
+    }
+  },
+  "language": {
+    "select": "Language",
+    "english": "English",
+    "german": "German"
+  }
+}

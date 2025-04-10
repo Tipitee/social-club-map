@@ -1,0 +1,85 @@
+
+{
+  "app": {
+    "title": "Deutscher Cannabis-Explorer",
+    "navigation": {
+      "home": "Startseite",
+      "journal": "Tagebuch",
+      "strains": "Sorten",
+      "clubs": "Clubs",
+      "profile": "Profil"
+    }
+  },
+  "home": {
+    "sections": {
+      "journal": {
+        "title": "Im Tagebuch erfassen",
+        "description": "Führe ein persönliches Cannabis-Tagebuch, um deine Erfahrungen zu dokumentieren"
+      },
+      "strains": {
+        "title": "Sorten entdecken",
+        "description": "Entdecke Cannabis-Sorten mit detaillierten Profilen und Wirkungen"
+      },
+      "clubs": {
+        "title": "Clubs finden",
+        "description": "Finde Cannabis-Clubs in deiner Nähe mit unserer interaktiven Karte"
+      }
+    }
+  },
+  "journal": {
+    "title": "Tagebuch",
+    "filters": "Filter",
+    "newEntry": "Neuer Eintrag",
+    "effectiveness": "Wirksamkeit",
+    "filterByTime": "Nach Zeit filtern",
+    "thisMonth": "Diesen Monat",
+    "lastWeek": "Letzte Woche",
+    "customRange": "Benutzerdefiniert",
+    "rating": "Bewertung",
+    "entries": "Einträge",
+    "entry": "Eintrag",
+    "noEntriesFound": "Keine Tagebucheinträge gefunden",
+    "noMatchingEntries": "Keine Einträge entsprechen deinen aktuellen Filtern. Versuche, deine Suchkriterien anzupassen.",
+    "startTracking": "Beginne, deine Cannabis-Erfahrungen zu dokumentieren",
+    "addFirstEntry": "Ersten Eintrag hinzufügen",
+    "addNewEntry": "Neuen Eintrag hinzufügen",
+    "entryDeleted": "Eintrag gelöscht",
+    "entryDeletedDesc": "Tagebucheintrag wurde erfolgreich entfernt",
+    "entryAdded": "Eintrag hinzugefügt",
+    "entryAddedDesc": "Dein Tagebucheintrag wurde erfolgreich gespeichert"
+  },
+  "strains": {
+    "thcLevel": "THC-Gehalt",
+    "labDataPending": "Labordaten ausstehend",
+    "noData": "Keine Daten",
+    "dominantTerpene": "Dominantes Terpen",
+    "terpeneUnavailable": "Terpendaten nicht verfügbar"
+  },
+  "profile": {
+    "title": "Profil",
+    "guestUser": "Gastnutzer",
+    "createAccount": "Erstelle ein Konto, um deine Tagebucheinträge und Einstellungen zu speichern",
+    "signUp": "Registrieren",
+    "login": "Anmelden"
+  },
+  "clubs": {
+    "title": "Cannabis-Clubs in Deutschland",
+    "description": "Entdecke Cannabis-Clubs in ganz Deutschland. Die Karte unten zeigt Clubs in großen Städten:",
+    "mockNotice": "*Derzeit werden Demodaten angezeigt - Echte Club-Standorte folgen in Kürze",
+    "cities": {
+      "berlin": "Berlin - Nordostdeutschland",
+      "munich": "München - Südbayern",
+      "hamburg": "Hamburg - Norddeutschland",
+      "cologne": "Köln - Westdeutschland"
+    },
+    "about": {
+      "title": "Über deutsche Cannabis-Clubs",
+      "description": "Cannabis Social Clubs in Deutschland sind Teil der neuen Cannabis-Politik des Landes. Diese gemeinnützigen Vereine ermöglichen es Mitgliedern, gemeinsam Cannabis für den persönlichen Gebrauch anzubauen und zu verteilen und bieten eine regulierte Alternative zum illegalen Markt."
+    }
+  },
+  "language": {
+    "select": "Sprache",
+    "english": "Englisch",
+    "german": "Deutsch"
+  }
+}

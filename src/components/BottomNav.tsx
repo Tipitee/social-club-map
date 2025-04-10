@@ -2,20 +2,22 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Home, Book, Cannabis, User, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
+  const { t } = useTranslation();
   
   const isActive = (path: string) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
 
   const navItems = [
-    { path: "/", label: "Home", icon: Home },
-    { path: "/journal", label: "Journal", icon: Book },
-    { path: "/strains", label: "Strains", icon: Cannabis },
-    { path: "/clubs", label: "Clubs", icon: MapPin },
-    { path: "/profile", label: "Profile", icon: User },
+    { path: "/", label: t('app.navigation.home'), icon: Home },
+    { path: "/journal", label: t('app.navigation.journal'), icon: Book },
+    { path: "/strains", label: t('app.navigation.strains'), icon: Cannabis },
+    { path: "/clubs", label: t('app.navigation.clubs'), icon: MapPin },
+    { path: "/profile", label: t('app.navigation.profile'), icon: User },
   ];
 
   return (

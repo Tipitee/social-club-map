@@ -4,12 +4,15 @@ import { Strain } from "@/types/strain";
 import { Cannabis, Sun, CircleDashed } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { useTranslation } from "react-i18next";
 
 interface StrainCardProps {
   strain: Strain;
 }
 
 const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
+  const { t } = useTranslation();
+
   const getTypeIcon = () => {
     switch (strain.type) {
       case "Indica":
@@ -90,7 +93,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
           {strain.thc_level !== null && strain.thc_level !== undefined ? (
             <>
               <div className="flex justify-between text-sm mb-2">
-                <span className="font-medium text-gray-300">THC Level</span>
+                <span className="font-medium text-gray-300">{t('strains.thcLevel')}</span>
                 <span className="font-bold text-white">{strain.thc_level}%</span>
               </div>
               <Progress 
@@ -101,8 +104,8 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
           ) : (
             <>
               <div className="flex justify-between text-sm mb-2">
-                <span className="font-medium text-gray-300">THC Level</span>
-                <span className="font-bold text-white">Lab data pending</span>
+                <span className="font-medium text-gray-300">{t('strains.thcLevel')}</span>
+                <span className="font-bold text-white">{t('strains.labDataPending')}</span>
               </div>
               <Progress 
                 className="h-3 rounded-full mb-5 bg-gray-800"
@@ -134,7 +137,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               {[0, 1, 2].map((index) => (
                 <div key={`placeholder-effect-${index}`}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="font-medium text-gray-300">No data</span>
+                    <span className="font-medium text-gray-300">{t('strains.noData')}</span>
                   </div>
                   <Progress 
                     className="h-2 rounded-full mb-1 bg-gray-800"
@@ -150,14 +153,14 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         <div className="h-8 flex items-center">
           {strain.most_common_terpene ? (
             <div className="flex items-center">
-              <span className="text-xs text-gray-400 mr-2">Dominant Terpene:</span>
+              <span className="text-xs text-gray-400 mr-2">{t('strains.dominantTerpene')}:</span>
               <Badge variant="outline" className="font-medium text-xs border-gray-600 text-white">
                 {strain.most_common_terpene}
               </Badge>
             </div>
           ) : (
             <div className="flex items-center h-full">
-              <span className="text-xs text-gray-400">Terpene data unavailable</span>
+              <span className="text-xs text-gray-400">{t('strains.terpeneUnavailable')}</span>
             </div>
           )}
         </div>
