@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -8,8 +9,12 @@ import { Filter, Loader2, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+
+// Store the last viewed strain and scroll position in sessionStorage
+const LAST_VIEWED_STRAIN_KEY = "last-viewed-strain";
+const LAST_SCROLL_POSITION_KEY = "last-scroll-position";
 
 const StrainExplorer: React.FC = () => {
   const [strains, setStrains] = useState<Strain[]>([]);
@@ -20,7 +25,9 @@ const StrainExplorer: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const strainListRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const location = useLocation();
   
   const [filters, setFilters] = useState<StrainFiltersType>({
     type: null,
@@ -32,6 +39,40 @@ const StrainExplorer: React.FC = () => {
   });
 
   const strainsPerPage = 20;
+
+  // Save scroll position when navigating away
+  useEffect(() => {
+    return () => {
+      if (strainListRef.current) {
+        sessionStorage.setItem(LAST_SCROLL_POSITION_KEY, window.scrollY.toString());
+      }
+    };
+  }, []);
+
+  // Restore scroll position when returning to the page
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const savedPosition = sessionStorage.getItem(LAST_SCROLL_POSITION_KEY);
+      const lastViewedStrainId = sessionStorage.getItem(LAST_VIEWED_STRAIN_KEY);
+      
+      if (savedPosition && lastViewedStrainId && !loading) {
+        const position = parseInt(savedPosition, 10);
+        window.scrollTo({ top: position });
+        
+        // Highlight the last viewed strain (optional visual feedback)
+        const strainElement = document.getElementById(`strain-${lastViewedStrainId}`);
+        if (strainElement) {
+          strainElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          strainElement.classList.add('ring-2', 'ring-secondary');
+          setTimeout(() => {
+            strainElement.classList.remove('ring-2', 'ring-secondary');
+          }, 2000);
+        }
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [loading, strains]);
 
   useEffect(() => {
     const loadStrains = async () => {
@@ -84,15 +125,14 @@ const StrainExplorer: React.FC = () => {
           );
         }
         
+        // Sort: First by image presence, then by name
         filteredData.sort((a, b) => {
+          // First priority: has image vs. no image
           if (a.img_url && !b.img_url) return -1;
           if (!a.img_url && b.img_url) return 1;
           
-          if (filters.sort === 'name') {
-            return a.name.localeCompare(b.name);
-          }
-          
-          return 0;
+          // Second priority: alphabetical by name
+          return a.name.localeCompare(b.name);
         });
         
         setStrains(filteredData);
@@ -138,6 +178,9 @@ const StrainExplorer: React.FC = () => {
   const handleFilterChange = (newFilters: StrainFiltersType) => {
     setFilters(newFilters);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Clear last viewed strain when filters change
+    sessionStorage.removeItem(LAST_VIEWED_STRAIN_KEY);
+    sessionStorage.removeItem(LAST_SCROLL_POSITION_KEY);
   };
 
   const toggleFilters = () => {
@@ -201,15 +244,14 @@ const StrainExplorer: React.FC = () => {
         );
       }
       
+      // Sort: First by image presence, then by name (same as initial load)
       filteredData.sort((a, b) => {
+        // First priority: has image vs. no image
         if (a.img_url && !b.img_url) return -1;
         if (!a.img_url && b.img_url) return 1;
         
-        if (filters.sort === 'name') {
-          return a.name.localeCompare(b.name);
-        }
-        
-        return 0;
+        // Second priority: alphabetical by name
+        return a.name.localeCompare(b.name);
       });
       
       if (filteredData.length > 0) {
@@ -250,6 +292,12 @@ const StrainExplorer: React.FC = () => {
       ))}
     </div>
   );
+
+  // Function to handle strain click - store the ID for later
+  const handleStrainClick = (strainId: string) => {
+    sessionStorage.setItem(LAST_VIEWED_STRAIN_KEY, strainId);
+    sessionStorage.setItem(LAST_SCROLL_POSITION_KEY, window.scrollY.toString());
+  };
 
   const activeFilterCount = [
     filters.type, 
@@ -342,7 +390,7 @@ const StrainExplorer: React.FC = () => {
           />
         </div>
 
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3" ref={strainListRef}>
           {error ? (
             <Card className="bg-gray-900 p-8 rounded-xl text-center border border-destructive">
               <CardContent className="pt-6">
@@ -368,7 +416,13 @@ const StrainExplorer: React.FC = () => {
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
                 {strains.map((strain) => (
-                  <Link to={`/strains/${strain.id}`} key={strain.id} className="block">
+                  <Link 
+                    to={`/strains/${strain.id}`} 
+                    key={strain.id} 
+                    id={`strain-${strain.id}`}
+                    className="block" 
+                    onClick={() => handleStrainClick(strain.id)}
+                  >
                     <StrainCard strain={strain} />
                   </Link>
                 ))}

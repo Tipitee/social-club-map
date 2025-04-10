@@ -38,15 +38,16 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     switch (index) {
       case 0: return 'bg-emerald-500'; // Primary effect
       case 1: return 'bg-purple-500';  // Secondary effect
+      case 2: return 'bg-blue-500';    // Third effect
       default: return 'bg-blue-500';   // Other effects
     }
   };
 
-  // Filter out invalid effects and only show top 2
+  // Filter out invalid effects and show top 3 (changed from 2 to 3)
   const validEffects = strain.effects
     .filter(effect => effect && effect.effect && effect.intensity > 0)
     .sort((a, b) => b.intensity - a.intensity)
-    .slice(0, 2); // Only show top 2 effects
+    .slice(0, 3); // Show top 3 effects
 
   return (
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900 h-full">
@@ -101,7 +102,6 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             <>
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-medium text-gray-300">THC Level</span>
-                <span className="font-bold text-white">Lab data pending</span>
               </div>
               <Progress 
                 className="h-3 rounded-full mb-5 bg-gray-800"
@@ -128,8 +128,9 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               </div>
             ))
           ) : (
+            // If no effects data, show 3 placeholder bars
             <>
-              {[0, 1].map((index) => (
+              {[0, 1, 2].map((index) => (
                 <div key={`placeholder-effect-${index}`}>
                   <div className="flex justify-between text-xs mb-1">
                     <span className="font-medium text-gray-300">No data</span>
