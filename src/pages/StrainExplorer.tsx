@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -48,7 +47,6 @@ const StrainExplorer: React.FC = () => {
         
         let filteredData = [...data];
         
-        // Apply client-side filtering for other filters
         if (filters.type) {
           filteredData = filteredData.filter(strain => strain.type === filters.type);
         }
@@ -69,7 +67,6 @@ const StrainExplorer: React.FC = () => {
             )
           );
           
-          // Sort by effect intensity
           filteredData.sort((a, b) => {
             const aEffect = a.effects.find(e => e.effect === filters.effect);
             const bEffect = b.effects.find(e => e.effect === filters.effect);
@@ -86,6 +83,17 @@ const StrainExplorer: React.FC = () => {
             strain => strain.most_common_terpene === filters.terpene
           );
         }
+        
+        filteredData.sort((a, b) => {
+          if (a.img_url && !b.img_url) return -1;
+          if (!a.img_url && b.img_url) return 1;
+          
+          if (filters.sort === 'name') {
+            return a.name.localeCompare(b.name);
+          }
+          
+          return 0;
+        });
         
         setStrains(filteredData);
         setTotalStrains(total);
@@ -106,7 +114,6 @@ const StrainExplorer: React.FC = () => {
     loadStrains();
   }, [filters, toast]);
 
-  // Set up intersection observer for infinite scrolling
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -165,7 +172,6 @@ const StrainExplorer: React.FC = () => {
         filters.search
       );
       
-      // Apply the same filters as initial load
       let filteredData = [...newStrains];
       
       if (filters.type) {
@@ -194,6 +200,17 @@ const StrainExplorer: React.FC = () => {
           strain => strain.most_common_terpene === filters.terpene
         );
       }
+      
+      filteredData.sort((a, b) => {
+        if (a.img_url && !b.img_url) return -1;
+        if (!a.img_url && b.img_url) return 1;
+        
+        if (filters.sort === 'name') {
+          return a.name.localeCompare(b.name);
+        }
+        
+        return 0;
+      });
       
       if (filteredData.length > 0) {
         setStrains(prev => [...prev, ...filteredData]);
@@ -349,11 +366,6 @@ const StrainExplorer: React.FC = () => {
             renderSkeletonLoader()
           ) : strains.length > 0 ? (
             <>
-              <div className="flex justify-between items-center mb-6 bg-gray-800/50 p-3 rounded-lg">
-                <p className="text-sm text-gray-300">
-                  Showing {strains.length} strain{strains.length !== 1 ? 's' : ''}
-                </p>
-              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
                 {strains.map((strain) => (
                   <Link to={`/strains/${strain.id}`} key={strain.id} className="block">
