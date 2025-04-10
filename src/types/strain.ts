@@ -24,3 +24,30 @@ export type StrainFilters = {
   sort: 'name' | 'thc_high' | 'thc_low';
   search: string;
 };
+
+// These types help with the API type errors
+export type RawStrainData = {
+  id: string;
+  name: string;
+  img_url?: string | null;
+  type: 'Indica' | 'Sativa' | 'Hybrid';
+  thc_level?: number | null;
+  most_common_terpene?: string | null;
+  description?: string | null;
+  effects_json?: string;
+  created_at?: string;
+};
+
+export type StrainInsertData = {
+  name: string;
+  type: 'Indica' | 'Sativa' | 'Hybrid';
+  thc_level?: number | null;
+  most_common_terpene?: string | null;
+  description?: string | null;
+  effects_json?: string;
+};
+
+export type FetchStrainsResult = {
+  strains: Strain[];
+  total: number;
+};

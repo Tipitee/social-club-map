@@ -4,7 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { StrainFilters as StrainFiltersType } from "@/types/strain";
 import { getAllEffects, getTerpenes } from "@/services/strainService";
-import { ArrowDown, ArrowUp, Search } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -58,18 +58,18 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
     onFilterChange({ ...filters, thcRange: [values[0], values[1]] });
   };
   
-  const handleEffectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value === "all" ? null : e.target.value;
-    onFilterChange({ ...filters, effect: value });
+  const handleEffectChange = (value: string) => {
+    const effectValue = value === "all" ? null : value;
+    onFilterChange({ ...filters, effect: effectValue });
   };
 
-  const handleTerpeneChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value === "all" ? null : e.target.value;
-    onFilterChange({ ...filters, terpene: value });
+  const handleTerpeneChange = (value: string) => {
+    const terpeneValue = value === "all" ? null : value;
+    onFilterChange({ ...filters, terpene: terpeneValue });
   };
   
-  const handleSortChange = (sort: 'name' | 'thc_high' | 'thc_low') => {
-    onFilterChange({ ...filters, sort });
+  const handleSortChange = (value: 'name' | 'thc_high' | 'thc_low') => {
+    onFilterChange({ ...filters, sort: value });
   };
   
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,11 +77,11 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
   };
 
   return (
-    <div className="bg-gray-900 p-4 rounded-xl border border-gray-700 shadow-md space-y-4">
+    <div className="bg-gray-800/80 p-6 rounded-xl border border-gray-700 shadow-md space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-lg text-white">Filter Strains</h2>
-        <span className="text-xs text-gray-300">
-          Showing {filteredCount} of {totalStrains}
+        <h2 className="font-bold text-xl text-white">Filter Strains</h2>
+        <span className="text-sm text-gray-300 bg-gray-700/50 px-3 py-1 rounded-full">
+          {filteredCount} of {totalStrains}
         </span>
       </div>
       
@@ -93,51 +93,51 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             placeholder="Search strains..."
             value={filters.search || ''}
             onChange={handleSearchChange}
-            className="pl-9 bg-gray-800 border-gray-600 text-white"
+            className="pl-10 bg-gray-700/50 border-gray-600 text-white h-12 text-base"
           />
-          <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
         </div>
       </div>
       
       {/* Type Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">Type</h3>
+        <h3 className="text-base font-medium mb-3 text-gray-300">Type</h3>
         <div className="flex flex-wrap gap-2">
           <button
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-4 py-2 rounded-full text-sm font-medium ${
               filters.type === null
                 ? "bg-emerald-600 text-white"
-                : "bg-gray-700 text-gray-300"
+                : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => handleTypeChange(null)}
           >
             All
           </button>
           <button
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-4 py-2 rounded-full text-sm font-medium ${
               filters.type === "Indica"
                 ? "bg-purple-600 text-white"
-                : "bg-gray-700 text-gray-300"
+                : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => handleTypeChange("Indica")}
           >
             Indica
           </button>
           <button
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-4 py-2 rounded-full text-sm font-medium ${
               filters.type === "Sativa"
                 ? "bg-amber-500 text-white"
-                : "bg-gray-700 text-gray-300"
+                : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => handleTypeChange("Sativa")}
           >
             Sativa
           </button>
           <button
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-4 py-2 rounded-full text-sm font-medium ${
               filters.type === "Hybrid"
                 ? "bg-emerald-500 text-white"
-                : "bg-gray-700 text-gray-300"
+                : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => handleTypeChange("Hybrid")}
           >
@@ -148,85 +148,88 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* THC Range Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">THC Level (%)</h3>
-        <div className="px-1">
+        <div className="flex justify-between mb-3">
+          <h3 className="text-base font-medium text-gray-300">THC Level</h3>
+          <span className="text-sm text-white font-medium">
+            {filters.thcRange[0]}% - {filters.thcRange[1]}%
+          </span>
+        </div>
+        <div className="px-1 mb-2">
           <Slider
             defaultValue={[filters.thcRange[0], filters.thcRange[1]]}
+            min={0}
             max={30}
             step={0.5}
             onValueChange={handleThcChange}
             className="my-6"
           />
-          <div className="flex justify-between text-xs text-gray-400">
-            <span>{filters.thcRange[0]}%</span>
-            <span>{filters.thcRange[1]}%</span>
-          </div>
+        </div>
+        <div className="flex justify-between text-xs text-gray-400">
+          <span>0%</span>
+          <span>30%</span>
         </div>
       </div>
       
       {/* Effect Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">Dominant Effect</h3>
-        <select
-          className="w-full bg-gray-800 text-white rounded-md p-2 text-sm border-gray-600"
-          value={filters.effect || "all"}
-          onChange={handleEffectChange}
+        <h3 className="text-base font-medium mb-3 text-gray-300">Dominant Effect</h3>
+        <Select 
+          value={filters.effect || "all"} 
+          onValueChange={handleEffectChange}
           disabled={loading}
         >
-          <option value="all">All Effects</option>
-          {effects.map((effect) => (
-            <option key={effect} value={effect}>
-              {effect}
-            </option>
-          ))}
-        </select>
-        {loading && <p className="text-xs text-gray-400 mt-1">Loading effects...</p>}
+          <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
+            <SelectValue placeholder="All Effects" />
+          </SelectTrigger>
+          <SelectContent className="bg-gray-800 border-gray-700">
+            <SelectItem value="all" className="text-white">All Effects</SelectItem>
+            {effects.map((effect) => (
+              <SelectItem key={effect} value={effect} className="text-white">
+                {effect}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Terpene Filter */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">Terpene</h3>
-        <select
-          className="w-full bg-gray-800 text-white rounded-md p-2 text-sm border-gray-600"
-          value={filters.terpene || "all"}
-          onChange={handleTerpeneChange}
+        <h3 className="text-base font-medium mb-3 text-gray-300">Terpene</h3>
+        <Select 
+          value={filters.terpene || "all"} 
+          onValueChange={handleTerpeneChange}
           disabled={loading}
         >
-          <option value="all">All Terpenes</option>
-          {terpenes.map((terpene) => (
-            <option key={terpene} value={terpene}>
-              {terpene}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
+            <SelectValue placeholder="All Terpenes" />
+          </SelectTrigger>
+          <SelectContent className="bg-gray-800 border-gray-700">
+            <SelectItem value="all" className="text-white">All Terpenes</SelectItem>
+            {terpenes.map((terpene) => (
+              <SelectItem key={terpene} value={terpene} className="text-white">
+                {terpene}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       
       {/* Sort Options */}
       <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-300">Sort By</h3>
-        <div className="flex flex-col gap-1">
-          <button 
-            className={`flex justify-between items-center px-3 py-2 rounded-md text-sm ${filters.sort === 'name' ? 'bg-gray-800 text-emerald-400' : 'hover:bg-gray-800 text-gray-300'}`}
-            onClick={() => handleSortChange('name')}
-          >
-            <span>Name</span>
-            {filters.sort === 'name' && <ArrowDown size={16} />}
-          </button>
-          <button 
-            className={`flex justify-between items-center px-3 py-2 rounded-md text-sm ${filters.sort === 'thc_high' ? 'bg-gray-800 text-emerald-400' : 'hover:bg-gray-800 text-gray-300'}`}
-            onClick={() => handleSortChange('thc_high')}
-          >
-            <span>THC (High to Low)</span>
-            {filters.sort === 'thc_high' && <ArrowDown size={16} />}
-          </button>
-          <button 
-            className={`flex justify-between items-center px-3 py-2 rounded-md text-sm ${filters.sort === 'thc_low' ? 'bg-gray-800 text-emerald-400' : 'hover:bg-gray-800 text-gray-300'}`}
-            onClick={() => handleSortChange('thc_low')}
-          >
-            <span>THC (Low to High)</span>
-            {filters.sort === 'thc_low' && <ArrowUp size={16} />}
-          </button>
-        </div>
+        <h3 className="text-base font-medium mb-3 text-gray-300">Sort By</h3>
+        <Select 
+          value={filters.sort} 
+          onValueChange={(value: string) => handleSortChange(value as 'name' | 'thc_high' | 'thc_low')}
+        >
+          <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
+            <SelectValue placeholder="Sort By" />
+          </SelectTrigger>
+          <SelectContent className="bg-gray-800 border-gray-700">
+            <SelectItem value="name" className="text-white">Name (A-Z)</SelectItem>
+            <SelectItem value="thc_high" className="text-white">THC (High to Low)</SelectItem>
+            <SelectItem value="thc_low" className="text-white">THC (Low to High)</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );
