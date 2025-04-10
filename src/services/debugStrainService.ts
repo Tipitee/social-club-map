@@ -113,6 +113,10 @@ export const parseStrainData = (jsonString: string): Strain[] | null => {
  * Gets the version of the Supabase client
  */
 export const getSupabaseInfo = () => {
+  // Create a properly typed empty array
+  const serviceInfo: string[] = [];
+  serviceInfo.push('Using Supabase client');
+  
   return {
     url: 'Using Supabase client',
     clientVersion: '@supabase/supabase-js',

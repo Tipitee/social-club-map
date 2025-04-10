@@ -106,7 +106,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                   <span className="font-bold text-white">{effect.intensity}%</span>
                 </div>
                 <Progress 
-                  className={`h-2 rounded-full mb-1`}
+                  className="h-2 rounded-full mb-1"
                   value={effect.intensity}
                   indicatorClassName={getEffectColor(index)}
                 />

@@ -224,7 +224,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
           <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
             <SelectValue placeholder="Sort By" />
           </SelectTrigger>
-          <SelectContent className="bg-gray-800 border-gray-700">
+          <SelectContent className="bg-gray-800 border-gray-700 max-h-[200px]">
             <SelectItem value="name" className="text-white">Name (A-Z)</SelectItem>
             <SelectItem value="thc_high" className="text-white">THC (High to Low)</SelectItem>
             <SelectItem value="thc_low" className="text-white">THC (Low to High)</SelectItem>

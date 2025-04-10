@@ -58,12 +58,12 @@ const StrainDetail: React.FC = () => {
   const getTypeIcon = (type: string | null) => {
     switch (type) {
       case "Indica":
-        return <Cannabis className="h-14 w-14 text-purple-500 drop-shadow-md" />;
+        return <Cannabis className="h-10 w-10 text-purple-500 drop-shadow-md" />;
       case "Sativa":
-        return <Sun className="h-14 w-14 text-amber-500 drop-shadow-md" />;
+        return <Sun className="h-10 w-10 text-amber-500 drop-shadow-md" />;
       case "Hybrid":
       default:
-        return <Circle className="h-14 w-14 text-emerald-500 drop-shadow-md" />;
+        return <Circle className="h-10 w-10 text-emerald-500 drop-shadow-md" />;
     }
   };
 
@@ -212,7 +212,7 @@ const StrainDetail: React.FC = () => {
           </div>
           
           <div className="mt-4">
-            <Badge className={`${getTypeColor(strain.type)} px-4 py-2 text-base inline-flex items-center gap-2`}>
+            <Badge className={`${getTypeColor(strain.type)} px-3 py-1.5 text-base inline-flex items-center gap-2`}>
               {getTypeIcon(strain.type)}
               <span>{strain.type || "Hybrid"}</span>
             </Badge>
@@ -279,7 +279,7 @@ const StrainDetail: React.FC = () => {
             <Button
               onClick={() => navigate('/strains')}
               variant="outline"
-              className="w-full sm:w-auto border border-gray-600 text-white"
+              className="w-full sm:w-auto border border-gray-600 text-white bg-gray-800 hover:bg-gray-700"
             >
               Back to All Strains
             </Button>

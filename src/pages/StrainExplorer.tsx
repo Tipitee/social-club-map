@@ -40,7 +40,7 @@ const StrainExplorer: React.FC = () => {
     search: '',
   });
 
-  const strainsPerPage = 24; // Increased from 20 to 24 for better grid layout
+  const strainsPerPage = 20; // Changed to show more results per page
 
   useEffect(() => {
     const loadStrains = async () => {
@@ -103,6 +103,17 @@ const StrainExplorer: React.FC = () => {
           (effect) => effect.effect === filters.effect && effect.intensity > 0
         )
       );
+      
+      // Sort by effect intensity from lowest to highest
+      result.sort((a, b) => {
+        const aEffect = a.effects.find(e => e.effect === filters.effect);
+        const bEffect = b.effects.find(e => e.effect === filters.effect);
+        
+        const aIntensity = aEffect?.intensity || 0;
+        const bIntensity = bEffect?.intensity || 0;
+        
+        return aIntensity - bIntensity;
+      });
     }
 
     // Filter by terpene
@@ -167,13 +178,6 @@ const StrainExplorer: React.FC = () => {
     }
   };
 
-  const handlePageChange = (page: number) => {
-    if (page !== currentPage) {
-      setCurrentPage(page);
-      window.scrollTo(0, 0);
-    }
-  };
-
   const renderNoResults = () => (
     <Card className="bg-gray-900 p-8 rounded-xl text-center border border-gray-700">
       <CardContent className="pt-6">
@@ -208,61 +212,6 @@ const StrainExplorer: React.FC = () => {
     </div>
   );
 
-  const renderPagination = () => {
-    const totalPages = Math.ceil(totalStrains / strainsPerPage);
-    if (totalPages <= 1) return null;
-
-    return (
-      <Pagination className="mt-8">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious 
-              onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-              className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-            />
-          </PaginationItem>
-          
-          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-            // Show pagination centered around current page
-            let pageToShow: number;
-            if (totalPages <= 5) {
-              // If we have 5 or fewer pages, just show all of them
-              pageToShow = i + 1;
-            } else if (currentPage <= 3) {
-              // If we're near the start
-              pageToShow = i + 1;
-            } else if (currentPage >= totalPages - 2) {
-              // If we're near the end
-              pageToShow = totalPages - 4 + i;
-            } else {
-              // We're in the middle, center the current page
-              pageToShow = currentPage - 2 + i;
-            }
-
-            return (
-              <PaginationItem key={pageToShow}>
-                <PaginationLink
-                  isActive={pageToShow === currentPage}
-                  onClick={() => handlePageChange(pageToShow)}
-                  className={pageToShow === currentPage ? "bg-emerald-600 text-white border-emerald-600" : ""}
-                >
-                  {pageToShow}
-                </PaginationLink>
-              </PaginationItem>
-            );
-          })}
-          
-          <PaginationItem>
-            <PaginationNext 
-              onClick={() => currentPage < Math.ceil(totalStrains / strainsPerPage) && handlePageChange(currentPage + 1)}
-              className={currentPage >= Math.ceil(totalStrains / strainsPerPage) ? "pointer-events-none opacity-50" : "cursor-pointer"}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
-  };
-
   const activeFilterCount = [
     filters.type, 
     filters.effect, 
@@ -270,6 +219,8 @@ const StrainExplorer: React.FC = () => {
     filters.search, 
     filters.thcRange[0] > 0 || filters.thcRange[1] < 30 ? 'thc' : null
   ].filter(Boolean).length;
+
+  const remainingStrains = totalStrains - (currentPage * strainsPerPage);
 
   return (
     <div className="container px-4 py-6 pb-20">
@@ -280,7 +231,7 @@ const StrainExplorer: React.FC = () => {
         <Button
           onClick={toggleFilters}
           variant="secondary"
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
+          className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700"
         >
           <Filter size={18} /> 
           {showFilters ? "Hide Filters" : "Filters"}
@@ -383,9 +334,6 @@ const StrainExplorer: React.FC = () => {
                 <p className="text-sm text-gray-300">
                   Showing {filteredStrains.length} of {totalStrains} strain{totalStrains !== 1 ? 's' : ''}
                 </p>
-                <p className="text-sm text-gray-300 font-medium">
-                  Page {currentPage} of {Math.ceil(totalStrains / strainsPerPage)}
-                </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
                 {filteredStrains.map((strain) => (
@@ -395,15 +343,14 @@ const StrainExplorer: React.FC = () => {
                 ))}
               </div>
               
-              {renderPagination()}
-              
-              {currentPage * strainsPerPage < totalStrains && (
-                <div className="mt-6 text-center">
+              {/* Load More Button - Show only when there are more strains to load */}
+              {remainingStrains > 0 && (
+                <div className="mt-8 text-center">
                   <Button 
                     onClick={handleLoadMore} 
                     disabled={loadingMore}
-                    variant="secondary"
-                    className="px-8 py-2 bg-emerald-600 hover:bg-emerald-700 text-white"
+                    variant="outline"
+                    className="px-8 py-2 bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-800"
                   >
                     {loadingMore ? (
                       <>
@@ -411,7 +358,7 @@ const StrainExplorer: React.FC = () => {
                         Loading...
                       </>
                     ) : (
-                      'Load More Strains'
+                      `Load ${Math.min(strainsPerPage, remainingStrains)} More Strains`
                     )}
                   </Button>
                 </div>
