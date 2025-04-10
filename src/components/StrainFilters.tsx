@@ -80,9 +80,6 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
     <div className="bg-gray-800/80 p-6 rounded-xl border border-gray-700 shadow-md space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-xl text-white">Filter Strains</h2>
-        <span className="text-sm text-gray-300 bg-gray-700/50 px-3 py-1 rounded-full">
-          {filteredCount} of {totalStrains}
-        </span>
       </div>
       
       {/* Search Input */}
@@ -99,12 +96,12 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         </div>
       </div>
       
-      {/* Type Filter */}
+      {/* Type Filter - All buttons in one row */}
       <div>
         <h3 className="text-base font-medium mb-3 text-gray-300">Type</h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-row gap-2 flex-nowrap">
           <button
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
+            className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
               filters.type === null
                 ? "bg-emerald-600 text-white"
                 : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
@@ -114,7 +111,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             All
           </button>
           <button
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
+            className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
               filters.type === "Indica"
                 ? "bg-purple-600 text-white"
                 : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
@@ -124,7 +121,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             Indica
           </button>
           <button
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
+            className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
               filters.type === "Sativa"
                 ? "bg-amber-500 text-white"
                 : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
@@ -134,7 +131,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
             Sativa
           </button>
           <button
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
+            className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
               filters.type === "Hybrid"
                 ? "bg-emerald-500 text-white"
                 : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
