@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { Strain } from "@/types/strain";
 import { transformStrainData } from "./transformers";
@@ -221,62 +222,76 @@ export const getTerpenes = async (): Promise<string[]> => {
  * - Handles data validation
  * - Ensures required fields are present
  */
-export const upsertStrain = async (strain: Partial<Strain>): Promise<{success: boolean, data?: Strain, error?: Error}> => {
+export const upsertStrain = async (strainData: Partial<Strain>): Promise<{success: boolean, data?: Strain, error?: Error}> => {
   try {
     // Validate the strain data
     try {
       // Ensure name is present
-      if (!strain.name || strain.name.trim() === '') {
+      if (!strainData.name || strainData.name.trim() === '') {
         throw new Error("Strain name is required");
       }
       
       // Prepare the data for insertion
-      const strainData: StrainInsertData = {
-        name: strain.name,
-        type: strain.type || 'Hybrid',
-        thc_level: strain.thc_level || null,
-        img_url: strain.img_url || null,
-        description: strain.description || null,
-        most_common_terpene: strain.most_common_terpene || null,
-        top_effect: strain.effects && strain.effects.length > 0 ? strain.effects[0].effect : null,
+      const insertData: StrainInsertData = {
+        name: strainData.name,
+        type: strainData.type || 'Hybrid',
+        thc_level: strainData.thc_level || null,
+        img_url: strainData.img_url || null,
+        description: strainData.description || null,
+        most_common_terpene: strainData.most_common_terpene || null,
+        top_effect: strainData.effects && strainData.effects.length > 0 ? strainData.effects[0].effect : null,
       };
       
       // Additional fields for database
       const additionalData = {
-        top_percent: strain.effects && strain.effects.length > 0 ? String(strain.effects[0].intensity) : null,
-        second_effect: strain.effects && strain.effects.length > 1 ? strain.effects[1].effect : null,
-        second_percent: strain.effects && strain.effects.length > 1 ? String(strain.effects[1].intensity) : null,
-        third_effect: strain.effects && strain.effects.length > 2 ? strain.effects[2].effect : null,
-        third_percent: strain.effects && strain.effects.length > 2 ? String(strain.effects[2].intensity) : null
+        top_percent: strainData.effects && strainData.effects.length > 0 ? String(strainData.effects[0].intensity) : null,
+        second_effect: strainData.effects && strainData.effects.length > 1 ? strainData.effects[1].effect : null,
+        second_percent: strainData.effects && strainData.effects.length > 1 ? String(strainData.effects[1].intensity) : null,
+        third_effect: strainData.effects && strainData.effects.length > 2 ? strainData.effects[2].effect : null,
+        third_percent: strainData.effects && strainData.effects.length > 2 ? String(strainData.effects[2].intensity) : null
       };
       
       // Validate with Zod
-      strainInsertSchema.parse(strainData);
+      strainInsertSchema.parse(insertData);
+      
+      let result;
       
       // Insert or update the strain
-      const { data, error } = strain.id ? 
-        await supabase
+      if (strainData.id) {
+        // Update existing strain
+        const { data, error } = await supabase
           .from('strains')
-          .update({ ...strainData, ...additionalData })
-          .eq('id', strain.id)
-          .select()
-          .single() :
-        await supabase
-          .from('strains')
-          .insert({ ...strainData, ...additionalData })
+          .update({ ...insertData, ...additionalData })
+          .eq('id', strainData.id)
           .select()
           .single();
+          
+        if (error) {
+          throw new StrainServiceError(`Failed to update strain: ${error.message}`, error);
+        }
         
-      if (error) {
-        throw new StrainServiceError(`Failed to save strain: ${error.message}`, error);
+        result = data;
+      } else {
+        // Insert new strain
+        const { data, error } = await supabase
+          .from('strains')
+          .insert({ ...insertData, ...additionalData })
+          .select()
+          .single();
+          
+        if (error) {
+          throw new StrainServiceError(`Failed to insert strain: ${error.message}`, error);
+        }
+        
+        result = data;
       }
       
-      if (!data) {
-        throw new StrainServiceError("No data returned from strain insert");
+      if (!result) {
+        throw new StrainServiceError("No data returned from strain operation");
       }
       
       // Transform the returned data
-      const transformedData = transformStrainData([data]);
+      const transformedData = transformStrainData([result]);
       return { success: true, data: transformedData[0] };
       
     } catch (validationError) {

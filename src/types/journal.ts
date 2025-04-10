@@ -18,3 +18,11 @@ export type JournalFilter = {
   maxEffectiveness: number;
   searchTerm: string;
 };
+
+export type JournalAnalytics = {
+  entryCount: number;
+  averageEffectiveness: number;
+  commonSideEffects: string[];
+  mostEffectiveDosageType: string;
+  entryDates: string[];
+};

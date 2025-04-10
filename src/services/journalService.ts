@@ -1,6 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { JournalEntry, JournalFilter } from "@/types/journal";
+import { JournalEntry, JournalFilter, JournalAnalytics } from "@/types/journal";
 import { toast } from "@/components/ui/use-toast";
 import { v4 as uuidv4 } from "uuid";
 
@@ -151,5 +151,70 @@ export const deleteJournalEntry = async (id: string): Promise<boolean> => {
       variant: "destructive",
     });
     return false;
+  }
+};
+
+/**
+ * Get journal analytics
+ * This function analyzes journal entries to provide insights
+ */
+export const getJournalAnalytics = async (): Promise<JournalAnalytics> => {
+  try {
+    // Fetch all entries
+    const entries = await fetchJournalEntries();
+    
+    // Calculate average effectiveness
+    const totalEffectiveness = entries.reduce((sum, entry) => sum + entry.effectiveness, 0);
+    const avgEffectiveness = entries.length > 0 ? totalEffectiveness / entries.length : 0;
+    
+    // Find most common side effects
+    const sideEffectsMap: Record<string, number> = {};
+    entries.forEach(entry => {
+      entry.sideEffects.forEach(effect => {
+        sideEffectsMap[effect] = (sideEffectsMap[effect] || 0) + 1;
+      });
+    });
+    
+    // Sort side effects by frequency
+    const commonSideEffects = Object.entries(sideEffectsMap)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([effect]) => effect);
+    
+    // Calculate most effective dosage type
+    const dosageTypeEffectiveness: Record<string, { total: number, count: number }> = {};
+    entries.forEach(entry => {
+      if (!dosageTypeEffectiveness[entry.dosageType]) {
+        dosageTypeEffectiveness[entry.dosageType] = { total: 0, count: 0 };
+      }
+      dosageTypeEffectiveness[entry.dosageType].total += entry.effectiveness;
+      dosageTypeEffectiveness[entry.dosageType].count += 1;
+    });
+    
+    let mostEffectiveDosageType = { type: "", effectiveness: 0 };
+    
+    Object.entries(dosageTypeEffectiveness).forEach(([type, data]) => {
+      const avgForType = data.total / data.count;
+      if (avgForType > mostEffectiveDosageType.effectiveness) {
+        mostEffectiveDosageType = { type, effectiveness: avgForType };
+      }
+    });
+    
+    return {
+      entryCount: entries.length,
+      averageEffectiveness: avgEffectiveness,
+      commonSideEffects,
+      mostEffectiveDosageType: mostEffectiveDosageType.type,
+      entryDates: entries.map(entry => entry.date)
+    };
+  } catch (error) {
+    console.error("Error generating journal analytics:", error);
+    return {
+      entryCount: 0,
+      averageEffectiveness: 0,
+      commonSideEffects: [],
+      mostEffectiveDosageType: "",
+      entryDates: []
+    };
   }
 };
