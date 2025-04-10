@@ -53,20 +53,22 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900">
       <div className="relative h-48 overflow-hidden group">
         {strain.img_url ? (
-          <img
-            src={strain.img_url}
-            alt={strain.name}
-            className="w-full h-full object-cover object-center scale-50 transform-gpu group-hover:scale-[0.55] transition-transform duration-500"
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.style.display = 'none';
-              e.currentTarget.parentElement!.innerHTML = `
-                <div class="w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-80 backdrop-blur-sm">
-                  ${getTypeIcon().props.outerHTML || getTypeIcon()}
-                </div>
-              `;
-            }}
-          />
+          <div className="w-full h-full flex items-center justify-center bg-gray-800">
+            <img
+              src={strain.img_url}
+              alt={strain.name}
+              className="w-full h-full object-contain object-center transform scale-50 group-hover:scale-[0.55] transition-transform duration-500"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement!.innerHTML = `
+                  <div class="w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-80 backdrop-blur-sm">
+                    ${getTypeIcon().props.outerHTML || getTypeIcon()}
+                  </div>
+                `;
+              }}
+            />
+          </div>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-80 backdrop-blur-sm">
             {getTypeIcon()}
@@ -78,7 +80,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
       </div>
       
       <div className="p-5">
-        <h3 className="text-xl font-bold mb-4 text-white">{strain.name}</h3>
+        <h3 className="text-xl font-bold mb-4 text-white line-clamp-1">{strain.name}</h3>
         
         <div className="mt-3">
           {strain.thc_level !== null && strain.thc_level !== undefined ? (

@@ -1,4 +1,30 @@
+
 import { Strain, StrainEffect } from "@/types/strain";
+import { supabase } from "@/integrations/supabase/client";
+
+// Function to get Supabase info for debugging
+export const getSupabaseInfo = () => supabase;
+
+// Function to fetch raw strains data for debugging
+export const fetchRawStrains = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('strains')
+      .select('*')
+      .limit(3);
+    
+    return {
+      success: !error,
+      data,
+      error
+    };
+  } catch (e) {
+    return {
+      success: false,
+      error: e
+    };
+  }
+};
 
 // Mock data for offline development
 const mockStrains: Strain[] = [
@@ -192,4 +218,35 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
   
   const strain = mockStrains.find(strain => strain.id === id);
   return strain || null;
+};
+
+// Test strains connection function for debugging
+export const testStrainsConnection = async () => {
+  return {
+    success: true,
+    message: "Mock connection successful",
+    count: mockStrains.length
+  };
+};
+
+// Get all effects from mock data for debugging
+export const getAllEffects = async (): Promise<string[]> => {
+  const effects = new Set<string>();
+  mockStrains.forEach(strain => {
+    strain.effects.forEach(effect => {
+      effects.add(effect.effect);
+    });
+  });
+  return Array.from(effects).sort();
+};
+
+// Get all terpenes from mock data for debugging
+export const getTerpenes = async (): Promise<string[]> => {
+  const terpenes = new Set<string>();
+  mockStrains.forEach(strain => {
+    if (strain.most_common_terpene) {
+      terpenes.add(strain.most_common_terpene);
+    }
+  });
+  return Array.from(terpenes).sort();
 };

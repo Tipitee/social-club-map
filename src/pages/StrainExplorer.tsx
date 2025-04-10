@@ -4,7 +4,7 @@ import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
 import StrainCard from "@/components/StrainCard";
 import StrainFilters from "@/components/StrainFilters";
 import { useToast } from "@/components/ui/use-toast";
-import { Filter, Loader2 } from "lucide-react";
+import { Filter, Loader2, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
