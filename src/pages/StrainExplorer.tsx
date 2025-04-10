@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 
 const StrainExplorer: React.FC = () => {
   const [strains, setStrains] = useState<Strain[]>([]);
-  const [filteredStrains, setFilteredStrains] = useState<Strain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
@@ -41,10 +40,52 @@ const StrainExplorer: React.FC = () => {
         const { strains: data, total } = await fetchStrains(
           filters.sort, 
           currentPage, 
-          strainsPerPage
+          strainsPerPage,
+          filters.search
         );
-        setStrains(data);
-        setFilteredStrains(data);
+        
+        let filteredData = [...data];
+        
+        // Apply client-side filtering for other filters
+        if (filters.type) {
+          filteredData = filteredData.filter(strain => strain.type === filters.type);
+        }
+
+        if (filters.thcRange[0] > 0 || filters.thcRange[1] < 30) {
+          filteredData = filteredData.filter(
+            strain => 
+              strain.thc_level !== null && 
+              strain.thc_level >= filters.thcRange[0] && 
+              strain.thc_level <= filters.thcRange[1]
+          );
+        }
+
+        if (filters.effect) {
+          filteredData = filteredData.filter(strain =>
+            strain.effects.some(
+              effect => effect.effect === filters.effect && effect.intensity > 0
+            )
+          );
+          
+          // Sort by effect intensity
+          filteredData.sort((a, b) => {
+            const aEffect = a.effects.find(e => e.effect === filters.effect);
+            const bEffect = b.effects.find(e => e.effect === filters.effect);
+            
+            const aIntensity = aEffect?.intensity || 0;
+            const bIntensity = bEffect?.intensity || 0;
+            
+            return bIntensity - aIntensity; // Sort from highest to lowest
+          });
+        }
+
+        if (filters.terpene) {
+          filteredData = filteredData.filter(
+            strain => strain.most_common_terpene === filters.terpene
+          );
+        }
+        
+        setStrains(filteredData);
         setTotalStrains(total);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unknown error loading strains";
@@ -60,56 +101,7 @@ const StrainExplorer: React.FC = () => {
     };
 
     loadStrains();
-  }, [filters.sort, currentPage, toast]);
-
-  useEffect(() => {
-    let result = [...strains];
-
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase();
-      result = result.filter(strain => 
-        strain.name.toLowerCase().includes(searchTerm) ||
-        (strain.description && strain.description.toLowerCase().includes(searchTerm))
-      );
-    }
-
-    if (filters.type) {
-      result = result.filter((strain) => strain.type === filters.type);
-    }
-
-    result = result.filter(
-      (strain) => 
-        !strain.thc_level || 
-        (strain.thc_level >= filters.thcRange[0] && 
-         strain.thc_level <= filters.thcRange[1])
-    );
-
-    if (filters.effect) {
-      result = result.filter((strain) =>
-        strain.effects.some(
-          (effect) => effect.effect === filters.effect && effect.intensity > 0
-        )
-      );
-      
-      result.sort((a, b) => {
-        const aEffect = a.effects.find(e => e.effect === filters.effect);
-        const bEffect = b.effects.find(e => e.effect === filters.effect);
-        
-        const aIntensity = aEffect?.intensity || 0;
-        const bIntensity = bEffect?.intensity || 0;
-        
-        return aIntensity - bIntensity;
-      });
-    }
-
-    if (filters.terpene) {
-      result = result.filter((strain) =>
-        strain.most_common_terpene === filters.terpene
-      );
-    }
-
-    setFilteredStrains(result);
-  }, [filters, strains]);
+  }, [filters, currentPage, toast]);
 
   const handleFilterChange = (newFilters: StrainFiltersType) => {
     setFilters(newFilters);
@@ -144,7 +136,8 @@ const StrainExplorer: React.FC = () => {
       const { strains: newStrains } = await fetchStrains(
         filters.sort,
         nextPage,
-        strainsPerPage
+        strainsPerPage,
+        filters.search
       );
       
       if (newStrains.length > 0) {
@@ -284,7 +277,7 @@ const StrainExplorer: React.FC = () => {
             filters={filters} 
             onFilterChange={handleFilterChange}
             totalStrains={totalStrains}
-            filteredCount={filteredStrains.length}
+            filteredCount={strains.length}
           />
         </div>
 
@@ -309,16 +302,35 @@ const StrainExplorer: React.FC = () => {
               </CardContent>
             </Card>
           ) : loading ? (
-            renderSkeletonLoader()
-          ) : filteredStrains.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <Card key={index} className="overflow-hidden bg-gray-900 border-gray-700">
+                  <div className="h-40 bg-gray-800">
+                    <Skeleton className="h-full w-full bg-gray-800" />
+                  </div>
+                  <CardContent className="p-4">
+                    <Skeleton className="h-6 w-3/4 mb-4 bg-gray-800" />
+                    <Skeleton className="h-4 w-full mb-2 bg-gray-800" />
+                    <Skeleton className="h-4 w-2/3 mb-2 bg-gray-800" />
+                    <div className="mt-4">
+                      <Skeleton className="h-3 w-full mb-1 bg-gray-800" />
+                      <Skeleton className="h-2 w-full mb-3 bg-gray-800" />
+                      <Skeleton className="h-3 w-full mb-1 bg-gray-800" />
+                      <Skeleton className="h-2 w-full bg-gray-800" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : strains.length > 0 ? (
             <div>
               <div className="flex justify-between items-center mb-6 bg-gray-800/50 p-3 rounded-lg">
                 <p className="text-sm text-gray-300">
-                  Showing {filteredStrains.length} of {totalStrains} strain{totalStrains !== 1 ? 's' : ''}
+                  Showing {strains.length} strain{strains.length !== 1 ? 's' : ''}
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                {filteredStrains.map((strain) => (
+                {strains.map((strain) => (
                   <Link to={`/strains/${strain.id}`} key={strain.id} className="block">
                     <StrainCard strain={strain} />
                   </Link>
@@ -346,7 +358,14 @@ const StrainExplorer: React.FC = () => {
               )}
             </div>
           ) : (
-            renderNoResults()
+            <Card className="bg-gray-900 p-8 rounded-xl text-center border border-gray-700">
+              <CardContent className="pt-6">
+                <h3 className="text-xl font-semibold mb-2 text-white">No strains found</h3>
+                <p className="text-gray-400">
+                  Try adjusting your filters to see more results.
+                </p>
+              </CardContent>
+            </Card>
           )}
         </div>
       </div>

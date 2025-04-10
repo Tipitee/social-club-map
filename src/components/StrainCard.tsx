@@ -53,19 +53,23 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900">
       <div className="relative h-48 overflow-hidden group">
         {strain.img_url ? (
-          <div className="w-full h-full flex items-center justify-center bg-gray-800">
+          <div className="w-full h-full flex items-center justify-center bg-gray-800 overflow-hidden">
             <img
               src={strain.img_url}
               alt={strain.name}
-              className="w-full h-full object-contain object-center transform scale-50 group-hover:scale-[0.55] transition-transform duration-500"
+              className="w-full h-full object-cover object-center"
               onError={(e) => {
                 e.currentTarget.onerror = null;
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement!.innerHTML = `
-                  <div class="w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-80 backdrop-blur-sm">
-                    ${getTypeIcon().props.outerHTML || getTypeIcon()}
-                  </div>
-                `;
+                const container = e.currentTarget.parentElement;
+                if (container) {
+                  container.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center bg-gray-800">
+                      <div class="opacity-60">
+                        ${getTypeIcon().props.outerHTML || ''}
+                      </div>
+                    </div>
+                  `;
+                }
               }}
             />
           </div>

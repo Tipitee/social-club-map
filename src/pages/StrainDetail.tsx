@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchStrainById } from "@/services/strainService";
@@ -6,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Cannabis, Sun, Circle, AlertCircle } from "lucide-react";
+import { ArrowLeft, Cannabis, Sun, CircleDashed, AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Progress } from "@/components/ui/progress";
 
@@ -62,7 +63,7 @@ const StrainDetail: React.FC = () => {
         return <Sun className="h-5 w-5 text-amber-500 drop-shadow-md" />;
       case "Hybrid":
       default:
-        return <Circle className="h-5 w-5 text-emerald-500 drop-shadow-md" />;
+        return <CircleDashed className="h-5 w-5 text-emerald-500 drop-shadow-md" />;
     }
   };
 
@@ -83,7 +84,19 @@ const StrainDetail: React.FC = () => {
       case 0: return 'bg-emerald-500'; // Primary effect
       case 1: return 'bg-purple-500';  // Secondary effect
       case 2: return 'bg-amber-500';   // Tertiary effect
-      default: return 'blue-500';      // Other effects
+      default: return 'bg-blue-500';   // Other effects
+    }
+  };
+
+  const getBigTypeIcon = (type: string | null) => {
+    switch (type) {
+      case "Indica":
+        return <Cannabis className="h-20 w-20 text-purple-500 drop-shadow-md" />;
+      case "Sativa":
+        return <Sun className="h-20 w-20 text-amber-500 drop-shadow-md" />;
+      case "Hybrid":
+      default:
+        return <CircleDashed className="h-20 w-20 text-emerald-500 drop-shadow-md" />;
     }
   };
 
@@ -192,20 +205,22 @@ const StrainDetail: React.FC = () => {
               <img
                 src={strain.img_url}
                 alt={strain.name}
-                className="w-full h-full object-cover scale-50 transform-gpu"
+                className="w-full h-full object-cover"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = `
-                    <div class="w-full h-full flex items-center justify-center bg-gray-800">
-                      <div class="text-4xl">${getTypeIcon(strain.type)?.props?.outerHTML || ''}</div>
-                    </div>
-                  `;
+                  const container = e.currentTarget.parentElement;
+                  if (container) {
+                    container.innerHTML = `
+                      <div class="w-full h-full flex items-center justify-center bg-gray-800">
+                        ${getBigTypeIcon(strain.type)?.props?.outerHTML || ''}
+                      </div>
+                    `;
+                  }
                 }}
               />
             ) : (
               <div className="flex items-center justify-center h-full w-full">
-                <div className="text-4xl">{getTypeIcon(strain.type)}</div>
+                {getBigTypeIcon(strain.type)}
               </div>
             )}
           </div>
@@ -259,7 +274,7 @@ const StrainDetail: React.FC = () => {
               <div className="space-y-4">
                 {strain.effects
                   .filter(effect => effect && effect.effect && effect.intensity > 0)
-                  .sort((a, b) => a.intensity - b.intensity) // Sort from lowest to highest
+                  .sort((a, b) => b.intensity - a.intensity) // Sort from highest to lowest
                   .map((effect, index) => (
                     <div key={`${effect.effect}-${index}`} className="mb-4">
                       <div className="flex justify-between text-sm mb-2">

@@ -168,12 +168,14 @@ export const getTerpenes = async (): Promise<string[]> => {
  * @param sort Sort method
  * @param page Page number
  * @param limit Results per page
+ * @param searchQuery Optional search query
  * @returns List of strain data and total count
  */
 export const fetchStrains = async (
   sort: string = "name",
   page: number = 1,
-  limit: number = 20 // Show 20 strains per page
+  limit: number = 20, // Show 20 strains per page
+  searchQuery: string = ""
 ): Promise<{ strains: Strain[]; total: number }> => {
   try {
     // Calculate pagination range
@@ -183,15 +185,24 @@ export const fetchStrains = async (
     // Build query
     let query = supabase
       .from("strains")
-      .select("*", { count: "exact" })
-      .range(from, to);
+      .select("*", { count: "exact" });
+    
+    // Apply search filter if provided
+    if (searchQuery) {
+      query = query.ilike("name", `%${searchQuery}%`);
+    }
     
     // Apply sorting
     if (sort === "name") {
       query = query.order("name", { ascending: true });
-    } else if (sort === "thc") {
-      query = query.order("thc_level", { ascending: false });
+    } else if (sort === "thc_high") {
+      query = query.order("thc_level", { ascending: false, nullsLast: true });
+    } else if (sort === "thc_low") {
+      query = query.order("thc_level", { ascending: true, nullsLast: true });
     }
+    
+    // Apply pagination
+    query = query.range(from, to);
     
     // Execute query
     const { data, error, count } = await query;
@@ -210,7 +221,7 @@ export const fetchStrains = async (
       if (item.top_effect) {
         effects.push({
           effect: item.top_effect,
-          intensity: safeParsePercent(item.highest_percent || 0),
+          intensity: safeParsePercent(item.highest_percent || 90),
         });
       }
       
@@ -261,7 +272,7 @@ export const fetchStrains = async (
       if (item.second_effect) {
         effects.push({ 
           effect: item.second_effect, 
-          intensity: safeParsePercent(item.highest_percent || 0)
+          intensity: safeParsePercent(item.highest_percent || 80)
         });
       }
       
@@ -269,13 +280,16 @@ export const fetchStrains = async (
       if (item.third_effect) {
         effects.push({ 
           effect: item.third_effect,
-          intensity: safeParsePercent(item.highest_percent || 0)
+          intensity: safeParsePercent(item.highest_percent || 70)
         });
       }
 
+      // Ensure we have a valid ID - use name if unique_identifier is missing
+      const strainId = item.unique_identifier || item.name.replace(/\s+/g, '-').toLowerCase();
+
       // Create strain object
       return {
-        id: item.unique_identifier || `strain-${Math.random().toString(36).substring(2, 9)}`,
+        id: strainId,
         name: item.name || "Unknown Strain",
         type: (item.type as 'Indica' | 'Sativa' | 'Hybrid') || 'Hybrid',
         img_url: item.img_url || null,
@@ -297,55 +311,88 @@ export const fetchStrains = async (
 };
 
 /**
- * Fetch a specific strain by ID
+ * Fetch a specific strain by ID or name
  */
-export const fetchStrainById = async (id: string): Promise<Strain | null> => {
+export const fetchStrainById = async (idOrName: string): Promise<Strain | null> => {
   try {
-    const { data, error } = await supabase
+    // First try to find by unique_identifier
+    let { data, error } = await supabase
       .from("strains")
       .select("*")
-      .eq("unique_identifier", id)
-      .single();
+      .eq("unique_identifier", idOrName);
     
     if (error) {
       throw new Error(error.message);
     }
+
+    // If no results, try to find by name
+    if (!data || data.length === 0) {
+      // Try to find by name (case insensitive)
+      const nameResult = await supabase
+        .from("strains")
+        .select("*")
+        .ilike("name", idOrName);
+      
+      if (nameResult.error) {
+        throw new Error(nameResult.error.message);
+      }
+      
+      data = nameResult.data;
+      
+      // If still no results, try with URL-decoded name
+      if (!data || data.length === 0) {
+        const decodedName = decodeURIComponent(idOrName).replace(/-/g, ' ');
+        const decodedResult = await supabase
+          .from("strains")
+          .select("*")
+          .ilike("name", `%${decodedName}%`);
+        
+        if (decodedResult.error) {
+          throw new Error(decodedResult.error.message);
+        }
+        
+        data = decodedResult.data;
+      }
+    }
     
-    if (!data) {
+    if (!data || data.length === 0) {
       return null;
     }
+    
+    // Take the first result if multiple were found
+    const item = data[0];
     
     // Extract effects
     let effects: StrainEffect[] = [];
     
     // Add top effect if available
-    if (data.top_effect) {
+    if (item.top_effect) {
       effects.push({
-        effect: data.top_effect,
-        intensity: safeParsePercent(data.highest_percent || 0),
+        effect: item.top_effect,
+        intensity: safeParsePercent(item.highest_percent || 90),
       });
     }
     
     // Add second effect if available - fixed property names
-    if (data.second_effect) {
+    if (item.second_effect) {
       effects.push({ 
-        effect: data.second_effect, 
-        intensity: safeParsePercent(data.highest_percent || 0)
+        effect: item.second_effect, 
+        intensity: safeParsePercent(item.highest_percent || 80)
       });
     }
     
     // Add third effect if available
-    if (data.third_effect) {
+    if (item.third_effect) {
       effects.push({ 
-        effect: data.third_effect,
-        intensity: safeParsePercent(data.highest_percent || 0)
+        effect: item.third_effect,
+        intensity: safeParsePercent(item.highest_percent || 70)
       });
     }
     
     // Try to parse effects from JSON
     try {
-      if (data.effects_json && typeof data.effects_json === 'string') {
-        const parsedEffects = JSON.parse(data.effects_json);
+      if (item.effects_json && typeof item.effects_json === 'string') {
+        const parsedEffects = JSON.parse(item.effects_json);
         
         if (Array.isArray(parsedEffects)) {
           parsedEffects.forEach((effect: any) => {
@@ -372,21 +419,21 @@ export const fetchStrainById = async (id: string): Promise<Strain | null> => {
     }
     
     // Create strain object
-    const thcLevel = extractThcLevel(data);
+    const thcLevel = extractThcLevel(item);
+    const strainId = item.unique_identifier || item.name.replace(/\s+/g, '-').toLowerCase();
     
     return {
-      id: data.unique_identifier || `strain-${Math.random().toString(36).substring(2, 9)}`,
-      name: data.name || "Unknown Strain",
-      type: (data.type as 'Indica' | 'Sativa' | 'Hybrid') || 'Hybrid',
-      img_url: data.img_url || null,
+      id: strainId,
+      name: item.name || "Unknown Strain",
+      type: (item.type as 'Indica' | 'Sativa' | 'Hybrid') || 'Hybrid',
+      img_url: item.img_url || null,
       thc_level: thcLevel,
-      description: data.description || null,
+      description: item.description || null,
       effects: effects,
-      most_common_terpene: data.most_common_terpene || null,
+      most_common_terpene: item.most_common_terpene || null,
     };
   } catch (error) {
     console.error("Error fetching strain:", error);
     throw error;
   }
 };
-
