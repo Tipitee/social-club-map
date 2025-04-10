@@ -45,7 +45,7 @@ export const getSupabaseInfo = async (): Promise<{ connected: boolean, error?: s
   } catch (error) {
     return { 
       connected: false, 
-      error: error instanceof Error ? error.message : "Connection check failed" 
+      error: error instanceof Error ? error.message : "Unknown error testing connection" 
     };
   }
 };
@@ -135,8 +135,7 @@ export const update = async (
 
     // Validate the merged strain with Zod
     const validatedResult = StrainSchema.safeParse({
-      ...updatedStrain,
-      // Remove fields not in Strain type
+      ...updatedStrain
     });
 
     if (!validatedResult.success) {
@@ -148,6 +147,15 @@ export const update = async (
 
     const validatedStrain = validatedResult.data;
 
+    // Ensure each effect has required properties
+    const processedEffects = (validatedStrain.effects || []).map(effect => {
+      // Make sure each effect has a defined effect property and intensity
+      return {
+        effect: effect.effect || "Unknown",
+        intensity: effect.intensity ?? 50
+      };
+    });
+
     // Create a new object that strictly conforms to Strain type
     const finalStrain: Strain = {
       id: validatedStrain.id,
@@ -157,7 +165,7 @@ export const update = async (
       thc_level: validatedStrain.thc_level,
       most_common_terpene: validatedStrain.most_common_terpene,
       description: validatedStrain.description,
-      effects: validatedStrain.effects || [],
+      effects: processedEffects, // Use our processed effects with required properties
     };
 
     mockStrains[strainIndex] = finalStrain;

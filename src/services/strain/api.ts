@@ -1,9 +1,8 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Strain } from "@/types/strain";
 import { transformStrainData } from "./transformers";
 import { StrainServiceError } from "./errors";
-import { strainInsertSchema, StrainInsertData } from "./validation";
+import { strainInsertSchema } from "./validation";
 import { z } from "zod";
 
 /**
@@ -14,6 +13,17 @@ export interface Result<T> {
   data?: T;
   error?: Error;
 }
+
+// Define a simple type for the insert data to avoid complex type recursion
+export type StrainInsertData = {
+  name: string;
+  type: 'Indica' | 'Sativa' | 'Hybrid' | null;
+  thc_level: number | null;
+  img_url: string | null;
+  description: string | null;
+  most_common_terpene: string | null;
+  top_effect: string | null;
+};
 
 /**
  * Fetches strains with optional sorting, pagination, and filtering
@@ -243,10 +253,10 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
       // Extract ID separately (don't include it in insertData)
       const strainId = strainData.id;
       
-      // Fix: Simplify the data structure to avoid deep instantiation issues
+      // Get effects data in a simplified way
       const effects = strainData.effects || [];
       
-      // Prepare the data for insertion - explicitly define each field without recursive references
+      // Create a clean StrainInsertData object without complex nesting
       const insertData: StrainInsertData = {
         name: strainData.name,
         type: strainData.type || 'Hybrid',
@@ -260,7 +270,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
       // Validate with Zod
       strainInsertSchema.parse(insertData);
       
-      // Define effects data directly without complex nested objects
+      // Define effects data directly as simple properties
       const effectsData = {
         top_effect: effects.length > 0 ? effects[0].effect : null,
         top_percent: effects.length > 0 ? String(effects[0].intensity) : null,
@@ -270,7 +280,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
         third_percent: effects.length > 2 ? String(effects[2].intensity) : null
       };
       
-      // Simple merge of data objects to avoid deep nesting
+      // Merge data objects at the top level (not nested)
       const fullInsertData = {
         ...insertData,
         ...effectsData
@@ -284,9 +294,9 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
         const { data, error } = await supabase
           .from('strains')
           .update(fullInsertData)
-          .eq('id', strainId)
+          .eq('unique_identifier', strainId)
           .select()
-          .maybeSingle();  // Changed from single() to maybeSingle()
+          .maybeSingle();
           
         if (error) {
           throw new StrainServiceError(`Failed to update strain: ${error.message}`, error);
@@ -299,7 +309,7 @@ export const upsertStrain = async (strainData: Partial<Strain>): Promise<Result<
           .from('strains')
           .insert(fullInsertData)
           .select()
-          .maybeSingle();  // Changed from single() to maybeSingle()
+          .maybeSingle();
           
         if (error) {
           throw new StrainServiceError(`Failed to insert strain: ${error.message}`, error);
