@@ -106,11 +106,6 @@
   html {
     @apply antialiased;
   }
-
-  /* Force light mode on all pages except profile which already has it */
-  body:not(.force-dark) {
-    @apply light;
-  }
 }
 
 @layer components {
@@ -169,7 +164,7 @@
   
   /* New styles for effects blocks - slimmer height */
   .effect-block {
-    @apply p-3 rounded-lg border transition-all;
+    @apply p-2 rounded-lg border transition-all;
   }
   
   /* Light mode specific styles */
@@ -184,7 +179,7 @@
   
   .light input::placeholder,
   .light textarea::placeholder {
-    @apply text-gray-500;
+    @apply text-gray-500/0;
   }
 
   /* Dark mode specific styles */
@@ -199,7 +194,7 @@
   
   .dark input::placeholder,
   .dark textarea::placeholder {
-    @apply text-gray-400;
+    @apply text-gray-400/0;
   }
   
   /* Improved contrast for better readability */
@@ -217,6 +212,15 @@
   
   /* Remove placeholders in search boxes */
   .search-input::placeholder {
-    @apply opacity-50;
+    @apply opacity-0;
+  }
+  
+  /* Global form styles */
+  .input-label {
+    @apply text-gray-700 dark:text-gray-300 font-medium mb-1;
+  }
+  
+  .input-field {
+    @apply bg-white dark:bg-gray-800 border border-cadetGray-300 dark:border-gray-700 rounded-md px-3 py-2;
   }
 }

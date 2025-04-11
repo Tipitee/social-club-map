@@ -9,6 +9,7 @@ const BottomNav: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const { user } = useAuth();
+  const isDarkMode = document.documentElement.classList.contains('dark');
   
   const isActive = (path: string) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
@@ -23,15 +24,23 @@ const BottomNav: React.FC = () => {
     { path: user ? "/profile" : "/auth", label: user ? t('navigation.profile') : t('navigation.signIn'), icon: User },
   ];
 
+  const getNavBackgroundClass = () => isDarkMode 
+    ? "bg-gray-900 border-gray-800" 
+    : "bg-white border-cadetGray-200";
+
+  const getInactiveTextClass = () => isDarkMode 
+    ? "text-gray-400" 
+    : "text-gray-500";
+
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50 shadow-lg">
+    <div className={`fixed bottom-0 left-0 right-0 ${getNavBackgroundClass()} border-t z-50 shadow-lg`}>
       <div className="flex justify-around items-center h-16">
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
             className={`flex flex-col items-center justify-center w-full h-full ${
-              isActive(item.path) ? "text-primary" : "text-gray-400"
+              isActive(item.path) ? "text-primary" : getInactiveTextClass()
             }`}
             aria-label={item.label}
           >
@@ -41,7 +50,7 @@ const BottomNav: React.FC = () => {
         ))}
       </div>
       {/* Add a safe area for iOS devices */}
-      <div className="h-safe-bottom bg-gray-900 border-t-0"></div>
+      <div className={`h-safe-bottom ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-t-0`}></div>
     </div>
   );
 };

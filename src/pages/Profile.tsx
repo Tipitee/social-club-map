@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, Edit, User, Save, Loader2, LogOut } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -173,7 +173,7 @@ const Profile: React.FC = () => {
   
   const getCardClass = () => isDarkMode
     ? "border-primary/20 shadow-xl bg-gray-800"
-    : "border-primary/10 shadow-lg bg-white";
+    : "border-cadetGray-300/20 shadow-lg bg-white";
 
   if (loading) {
     return (
@@ -237,8 +237,10 @@ const Profile: React.FC = () => {
               </div>
               
               <div className="text-center">
-                {/* Only show email, username shown in edit mode */}
-                <h2 className="text-xl font-bold">{profile?.username || ""}</h2>
+                {/* Only show email when not in edit mode, show username in edit mode */}
+                {editMode ? (
+                  <h2 className="text-xl font-bold">{profile?.username || ""}</h2>
+                ) : null}
                 <p className={isDarkMode ? "text-gray-400" : "text-gray-500"}>{user.email}</p>
               </div>
             </div>
@@ -357,7 +359,7 @@ const Profile: React.FC = () => {
                   }
                   size="sm"
                 >
-                  {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                  {isDarkMode ? t('settings.lightMode') : t('settings.darkMode')}
                 </Button>
               </div>
             </div>

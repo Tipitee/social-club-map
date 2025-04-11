@@ -1,270 +1,304 @@
 
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Plus, X, Loader2, ThumbsUp, ThumbsDown, Wind, Coffee, Book, Music, Tv, Users, CheckCircle2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 import { JournalEntry } from "@/types/journal";
-import { CheckCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
-import { useToast } from "@/hooks/use-toast";
 
-interface NewJournalEntryProps {
+type NewJournalEntryProps = {
   isOpen: boolean;
   onClose: () => void;
   onSave: (entry: Omit<JournalEntry, "id">) => void;
-}
+};
 
-const possibleEffects = [
-  "Dry Mouth",
-  "Dry Eyes",
-  "Paranoia",
-  "Anxiety",
-  "Dizziness",
-  "Headache",
-  "Hunger",
-  "Insomnia",
-  "Nausea",
+const SIDE_EFFECTS = [
+  { id: "dry-mouth", label: "Dry Mouth", icon: ThumbsDown },
+  { id: "dry-eyes", label: "Dry Eyes", icon: ThumbsDown },
+  { id: "headache", label: "Headache", icon: ThumbsDown },
+  { id: "paranoia", label: "Paranoia", icon: ThumbsDown },
+  { id: "dizziness", label: "Dizziness", icon: Wind },
+  { id: "anxiety", label: "Anxiety", icon: ThumbsDown },
 ];
 
-const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
-  isOpen,
-  onClose,
-  onSave,
-}) => {
+const ACTIVITIES = [
+  { id: "relaxing", label: "Relaxing", icon: Coffee },
+  { id: "reading", label: "Reading", icon: Book },
+  { id: "music", label: "Listening to Music", icon: Music },
+  { id: "watching", label: "Watching TV/Movies", icon: Tv },
+  { id: "social", label: "Socializing", icon: Users },
+];
+
+const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSave }) => {
   const { t } = useTranslation();
+  const [saving, setSaving] = useState(false);
+  
+  // Form state
   const [dosage, setDosage] = useState("");
-  const [dosageType, setDosageType] = useState("edible");
-  const [effectiveness, setEffectiveness] = useState(3);
+  const [dosageType, setDosageType] = useState("mg");
+  const [effectiveness, setEffectiveness] = useState(0);
   const [mood, setMood] = useState("");
   const [activity, setActivity] = useState("");
-  const [sideEffects, setSideEffects] = useState<string[]>([]);
+  const [selectedEffects, setSelectedEffects] = useState<string[]>([]);
   const [notes, setNotes] = useState("");
-  const { toast } = useToast();
+
+  // Detect theme for conditional styling
   const isDarkMode = document.documentElement.classList.contains('dark');
-
-  const handleSideEffectToggle = (effect: string) => {
-    setSideEffects((prev) =>
-      prev.includes(effect)
-        ? prev.filter((e) => e !== effect)
-        : [...prev, effect]
-    );
+  
+  const handleSave = () => {
+    setSaving(true);
+    try {
+      const newEntry: Omit<JournalEntry, "id"> = {
+        date: format(new Date(), "yyyy-MM-dd"),
+        dosage,
+        dosageType,
+        effectiveness,
+        mood,
+        activity,
+        sideEffects: selectedEffects,
+        notes,
+      };
+      
+      onSave(newEntry);
+    } finally {
+      setSaving(false);
+    }
   };
-
-  const handleSubmit = () => {
-    // Basic validation
-    if (!dosage) {
-      toast({
-        title: t('journal.error'),
-        description: t('journal.enterDosage'),
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!mood) {
-      toast({
-        title: t('journal.error'),
-        description: t('journal.enterMood'),
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!activity) {
-      toast({
-        title: t('journal.error'),
-        description: t('journal.enterActivity'),
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const newEntry = {
-      date: format(new Date(), "MMMM do, yyyy"),
-      dosage,
-      dosageType,
-      effectiveness,
-      mood,
-      activity,
-      sideEffects,
-      notes,
-    };
-
-    onSave(newEntry);
-    
-    // Reset form
+  
+  const clearForm = () => {
     setDosage("");
-    setDosageType("edible");
-    setEffectiveness(3);
+    setDosageType("mg");
+    setEffectiveness(0);
     setMood("");
     setActivity("");
-    setSideEffects([]);
+    setSelectedEffects([]);
     setNotes("");
   };
 
-  // Determine color scheme based on theme
-  const bgColor = isDarkMode ? "bg-gray-900" : "bg-white";
-  const borderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
-  const inputBgColor = isDarkMode ? "bg-gray-800" : "bg-gray-50";
-  const inputBorderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
-  const textColor = isDarkMode ? "text-white" : "text-gray-900";
-  const textMutedColor = isDarkMode ? "text-gray-400" : "text-gray-500";
-  
-  // Button colors
-  const primaryBtnBg = "bg-emerald-600 hover:bg-emerald-700";
-  const outlineBtnBg = isDarkMode ? "bg-gray-800 hover:bg-gray-700 border-gray-700" : 
-    "bg-white hover:bg-gray-100 border-gray-200";
-  
-  // Effect badge colors
-  const badgeBg = isDarkMode ? "bg-gray-800" : "bg-gray-100";
-  const badgeBorder = isDarkMode ? "border-gray-700" : "border-gray-200";
-  const selectedBadgeBg = isDarkMode ? "bg-emerald-900/50 border-emerald-600" : 
-    "bg-emerald-100 border-emerald-400";
+  const toggleEffect = (effectId: string) => {
+    setSelectedEffects(prev => 
+      prev.includes(effectId) 
+        ? prev.filter(id => id !== effectId) 
+        : [...prev, effectId]
+    );
+  };
 
+  const getEntryDialogClass = () => isDarkMode 
+    ? "bg-gray-800/95 border-primary/20" 
+    : "bg-oldLace-500 border-cadetGray-300/50";
+
+  const getLabelClass = () => isDarkMode
+    ? "text-white" 
+    : "text-gray-800";
+
+  const getInputClass = () => isDarkMode
+    ? "bg-gray-700 border-gray-600 text-white" 
+    : "bg-white/70 border-cadetGray-300 text-gray-800";
+    
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`${bgColor} ${borderColor} ${textColor} max-w-md max-h-[90vh] overflow-y-auto`}>
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      if (!open) {
+        onClose();
+        clearForm();
+      }
+    }}>
+      <DialogContent className={`${getEntryDialogClass()} max-w-3xl max-h-[90vh] overflow-y-auto`}>
         <DialogHeader>
-          <DialogTitle className={`text-xl font-bold ${textColor}`}>{t('journal.addNewEntry')}</DialogTitle>
+          <DialogTitle className={`text-center text-xl font-bold mb-4 ${getLabelClass()}`}>
+            {t('journal.newEntry')}
+          </DialogTitle>
         </DialogHeader>
-
-        <div className="space-y-4 py-2">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="dosage">{t('journal.dosage')}</Label>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Left column */}
+          <div className="space-y-4">
+            {/* Dosage */}
+            <div>
+              <Label htmlFor="dosage" className={getLabelClass()}>
+                {t('journal.dosage')}
+              </Label>
+              <div className="flex mt-1">
+                <Input
+                  id="dosage"
+                  type="number"
+                  value={dosage}
+                  onChange={(e) => setDosage(e.target.value)}
+                  className={`${getInputClass()} rounded-r-none`}
+                  placeholder={t('journal.dosageAmount')}
+                />
+                <select
+                  value={dosageType}
+                  onChange={(e) => setDosageType(e.target.value)}
+                  className={`${getInputClass()} rounded-l-none border-l-0 min-w-[80px]`}
+                >
+                  <option value="mg">mg</option>
+                  <option value="g">g</option>
+                  <option value="ml">ml</option>
+                  <option value="puffs">{t('journal.puffs')}</option>
+                </select>
+              </div>
+            </div>
+            
+            {/* Effectiveness */}
+            <div>
+              <Label className={getLabelClass()}>
+                {t('journal.effectiveness')}
+              </Label>
+              <div className="flex items-center gap-2 mt-2">
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <Button
+                    key={rating}
+                    type="button"
+                    variant={effectiveness === rating ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setEffectiveness(rating)}
+                    className={effectiveness === rating 
+                      ? "bg-primary hover:bg-primary/90 text-white" 
+                      : isDarkMode
+                        ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                        : "bg-white border-cadetGray-300 text-gray-800 hover:bg-gray-100"
+                    }
+                  >
+                    {rating}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Mood */}
+            <div>
+              <Label htmlFor="mood" className={getLabelClass()}>
+                {t('journal.mood')}
+              </Label>
               <Input
-                id="dosage"
-                value={dosage}
-                onChange={(e) => setDosage(e.target.value)}
-                className={`${inputBgColor} ${inputBorderColor} ${textColor}`}
+                id="mood"
+                value={mood}
+                onChange={(e) => setMood(e.target.value)}
+                className={`${getInputClass()} mt-1`}
               />
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="dosageType">{t('journal.type')}</Label>
-              <Select value={dosageType} onValueChange={setDosageType}>
-                <SelectTrigger className={`${inputBgColor} ${inputBorderColor} ${textColor}`}>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className={`${inputBgColor} ${borderColor}`}>
-                  <SelectItem value="edible" className={textColor}>{t('journal.edible')}</SelectItem>
-                  <SelectItem value="flower" className={textColor}>{t('journal.flower')}</SelectItem>
-                  <SelectItem value="vaporized" className={textColor}>{t('journal.vaporized')}</SelectItem>
-                  <SelectItem value="tincture" className={textColor}>{t('journal.tincture')}</SelectItem>
-                  <SelectItem value="concentrate" className={textColor}>{t('journal.concentrate')}</SelectItem>
-                  <SelectItem value="other" className={textColor}>{t('journal.other')}</SelectItem>
-                </SelectContent>
-              </Select>
+            
+            {/* Activity */}
+            <div>
+              <Label htmlFor="activity" className={getLabelClass()}>
+                {t('journal.activity')}
+              </Label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
+                {ACTIVITIES.map((act) => {
+                  const isSelected = activity === act.id;
+                  return (
+                    <Button
+                      key={act.id}
+                      type="button"
+                      variant={isSelected ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setActivity(isSelected ? "" : act.id)}
+                      className={`flex items-center justify-start gap-2 ${
+                        isSelected 
+                          ? "bg-primary hover:bg-primary/90 text-white" 
+                          : isDarkMode
+                            ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                            : "bg-white border-cadetGray-300 text-gray-800 hover:bg-gray-100"
+                      }`}
+                    >
+                      <act.icon className="w-4 h-4" />
+                      <span className="text-xs">{t(`journal.activities.${act.id}`)}</span>
+                    </Button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-
-          <div className="space-y-2">
-            <Label>{t('journal.effectiveness')} (1-5)</Label>
-            <div className="flex gap-2 justify-between">
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <Button
-                  key={rating}
-                  type="button"
-                  variant={effectiveness === rating ? "default" : "outline"}
-                  onClick={() => setEffectiveness(rating)}
-                  className={`flex-1 ${
-                    effectiveness === rating
-                      ? primaryBtnBg
-                      : outlineBtnBg
-                  }`}
-                >
-                  {rating}
-                </Button>
-              ))}
+          
+          {/* Right column */}
+          <div className="space-y-4">
+            {/* Side Effects */}
+            <div>
+              <Label className={getLabelClass()}>
+                {t('journal.sideEffects')}
+              </Label>
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                {SIDE_EFFECTS.map((effect) => {
+                  const isSelected = selectedEffects.includes(effect.id);
+                  return (
+                    <Button
+                      key={effect.id}
+                      type="button"
+                      variant={isSelected ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => toggleEffect(effect.id)}
+                      className={`flex items-center justify-start gap-2 ${
+                        isSelected 
+                          ? "bg-primary hover:bg-primary/90 text-white" 
+                          : isDarkMode
+                            ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                            : "bg-white border-cadetGray-300 text-gray-800 hover:bg-gray-100"
+                      }`}
+                    >
+                      {isSelected ? (
+                        <CheckCircle2 className="w-4 h-4" />
+                      ) : (
+                        <effect.icon className="w-4 h-4" />
+                      )}
+                      <span className="text-xs">{t(`journal.sideEffects.${effect.id}`)}</span>
+                    </Button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="mood">{t('journal.mood')}</Label>
-            <Input
-              id="mood"
-              value={mood}
-              onChange={(e) => setMood(e.target.value)}
-              className={`${inputBgColor} ${inputBorderColor} ${textColor}`}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="activity">{t('journal.activity')}</Label>
-            <Input
-              id="activity"
-              value={activity}
-              onChange={(e) => setActivity(e.target.value)}
-              className={`${inputBgColor} ${inputBorderColor} ${textColor}`}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>{t('journal.sideEffects')}</Label>
-            <div className="flex flex-wrap gap-2">
-              {possibleEffects.map((effect) => (
-                <Badge
-                  key={effect}
-                  variant="outline"
-                  className={`cursor-pointer select-none px-2.5 py-1 text-sm ${
-                    sideEffects.includes(effect)
-                      ? selectedBadgeBg
-                      : `${badgeBg} ${badgeBorder}`
-                  }`}
-                  onClick={() => handleSideEffectToggle(effect)}
-                >
-                  {sideEffects.includes(effect) && (
-                    <CheckCircle className="h-3.5 w-3.5 mr-1" />
-                  )}
-                  {effect}
-                </Badge>
-              ))}
+            
+            {/* Notes */}
+            <div>
+              <Label htmlFor="notes" className={getLabelClass()}>
+                {t('journal.notes')}
+              </Label>
+              <Textarea
+                id="notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={5}
+                className={`${getInputClass()} mt-1`}
+              />
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="notes">{t('journal.notes')}</Label>
-            <Textarea
-              id="notes"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className={`${inputBgColor} ${inputBorderColor} ${textColor} min-h-[100px]`}
-            />
           </div>
         </div>
-
-        <DialogFooter className="flex justify-end gap-3">
+        
+        <div className="flex justify-between mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
           <Button 
+            type="button" 
             variant="outline" 
-            onClick={onClose} 
-            className={outlineBtnBg}
+            onClick={onClose}
+            className={isDarkMode 
+              ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600" 
+              : "bg-white border-cadetGray-300 text-gray-800 hover:bg-gray-100"
+            }
           >
+            <X className="w-4 h-4 mr-2" />
             {t('common.cancel')}
           </Button>
           <Button 
-            onClick={handleSubmit} 
-            className={primaryBtnBg}
+            type="button"
+            disabled={saving || !dosage || effectiveness === 0}
+            onClick={handleSave}
+            className="bg-primary hover:bg-primary/90 text-white"
           >
-            {t('journal.saveEntry')}
+            {saving ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                {t('common.saving')}
+              </>
+            ) : (
+              <>
+                <Plus className="w-4 h-4 mr-2" />
+                {t('journal.saveEntry')}
+              </>
+            )}
           </Button>
-        </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );
