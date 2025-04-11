@@ -1,4 +1,3 @@
-
 import { StrainEffect } from "@/types/strain";
 import { safeParsePercent } from "./parseUtils";
 
@@ -12,42 +11,9 @@ export const extractEffects = (item: any): StrainEffect[] => {
     second: { effect: item.second_effect, percent: item.second_percent },
     third: { effect: item.third_effect, percent: item.third_percent },
   });
-
-  // Special case handling - explicitly define these high-priority strains
-  if (item.name === "$100 OG") {
-    console.log("Special handling for $100 OG");
-    return [
-      { effect: "euphoric", intensity: 51 },
-      { effect: "stress", intensity: 50 },
-      { effect: "dry_mouth", intensity: 46 }
-    ];
-  } 
-  else if (item.name === "1:1 Buddha's Smile") {
-    console.log("Special handling for 1:1 Buddha's Smile");
-    return [
-      { effect: "relaxed", intensity: 45 },
-      { effect: "happy", intensity: 45 },
-      { effect: "euphoric", intensity: 40 }
-    ];
-  } 
-  else if (item.name === "1024") {
-    console.log("Special handling for 1024");
-    return [
-      { effect: "happy", intensity: 48 },
-      { effect: "uplifted", intensity: 48 },
-      { effect: "energetic", intensity: 40 }
-    ];
-  }
-  else if (item.name === "9 lb Hammer") {
-    console.log("Special handling for 9 lb Hammer");
-    return [
-      { effect: "relaxed", intensity: 65 },
-      { effect: "sleepy", intensity: 47 },
-      { effect: "euphoric", intensity: 33 }
-    ];
-  }
   
-  // Default extraction logic
+  // Default extraction logic - Don't use special case handling, 
+  // always stick to actual values from database
   let effects: StrainEffect[] = [];
   
   // Process effects in correct order with proper 0% handling
@@ -55,7 +21,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
     const parsedPercent = safeParsePercent(item.top_percent);
     effects.push({
       effect: item.top_effect,
-      // Use 0 to indicate 0%, which will be shown as "?" in the UI
+      // Keep actual parsed value even if 0
       intensity: parsedPercent
     });
   }
@@ -65,7 +31,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
     const parsedPercent = safeParsePercent(item.second_percent);
     effects.push({
       effect: item.second_effect,
-      // Use 0 to indicate 0%, which will be shown as "?" in the UI
+      // Keep actual parsed value even if 0
       intensity: parsedPercent
     });
   }

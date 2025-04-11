@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -55,42 +54,10 @@ const StrainDetail: React.FC = () => {
     }
   });
 
-  // Get valid effects, filtering out "Unknown" values
+  // Get valid effects, filtering out "Unknown" values, but keep actual intensity values
   const displayEffects = strain.effects
     .filter(effect => effect && effect.effect && effect.effect !== "Unknown")
-    .sort((a, b) => b.intensity - a.intensity);
-
-  // Apply special case handling for specific strains
-  if (strain.name === "$100 OG" && (displayEffects.length === 0 || displayEffects.length < 3)) {
-    // Force correct effects for $100 OG
-    displayEffects.length = 0; // Clear existing effects
-    displayEffects.push(
-      { effect: "euphoric", intensity: 51 },
-      { effect: "stress", intensity: 50 },
-      { effect: "dry_mouth", intensity: 46 }
-    );
-  } else if (strain.name === "9 lb Hammer" && (displayEffects.length === 0 || displayEffects.length < 3)) {
-    displayEffects.length = 0; // Clear existing effects
-    displayEffects.push(
-      { effect: "relaxed", intensity: 65 },
-      { effect: "sleepy", intensity: 47 },
-      { effect: "euphoric", intensity: 33 }
-    );
-  } else if (strain.name === "1024" && (displayEffects.length === 0 || displayEffects.length < 3)) {
-    displayEffects.length = 0; // Clear existing effects
-    displayEffects.push(
-      { effect: "happy", intensity: 48 },
-      { effect: "uplifted", intensity: 48 },
-      { effect: "energetic", intensity: 40 }
-    );
-  } else if (strain.name === "1:1 Buddha's Smile" && (displayEffects.length === 0 || displayEffects.length < 3)) {
-    displayEffects.length = 0; // Clear existing effects
-    displayEffects.push(
-      { effect: "relaxed", intensity: 45 },
-      { effect: "happy", intensity: 45 },
-      { effect: "euphoric", intensity: 40 }
-    );
-  }
+    .sort((a, b) => (b.intensity > 0 ? b.intensity : 0) - (a.intensity > 0 ? a.intensity : 0));
 
   return (
     <div className="min-h-screen bg-[#121212] text-white pb-24">

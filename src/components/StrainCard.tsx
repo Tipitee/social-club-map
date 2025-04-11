@@ -60,7 +60,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   });
 
-  // Filter out "Unknown" effects for display
+  // Filter out "Unknown" effects for display and all effects with 0 intensity should display "?"
   const displayEffects = strain.effects.filter(e => e.effect && e.effect !== "Unknown");
 
   return (

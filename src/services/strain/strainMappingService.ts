@@ -31,35 +31,40 @@ export const mapToStrainType = (item: any): Strain => {
 };
 
 /**
- * Sort strains with preference for those with images
- * This ensures strains with images come first in the list
+ * Sort strains with top priority for those with images
  */
 export const sortStrainsByImagePresence = (strains: Strain[]): Strain[] => {
-  // Log before sorting to debug
-  console.log("Before image sort, first 5 strains:", 
-    strains.slice(0, 5).map(s => ({ name: s.name, hasImg: Boolean(s.img_url && s.img_url.trim() !== '') }))
+  // Debug logging
+  console.log("Before image sort, first 5 strain names:", 
+    strains.slice(0, 5).map(s => s.name)
   );
   
   // First make a copy to avoid mutating the original array
   const sorted = [...strains];
   
-  // CRITICAL: Strict image-first sorting with no secondary sort yet
+  // CRITICAL: Strict image-first sorting - this is the PRIMARY sort criteria
   sorted.sort((a, b) => {
     // Define image presence more explicitly
     const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
     const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
     
-    // ONLY sort by image presence first
+    // Force image sorting - this MUST be the primary sort
     if (aHasImage && !bHasImage) return -1; // A has image, B doesn't - A comes first
     if (!aHasImage && bHasImage) return 1;  // B has image, A doesn't - B comes first
     
-    // Only if both have or don't have images, then sort by name
+    // Only if both have or don't have images, then sort by name as secondary sort
     return a.name.localeCompare(b.name);
   });
   
-  // Log after sorting to confirm results
-  console.log("After image sort, first 5 strains:", 
-    sorted.slice(0, 5).map(s => ({ name: s.name, hasImg: Boolean(s.img_url && s.img_url.trim() !== '') }))
+  // Debug logging after sorting
+  console.log("After image sort, first 5 strain names:", 
+    sorted.slice(0, 5).map(s => s.name)
+  );
+  console.log("Image presence for first 5 strains after sort:", 
+    sorted.slice(0, 5).map(s => ({
+      name: s.name,
+      hasImage: Boolean(s.img_url && s.img_url.trim() !== '')
+    }))
   );
   
   return sorted;
