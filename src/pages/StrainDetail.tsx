@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import { ChevronLeft, Cannabis, Sun, CircleDashed, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { fetchStrainById } from "@/services/strainService";
 import StrainReviews from "@/components/StrainReviews";
 import Navbar from "@/components/Navbar";
@@ -47,7 +46,7 @@ const StrainDetail: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#121212]">
-        <div className="h-8 w-8 border-t-2 border-emerald-500 rounded-full animate-spin"></div>
+        <div className="h-8 w-8 border-t-2 border-[#3A7D89] rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -59,7 +58,7 @@ const StrainDetail: React.FC = () => {
         <p className="text-gray-400 mb-4">{t('strains.errorLoadingStrain')}</p>
         <p className="text-gray-400 mb-6">{t('strains.requestedStrainNotFound')}</p>
         <Link to="/strains">
-          <Button variant="outline" className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700">
+          <Button variant="outline" className="bg-[#1A3A47] border-[#215366] text-white hover:bg-[#215366]">
             <ChevronLeft className="mr-2 h-4 w-4" />
             {t('strains.backToAllStrains')}
           </Button>
@@ -74,12 +73,12 @@ const StrainDetail: React.FC = () => {
     .sort((a, b) => b.intensity - a.intensity);
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white">
+    <div className="min-h-screen bg-[#121212] text-white pb-24">
       <Navbar />
       <main className="container px-4 py-8 max-w-5xl mx-auto">
         <div className="mb-6">
           <Link to="/strains">
-            <Button variant="outline" size="sm" className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 flex items-center">
+            <Button variant="outline" size="sm" className="bg-[#1A3A47] border-[#215366] text-white hover:bg-[#215366] flex items-center">
               <ChevronLeft className="mr-1 h-4 w-4" />
               {t('strains.backToAllStrains')}
             </Button>
@@ -87,11 +86,11 @@ const StrainDetail: React.FC = () => {
         </div>
 
         {/* Main Strain Info Card */}
-        <div className="bg-gray-900 rounded-2xl overflow-hidden border border-gray-800 shadow-lg mb-8">
+        <div className="bg-[#1A3A47] rounded-2xl overflow-hidden border border-[#215366] shadow-lg mb-8">
           <div className="flex flex-col md:flex-row">
             {/* Strain Image */}
             <div className="md:w-1/3 h-64 md:h-auto">
-              <div className="h-full relative bg-gray-800">
+              <div className="h-full relative bg-[#152B35]">
                 {strain.img_url ? (
                   <img
                     src={strain.img_url}
@@ -120,13 +119,13 @@ const StrainDetail: React.FC = () => {
               
               {/* THC and Terpene Info */}
               <div className="grid grid-cols-2 gap-6 mb-6">
-                <div className="bg-gray-800 p-4 rounded-lg">
+                <div className="bg-[#152B35] p-4 rounded-lg">
                   <h3 className="text-sm text-gray-400 mb-1">{t('strains.thcLevel')}</h3>
                   <p className="text-2xl font-semibold text-white">
-                    {strain.thc_level ? `${strain.thc_level}%` : t('strains.unknown')}
+                    {strain.thc_level !== null && strain.thc_level !== undefined ? `${strain.thc_level}%` : t('strains.unknown')}
                   </p>
                 </div>
-                <div className="bg-gray-800 p-4 rounded-lg">
+                <div className="bg-[#152B35] p-4 rounded-lg">
                   <h3 className="text-sm text-gray-400 mb-1">{t('strains.dominantTerpene')}</h3>
                   <p className="text-2xl font-semibold text-white">
                     {strain.most_common_terpene || t('strains.unknown')}
@@ -144,20 +143,20 @@ const StrainDetail: React.FC = () => {
           </div>
         </div>
 
-        {/* Effects Section with improved design */}
+        {/* Effects Section */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
-            <Leaf className="mr-2 h-5 w-5 text-emerald-500" />
+            <Leaf className="mr-2 h-5 w-5 text-[#3A7D89]" />
             {t('strains.effects')}
           </h2>
           
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
+          <div className="bg-[#1A3A47] rounded-xl border border-[#215366] p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {displayEffects && displayEffects.length > 0 ? (
                 displayEffects.map((effect, index) => (
-                  <div key={`effect-${index}`} className="bg-gray-800 rounded-xl p-5 border border-gray-700 transition-all duration-300 hover:shadow-lg">
+                  <div key={`effect-${index}`} className="bg-[#152B35] rounded-xl p-5 border border-[#215366] transition-all duration-300 hover:shadow-lg">
                     <h3 className="text-lg font-semibold mb-3 text-white">{effect.effect}</h3>
-                    <div className="w-full bg-gray-700 rounded-full h-3 mb-2">
+                    <div className="w-full bg-[#1A3A47] rounded-full h-3 mb-2">
                       <div 
                         className={`h-3 rounded-full ${
                           index === 0 ? 'bg-emerald-600' : 
@@ -174,9 +173,9 @@ const StrainDetail: React.FC = () => {
               ) : (
                 // If no effect data available, show placeholders
                 Array.from({length: 3}).map((_, index) => (
-                  <div key={`effect-placeholder-${index}`} className="bg-gray-800 rounded-xl p-5 border border-gray-700">
+                  <div key={`effect-placeholder-${index}`} className="bg-[#152B35] rounded-xl p-5 border border-[#215366]">
                     <h3 className="text-lg font-semibold mb-3 text-white">{t('strains.noData')}</h3>
-                    <div className="w-full bg-gray-700 rounded-full h-3 mb-2">
+                    <div className="w-full bg-[#1A3A47] rounded-full h-3 mb-2">
                       <div className="bg-gray-600 h-3 rounded-full w-[50%]"></div>
                     </div>
                     <p className="text-right text-sm font-medium text-white mt-1">{t('strains.unknown')}</p>
@@ -187,21 +186,18 @@ const StrainDetail: React.FC = () => {
           </div>
         </div>
 
-        {/* Description Section - with improved styling */}
+        {/* Description Section */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">{t('strains.description')}</h2>
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
+          <div className="bg-[#1A3A47] rounded-xl border border-[#215366] p-6">
             <p className="text-gray-300 whitespace-pre-line">{strain.description || t('strains.noDescriptionAvailable')}</p>
           </div>
         </div>
 
-        {/* Reviews Section */}
+        {/* Reviews Section - without duplicate title */}
         <div>
-          <h2 className="text-2xl font-bold text-white mb-4">{t('strains.reviews.title')}</h2>
           <StrainReviews strainId={id || '1'} strainName={strain.name} />
         </div>
-
-        {/* Removed the "Additional Information" section as requested */}
       </main>
     </div>
   );

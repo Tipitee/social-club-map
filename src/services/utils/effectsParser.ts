@@ -1,3 +1,4 @@
+
 import { StrainEffect } from "@/types/strain";
 import { safeParsePercent } from "./parseUtils";
 
@@ -16,25 +17,22 @@ export const extractEffects = (item: any): StrainEffect[] => {
   
   // Process top effect
   if (item.top_effect) {
-    // For euphoric and similar effects, the actual percentage value might be in highest_percent
-    // rather than top_percent for some strains
     const percentValue = item.top_percent || item.highest_percent || "51";
     const parsedPercent = safeParsePercent(percentValue);
     
     effects.push({
       effect: item.top_effect,
-      intensity: parsedPercent > 0 ? parsedPercent : 51 // Default to 51% if no valid percentage
+      intensity: parsedPercent >= 0 ? parsedPercent : 51 // Default to 51% if no valid percentage
     });
   }
   
   // Second effect
   if (item.second_effect) {
-    // For stress and similar effects, the percentage might be missing
     const parsedPercent = safeParsePercent(item.second_percent);
     
     effects.push({
       effect: item.second_effect,
-      intensity: parsedPercent > 0 ? parsedPercent : 50 // Default to 50% if no valid percentage
+      intensity: parsedPercent >= 0 ? parsedPercent : 50 // Default to 50% if no valid percentage
     });
   }
   
@@ -44,7 +42,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
     
     effects.push({
       effect: item.third_effect,
-      intensity: parsedPercent > 0 ? parsedPercent : 46 // Default to 46% if no valid percentage
+      intensity: parsedPercent >= 0 ? parsedPercent : 46 // Default to 46% if no valid percentage
     });
   }
   

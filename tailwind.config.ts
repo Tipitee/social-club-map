@@ -26,11 +26,13 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#4CAF50',
+					DEFAULT: '#3A7D89', // SocialClub teal
+					light: '#AED3D9', // Light teal for accents
+					dark: '#1A3A47', // Dark teal for backgrounds
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
-					DEFAULT: '#673AB7',
+					DEFAULT: '#AED3D9', // Light teal as secondary
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
 				destructive: {
@@ -67,6 +69,13 @@ export default {
 					indica: '#9333ea', // purple-600
 					sativa: '#f59e0b', // amber-500
 					hybrid: '#10b981', // emerald-500
+				},
+				socialclub: {
+					teal: '#3A7D89',
+					lightTeal: '#AED3D9',
+					darkTeal: '#1A3A47',
+					accent: '#E8D2B7',
+					text: '#E8E8E8',
 				}
 			},
 			borderRadius: {

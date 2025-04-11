@@ -64,8 +64,8 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
   const handleSubmitReview = () => {
     if (userRating === 0) {
       toast({
-        title: 'Rating required',
-        description: 'Please provide a star rating before submitting',
+        title: t('strains.reviews.ratingRequired'),
+        description: t('strains.reviews.pleaseProvideRating'),
         variant: 'destructive'
       });
       return;
@@ -87,7 +87,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
 
     toast({
       title: t('strains.reviews.thankYou'),
-      description: `${t('strains.reviews.thankYou')}!`
+      description: t('strains.reviews.reviewSubmitted')
     });
   };
 
@@ -116,10 +116,10 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-xl font-semibold text-white">{t('strains.reviews.title')}</h2>
+          <h2 className="text-2xl font-bold text-white">{t('strains.reviews.title')}</h2>
           {reviews.length > 0 && (
             <p className="text-gray-400 flex items-center mt-1">
-              {t('strains.reviews.averageRating')}: {averageRating} 
+              {averageRating} 
               <span className="flex ml-1 text-yellow-400">
                 <Star className={`h-4 w-4 ${averageRating >= 1 ? 'fill-yellow-400' : ''}`} />
                 <Star className={`h-4 w-4 ${averageRating >= 2 ? 'fill-yellow-400' : ''}`} />
@@ -134,12 +134,12 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-emerald-600 hover:bg-emerald-700">
+            <Button className="bg-[#3A7D89] hover:bg-[#2A5D69]">
               <Plus size={16} className="mr-1" />
               {t('strains.reviews.addReview')}
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-gray-800 text-white border-gray-700">
+          <DialogContent className="bg-[#1A3A47] text-white border-[#215366]">
             <DialogHeader>
               <DialogTitle>{t('strains.reviews.addReview')}: {strainName}</DialogTitle>
             </DialogHeader>
@@ -161,13 +161,13 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
                 <Textarea
                   value={userReview}
                   onChange={(e) => setUserReview(e.target.value)}
-                  className="bg-gray-700 border-gray-600 text-white"
+                  className="bg-[#152B35] border-[#215366] text-white"
                   rows={4}
                 />
               </div>
               
               <div>
-                <Button variant="outline" className="bg-gray-700 text-white border-gray-600 w-full">
+                <Button variant="outline" className="bg-[#152B35] text-white border-[#215366] w-full">
                   <Upload size={16} className="mr-2" />
                   {t('strains.reviews.photoUpload')}
                 </Button>
@@ -176,7 +176,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
               <Button 
                 onClick={handleSubmitReview} 
                 disabled={userRating === 0}
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
+                className="w-full bg-[#3A7D89] hover:bg-[#2A5D69]"
               >
                 {t('strains.reviews.submitReview')}
               </Button>
@@ -188,11 +188,11 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
       {reviews.length > 0 ? (
         <div className="space-y-4">
           {reviews.map((review) => (
-            <Card key={review.id} className="bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300">
+            <Card key={review.id} className="bg-[#1A3A47] border-[#215366] hover:border-[#3A7D89] transition-all duration-300">
               <CardHeader className="pb-2">
                 <div className="flex items-center">
-                  <Avatar className="h-8 w-8 mr-2 bg-gray-700">
-                    <AvatarFallback className="bg-gray-700 text-emerald-400">
+                  <Avatar className="h-8 w-8 mr-2 bg-[#152B35]">
+                    <AvatarFallback className="bg-[#152B35] text-[#AED3D9]">
                       <User size={16} />
                     </AvatarFallback>
                   </Avatar>
@@ -223,7 +223,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
           ))}
         </div>
       ) : (
-        <Card className="bg-gray-800 border-gray-700 text-center p-8">
+        <Card className="bg-[#1A3A47] border-[#215366] text-center p-8">
           <p className="text-gray-400">{t('strains.reviews.noReviews')}</p>
         </Card>
       )}

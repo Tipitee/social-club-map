@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Book, Cannabis, Map, Scale, BookOpen, Settings } from "lucide-react";
+import { Book, Cannabis, MapPin, Scale, BookOpen, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
     },
     {
       path: "/clubs",
-      icon: Map,
+      icon: MapPin,
       title: "Clubs",
       description: "Find local cannabis clubs near you"
     },
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
       <Navbar />
       <div className="container px-4 py-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white">Cannabis Companion</h1>
+          <h1 className="text-2xl font-bold text-white">SocialClub Map</h1>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -62,9 +62,9 @@ const Home: React.FC = () => {
               to={section.path} 
               className="block hover:scale-[1.02] transition-transform duration-200"
             >
-              <div className="bg-gray-800 border border-gray-700 rounded-xl shadow-lg p-6 h-full">
-                <div className="flex justify-center items-center h-20 w-20 bg-gray-700 rounded-full mb-4 mx-auto">
-                  <section.icon className="h-10 w-10 text-secondary" />
+              <div className="bg-[#1A3A47] border border-[#215366] rounded-xl shadow-lg p-6 h-full">
+                <div className="flex justify-center items-center h-20 w-20 bg-[#215366] rounded-full mb-4 mx-auto">
+                  <section.icon className="h-10 w-10 text-[#AED3D9]" />
                 </div>
                 <h2 className="text-xl font-bold text-white text-center mb-2">{section.title}</h2>
                 <p className="text-gray-400 text-center">
