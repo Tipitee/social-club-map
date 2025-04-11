@@ -26,21 +26,21 @@ const LanguageSwitcher: React.FC = () => {
         <Button 
           variant="outline" 
           size="sm" 
-          className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 transition-colors"
+          className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 transition-colors flex items-center gap-2"
         >
-          <Globe size={16} className="mr-2" />
+          <Globe size={16} />
           {language === 'en' ? 'EN' : 'DE'}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40 bg-gray-800 border-gray-700">
         <DropdownMenuItem 
-          className={`${language === 'en' ? 'bg-gray-700' : ''} text-white hover:bg-gray-700`}
+          className={`${language === 'en' ? 'bg-[#348080] text-white' : 'text-white hover:bg-gray-700'}`}
           onClick={() => changeLanguage('en')}
         >
           {t('language.english')}
         </DropdownMenuItem>
         <DropdownMenuItem 
-          className={`${language === 'de' ? 'bg-gray-700' : ''} text-white hover:bg-gray-700`}
+          className={`${language === 'de' ? 'bg-[#348080] text-white' : 'text-white hover:bg-gray-700'}`}
           onClick={() => changeLanguage('de')}
         >
           {t('language.german')}

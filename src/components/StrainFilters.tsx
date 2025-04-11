@@ -75,9 +75,9 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
   };
 
   return (
-    <div className="bg-gray-800/80 p-6 rounded-xl border border-gray-700 shadow-md space-y-6">
+    <div className="bg-gray-800/80 p-6 rounded-xl border border-gray-700 shadow-md space-y-6 sticky top-20">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-xl text-white">{t('strains.filterStrains')}</h2>
+        <h2 className="font-bold text-xl text-white">{t('strains.filters.title')}</h2>
       </div>
       
       {/* Search Input */}
@@ -85,12 +85,12 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <div className="relative">
           <Input
             type="text"
-            placeholder={t('strains.filters.searchPlaceholder')}
+            placeholder={t('strains.filters.search')}
             value={filters.search || ''}
             onChange={handleSearchChange}
-            className="pl-10 bg-gray-700/50 border-gray-600 text-white h-12 text-base"
+            className="pl-10 bg-gray-700/50 border-gray-600 text-white h-10 text-base"
           />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
         </div>
       </div>
       
@@ -99,41 +99,41 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.type')}</h3>
         <div className="flex flex-row gap-2 flex-nowrap">
           <button
-            className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
+            className={`flex-1 px-3 py-2 rounded-full text-sm font-medium ${
               filters.type === null
-                ? "bg-emerald-600 text-white"
+                ? "bg-[#348080] text-white"
                 : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
-            }`}
+            } transition-colors`}
             onClick={() => handleTypeChange(null)}
           >
             {t('strains.filters.all')}
           </button>
           <button
-            className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
+            className={`flex-1 px-3 py-2 rounded-full text-sm font-medium ${
               filters.type === "Indica"
                 ? "bg-purple-600 text-white"
                 : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
-            }`}
+            } transition-colors`}
             onClick={() => handleTypeChange("Indica")}
           >
             {t('strains.filters.indica')}
           </button>
           <button
-            className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
+            className={`flex-1 px-3 py-2 rounded-full text-sm font-medium ${
               filters.type === "Sativa"
                 ? "bg-amber-500 text-white"
                 : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
-            }`}
+            } transition-colors`}
             onClick={() => handleTypeChange("Sativa")}
           >
             {t('strains.filters.sativa')}
           </button>
           <button
-            className={`flex-1 px-4 py-2 rounded-full text-sm font-medium ${
+            className={`flex-1 px-3 py-2 rounded-full text-sm font-medium ${
               filters.type === "Hybrid"
                 ? "bg-emerald-500 text-white"
                 : "bg-gray-700/70 text-gray-300 hover:bg-gray-700"
-            }`}
+            } transition-colors`}
             onClick={() => handleTypeChange("Hybrid")}
           >
             {t('strains.filters.hybrid')}
@@ -145,7 +145,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       <div>
         <div className="flex justify-between mb-3">
           <h3 className="text-base font-medium text-gray-300">{t('strains.thcLevel')}</h3>
-          <span className="text-sm text-white font-medium">
+          <span className="text-sm text-white font-medium bg-gray-700 px-2 py-0.5 rounded">
             {filters.thcRange[0]}% - {filters.thcRange[1]}%
           </span>
         </div>
@@ -167,17 +167,17 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* Effect Filter */}
       <div>
-        <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.dominantEffect')}</h3>
+        <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.effect')}</h3>
         <Select 
           value={filters.effect || "all"} 
           onValueChange={handleEffectChange}
           disabled={loading}
         >
           <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
-            <SelectValue placeholder={t('strains.filters.allEffects')} />
+            <SelectValue placeholder={t('strains.filters.all')} />
           </SelectTrigger>
           <SelectContent className="bg-gray-800 border-gray-700">
-            <SelectItem value="all" className="text-white">{t('strains.filters.allEffects')}</SelectItem>
+            <SelectItem value="all" className="text-white">{t('strains.filters.all')}</SelectItem>
             {effects.map((effect) => (
               <SelectItem key={effect} value={effect} className="text-white">
                 {effect}
@@ -196,10 +196,10 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
           disabled={loading}
         >
           <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
-            <SelectValue placeholder={t('strains.filters.allTerpenes')} />
+            <SelectValue placeholder={t('strains.filters.all')} />
           </SelectTrigger>
           <SelectContent className="bg-gray-800 border-gray-700">
-            <SelectItem value="all" className="text-white">{t('strains.filters.allTerpenes')}</SelectItem>
+            <SelectItem value="all" className="text-white">{t('strains.filters.all')}</SelectItem>
             {terpenes.map((terpene) => (
               <SelectItem key={terpene} value={terpene} className="text-white">
                 {terpene}
@@ -211,18 +211,18 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
       
       {/* Sort Options */}
       <div>
-        <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.sortBy')}</h3>
+        <h3 className="text-base font-medium mb-3 text-gray-300">{t('strains.filters.sort')}</h3>
         <Select 
           value={filters.sort} 
           onValueChange={(value: string) => handleSortChange(value as 'name' | 'thc_high' | 'thc_low')}
         >
           <SelectTrigger className="w-full bg-gray-700/50 border-gray-600 text-white">
-            <SelectValue placeholder={t('strains.filters.sortBy')} />
+            <SelectValue placeholder={t('strains.filters.sort')} />
           </SelectTrigger>
           <SelectContent className="bg-gray-800 border-gray-700 max-h-[200px]">
             <SelectItem value="name" className="text-white">{t('strains.filters.nameAZ')}</SelectItem>
-            <SelectItem value="thc_high" className="text-white">{t('strains.filters.thcHighToLow')}</SelectItem>
-            <SelectItem value="thc_low" className="text-white">{t('strains.filters.thcLowToHigh')}</SelectItem>
+            <SelectItem value="thc_high" className="text-white">{t('strains.filters.thcHighLow')}</SelectItem>
+            <SelectItem value="thc_low" className="text-white">{t('strains.filters.thcLowHigh')}</SelectItem>
           </SelectContent>
         </Select>
       </div>

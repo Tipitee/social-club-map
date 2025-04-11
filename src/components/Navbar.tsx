@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Cannabis } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const Navbar: React.FC = () => {
@@ -13,8 +13,12 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              <Cannabis className="h-6 w-6 text-[#4CAF50]" />
-              <span className="font-bold text-xl text-white">GCE</span>
+              <img 
+                src="/lovable-uploads/7bfa1a23-8c92-4adb-b85b-63bb2f75ff2c.png" 
+                alt="SocialClub Map Logo"
+                className="h-10 w-auto" 
+              />
+              <span className="font-bold text-xl text-white">SocialClub Map</span>
             </Link>
           </div>
         </div>

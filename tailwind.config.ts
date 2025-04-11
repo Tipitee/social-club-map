@@ -26,11 +26,12 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#4CAF50',
+					DEFAULT: '#348080', // Teal from logo
+					light: '#A0D4C0', // Light teal
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
-					DEFAULT: '#673AB7',
+					DEFAULT: '#B0E0E6', // Pale teal from logo background
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
 				destructive: {
@@ -42,7 +43,7 @@ export default {
 					foreground: 'hsl(var(--muted-foreground))'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
+					DEFAULT: '#F5F5DC', // Beige from logo background
 					foreground: 'hsl(var(--accent-foreground))'
 				},
 				popover: {

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -307,149 +308,152 @@ const StrainExplorer: React.FC = () => {
   const remainingStrains = totalStrains - (currentPage * strainsPerPage);
 
   return (
-    <div className="container px-4 py-6 pb-20">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-3">
-          <h1 className="text-3xl md:text-4xl font-bold text-white">{t('strains.explorer')}</h1>
+    <div className="min-h-screen bg-[#121212] text-white pb-28">
+      <Navbar />
+      <div className="container px-4 py-6 max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl md:text-3xl font-bold text-white">{t('strains.explorer')}</h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={toggleFilters}
+              variant="outline"
+              className="flex items-center gap-2 bg-[#348080] hover:bg-[#2a6767] text-white border-none h-9 px-3"
+            >
+              <Filter size={16} /> 
+              {showFilters ? t('strains.hideFilters') : t('strains.filters')}
+              {activeFilterCount > 0 && (
+                <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-[#348080]">
+                  {activeFilterCount}
+                </Badge>
+              )}
+            </Button>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            onClick={toggleFilters}
-            variant="secondary"
-            className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700"
-          >
-            <Filter size={18} /> 
-            {showFilters ? t('strains.hideFilters') : t('strains.filters')}
-            {activeFilterCount > 0 && (
-              <Badge variant="destructive" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full">
-                {activeFilterCount}
+
+        {activeFilterCount > 0 && (
+          <div className="flex flex-wrap gap-2 mb-6 bg-gray-800/50 p-3 rounded-lg">
+            {filters.type && (
+              <Badge 
+                variant="secondary"
+                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+              >
+                {t('strains.filters.type')}: {filters.type}
+                <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('type')} />
               </Badge>
             )}
-          </Button>
-        </div>
-      </div>
+            {filters.effect && (
+              <Badge 
+                variant="secondary"
+                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+              >
+                {t('strains.filters.effect')}: {filters.effect}
+                <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('effect')} />
+              </Badge>
+            )}
+            {filters.terpene && (
+              <Badge 
+                variant="secondary"
+                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+              >
+                {t('strains.filters.terpene')}: {filters.terpene}
+                <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('terpene')} />
+              </Badge>
+            )}
+            {filters.search && (
+              <Badge 
+                variant="secondary"
+                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+              >
+                {t('strains.filters.search')}: "{filters.search}"
+                <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('search')} />
+              </Badge>
+            )}
+            {(filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && (
+              <Badge 
+                variant="secondary"
+                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+              >
+                {t('strains.thcLevel')}: {filters.thcRange[0]}% - {filters.thcRange[1]}%
+                <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('thcRange')} />
+              </Badge>
+            )}
+          </div>
+        )}
 
-      {activeFilterCount > 0 && (
-        <div className="flex flex-wrap gap-2 mb-6 bg-gray-800/50 p-3 rounded-lg">
-          {filters.type && (
-            <Badge 
-              variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
-            >
-              {t('strains.filters.type')}: {filters.type}
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('type')} />
-            </Badge>
-          )}
-          {filters.effect && (
-            <Badge 
-              variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
-            >
-              {t('strains.filters.effect')}: {filters.effect}
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('effect')} />
-            </Badge>
-          )}
-          {filters.terpene && (
-            <Badge 
-              variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
-            >
-              {t('strains.filters.terpene')}: {filters.terpene}
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('terpene')} />
-            </Badge>
-          )}
-          {filters.search && (
-            <Badge 
-              variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
-            >
-              {t('strains.filters.search')}: "{filters.search}"
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('search')} />
-            </Badge>
-          )}
-          {(filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && (
-            <Badge 
-              variant="secondary"
-              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-700"
-            >
-              {t('strains.thcLevel')}: {filters.thcRange[0]}% - {filters.thcRange[1]}%
-              <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('thcRange')} />
-            </Badge>
-          )}
-        </div>
-      )}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className={`${showFilters ? "block" : "hidden"} lg:block lg:col-span-1`}>
+            <StrainFilters 
+              filters={filters} 
+              onFilterChange={handleFilterChange}
+            />
+          </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className={`${showFilters ? "block" : "hidden"} lg:block`}>
-          <StrainFilters 
-            filters={filters} 
-            onFilterChange={handleFilterChange}
-          />
-        </div>
-
-        <div className="lg:col-span-3" ref={strainListRef}>
-          {error ? (
-            <Card className="bg-gray-900 p-8 rounded-xl text-center border border-destructive">
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-2 text-white">{t('strains.errorLoadingStrains')}</h3>
-                <p className="text-gray-400 mb-4">{error}</p>
-                <Button 
-                  onClick={() => {
-                    setCurrentPage(1);
-                    fetchStrains(filters.sort, 1, strainsPerPage)
-                      .then(({strains}) => setStrains(strains))
-                      .catch(() => {});
-                  }}
-                  variant="default"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white"
-                >
-                  {t('strains.retry')}
-                </Button>
-              </CardContent>
-            </Card>
-          ) : loading ? (
-            renderSkeletonLoader()
-          ) : strains.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                {strains.map((strain) => (
-                  <Link 
-                    to={`/strains/${strain.id}`} 
-                    key={strain.id} 
-                    id={`strain-${strain.id}`}
-                    className="block" 
-                    onClick={() => handleStrainClick(strain.id)}
+          <div className={`${showFilters ? "col-span-4" : "col-span-4"} lg:col-span-3`} ref={strainListRef}>
+            {error ? (
+              <Card className="bg-gray-900 p-8 rounded-xl text-center border border-destructive">
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-semibold mb-2 text-white">{t('strains.errorLoadingStrains')}</h3>
+                  <p className="text-gray-400 mb-4">{error}</p>
+                  <Button 
+                    onClick={() => {
+                      setCurrentPage(1);
+                      fetchStrains(filters.sort, 1, strainsPerPage)
+                        .then(({strains}) => setStrains(strains))
+                        .catch(() => {});
+                    }}
+                    variant="default"
+                    className="px-4 py-2 bg-[#348080] hover:bg-[#2a6767] text-white"
                   >
-                    <StrainCard strain={strain} />
-                  </Link>
-                ))}
-              </div>
-              
-              {remainingStrains > 0 && (
-                <div 
-                  ref={loadMoreRef} 
-                  className="mt-8 text-center py-8" 
-                  aria-hidden="true"
-                >
-                  {loadingMore && (
-                    <div className="flex items-center justify-center">
-                      <Loader2 className="h-6 w-6 animate-spin text-emerald-500 mr-2" />
-                      <span className="text-gray-400">{t('strains.loadingMore')}</span>
-                    </div>
-                  )}
+                    {t('strains.retry')}
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : loading ? (
+              renderSkeletonLoader()
+            ) : strains.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                  {strains.map((strain) => (
+                    <Link 
+                      to={`/strains/${strain.id}`} 
+                      key={strain.id} 
+                      id={`strain-${strain.id}`}
+                      className="block" 
+                      onClick={() => handleStrainClick(strain.id)}
+                    >
+                      <StrainCard strain={strain} />
+                    </Link>
+                  ))}
                 </div>
-              )}
-            </>
-          ) : (
-            <Card className="bg-gray-900 p-8 rounded-xl text-center border border-gray-700">
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-2 text-white">{t('strains.noStrainsFound')}</h3>
-                <p className="text-gray-400">
-                  {t('strains.tryAdjustingFilters')}
-                </p>
-              </CardContent>
-            </Card>
-          )}
+                
+                {remainingStrains > 0 && (
+                  <div 
+                    ref={loadMoreRef} 
+                    className="mt-8 text-center py-8" 
+                    aria-hidden="true"
+                  >
+                    {loadingMore && (
+                      <div className="flex items-center justify-center">
+                        <Loader2 className="h-6 w-6 animate-spin text-[#348080] mr-2" />
+                        <span className="text-gray-400">{t('strains.loadingMore')}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            ) : (
+              <Card className="bg-gray-900 p-8 rounded-xl text-center border border-gray-700">
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-semibold mb-2 text-white">{t('strains.noStrainsFound')}</h3>
+                  <p className="text-gray-400">
+                    {t('strains.tryAdjustingFilters')}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </div>
     </div>

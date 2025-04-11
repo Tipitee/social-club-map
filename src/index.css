@@ -14,16 +14,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 142 76% 60%;
+    --primary: 180 43% 35%; /* Teal color from logo */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 271 75% 55%;
+    --secondary: 187 60% 80%; /* Pale teal from logo background */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
+    --accent: 60 33% 92%; /* Beige from logo background */
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -59,16 +59,16 @@
     --popover: 240 10% 8%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 142 76% 60%;
+    --primary: 180 43% 35%; /* Teal color from logo */
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 271 75% 55%;
+    --secondary: 187 60% 80%; /* Pale teal from logo background */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 60 33% 92%; /* Beige from logo background */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
