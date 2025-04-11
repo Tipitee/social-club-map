@@ -76,10 +76,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
     console.error("Error handling effects:", e);
   }
   
-  // Sort effects by intensity - highest first
-  effects = effects.sort((a, b) => b.intensity - a.intensity);
-  
-  console.log("Extracted effects after sorting:", effects);
+  console.log("Extracted effects before sorting:", effects);
   
   // Make sure we always return at least 3 effects (even if empty)
   while (effects.length < 3) {
@@ -88,6 +85,11 @@ export const extractEffects = (item: any): StrainEffect[] => {
       intensity: 0
     });
   }
+  
+  // Sort effects by intensity - highest first
+  effects = effects.sort((a, b) => b.intensity - a.intensity);
+  
+  console.log("Extracted effects after sorting:", effects);
   
   // Only return the top 3 effects
   return effects.slice(0, 3);

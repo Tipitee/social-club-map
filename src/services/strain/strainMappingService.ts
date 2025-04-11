@@ -20,6 +20,13 @@ export const mapToStrainType = (item: any): Strain => {
     description: item.description || null,
     effects: effects,
     most_common_terpene: item.most_common_terpene || null,
+    // Include original effect fields for debugging
+    top_effect: item.top_effect || null,
+    top_percent: item.top_percent || null,
+    second_effect: item.second_effect || null,
+    second_percent: item.second_percent || null,
+    third_effect: item.third_effect || null,
+    third_percent: item.third_percent || null,
   };
 };
 
