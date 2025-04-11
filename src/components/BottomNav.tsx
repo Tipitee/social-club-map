@@ -1,23 +1,26 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Book, Cannabis, MapPin, Settings } from "lucide-react";
+import { Home, Book, Cannabis, MapPin, Bell, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/AuthContext";
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
+  const { user } = useAuth();
   
   const isActive = (path: string) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
 
   const navItems = [
-    { path: "/", label: t('app.navigation.home'), icon: Home },
-    { path: "/journal", label: t('app.navigation.journal'), icon: Book },
-    { path: "/strains", label: t('app.navigation.strains'), icon: Cannabis },
-    { path: "/clubs", label: t('app.navigation.clubs'), icon: MapPin },
-    { path: "/settings", label: t('app.navigation.settings'), icon: Settings },
+    { path: "/", label: "Home", icon: Home },
+    { path: "/journal", label: "Journal", icon: Book },
+    { path: "/strains", label: "Strains", icon: Cannabis },
+    { path: "/clubs", label: "Clubs", icon: MapPin },
+    { path: "/legal", label: "Updates", icon: Bell },
+    { path: user ? "/profile" : "/auth", label: user ? "Profile" : "Sign In", icon: User },
   ];
 
   return (
@@ -28,11 +31,11 @@ const BottomNav: React.FC = () => {
             key={item.path}
             to={item.path}
             className={`flex flex-col items-center justify-center w-full h-full ${
-              isActive(item.path) ? "text-secondary" : "text-gray-400"
+              isActive(item.path) ? "text-primary" : "text-gray-400"
             }`}
             aria-label={item.label}
           >
-            <item.icon size={22} className={isActive(item.path) ? "text-secondary" : ""} />
+            <item.icon size={22} className={isActive(item.path) ? "text-primary" : ""} />
             <span className="text-xs mt-1 truncate px-1 max-w-full">{item.label}</span>
           </Link>
         ))}

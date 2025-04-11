@@ -58,8 +58,8 @@ const Profile: React.FC = () => {
       } catch (error: any) {
         console.error('Error fetching profile:', error.message);
         toast({
-          title: t('profile.error'),
-          description: t('profile.errorFetchingProfile'),
+          title: "Error",
+          description: "Couldn't load your profile information",
           variant: "destructive",
         });
       } finally {
@@ -86,8 +86,8 @@ const Profile: React.FC = () => {
       if (error) throw error;
       
       toast({
-        title: t('profile.success'),
-        description: t('profile.profileUpdated'),
+        title: "Profile Updated",
+        description: "Your profile has been updated successfully",
       });
       setEditMode(false);
       
@@ -101,7 +101,7 @@ const Profile: React.FC = () => {
       if (data) setProfile(data);
     } catch (error: any) {
       toast({
-        title: t('profile.error'),
+        title: "Error",
         description: error.message,
         variant: "destructive",
       });
@@ -110,9 +110,47 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleLanguageChange = async (lang: string) => {
+    if (!user) return;
+    
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ 
+          language: lang,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
+      
+      if (error) throw error;
+      
+      i18n.changeLanguage(lang);
+      
+      toast({
+        title: "Language Updated",
+        description: lang === 'en' ? "Language set to English" : "Sprache auf Deutsch eingestellt",
+      });
+      
+      // Refresh profile data
+      const { data } = await supabase
+        .from('profiles')
+        .select('id, username, avatar_url, language')
+        .eq('id', user.id)
+        .single();
+        
+      if (data) setProfile(data);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#121212] text-white pb-24">
+      <div className="min-h-screen bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white pb-24">
         <Navbar />
         <div className="container px-4 py-8 flex justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -123,20 +161,20 @@ const Profile: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#121212] text-white pb-24">
+      <div className="min-h-screen bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white pb-24">
         <Navbar />
         <div className="container px-4 py-8 max-w-md mx-auto">
-          <Card className="bg-gray-900 border-gray-700">
+          <Card className="bg-gray-900/70 border-gray-700 shadow-xl">
             <CardContent className="pt-6 text-center">
               <div className="flex justify-center">
                 <div className="h-24 w-24 bg-gray-800 rounded-full flex items-center justify-center mb-4">
                   <User className="h-12 w-12 text-gray-400" />
                 </div>
               </div>
-              <h2 className="text-xl font-bold mb-2">{t('auth.notLoggedIn')}</h2>
-              <p className="text-gray-400 mb-4">{t('auth.loginToAccessProfile')}</p>
+              <h2 className="text-xl font-bold mb-2">Not Signed In</h2>
+              <p className="text-gray-400 mb-4">Sign in to access your profile</p>
               <Button onClick={() => navigate('/auth')} className="bg-primary hover:bg-primary/90">
-                {t('auth.signIn')}
+                Sign In
               </Button>
             </CardContent>
           </Card>
@@ -146,24 +184,24 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white pb-24">
       <Navbar />
       <div className="container px-4 py-8 max-w-xl mx-auto">
-        <h1 className="text-2xl font-bold mb-8 text-center">{t('profile.myProfile')}</h1>
+        <h1 className="text-2xl font-bold mb-8 text-center">My Profile</h1>
         
-        <Card className="bg-gray-900 border-gray-700 shadow-lg mb-8">
+        <Card className="bg-gray-900/70 border-gray-700 shadow-xl backdrop-blur mb-8">
           <CardContent className="pt-6">
             <div className="flex flex-col items-center mb-6">
               <div className="relative mb-4">
                 <Avatar className="h-24 w-24 border-2 border-primary">
                   <AvatarImage src={profile?.avatar_url || undefined} alt={username} />
-                  <AvatarFallback className="bg-gray-800 text-2xl">
+                  <AvatarFallback className="bg-primary/20 text-2xl text-primary font-semibold">
                     {username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <Button size="sm" className="absolute bottom-0 right-0 rounded-full h-8 w-8 p-0">
+                <Button size="sm" className="absolute bottom-0 right-0 rounded-full h-8 w-8 p-0 bg-primary hover:bg-primary/90">
                   <Camera className="h-4 w-4" />
-                  <span className="sr-only">{t('profile.changeAvatar')}</span>
+                  <span className="sr-only">Change Avatar</span>
                 </Button>
               </div>
               
@@ -176,12 +214,12 @@ const Profile: React.FC = () => {
             {editMode ? (
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="username" className="text-white">{t('profile.username')}</Label>
+                  <Label htmlFor="username" className="text-white">Username</Label>
                   <Input
                     id="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="bg-gray-800 border-gray-700 text-white"
+                    className="bg-gray-800/80 border-gray-700 text-white"
                   />
                 </div>
                 
@@ -192,9 +230,9 @@ const Profile: React.FC = () => {
                       setEditMode(false);
                       setUsername(profile?.username || user.email?.split('@')[0] || '');
                     }}
-                    className="bg-gray-800 border-gray-700 text-white"
+                    className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
                   >
-                    {t('common.cancel')}
+                    Cancel
                   </Button>
                   <Button 
                     onClick={updateProfile} 
@@ -204,12 +242,12 @@ const Profile: React.FC = () => {
                     {updating ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        {t('common.saving')}
+                        Saving...
                       </>
                     ) : (
                       <>
                         <Save className="mr-2 h-4 w-4" />
-                        {t('common.save')}
+                        Save
                       </>
                     )}
                   </Button>
@@ -222,17 +260,45 @@ const Profile: React.FC = () => {
                   className="mt-4 bg-gray-800 hover:bg-gray-700 text-white"
                 >
                   <Edit className="mr-2 h-4 w-4" />
-                  {t('profile.editProfile')}
+                  Edit Profile
                 </Button>
               </div>
             )}
           </CardContent>
         </Card>
         
-        <Card className="bg-gray-900 border-gray-700 shadow-lg">
+        <Card className="bg-gray-900/70 border-gray-700 shadow-xl backdrop-blur mb-8">
+          <CardContent className="pt-6">
+            <h3 className="text-lg font-semibold mb-4">Language Preferences</h3>
+            <div className="flex gap-3">
+              <Button 
+                variant={profile?.language === 'en' ? 'default' : 'outline'}
+                onClick={() => handleLanguageChange('en')} 
+                className={profile?.language === 'en' 
+                  ? 'bg-primary hover:bg-primary/90 flex-1' 
+                  : 'bg-gray-800 border-gray-700 hover:bg-gray-700 flex-1'
+                }
+              >
+                English
+              </Button>
+              <Button 
+                variant={profile?.language === 'de' ? 'default' : 'outline'}
+                onClick={() => handleLanguageChange('de')} 
+                className={profile?.language === 'de' 
+                  ? 'bg-primary hover:bg-primary/90 flex-1' 
+                  : 'bg-gray-800 border-gray-700 hover:bg-gray-700 flex-1'
+                }
+              >
+                Deutsch
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-gray-900/70 border-gray-700 shadow-xl backdrop-blur">
           <CardContent className="pt-6">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">{t('profile.accountActions')}</h3>
+              <h3 className="text-lg font-semibold mb-4">Account Actions</h3>
               
               <Button 
                 variant="destructive" 
@@ -240,7 +306,7 @@ const Profile: React.FC = () => {
                 onClick={signOut}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                {t('auth.signOut')}
+                Sign Out
               </Button>
             </div>
           </CardContent>

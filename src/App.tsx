@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import StrainExplorer from "./pages/StrainExplorer";
@@ -29,7 +29,7 @@ const App = () => {
         <LanguageProvider>
           <AuthProvider>
             <TooltipProvider>
-              <div className="min-h-screen bg-[#121212] text-white">
+              <div className="min-h-screen bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white">
                 <main>
                   <Routes>
                     <Route path="/" element={<Home />} />
