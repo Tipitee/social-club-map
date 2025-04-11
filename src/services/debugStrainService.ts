@@ -40,7 +40,13 @@ const mockStrains: Strain[] = [
       { effect: "Euphoric", intensity: 70 }
     ],
     most_common_terpene: "Myrcene",
-    img_url: "https://images.unsplash.com/photo-1603909223429-69bb7101f94a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FubmFiaXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+    img_url: "https://images.unsplash.com/photo-1603909223429-69bb7101f94a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FubmFiaXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+    top_effect: "Relaxed",
+    top_percent: 85,
+    second_effect: "Happy",
+    second_percent: 75,
+    third_effect: "Euphoric",
+    third_percent: 70
   },
   {
     id: "2",
@@ -54,7 +60,13 @@ const mockStrains: Strain[] = [
       { effect: "Creative", intensity: 65 }
     ],
     most_common_terpene: "Myrcene",
-    img_url: "https://images.unsplash.com/photo-1632642794770-644469659a73?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNhbm5hYmlzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
+    img_url: "https://images.unsplash.com/photo-1632642794770-644469659a73?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNhbm5hYmlzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+    top_effect: "Happy",
+    top_percent: 80,
+    second_effect: "Euphoric",
+    second_percent: 70,
+    third_effect: "Creative",
+    third_percent: 65
   },
   {
     id: "3",
@@ -68,7 +80,13 @@ const mockStrains: Strain[] = [
       { effect: "Creative", intensity: 70 }
     ],
     most_common_terpene: "Limonene",
-    img_url: "https://images.unsplash.com/photo-1638321940973-b77793e0a565?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNhbm5hYmlzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
+    img_url: "https://images.unsplash.com/photo-1638321940973-b77793e0a565?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNhbm5hYmlzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+    top_effect: "Energetic",
+    top_percent: 90,
+    second_effect: "Happy",
+    second_percent: 80,
+    third_effect: "Creative",
+    third_percent: 70
   },
   {
     id: "4",
@@ -82,7 +100,13 @@ const mockStrains: Strain[] = [
       { effect: "Euphoric", intensity: 70 }
     ],
     most_common_terpene: "Myrcene",
-    img_url: "https://images.unsplash.com/photo-1638321941149-39539c855313?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNhbm5hYmlzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
+    img_url: "https://images.unsplash.com/photo-1638321941149-39539c855313?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNhbm5hYmlzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+    top_effect: "Relaxed",
+    top_percent: 95,
+    second_effect: "Sleepy",
+    second_percent: 85,
+    third_effect: "Euphoric",
+    third_percent: 70
   },
   {
     id: "5",
@@ -96,7 +120,13 @@ const mockStrains: Strain[] = [
       { effect: "Creative", intensity: 70 }
     ],
     most_common_terpene: "Pinene",
-    img_url: "https://images.unsplash.com/photo-1635480999879-a4c589c8ca9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FubmFiaXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+    img_url: "https://images.unsplash.com/photo-1635480999879-a4c589c8ca9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FubmFiaXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+    top_effect: "Happy",
+    top_percent: 80,
+    second_effect: "Euphoric",
+    second_percent: 75,
+    third_effect: "Creative",
+    third_percent: 70
   },
   {
     id: "6",
@@ -110,7 +140,13 @@ const mockStrains: Strain[] = [
       { effect: "Happy", intensity: 75 }
     ],
     most_common_terpene: "Limonene",
-    img_url: "https://example.com/lemon-haze.jpg"
+    img_url: "https://example.com/lemon-haze.jpg",
+    top_effect: "Energetic",
+    top_percent: 85,
+    second_effect: "Uplifted",
+    second_percent: 80,
+    third_effect: "Happy",
+    third_percent: 75
   },
   {
     id: "7",
@@ -124,7 +160,13 @@ const mockStrains: Strain[] = [
       { effect: "Euphoric", intensity: 70 }
     ],
     most_common_terpene: "Myrcene",
-    img_url: "https://example.com/northern-lights.jpg"
+    img_url: "https://example.com/northern-lights.jpg",
+    top_effect: "Relaxed",
+    top_percent: 90,
+    second_effect: "Sleepy",
+    second_percent: 80,
+    third_effect: "Euphoric",
+    third_percent: 70
   },
   {
     id: "8",
@@ -138,7 +180,13 @@ const mockStrains: Strain[] = [
       { effect: "Energetic", intensity: 70 }
     ],
     most_common_terpene: "Terpinolene",
-    img_url: "https://example.com/jack-herer.jpg"
+    img_url: "https://example.com/jack-herer.jpg",
+    top_effect: "Creative",
+    top_percent: 80,
+    second_effect: "Happy",
+    second_percent: 75,
+    third_effect: "Energetic",
+    third_percent: 70
   },
   {
     id: "9",
@@ -152,7 +200,13 @@ const mockStrains: Strain[] = [
       { effect: "Happy", intensity: 75 }
     ],
     most_common_terpene: "Caryophyllene",
-    img_url: "https://example.com/girl-scout-cookies.jpg"
+    img_url: "https://example.com/girl-scout-cookies.jpg",
+    top_effect: "Euphoric",
+    top_percent: 90,
+    second_effect: "Relaxed",
+    second_percent: 80,
+    third_effect: "Happy",
+    third_percent: 75
   },
   {
     id: "10",
@@ -166,7 +220,13 @@ const mockStrains: Strain[] = [
       { effect: "Sleepy", intensity: 70 }
     ],
     most_common_terpene: "Myrcene",
-    img_url: "https://example.com/blueberry.jpg"
+    img_url: "https://example.com/blueberry.jpg",
+    top_effect: "Relaxed",
+    top_percent: 85,
+    second_effect: "Happy",
+    second_percent: 75,
+    third_effect: "Sleepy",
+    third_percent: 70
   }
 ];
 
