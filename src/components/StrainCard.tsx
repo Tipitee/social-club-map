@@ -46,6 +46,20 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
+  console.log("Strain effects data for display:", {
+    name: strain.name,
+    effects: strain.effects,
+    validEffects: strain.effects.filter(effect => effect && effect.effect && effect.effect !== "Unknown"),
+    raw: {
+      top: strain.top_effect, 
+      top_percent: strain.top_percent,
+      second: strain.second_effect,
+      second_percent: strain.second_percent,
+      third: strain.third_effect,
+      third_percent: strain.third_percent
+    }
+  });
+
   // Filter out "Unknown" effects for display
   const displayEffects = strain.effects.filter(e => e.effect && e.effect !== "Unknown");
 
@@ -119,6 +133,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               <div className="flex justify-between text-xs mb-1">
                 <span className="font-medium text-white">{effect.effect}</span>
                 <span className="font-bold text-white">
+                  {/* Always show percentage values */}
                   {`${effect.intensity}%`}
                 </span>
               </div>
