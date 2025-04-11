@@ -173,7 +173,7 @@
   
   /* Light mode specific styles */
   .light .strain-card {
-    @apply bg-sand-light border-sand-DEFAULT;
+    @apply bg-sand-light border-sand-light;
   }
 
   .light .effect-bar,
@@ -235,7 +235,7 @@
   
   /* Light mode specific */
   .light .journal-entry {
-    @apply bg-sand-light border-sand-DEFAULT;
+    @apply bg-sand-light border-sand-light;
   }
   
   /* Dark mode specific */

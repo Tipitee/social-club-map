@@ -7,7 +7,7 @@ import type {
 } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 2500  // Reduced from 3000 to 2500 (2.5 seconds)
+const TOAST_REMOVE_DELAY = 2000  // Reduced to 2 seconds for more discreet notifications
 
 type ToasterToast = ToastProps & {
   id: string
@@ -143,9 +143,9 @@ type Toast = Omit<ToasterToast, "id">
 function toast({ ...props }: Toast) {
   const id = genId()
   
-  // Set default duration if not provided
+  // Set default duration if not provided - make more discreet by shortening duration
   if (props.duration === undefined) {
-    props.duration = 2500; // 2.5 seconds is a good default
+    props.duration = 2000; // 2 seconds is better for discreet notifications
   }
   
   // Make toast more discreet by default

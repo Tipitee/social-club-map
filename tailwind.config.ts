@@ -131,7 +131,7 @@ export default {
 					800: '#fefaf6',
 					900: '#fefdfa'
 				},
-				// New palette colors
+				// New palette colors - updated to ensure they work with all utilities
 				coral: {
 					DEFAULT: '#e76e50',
 					light: '#f39c86',
