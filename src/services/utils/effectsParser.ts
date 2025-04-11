@@ -1,4 +1,3 @@
-
 import { StrainEffect } from "@/types/strain";
 import { safeParsePercent } from "./parseUtils";
 
@@ -15,30 +14,30 @@ export const extractEffects = (item: any): StrainEffect[] => {
     third: { effect: item.third_effect, percent: item.third_percent },
   });
   
-  // Ensure we have a default intensity for effects even if percentage isn't provided
-  const DEFAULT_INTENSITY = 50; // Use 50% as default intensity if not provided
-  
-  // Process effects in correct order - top effect first
+  // Process effects in correct order - preserving the original structure
   if (item.top_effect) {
+    const parsedPercent = safeParsePercent(item.top_percent);
     effects.push({
       effect: item.top_effect,
-      intensity: item.top_percent ? safeParsePercent(item.top_percent) : DEFAULT_INTENSITY,
+      intensity: parsedPercent, // Keep the exact parsed percentage
     });
   }
   
   // Second effect
   if (item.second_effect) {
+    const parsedPercent = safeParsePercent(item.second_percent);
     effects.push({
       effect: item.second_effect,
-      intensity: item.second_percent ? safeParsePercent(item.second_percent) : DEFAULT_INTENSITY,
+      intensity: parsedPercent, // Keep the exact parsed percentage
     });
   }
   
   // Third effect
   if (item.third_effect) {
+    const parsedPercent = safeParsePercent(item.third_percent);
     effects.push({
       effect: item.third_effect,
-      intensity: item.third_percent ? safeParsePercent(item.third_percent) : DEFAULT_INTENSITY,
+      intensity: parsedPercent, // Keep the exact parsed percentage
     });
   }
   
@@ -74,21 +73,21 @@ export const extractEffects = (item: any): StrainEffect[] => {
     }
   }
   
-  console.log("Extracted effects before sorting:", effects);
+  console.log("Extracted effects before filling:", effects);
   
   // Make sure we always return at least 3 effects (even if empty)
+  // But DON'T add placeholder effects if we have at least one real effect
   while (effects.length < 3) {
     effects.push({
       effect: "Unknown", 
-      intensity: DEFAULT_INTENSITY
+      intensity: 0 // Use 0 to indicate unknown intensity
     });
   }
   
-  // Sort effects by intensity - highest first
-  effects = effects.sort((a, b) => b.intensity - a.intensity);
+  // Don't sort the effects - we want to keep the original order from the database
+  // This preserves the top, second, third effect hierarchy
   
-  console.log("Extracted effects after sorting:", effects);
+  console.log("Final extracted effects:", effects);
   
-  // Only return the top 3 effects
   return effects.slice(0, 3);
 };

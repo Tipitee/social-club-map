@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Strain } from "@/types/strain";
 import { Cannabis, Sun, CircleDashed } from "lucide-react";
@@ -45,12 +46,15 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
-  const validEffects = strain.effects
-    .filter(effect => effect && effect.effect && effect.effect !== "Unknown")
-    .slice(0, 3);
+  // Use only valid effects (non-Unknown) for display
+  const validEffects = strain.effects.filter(effect => 
+    effect && effect.effect && effect.effect !== "Unknown"
+  );
 
-  console.log("Strain effects data:", {
+  console.log("Strain effects data for display:", {
+    name: strain.name,
     effects: strain.effects,
+    validEffects,
     raw: {
       top: strain.top_effect, 
       top_percent: strain.top_percent,
@@ -126,39 +130,21 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         </div>
         
         <div className="space-y-2 mb-5">
-          {validEffects && validEffects.length > 0 ? (
-            validEffects.map((effect, index) => (
-              <div key={`${effect.effect}-${index}`}>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="font-medium text-white">{effect.effect}</span>
-                  <span className="font-bold text-white">
-                    {effect.intensity > 0 ? `${effect.intensity}%` : '?'}
-                  </span>
-                </div>
-                <Progress 
-                  className="h-2 rounded-full mb-1"
-                  value={effect.intensity || 50}
-                  indicatorClassName={getEffectColor(index)}
-                />
+          {strain.effects.map((effect, index) => (
+            <div key={`${effect.effect}-${index}`}>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="font-medium text-white">{effect.effect}</span>
+                <span className="font-bold text-white">
+                  {effect.intensity > 0 ? `${effect.intensity}%` : '?'}
+                </span>
               </div>
-            ))
-          ) : (
-            <>
-              {[0, 1, 2].map((index) => (
-                <div key={`placeholder-effect-${index}`}>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="font-medium text-white">{t('strains.noData')}</span>
-                    <span className="font-bold text-white">?</span>
-                  </div>
-                  <Progress 
-                    className="h-2 rounded-full mb-1 bg-gray-800"
-                    value={50}
-                    indicatorClassName="bg-white/30"
-                  />
-                </div>
-              ))}
-            </>
-          )}
+              <Progress 
+                className="h-2 rounded-full mb-1"
+                value={effect.intensity || 50}
+                indicatorClassName={getEffectColor(index)}
+              />
+            </div>
+          ))}
         </div>
         
         <div className="h-8 flex items-center">
