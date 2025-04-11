@@ -69,14 +69,7 @@ const extendedDeTranslations = {
       watching: 'Fernsehen',
       social: 'Geselligkeit'
     },
-    sideEffects: {
-      'dry-mouth': 'Mundtrockenheit',
-      'dry-eyes': 'Trockene Augen',
-      'headache': 'Kopfschmerzen',
-      'paranoia': 'Paranoia',
-      'dizziness': 'Schwindel',
-      'anxiety': 'Angst'
-    },
+    // Removing duplicate sideEffects property and merging with the one below
     filters: 'Filter',
     search: 'Suchen',
     filterByTime: 'Filtern nach Zeit',
@@ -90,7 +83,15 @@ const extendedDeTranslations = {
     addFirst: 'Ersten Eintrag hinzufügen',
     entry: 'Eintrag',
     entries: 'Einträge',
-    ratingBadge: 'Bewertung: {rating}'
+    ratingBadge: 'Bewertung: {rating}',
+    sideEffects: {
+      'dry-mouth': 'Mundtrockenheit',
+      'dry-eyes': 'Trockene Augen',
+      'headache': 'Kopfschmerzen',
+      'paranoia': 'Paranoia',
+      'dizziness': 'Schwindel',
+      'anxiety': 'Angst'
+    }
   },
   app: {
     ...(deTranslation as any).app,
@@ -184,3 +185,4 @@ i18n
   });
 
 export default i18n;
+
