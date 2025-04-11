@@ -5,6 +5,7 @@ import { JournalEntry } from "@/types/journal";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
 import { 
   AlertDialog,
   AlertDialogAction,
@@ -29,6 +30,7 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const { t } = useTranslation();
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -45,9 +47,9 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
   };
 
   const getEffectivenessLabel = (rating: number) => {
-    if (rating >= 4) return "Very Effective";
-    if (rating >= 3) return "Effective";
-    return "Moderately Effective";
+    if (rating >= 4) return t('journal.veryEffective');
+    if (rating >= 3) return t('journal.effective'); 
+    return t('journal.moderatelyEffective');
   };
   
   const getMoodEmoji = (mood: string) => {
@@ -103,13 +105,13 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
         </div>
         
         <div className="flex justify-between mb-3">
-          <span className="text-gray-400">Dosage:</span>
+          <span className="text-gray-400">{t('journal.dosage')}:</span>
           <span className="text-white font-medium">{entry.dosage} {entry.dosageType}</span>
         </div>
         
         <div className="mb-3">
           <div className="flex justify-between">
-            <span className="text-gray-400">Effectiveness:</span>
+            <span className="text-gray-400">{t('journal.effectiveness')}:</span>
             <span className="text-white font-medium ml-2">({getEffectivenessLabel(entry.effectiveness)})</span>
           </div>
           <div className="flex mt-1">
@@ -118,7 +120,7 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
         </div>
         
         <div className="flex justify-between mb-3">
-          <span className="text-gray-400">Mood:</span>
+          <span className="text-gray-400">{t('journal.mood')}:</span>
           <div className="flex items-center">
             <span className="mr-2">{getMoodEmoji(entry.mood)}</span>
             <span className="text-white font-medium">{entry.mood}</span>
@@ -126,24 +128,28 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
         </div>
         
         <div className="flex justify-between mb-3">
-          <span className="text-gray-400">Activity:</span>
+          <span className="text-gray-400">{t('journal.activity')}:</span>
           <span className="text-white font-medium">{entry.activity}</span>
         </div>
         
         <div className="mb-3">
-          <div className="text-gray-400 mb-2">Side Effects:</div>
+          <div className="text-gray-400 mb-2">{t('journal.sideEffects')}:</div>
           <div className="flex flex-wrap gap-2">
-            {entry.sideEffects.map((effect, index) => (
-              <Badge key={index} variant="outline" className="bg-gray-800 text-sm text-white border border-gray-700">
-                {effect}
-              </Badge>
-            ))}
+            {entry.sideEffects.length > 0 ? (
+              entry.sideEffects.map((effect, index) => (
+                <Badge key={index} variant="outline" className="bg-gray-800 text-sm text-white border border-gray-700">
+                  {effect}
+                </Badge>
+              ))
+            ) : (
+              <span className="text-sm text-gray-400">{t('journal.noSideEffects')}</span>
+            )}
           </div>
         </div>
         
         {entry.notes && (
           <div className={`mt-4 ${!expanded && entry.notes.length > 120 ? 'relative' : ''}`}>
-            <div className="text-gray-400 mb-1">Notes:</div>
+            <div className="text-gray-400 mb-1">{t('journal.notes')}:</div>
             <div className="relative">
               <p className={`text-white bg-gray-800 p-3 rounded-md border border-gray-700 ${
                 !expanded && entry.notes.length > 120 ? 'line-clamp-3' : ''
@@ -159,9 +165,9 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
                   className="mt-1 text-gray-400 hover:text-white flex items-center justify-center w-full"
                 >
                   {expanded ? (
-                    <>Show less <ChevronUp size={16} className="ml-1" /></>
+                    <>{t('journal.showLess')} <ChevronUp size={16} className="ml-1" /></>
                   ) : (
-                    <>Show more <ChevronDown size={16} className="ml-1" /></>
+                    <>{t('journal.showMore')} <ChevronDown size={16} className="ml-1" /></>
                   )}
                 </Button>
               )}
@@ -173,20 +179,20 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent className="bg-gray-900 border border-gray-700 text-white">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Journal Entry</AlertDialogTitle>
+            <AlertDialogTitle>{t('journal.deleteEntry')}</AlertDialogTitle>
             <AlertDialogDescription className="text-gray-400">
-              Are you sure you want to delete this journal entry? This action cannot be undone.
+              {t('journal.deleteConfirmation')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="bg-gray-800 text-white border-gray-700 hover:bg-gray-700">
-              Cancel
+              {t('common.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction 
               onClick={confirmDelete}
               className="bg-red-600 text-white hover:bg-red-700"
             >
-              Delete
+              {t('common.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

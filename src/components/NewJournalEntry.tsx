@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { JournalEntry } from "@/types/journal";
-import { CheckCircle, X } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
@@ -47,6 +48,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
   onClose,
   onSave,
 }) => {
+  const { t } = useTranslation();
   const [dosage, setDosage] = useState("");
   const [dosageType, setDosageType] = useState("edible");
   const [effectiveness, setEffectiveness] = useState(3);
@@ -68,8 +70,8 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
     // Basic validation
     if (!dosage) {
       toast({
-        title: "Missing Information",
-        description: "Please enter a dosage amount",
+        title: t('journal.error'),
+        description: t('journal.enterDosage'),
         variant: "destructive",
       });
       return;
@@ -77,8 +79,8 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
 
     if (!mood) {
       toast({
-        title: "Missing Information",
-        description: "Please enter your mood",
+        title: t('journal.error'),
+        description: t('journal.enterMood'),
         variant: "destructive",
       });
       return;
@@ -86,8 +88,8 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
 
     if (!activity) {
       toast({
-        title: "Missing Information",
-        description: "Please enter an activity",
+        title: t('journal.error'),
+        description: t('journal.enterActivity'),
         variant: "destructive",
       });
       return;
@@ -120,42 +122,42 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-white">Add New Journal Entry</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-white">{t('journal.addNewEntry')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="dosage">Dosage</Label>
+              <Label htmlFor="dosage">{t('journal.dosage')}</Label>
               <Input
                 id="dosage"
                 value={dosage}
                 onChange={(e) => setDosage(e.target.value)}
-                placeholder="e.g. 10mg, 0.5g"
+                placeholder={t('journal.dosagePlaceholder')}
                 className="bg-gray-800 border-gray-700 text-white"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="dosageType">Type</Label>
+              <Label htmlFor="dosageType">{t('journal.type')}</Label>
               <Select value={dosageType} onValueChange={setDosageType}>
                 <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                  <SelectValue placeholder="Select Type" />
+                  <SelectValue placeholder={t('journal.selectType')} />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-800 border-gray-700">
-                  <SelectItem value="edible" className="text-white">Edible</SelectItem>
-                  <SelectItem value="flower" className="text-white">Flower</SelectItem>
-                  <SelectItem value="vaporized" className="text-white">Vaporized</SelectItem>
-                  <SelectItem value="tincture" className="text-white">Tincture</SelectItem>
-                  <SelectItem value="concentrate" className="text-white">Concentrate</SelectItem>
-                  <SelectItem value="other" className="text-white">Other</SelectItem>
+                  <SelectItem value="edible" className="text-white">{t('journal.edible')}</SelectItem>
+                  <SelectItem value="flower" className="text-white">{t('journal.flower')}</SelectItem>
+                  <SelectItem value="vaporized" className="text-white">{t('journal.vaporized')}</SelectItem>
+                  <SelectItem value="tincture" className="text-white">{t('journal.tincture')}</SelectItem>
+                  <SelectItem value="concentrate" className="text-white">{t('journal.concentrate')}</SelectItem>
+                  <SelectItem value="other" className="text-white">{t('journal.other')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>Effectiveness (1-5)</Label>
+            <Label>{t('journal.effectiveness')} (1-5)</Label>
             <div className="flex gap-2 justify-between">
               {[1, 2, 3, 4, 5].map((rating) => (
                 <Button
@@ -176,29 +178,29 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="mood">Mood</Label>
+            <Label htmlFor="mood">{t('journal.mood')}</Label>
             <Input
               id="mood"
               value={mood}
               onChange={(e) => setMood(e.target.value)}
-              placeholder="e.g. Relaxed, Creative, Energetic"
+              placeholder={t('journal.moodPlaceholder')}
               className="bg-gray-800 border-gray-700 text-white"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="activity">Activity</Label>
+            <Label htmlFor="activity">{t('journal.activity')}</Label>
             <Input
               id="activity"
               value={activity}
               onChange={(e) => setActivity(e.target.value)}
-              placeholder="e.g. Meditation, Movie Night, Hiking"
+              placeholder={t('journal.activityPlaceholder')}
               className="bg-gray-800 border-gray-700 text-white"
             />
           </div>
 
           <div className="space-y-2">
-            <Label>Side Effects</Label>
+            <Label>{t('journal.sideEffects')}</Label>
             <div className="flex flex-wrap gap-2">
               {possibleEffects.map((effect) => (
                 <Badge
@@ -221,12 +223,12 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="notes">Notes</Label>
+            <Label htmlFor="notes">{t('journal.notes')}</Label>
             <Textarea
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Additional notes about your experience..."
+              placeholder={t('journal.notesPlaceholder')}
               className="bg-gray-800 border-gray-700 text-white min-h-[100px]"
             />
           </div>
@@ -234,10 +236,10 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose} className="bg-gray-800 border-gray-700 text-white">
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button onClick={handleSubmit} className="bg-emerald-600 hover:bg-emerald-700 text-white">
-            Save Entry
+            {t('journal.saveEntry')}
           </Button>
         </DialogFooter>
       </DialogContent>

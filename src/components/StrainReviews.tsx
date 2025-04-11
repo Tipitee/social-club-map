@@ -64,8 +64,8 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
   const handleSubmitReview = () => {
     if (userRating === 0) {
       toast({
-        title: 'Rating required',
-        description: 'Please provide a star rating before submitting',
+        title: t('strains.reviews.ratingRequired'),
+        description: t('strains.reviews.pleaseProvideRating'),
         variant: 'destructive'
       });
       return;
@@ -87,7 +87,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
 
     toast({
       title: t('strains.reviews.thankYou'),
-      description: `${t('strains.reviews.thankYou')}!`
+      description: t('strains.reviews.reviewAdded')
     });
   };
 
@@ -95,7 +95,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-400'} ${interactive ? 'cursor-pointer' : ''}`}
+        className={`${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-400'} ${interactive ? 'cursor-pointer' : ''} h-4 w-4`}
         onClick={interactive ? () => handleStarClick(i + 1) : undefined}
         onMouseEnter={interactive ? () => setUserRating(i + 1) : undefined}
         onMouseLeave={interactive ? () => userRating === 0 && setUserRating(0) : undefined}
@@ -114,27 +114,32 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      {/* Reviews Header - IMPROVED LAYOUT */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-white">{t('strains.reviews.title')}</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-white">{t('strains.reviews.title')}</h2>
+            {reviews.length > 0 && (
+              <p className="text-gray-400 flex items-center">
+                <span className="flex text-yellow-400 mr-1">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <Star key={i} className={`h-4 w-4 ${i < Math.round(averageRating) ? 'fill-yellow-400' : ''}`} />
+                  ))}
+                </span>
+                <span className="text-sm">({reviews.length})</span>
+              </p>
+            )}
+          </div>
           {reviews.length > 0 && (
-            <p className="text-gray-400 flex items-center mt-1">
+            <p className="text-gray-400 text-sm mt-1">
               {t('strains.reviews.averageRating')}: {averageRating} 
-              <span className="flex ml-1 text-yellow-400">
-                <Star className={`h-4 w-4 ${averageRating >= 1 ? 'fill-yellow-400' : ''}`} />
-                <Star className={`h-4 w-4 ${averageRating >= 2 ? 'fill-yellow-400' : ''}`} />
-                <Star className={`h-4 w-4 ${averageRating >= 3 ? 'fill-yellow-400' : ''}`} />
-                <Star className={`h-4 w-4 ${averageRating >= 4 ? 'fill-yellow-400' : ''}`} />
-                <Star className={`h-4 w-4 ${averageRating >= 5 ? 'fill-yellow-400' : ''}`} />
-              </span>
-              <span className="ml-1">({reviews.length})</span>
             </p>
           )}
         </div>
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-emerald-600 hover:bg-emerald-700">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 w-full sm:w-auto">
               <Plus size={16} className="mr-1" />
               {t('strains.reviews.addReview')}
             </Button>

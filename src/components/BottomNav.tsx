@@ -15,12 +15,12 @@ const BottomNav: React.FC = () => {
   };
 
   const navItems = [
-    { path: "/", label: "Home", icon: Home },
-    { path: "/journal", label: "Journal", icon: Book },
-    { path: "/strains", label: "Strains", icon: Cannabis },
-    { path: "/clubs", label: "Clubs", icon: MapPin },
-    { path: "/legal", label: "Updates", icon: Bell },
-    { path: user ? "/profile" : "/auth", label: user ? "Profile" : "Sign In", icon: User },
+    { path: "/", label: t('navigation.home'), icon: Home },
+    { path: "/journal", label: t('navigation.journal'), icon: Book },
+    { path: "/strains", label: t('navigation.strains'), icon: Cannabis },
+    { path: "/clubs", label: t('navigation.clubs'), icon: MapPin },
+    { path: "/legal", label: t('navigation.updates'), icon: Bell },
+    { path: user ? "/profile" : "/auth", label: user ? t('navigation.profile') : t('navigation.signIn'), icon: User },
   ];
 
   return (

@@ -71,8 +71,8 @@ const Journal: React.FC = () => {
       } catch (error: any) {
         console.error('Error fetching journal entries:', error.message);
         toast({
-          title: "Error",
-          description: "Failed to load journal entries",
+          title: t('journal.error'),
+          description: t('journal.errorFetchingEntries'),
           variant: "destructive"
         });
       } finally {
@@ -81,7 +81,7 @@ const Journal: React.FC = () => {
     }
     
     fetchEntries();
-  }, [user, toast]);
+  }, [user, toast, t]);
 
   const deleteEntry = async (id: string) => {
     if (!user) return;
@@ -97,13 +97,13 @@ const Journal: React.FC = () => {
       
       setEntries(prevEntries => prevEntries.filter(entry => entry.id !== id));
       toast({
-        title: "Entry deleted",
-        description: "Journal entry has been removed successfully",
+        title: t('journal.entryDeleted'),
+        description: t('journal.entryDeletedSuccess'),
       });
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: "Failed to delete entry",
+        title: t('journal.error'),
+        description: t('journal.errorDeletingEntry'),
         variant: "destructive"
       });
     }
@@ -111,8 +111,8 @@ const Journal: React.FC = () => {
 
   const handleEditEntry = (entry: JournalEntry) => {
     toast({
-      title: "Edit functionality",
-      description: "Edit form would open here in a real app",
+      title: t('journal.editFunctionality'),
+      description: t('journal.editFormWouldOpen'),
     });
     console.log("Editing entry:", entry);
   };
@@ -127,8 +127,8 @@ const Journal: React.FC = () => {
   const handleSaveNewEntry = async (newEntryData: Omit<JournalEntry, "id">) => {
     if (!user) {
       toast({
-        title: "Authentication required",
-        description: "Please sign in to save journal entries",
+        title: t('journal.authRequired'),
+        description: t('journal.signInToSave'),
         variant: "destructive"
       });
       navigate('/auth');
@@ -171,14 +171,14 @@ const Journal: React.FC = () => {
         setShowNewEntryDialog(false);
         
         toast({
-          title: "Entry added",
-          description: "Your journal entry has been saved successfully",
+          title: t('journal.entryAdded'),
+          description: t('journal.entryAddedSuccess'),
         });
       }
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to save journal entry",
+        title: t('journal.error'),
+        description: error.message || t('journal.errorSavingEntry'),
         variant: "destructive"
       });
     }
@@ -283,22 +283,25 @@ const Journal: React.FC = () => {
       <div className="container px-4 py-6 max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-white">{t('journal.title')}</h1>
+          
+          {/* IMPROVED BUTTON SIZES AND LAYOUT */}
           <div className="flex gap-2">
             <Button 
               variant="outline" 
-              size="sm"
-              className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+              size="icon"
+              className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
               onClick={() => setShowFilters(!showFilters)}
             >
-              <Filter size={18} />
-              <span className="hidden sm:inline ml-1">{t('journal.filters')}</span>
+              <Filter size={20} className="sm:mr-2" />
+              <span className="hidden sm:inline">{t('journal.filters')}</span>
             </Button>
             <Button 
-              className="bg-primary hover:bg-primary/90 text-white"
+              className="bg-primary hover:bg-primary/90 text-white h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
+              size="icon"
               onClick={() => setShowNewEntryDialog(true)}
             >
-              <Plus size={18} />
-              <span className="hidden sm:inline ml-1">{t('journal.newEntry')}</span>
+              <Plus size={20} className="sm:mr-2" />
+              <span className="hidden sm:inline">{t('journal.newEntry')}</span>
             </Button>
           </div>
         </div>

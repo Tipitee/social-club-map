@@ -76,7 +76,7 @@ const StrainDetail: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#121212] text-white">
       <Navbar />
-      <main className="container px-4 py-8 max-w-5xl mx-auto">
+      <main className="container px-4 py-8 max-w-5xl mx-auto mb-20">
         <div className="mb-6">
           <Link to="/strains">
             <Button variant="outline" size="sm" className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 flex items-center">
@@ -118,17 +118,17 @@ const StrainDetail: React.FC = () => {
                 </Badge>
               </div>
               
-              {/* THC and Terpene Info */}
+              {/* THC and Terpene Info - IMPROVED SMALLER SIZE */}
               <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="bg-gray-800 p-3 rounded-lg">
-                  <h3 className="text-sm text-gray-400 mb-1">{t('strains.thcLevel')}</h3>
-                  <p className="text-xl font-semibold text-white">
+                <div className="bg-gray-800 p-2 rounded-lg">
+                  <h3 className="text-xs text-gray-400">{t('strains.thcLevel')}</h3>
+                  <p className="text-base font-semibold text-white">
                     {strain.thc_level ? `${strain.thc_level}%` : t('strains.unknown')}
                   </p>
                 </div>
-                <div className="bg-gray-800 p-3 rounded-lg">
-                  <h3 className="text-sm text-gray-400 mb-1">{t('strains.dominantTerpene')}</h3>
-                  <p className="text-xl font-semibold text-white">
+                <div className="bg-gray-800 p-2 rounded-lg">
+                  <h3 className="text-xs text-gray-400">{t('strains.dominantTerpene')}</h3>
+                  <p className="text-base font-semibold text-white">
                     {strain.most_common_terpene || t('strains.unknown')}
                   </p>
                 </div>
