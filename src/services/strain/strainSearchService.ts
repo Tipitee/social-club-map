@@ -55,8 +55,25 @@ export const fetchStrains = async (
       throw new Error(error.message);
     }
     
+    // Log raw data for debugging
+    console.log("Raw strains data from Supabase:", data?.slice(0, 2));
+    
     // Transform data into our Strain type
     const strains = data.map(mapToStrainType);
+    
+    // Log processed strains data
+    console.log("Processed strains data:", strains.slice(0, 2).map(s => ({ 
+      name: s.name,
+      effects: s.effects,
+      raw_effects: {
+        top: s.top_effect,
+        top_percent: s.top_percent,
+        second: s.second_effect,
+        second_percent: s.second_percent,
+        third: s.third_effect,
+        third_percent: s.third_percent
+      }
+    })));
     
     return { 
       strains: strains, 

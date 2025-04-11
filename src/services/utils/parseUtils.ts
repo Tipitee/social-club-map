@@ -8,7 +8,9 @@ export const safeParsePercent = (value: string | number | null | undefined): num
   if (typeof value === 'number') return Math.round(value);
   
   try {
-    const parsed = parseFloat(value);
+    // Remove any % characters before parsing
+    const cleanValue = typeof value === 'string' ? value.replace(/%/g, '') : value;
+    const parsed = parseFloat(String(cleanValue));
     if (isNaN(parsed)) return 0;
     return Math.round(parsed);
   } catch (e) {

@@ -51,6 +51,19 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     .filter(effect => effect && effect.effect)
     .slice(0, 3); // Show top 3 effects
 
+  // For debugging - log the raw strain effects data
+  console.log("Strain effects data:", {
+    effects: strain.effects,
+    raw: {
+      top: strain.top_effect, 
+      top_percent: strain.top_percent,
+      second: strain.second_effect,
+      second_percent: strain.second_percent,
+      third: strain.third_effect,
+      third_percent: strain.third_percent
+    }
+  });
+
   return (
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900 h-full">
       <div className="relative h-48 overflow-hidden group">
