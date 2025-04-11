@@ -1,4 +1,3 @@
-
 import { StrainEffect } from "@/types/strain";
 import { safeParsePercent } from "./parseUtils";
 
