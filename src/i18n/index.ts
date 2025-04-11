@@ -69,7 +69,6 @@ const extendedDeTranslations = {
       watching: 'Fernsehen',
       social: 'Geselligkeit'
     },
-    // Removing duplicate sideEffects property and merging with the one below
     filters: 'Filter',
     search: 'Suchen',
     filterByTime: 'Filtern nach Zeit',
@@ -84,7 +83,7 @@ const extendedDeTranslations = {
     entry: 'Eintrag',
     entries: 'Einträge',
     ratingBadge: 'Bewertung: {rating}',
-    sideEffects: {
+    sideEffectsOptions: { // Renamed to avoid conflict
       'dry-mouth': 'Mundtrockenheit',
       'dry-eyes': 'Trockene Augen',
       'headache': 'Kopfschmerzen',
@@ -185,4 +184,3 @@ i18n
   });
 
 export default i18n;
-

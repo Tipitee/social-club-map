@@ -4,7 +4,7 @@ import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
 import StrainCard from "@/components/StrainCard";
 import StrainFilters from "@/components/StrainFilters";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Filter, Loader2, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -272,19 +272,19 @@ const StrainExplorer: React.FC = () => {
   const renderSkeletonLoader = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {Array.from({ length: 8 }).map((_, index) => (
-        <Card key={index} className="overflow-hidden bg-gray-900 border-gray-700">
-          <div className="h-40 bg-gray-800">
-            <Skeleton className="h-full w-full bg-gray-800" />
+        <Card key={index} className="overflow-hidden dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+          <div className="h-40 dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
+            <Skeleton className="h-full w-full dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
           </div>
           <CardContent className="p-4">
-            <Skeleton className="h-6 w-3/4 mb-4 bg-gray-800" />
-            <Skeleton className="h-4 w-full mb-2 bg-gray-800" />
-            <Skeleton className="h-4 w-2/3 mb-2 bg-gray-800" />
+            <Skeleton className="h-6 w-3/4 mb-4 dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
+            <Skeleton className="h-4 w-full mb-2 dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
+            <Skeleton className="h-4 w-2/3 mb-2 dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
             <div className="mt-4">
-              <Skeleton className="h-3 w-full mb-1 bg-gray-800" />
-              <Skeleton className="h-2 w-full mb-3 bg-gray-800" />
-              <Skeleton className="h-3 w-full mb-1 bg-gray-800" />
-              <Skeleton className="h-2 w-full bg-gray-800" />
+              <Skeleton className="h-3 w-full mb-1 dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
+              <Skeleton className="h-2 w-full mb-3 dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
+              <Skeleton className="h-3 w-full mb-1 dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
+              <Skeleton className="h-2 w-full dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
             </div>
           </CardContent>
         </Card>
@@ -308,23 +308,23 @@ const StrainExplorer: React.FC = () => {
   const remainingStrains = totalStrains - (currentPage * strainsPerPage);
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white pb-28">
+    <div className="min-h-screen dark:bg-navy-dark bg-sand-light/50 pb-28">
       <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl md:text-3xl font-bold text-white">{t('strains.explorer')}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">{t('strains.explorer')}</h1>
           </div>
           <div className="flex items-center gap-2">
             <Button
               onClick={toggleFilters}
               variant="outline"
-              className="flex items-center gap-2 bg-[#348080] hover:bg-[#2a6767] text-white border-none h-9 px-3"
+              className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark text-white border-none h-9 px-3"
             >
               <Filter size={16} /> 
               {showFilters ? t('strains.hideFilters') : t('strains.filters')}
               {activeFilterCount > 0 && (
-                <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-[#348080]">
+                <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">
                   {activeFilterCount}
                 </Badge>
               )}
@@ -333,11 +333,11 @@ const StrainExplorer: React.FC = () => {
         </div>
 
         {activeFilterCount > 0 && (
-          <div className="flex flex-wrap gap-2 mb-6 bg-gray-800/50 p-3 rounded-lg">
+          <div className="flex flex-wrap gap-2 mb-6 dark:bg-navy-light/50 bg-sand-DEFAULT/10 p-3 rounded-lg">
             {filters.type && (
               <Badge 
                 variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
               >
                 {t('strains.filters.type')}: {filters.type}
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('type')} />
@@ -346,7 +346,7 @@ const StrainExplorer: React.FC = () => {
             {filters.effect && (
               <Badge 
                 variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
               >
                 {t('strains.filters.effect')}: {filters.effect}
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('effect')} />
@@ -355,7 +355,7 @@ const StrainExplorer: React.FC = () => {
             {filters.terpene && (
               <Badge 
                 variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
               >
                 {t('strains.filters.terpene')}: {filters.terpene}
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('terpene')} />
@@ -364,7 +364,7 @@ const StrainExplorer: React.FC = () => {
             {filters.search && (
               <Badge 
                 variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
               >
                 {t('strains.filters.search')}: "{filters.search}"
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('search')} />
@@ -373,7 +373,7 @@ const StrainExplorer: React.FC = () => {
             {(filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && (
               <Badge 
                 variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm bg-gray-700"
+                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
               >
                 {t('strains.thcLevel')}: {filters.thcRange[0]}% - {filters.thcRange[1]}%
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('thcRange')} />
@@ -392,10 +392,10 @@ const StrainExplorer: React.FC = () => {
 
           <div className={`${showFilters ? "col-span-4" : "col-span-4"} lg:col-span-3`} ref={strainListRef}>
             {error ? (
-              <Card className="bg-gray-900 p-8 rounded-xl text-center border border-destructive">
+              <Card className="dark:bg-navy-light p-8 rounded-xl text-center border border-destructive bg-sand-light">
                 <CardContent className="pt-6">
-                  <h3 className="text-xl font-semibold mb-2 text-white">{t('strains.errorLoadingStrains')}</h3>
-                  <p className="text-gray-400 mb-4">{error}</p>
+                  <h3 className="text-xl font-semibold mb-2 dark:text-white text-navy-dark">{t('strains.errorLoadingStrains')}</h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
                   <Button 
                     onClick={() => {
                       setCurrentPage(1);
@@ -404,7 +404,7 @@ const StrainExplorer: React.FC = () => {
                         .catch(() => {});
                     }}
                     variant="default"
-                    className="px-4 py-2 bg-[#348080] hover:bg-[#2a6767] text-white"
+                    className="px-4 py-2 bg-teal-DEFAULT hover:bg-teal-dark text-white"
                   >
                     {t('strains.retry')}
                   </Button>
@@ -436,18 +436,18 @@ const StrainExplorer: React.FC = () => {
                   >
                     {loadingMore && (
                       <div className="flex items-center justify-center">
-                        <Loader2 className="h-6 w-6 animate-spin text-[#348080] mr-2" />
-                        <span className="text-gray-400">{t('strains.loadingMore')}</span>
+                        <Loader2 className="h-6 w-6 animate-spin text-teal-DEFAULT mr-2" />
+                        <span className="text-gray-600 dark:text-gray-400">{t('strains.loadingMore')}</span>
                       </div>
                     )}
                   </div>
                 )}
               </>
             ) : (
-              <Card className="bg-gray-900 p-8 rounded-xl text-center border border-gray-700">
+              <Card className="dark:bg-navy-light p-8 rounded-xl text-center border dark:border-navy-DEFAULT border-sand-DEFAULT bg-sand-light">
                 <CardContent className="pt-6">
-                  <h3 className="text-xl font-semibold mb-2 text-white">{t('strains.noStrainsFound')}</h3>
-                  <p className="text-gray-400">
+                  <h3 className="text-xl font-semibold mb-2 dark:text-white text-navy-dark">{t('strains.noStrainsFound')}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">
                     {t('strains.tryAdjustingFilters')}
                   </p>
                 </CardContent>

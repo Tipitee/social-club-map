@@ -26,17 +26,17 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#348080', // Teal from logo
+					DEFAULT: '#2a9d90', // Updated teal from new palette
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
-					DEFAULT: '#B0E0E6', // Pale teal from logo background
-					light: '#D3F9F9',
-					dark: '#2A6666',
+					DEFAULT: '#f4a462', // Updated from new palette
+					light: '#f7d3a6',
+					dark: '#274754',
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
 				destructive: {
-					DEFAULT: '#e11d48', // Rose-600
+					DEFAULT: '#e76e50', // Updated from new palette
 					foreground: '#ffffff'
 				},
 				muted: {
@@ -44,7 +44,7 @@ export default {
 					foreground: 'hsl(var(--muted-foreground))'
 				},
 				accent: {
-					DEFAULT: '#F5F5DC', // Beige from logo background
+					DEFAULT: '#f7d3a6', // Updated from new palette
 					foreground: 'hsl(var(--accent-foreground))'
 				},
 				popover: {
@@ -130,6 +130,27 @@ export default {
 					700: '#fdf8f1',
 					800: '#fefaf6',
 					900: '#fefdfa'
+				},
+				// New palette colors
+				coral: {
+					DEFAULT: '#e76e50',
+					light: '#f39c86',
+					dark: '#c24e33'
+				},
+				teal: {
+					DEFAULT: '#2a9d90',
+					light: '#4eb7ac',
+					dark: '#007a6c'
+				},
+				sand: {
+					DEFAULT: '#f7d3a6',
+					light: '#fae5c9',
+					dark: '#f4a462'
+				},
+				navy: {
+					DEFAULT: '#274754',
+					light: '#375c6b',
+					dark: '#1a333d'
 				}
 			},
 			borderRadius: {
@@ -170,6 +191,9 @@ export default {
 			},
 			boxShadow: {
 				'card': '0 2px 8px rgba(0, 0, 0, 0.15)',
+			},
+			backgroundImage: {
+				'gradient-smooth': 'linear-gradient(0.25turn, #ffebee, #ffe0b3, #e0f7fa, #4eb7ac, #007a6c)',
 			}
 		}
 	},

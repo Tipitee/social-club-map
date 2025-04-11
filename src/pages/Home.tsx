@@ -18,48 +18,48 @@ const Home: React.FC = () => {
       icon: Book,
       title: t('navigation.journal'),
       description: t('journal.trackConsumption'),
-      colorDark: "from-emerald-600/20 to-emerald-900/30",
-      colorLight: "from-airForceBlue-100/20 to-airForceBlue-300/30"
+      colorDark: "from-teal-light/20 to-teal-dark/30",
+      colorLight: "from-teal-light/20 to-teal-dark/10"
     },
     {
       path: "/strains",
       icon: Cannabis,
       title: t('navigation.strains'),
       description: t('strains.explorer'),
-      colorDark: "from-purple-600/20 to-purple-900/30",
-      colorLight: "from-cadetGray-300/30 to-cadetGray-500/30"
+      colorDark: "from-coral-light/20 to-coral-DEFAULT/30",
+      colorLight: "from-coral-light/10 to-coral-DEFAULT/20"
     },
     {
       path: "/clubs",
       icon: Map,
       title: t('navigation.clubs'),
       description: t('clubs.findNearYou'),
-      colorDark: "from-blue-600/20 to-blue-900/30",
-      colorLight: "from-ashGray-300/30 to-ashGray-500/30"
+      colorDark: "from-sand-light/20 to-sand-dark/30",
+      colorLight: "from-sand-light/30 to-sand-dark/20"
     },
     {
       path: "/legal",
       icon: Bell,
       title: t('navigation.updates'),
       description: t('legal.stayInformed'),
-      colorDark: "from-amber-600/20 to-amber-900/30",
-      colorLight: "from-oldLace-300/40 to-oldLace-400/40"
+      colorDark: "from-navy-light/30 to-navy-DEFAULT/40",
+      colorLight: "from-navy-light/10 to-navy-DEFAULT/20"
     },
     {
       path: "/guide",
       icon: BookOpen,
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
-      colorDark: "from-red-600/20 to-red-900/30",
-      colorLight: "from-linen-300/40 to-linen-400/40"
+      colorDark: "from-coral-DEFAULT/20 to-coral-dark/30",
+      colorLight: "from-coral-DEFAULT/10 to-coral-dark/20"
     },
     {
       path: "/settings",
       icon: Settings,
       title: t('navigation.settings'),
       description: t('settings.managePreferences'),
-      colorDark: "from-gray-600/20 to-gray-700/30",
-      colorLight: "from-cadetGray-100/30 to-cadetGray-200/30"
+      colorDark: "from-sand-dark/20 to-sand-DEFAULT/30",
+      colorLight: "from-sand-dark/10 to-sand-DEFAULT/20"
     }
   ];
 
@@ -69,33 +69,33 @@ const Home: React.FC = () => {
   };
 
   const getCardBorderClass = () => isDarkMode 
-    ? "border-gray-700/50" 
-    : "border-cadetGray-300/50";
+    ? "border-navy-light/50" 
+    : "border-sand-dark/30";
     
   const getTextClass = () => isDarkMode 
     ? "text-white" 
-    : "text-gray-800";
+    : "text-navy-dark";
   
   const getDescriptionClass = () => isDarkMode 
     ? "text-gray-300" 
     : "text-gray-600";
     
   const getIconBgClass = () => isDarkMode
-    ? "bg-gray-800/50"
-    : "bg-white/70";
+    ? "bg-navy-light/50"
+    : "bg-sand-light/70";
 
   return (
     <div className="min-h-screen pb-20">
       <Navbar />
       <div className="container px-4 py-6">
         {!user && (
-          <div className={`mb-8 p-6 ${isDarkMode ? 'bg-gray-800/60 border-gray-700' : 'bg-oldLace-500 border-cadetGray-300/50'} rounded-xl text-center border`}>
-            <User className={`mx-auto h-12 w-12 text-primary mb-3`} />
+          <div className={`mb-8 p-6 ${isDarkMode ? 'bg-navy-light/60 border-navy-DEFAULT/50' : 'bg-sand-light border-sand-DEFAULT/50'} rounded-xl text-center border`}>
+            <User className={`mx-auto h-12 w-12 text-teal-DEFAULT mb-3`} />
             <h2 className={`text-xl font-bold mb-2 ${getTextClass()}`}>{t('auth.welcomeTo')}</h2>
             <p className={`${getDescriptionClass()} mb-4`}>{t('auth.signInToTrack')}</p>
             <Button 
               asChild
-              className="bg-primary hover:bg-primary/90 px-6 py-5 text-lg text-white"
+              className="bg-teal-DEFAULT hover:bg-teal-dark px-6 py-5 text-lg text-white"
             >
               <Link to="/auth">{t('auth.signInOrCreate')}</Link>
             </Button>
@@ -113,7 +113,7 @@ const Home: React.FC = () => {
             >
               <div className={`bg-gradient-to-br ${getBgGradient(index)} border ${getCardBorderClass()} rounded-xl shadow-lg p-6 h-full`}>
                 <div className={`flex justify-center items-center h-16 w-16 ${getIconBgClass()} rounded-full mb-4 mx-auto`}>
-                  <section.icon className="h-8 w-8 text-primary" />
+                  <section.icon className="h-8 w-8 text-teal-DEFAULT" />
                 </div>
                 <h2 className={`text-xl font-bold ${getTextClass()} text-center mb-2`}>{section.title}</h2>
                 <p className={`${getDescriptionClass()} text-center`}>

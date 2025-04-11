@@ -39,10 +39,10 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
 
   const getEffectColor = (index: number) => {
     switch (index) {
-      case 0: return 'bg-emerald-500'; // Primary effect
-      case 1: return 'bg-purple-500';  // Secondary effect
-      case 2: return 'bg-blue-500';    // Third effect
-      default: return 'bg-blue-500';   // Other effects
+      case 0: return 'bg-teal-DEFAULT'; // Primary effect - teal
+      case 1: return 'bg-coral-DEFAULT';  // Secondary effect - coral
+      case 2: return 'bg-sand-dark';    // Third effect - sand dark
+      default: return 'bg-teal-light';   // Other effects - teal light
     }
   };
 
@@ -50,10 +50,10 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
   const displayEffects = strain.effects.filter(e => e.effect && e.effect !== "Unknown");
 
   return (
-    <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900 h-full">
+    <div className="strain-card h-full">
       <div className="relative h-48 overflow-hidden group">
         {strain.img_url ? (
-          <div className="w-full h-full flex items-center justify-center bg-gray-800 overflow-hidden">
+          <div className="w-full h-full flex items-center justify-center overflow-hidden bg-white/10 dark:bg-navy-light/30">
             <img
               src={strain.img_url}
               alt={strain.name}
@@ -63,7 +63,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                 const container = e.currentTarget.parentElement;
                 if (container) {
                   container.innerHTML = `
-                    <div class="w-full h-full flex items-center justify-center bg-gray-800">
+                    <div class="w-full h-full flex items-center justify-center bg-white/10 dark:bg-navy-light/30">
                       <div class="opacity-60">
                         ${getTypeIcon().props.outerHTML || ''}
                       </div>
@@ -74,7 +74,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             />
           </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-80 backdrop-blur-sm">
+          <div className="w-full h-full flex items-center justify-center bg-white/10 dark:bg-navy-light/30 backdrop-blur-sm">
             {getTypeIcon()}
           </div>
         )}
@@ -84,30 +84,31 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
       </div>
       
       <div className="p-5">
-        <h3 className="text-lg font-bold mb-4 text-white line-clamp-1">{strain.name}</h3>
+        <h3 className="text-lg font-bold mb-4 line-clamp-1 dark:text-white text-navy-dark">{strain.name}</h3>
         
         <div className="mt-3">
           {strain.thc_level !== null && strain.thc_level !== undefined ? (
             <>
               <div className="flex justify-between text-xs mb-1">
-                <span className="font-medium text-white">{t('strains.thcLevel')}</span>
-                <span className="font-bold text-white">{strain.thc_level}%</span>
+                <span className="font-medium dark:text-white text-navy-dark">{t('strains.thcLevel')}</span>
+                <span className="font-bold dark:text-white text-navy-dark">{strain.thc_level}%</span>
               </div>
               <Progress 
                 className="h-2 rounded-full mb-4"
                 value={Math.min(100, ((strain.thc_level || 0) / 30) * 100)}
+                indicatorClassName="bg-teal-DEFAULT"
               />
             </>
           ) : (
             <>
               <div className="flex justify-between text-xs mb-1">
-                <span className="font-medium text-white">{t('strains.thcLevel')}</span>
-                <span className="font-bold text-white">?</span>
+                <span className="font-medium dark:text-white text-navy-dark">{t('strains.thcLevel')}</span>
+                <span className="font-bold dark:text-white text-navy-dark">?</span>
               </div>
               <Progress 
-                className="h-2 rounded-full mb-4 bg-gray-800"
+                className="h-2 rounded-full mb-4"
                 value={50}
-                indicatorClassName="bg-white/30"
+                indicatorClassName="bg-gray-400/30"
               />
             </>
           )}
@@ -117,8 +118,8 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
           {displayEffects.slice(0, 2).map((effect, index) => (
             <div key={`${effect.effect}-${index}`}>
               <div className="flex justify-between text-xs mb-1">
-                <span className="font-medium text-white line-clamp-1">{effect.effect}</span>
-                <span className="font-bold text-white">
+                <span className="font-medium dark:text-white text-navy-dark line-clamp-1">{effect.effect}</span>
+                <span className="font-bold dark:text-white text-navy-dark">
                   {`${effect.intensity}%`}
                 </span>
               </div>
@@ -134,15 +135,15 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         <div className="h-6 flex items-center">
           {strain.most_common_terpene ? (
             <div className="flex items-center">
-              <span className="text-xs text-gray-400 mr-1">{t('strains.dominantTerpene')}:</span>
-              <Badge variant="outline" className="font-medium text-xs border-gray-600 text-white">
+              <span className="text-xs text-gray-600 dark:text-gray-300 mr-1">{t('strains.dominantTerpene')}:</span>
+              <Badge variant="outline" className="font-medium text-xs border-gray-300 dark:border-gray-600 text-navy-dark dark:text-white">
                 {strain.most_common_terpene}
               </Badge>
             </div>
           ) : (
             <div className="flex items-center h-full">
-              <span className="text-xs text-gray-400 mr-1">{t('strains.dominantTerpene')}:</span>
-              <Badge variant="outline" className="font-medium text-xs border-gray-600 text-white">
+              <span className="text-xs text-gray-600 dark:text-gray-300 mr-1">{t('strains.dominantTerpene')}:</span>
+              <Badge variant="outline" className="font-medium text-xs border-gray-300 dark:border-gray-600 text-navy-dark dark:text-white">
                 {t('strains.unknown')}
               </Badge>
             </div>
