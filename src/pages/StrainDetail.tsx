@@ -14,6 +14,9 @@ const StrainDetail: React.FC = () => {
   const { id } = useParams();
   const { t } = useTranslation();
   
+  // Detect theme for styling
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  
   const { data: strain, error, isLoading } = useQuery({
     queryKey: ['strain', id],
     queryFn: () => fetchStrainById(id || ''),
@@ -43,9 +46,16 @@ const StrainDetail: React.FC = () => {
     }
   };
 
+  // Get background color based on theme
+  const getBackgroundColor = () => isDarkMode ? "bg-background" : "bg-oldLace-500";
+  const getTextColor = () => isDarkMode ? "text-foreground" : "text-gray-800";
+  const getCardBgColor = () => isDarkMode ? "bg-card" : "bg-white";
+  const getCardBorderColor = () => isDarkMode ? "border-primary/20" : "border-primary/10";
+  const getMutedTextColor = () => isDarkMode ? "text-muted-foreground" : "text-gray-500";
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className={`flex items-center justify-center h-screen ${getBackgroundColor()} ${getTextColor()}`}>
         <div className="h-8 w-8 border-t-2 border-primary rounded-full animate-spin"></div>
       </div>
     );
@@ -53,14 +63,14 @@ const StrainDetail: React.FC = () => {
 
   if (error || !strain) {
     return (
-      <div className="container px-4 py-6 mb-20">
+      <div className={`container px-4 py-6 mb-20 ${getBackgroundColor()} ${getTextColor()}`}>
         <h1 className="text-2xl font-bold mb-4">{t('strains.strainNotFound')}</h1>
-        <p className="text-muted-foreground mb-4">{t('strains.errorLoadingStrain')}</p>
-        <p className="text-muted-foreground mb-6">{t('strains.requestedStrainNotFound')}</p>
+        <p className={getMutedTextColor()}>{t('strains.errorLoadingStrain')}</p>
+        <p className={`${getMutedTextColor()} mb-6`}>{t('strains.requestedStrainNotFound')}</p>
         <Link to="/strains">
           <Button variant="outline">
             <ChevronLeft className="mr-2 h-4 w-4" />
-            Back to Strains
+            {t('strains.backToAllStrains')}
           </Button>
         </Link>
       </div>
@@ -74,20 +84,20 @@ const StrainDetail: React.FC = () => {
     .slice(0, 3); // Only show top 3 effects
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className={`min-h-screen ${getBackgroundColor()} ${getTextColor()} pb-20`}>
       <Navbar />
       <main className="container px-4 py-8 max-w-5xl mx-auto mb-20">
         <div className="mb-6">
           <Link to="/strains">
             <Button variant="outline" size="sm" className="flex items-center">
               <ChevronLeft className="mr-1 h-4 w-4" />
-              Back to Strains
+              {t('strains.backToAllStrains')}
             </Button>
           </Link>
         </div>
 
         {/* Main Strain Info Card */}
-        <div className="bg-card rounded-xl overflow-hidden border shadow-lg mb-6">
+        <div className={`${getCardBgColor()} rounded-xl overflow-hidden ${getCardBorderColor()} border shadow-lg mb-6`}>
           <div className="flex flex-col md:flex-row">
             {/* Strain Image */}
             <div className="md:w-1/3 h-56 md:h-auto">
@@ -120,7 +130,7 @@ const StrainDetail: React.FC = () => {
               
               {/* THC and Terpene Info - IMPROVED SMALLER SIZE */}
               <div className="grid grid-cols-2 gap-2 mb-4">
-                <div className="bg-muted rounded-md inline-flex items-center p-2">
+                <div className={`bg-muted rounded-md inline-flex items-center p-2`}>
                   <div className="px-2">
                     <span className="text-xs text-muted-foreground">THC Level</span>
                     <p className="text-xs font-semibold">
@@ -128,7 +138,7 @@ const StrainDetail: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                <div className="bg-muted rounded-md inline-flex items-center p-2">
+                <div className={`bg-muted rounded-md inline-flex items-center p-2`}>
                   <div className="px-2">
                     <span className="text-xs text-muted-foreground">Dominant Terpene</span>
                     <p className="text-xs font-semibold">
@@ -148,22 +158,22 @@ const StrainDetail: React.FC = () => {
             {t('strains.effects')}
           </h2>
           
-          <div className="bg-card rounded-xl border p-4 md:p-6">
+          <div className={`${getCardBgColor()} rounded-xl ${getCardBorderColor()} border p-4 md:p-6`}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {displayEffects && displayEffects.length > 0 ? (
                 displayEffects.map((effect, index) => (
                   <div key={`effect-${index}`} className="effect-block bg-muted/50 border-muted">
                     <h3 className="text-sm font-semibold mb-1">{effect.effect}</h3>
-                    <div className="w-full bg-muted rounded-full h-2 mb-1">
+                    <div className="w-full bg-muted rounded-full h-1.5 mb-1"> {/* Reduced height */}
                       <div 
-                        className={`h-2 rounded-full ${
+                        className={`h-1.5 rounded-full ${
                           index === 0 ? 'bg-primary' : 
                           index === 1 ? 'bg-strain-indica' : 'bg-strain-sativa'
                         }`}
                         style={{ width: `${effect.intensity}%` }}
                       ></div>
                     </div>
-                    <p className="text-right text-xs font-medium text-muted-foreground mt-1">
+                    <p className="text-right text-xs font-medium text-muted-foreground mt-0.5"> {/* Reduced margin */}
                       {`${effect.intensity}%`}
                     </p>
                   </div>
@@ -173,10 +183,10 @@ const StrainDetail: React.FC = () => {
                 Array.from({length: 3}).map((_, index) => (
                   <div key={`effect-placeholder-${index}`} className="effect-block bg-muted/50 border-muted">
                     <h3 className="text-sm font-semibold mb-1">{t('strains.noData')}</h3>
-                    <div className="w-full bg-muted rounded-full h-2 mb-1">
-                      <div className="bg-muted/50 h-2 rounded-full w-[50%]"></div>
+                    <div className="w-full bg-muted rounded-full h-1.5 mb-1"> {/* Reduced height */}
+                      <div className="bg-muted/50 h-1.5 rounded-full w-[50%]"></div>
                     </div>
-                    <p className="text-right text-xs font-medium text-muted-foreground mt-1">{t('strains.unknown')}</p>
+                    <p className="text-right text-xs font-medium text-muted-foreground mt-0.5">{t('strains.unknown')}</p> {/* Reduced margin */}
                   </div>
                 ))
               )}
@@ -187,7 +197,7 @@ const StrainDetail: React.FC = () => {
         {/* Description Section */}
         <div className="mb-6">
           <h2 className="text-xl font-bold mb-4">Description</h2>
-          <div className="bg-card rounded-xl border p-4 md:p-6">
+          <div className={`${getCardBgColor()} rounded-xl ${getCardBorderColor()} border p-4 md:p-6`}>
             <p className="text-foreground whitespace-pre-line">{strain.description || t('strains.noDescriptionAvailable')}</p>
           </div>
         </div>

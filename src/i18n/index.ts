@@ -35,6 +35,9 @@ const formatMissingKey = (key: string): string => {
   if (lastPart === 'title' && key.includes('review')) return 'Rating';
   if (lastPart === 'averageRating') return 'Average Rating';
   if (lastPart === 'addReview') return 'Add Review';
+  if (lastPart === 'title' && key.includes('journal')) return 'Track Your Consumption';
+  if (lastPart === 'title' && key.includes('legal')) return 'Updates';
+  if (lastPart === 'subtitle') return '';
   
   // General formatting for other keys
   return lastPart

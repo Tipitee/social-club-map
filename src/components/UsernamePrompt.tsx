@@ -22,6 +22,9 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
   const [username, setUsername] = useState('');
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
+  
+  // Detect current theme
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
   const handleSaveUsername = async () => {
     if (!user || !username.trim()) return;
@@ -59,12 +62,18 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-card border-primary/20">
+      <DialogContent 
+        className={`${isDarkMode ? 'bg-gray-900 border-primary/20' : 'bg-white border-primary/20'} shadow-lg`}
+      >
         <DialogHeader>
-          <DialogTitle className="text-center text-xl font-bold">
+          <DialogTitle 
+            className={`text-center text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
+          >
             {t('profile.createUsername')}
           </DialogTitle>
-          <DialogDescription className="text-center">
+          <DialogDescription 
+            className={`text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
+          >
             {t('profile.usernameNeededForReviews')}
           </DialogDescription>
         </DialogHeader>
@@ -75,7 +84,10 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
           </div>
           
           <div className="w-full space-y-2">
-            <Label htmlFor="username" className="text-sm font-medium">
+            <Label 
+              htmlFor="username" 
+              className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}
+            >
               {t('profile.usernameLabel')}
             </Label>
             <Input
@@ -83,7 +95,7 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder={t('profile.enterUsername')}
-              className="w-full"
+              className={`w-full ${isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-800'}`}
               autoFocus
             />
           </div>
@@ -91,7 +103,7 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
           <Button 
             onClick={handleSaveUsername} 
             disabled={saving || !username.trim()}
-            className="w-full bg-primary hover:bg-primary/90"
+            className="w-full bg-primary hover:bg-primary/90 text-white"
           >
             {saving ? (
               <>

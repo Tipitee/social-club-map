@@ -7,12 +7,13 @@ import { JournalEntry } from "@/types/journal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import NewJournalEntry from "@/components/NewJournalEntry";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
+import { Input } from "@/components/ui/input";
 
 type FilterState = {
   effectiveness: number | null;
@@ -35,6 +36,9 @@ const Journal: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  
+  // Detect theme for styling
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
   // Fetch journal entries from Supabase
   useEffect(() => {
@@ -205,6 +209,23 @@ const Journal: React.FC = () => {
     return true;
   });
 
+  // Dynamic styling based on theme
+  const getBackgroundClass = () => isDarkMode 
+    ? "bg-[#121212] text-white"
+    : "bg-oldLace-500 text-gray-800";
+    
+  const getCardClass = () => isDarkMode
+    ? "bg-gray-800 border-gray-700"
+    : "bg-white border-gray-200";
+    
+  const getCardTextClass = () => isDarkMode
+    ? "text-white"
+    : "text-gray-800";
+    
+  const getSecondaryTextClass = () => isDarkMode
+    ? "text-gray-400"
+    : "text-gray-500";
+
   const renderContent = () => {
     if (isLoading) {
       return (
@@ -216,50 +237,54 @@ const Journal: React.FC = () => {
 
     if (!user) {
       return (
-        <Card className="bg-gray-900 p-8 rounded-lg text-center border border-gray-700">
-          <Book size={48} className="mx-auto mb-4 text-gray-400" />
-          <h3 className="text-xl font-semibold mb-2 text-white">{t('journal.authRequired')}</h3>
-          <p className="text-gray-300 mb-4">
-            {t('journal.signInToViewEntries')}
-          </p>
-          <Button 
-            className="px-4 py-2 bg-primary text-white rounded-md flex items-center gap-2 mx-auto hover:bg-primary/90"
-            onClick={() => navigate('/auth')}
-          >
-            {t('auth.signIn')}
-          </Button>
+        <Card className={getCardClass()}>
+          <CardContent className="p-8 rounded-lg text-center">
+            <Book size={48} className={`mx-auto mb-4 ${getSecondaryTextClass()}`} />
+            <h3 className="text-xl font-semibold mb-2">{t('journal.authRequired')}</h3>
+            <p className={`${getSecondaryTextClass()} mb-4`}>
+              {t('journal.signInToViewEntries')}
+            </p>
+            <Button 
+              className="px-4 py-2 bg-primary text-white rounded-md flex items-center gap-2 mx-auto hover:bg-primary/90"
+              onClick={() => navigate('/auth')}
+            >
+              {t('auth.signIn')}
+            </Button>
+          </CardContent>
         </Card>
       );
     }
 
     if (filteredEntries.length === 0) {
       return (
-        <Card className="bg-gray-900 p-8 rounded-lg text-center border border-gray-700">
-          <Book size={48} className="mx-auto mb-4 text-gray-400" />
-          <h3 className="text-xl font-semibold mb-2 text-white">
-            {entries.length > 0 
-              ? t('journal.noEntriesFound')
-              : t('journal.noEntries')}
-          </h3>
-          <p className="text-gray-300 mb-4">
-            {entries.length > 0 
-              ? t('journal.adjustFilters')
-              : t('journal.startTracking')}
-          </p>
-          <Button 
-            className="px-4 py-2 bg-primary text-white rounded-md flex items-center gap-2 mx-auto hover:bg-primary/90"
-            onClick={() => setShowNewEntryDialog(true)}
-          >
-            <Plus size={18} />
-            {entries.length > 0 ? t('journal.addNew') : t('journal.addFirst')}
-          </Button>
+        <Card className={getCardClass()}>
+          <CardContent className="p-8 rounded-lg text-center">
+            <Book size={48} className={`mx-auto mb-4 ${getSecondaryTextClass()}`} />
+            <h3 className="text-xl font-semibold mb-2">
+              {entries.length > 0 
+                ? t('journal.noEntriesFound')
+                : t('journal.noEntries')}
+            </h3>
+            <p className={`${getSecondaryTextClass()} mb-4`}>
+              {entries.length > 0 
+                ? t('journal.adjustFilters')
+                : t('journal.startTracking')}
+            </p>
+            <Button 
+              className="px-4 py-2 bg-primary text-white rounded-md flex items-center gap-2 mx-auto hover:bg-primary/90"
+              onClick={() => setShowNewEntryDialog(true)}
+            >
+              <Plus size={18} />
+              {entries.length > 0 ? t('journal.addNew') : t('journal.addFirst')}
+            </Button>
+          </CardContent>
         </Card>
       );
     }
 
     return (
       <>
-        <div className="mb-4 text-sm text-gray-400">
+        <div className={`mb-4 text-sm ${getSecondaryTextClass()}`}>
           {filteredEntries.length} {filteredEntries.length === 1 ? t('journal.entry') : t('journal.entries')}
         </div>
 
@@ -278,18 +303,21 @@ const Journal: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white pb-24">
+    <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
       <Navbar />
       <div className="container px-4 py-6 max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-white">{t('journal.title')}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">{t('journal.trackConsumption')}</h1>
           
-          {/* IMPROVED BUTTON SIZES AND LAYOUT */}
+          {/* Button layout */}
           <div className="flex gap-2">
             <Button 
               variant="outline" 
               size="icon"
-              className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
+              className={isDarkMode 
+                ? "bg-gray-800 border-gray-700 text-white hover:bg-gray-700 h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
+                : "bg-white border-gray-200 text-gray-800 hover:bg-gray-100 h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
+              }
               onClick={() => setShowFilters(!showFilters)}
             >
               <Filter size={20} className="sm:mr-2" />
@@ -307,21 +335,24 @@ const Journal: React.FC = () => {
         </div>
 
         {showFilters && (
-          <Card className="mb-6 bg-gray-800 border-gray-700">
+          <Card className={`mb-6 ${getCardClass()}`}>
             <CardContent className="p-4">
               <div className="flex flex-wrap gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">{t('journal.effectiveness')}</label>
+                  <label className={`block text-sm font-medium ${getCardTextClass()} mb-2`}>{t('journal.effectiveness')}</label>
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Button 
                         key={star} 
                         variant="outline" 
                         size="sm" 
-                        className={`px-3 py-1 border-gray-600 
-                          ${filters.effectiveness === star 
+                        className={`px-3 py-1 ${
+                          filters.effectiveness === star 
                             ? "bg-primary text-white border-primary/50" 
-                            : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white"}`}
+                            : isDarkMode
+                              ? "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border-gray-600"
+                              : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-800 border-gray-200"
+                        }`}
                         onClick={() => handleEffectivenessFilter(star)}
                       >
                         {star}
@@ -332,7 +363,7 @@ const Journal: React.FC = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => setFilters(prev => ({ ...prev, effectiveness: null }))}
-                        className="ml-2 text-gray-400 hover:text-white"
+                        className={`ml-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
                       >
                         {t('common.clear')}
                       </Button>
@@ -341,17 +372,44 @@ const Journal: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">{t('journal.filterByTime')}</label>
+                  <label className={`block text-sm font-medium ${getCardTextClass()} mb-2`}>{t('journal.filterByTime')}</label>
                   <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className={isDarkMode
+                        ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                        : "bg-gray-100 border-gray-200 text-gray-800 hover:bg-gray-200"
+                      }
+                    >
                       <CalendarDays size={16} className="mr-1" />
                       {t('journal.thisMonth')}
                     </Button>
-                    <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className={isDarkMode
+                        ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                        : "bg-gray-100 border-gray-200 text-gray-800 hover:bg-gray-200"
+                      }
+                    >
                       <Clock size={16} className="mr-1" />
                       {t('journal.lastWeek')}
                     </Button>
                   </div>
+                </div>
+                
+                <div className="w-full">
+                  <label className={`block text-sm font-medium ${getCardTextClass()} mb-2`}>{t('journal.search')}</label>
+                  <Input
+                    type="search"
+                    value={filters.searchText}
+                    onChange={(e) => setFilters(prev => ({ ...prev, searchText: e.target.value }))}
+                    className={isDarkMode 
+                      ? "bg-gray-700 border-gray-600 text-white" 
+                      : "bg-white border-gray-200 text-gray-800"
+                    }
+                  />
                 </div>
               </div>
             </CardContent>

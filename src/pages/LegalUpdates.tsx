@@ -175,6 +175,9 @@ const LegalUpdates: React.FC = () => {
   const [category, setCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);
+  
+  // Detect theme for styling
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
   const filteredUpdates = mockLegalUpdates.filter((update) => {
     // Filter by category
@@ -221,23 +224,36 @@ const LegalUpdates: React.FC = () => {
     window.open(url, '_blank', 'noopener noreferrer');
   };
 
+  // Get background color based on theme
+  const getBackgroundColor = () => isDarkMode ? "bg-[#121212]" : "bg-oldLace-500";
+  const getTextColor = () => isDarkMode ? "text-white" : "text-gray-800";
+  const getCardBgColor = () => isDarkMode ? "bg-gray-800" : "bg-white";
+  const getCardBorderColor = () => isDarkMode ? "border-gray-700" : "border-gray-200";
+  const getInputBgColor = () => isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200";
+  const getButtonBgColor = () => isDarkMode ? "bg-gray-800 border-gray-700 hover:bg-gray-700" : "bg-white border-gray-200 hover:bg-gray-100";
+  const getMutedTextColor = () => isDarkMode ? "text-gray-400" : "text-gray-500";
+
   return (
-    <div className="min-h-screen bg-[#121212] text-white pb-24">
+    <div className={`min-h-screen ${getBackgroundColor()} ${getTextColor()} pb-24`}>
       <Navbar />
       <main className="container px-4 py-6 max-w-4xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">{t('legal.title')}</h1>
-          <p className="text-gray-400">{t('legal.subtitle')}</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">
+            {t('legal.updates')}
+          </h1>
+          <p className={getMutedTextColor()}>
+            {t('legal.stayInformed')}
+          </p>
         </div>
         
-        <div className="mb-6 sticky top-16 z-10 bg-[#121212] pt-2 pb-3">
+        <div className={`mb-6 sticky top-16 z-10 ${getBackgroundColor()} pt-2 pb-3`}>
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
             <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Search className={`absolute left-2.5 top-2.5 h-4 w-4 ${getMutedTextColor()}`} />
               <Input
                 type="search"
-                placeholder={`${t('strains.filters.search')}...`}
-                className="pl-8 bg-gray-800 border-gray-700 text-white"
+                placeholder={t('common.search')}
+                className={`pl-8 ${getInputBgColor()} ${getTextColor()}`}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -247,12 +263,12 @@ const LegalUpdates: React.FC = () => {
             <div className="md:hidden w-full">
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 w-full">
+                  <Button variant="outline" className={`${getButtonBgColor()} ${getTextColor()} w-full`}>
                     <Filter className="h-4 w-4 mr-2" />
                     {t('legal.categories.filter')}
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="bottom" className="bg-gray-900 text-white border-gray-700">
+                <SheetContent side="bottom" className={`${getCardBgColor()} ${getTextColor()} ${getCardBorderColor()}`}>
                   <div className="py-4">
                     <h3 className="text-lg font-medium mb-4">{t('legal.categories.selectCategory')}</h3>
                     <div className="space-y-2">
@@ -260,7 +276,9 @@ const LegalUpdates: React.FC = () => {
                         <Button
                           key={cat}
                           variant={category === cat ? "default" : "outline"}
-                          className={`w-full ${category === cat ? '' : 'bg-gray-800 border-gray-700 text-white'}`}
+                          className={`w-full ${category === cat ? 
+                            '' : 
+                            isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-800'}`}
                           onClick={() => {
                             setCategory(cat);
                           }}
@@ -277,7 +295,7 @@ const LegalUpdates: React.FC = () => {
             {/* Desktop filters */}
             <div className="hidden md:block">
               <Tabs defaultValue="all" value={category} onValueChange={setCategory}>
-                <TabsList className="bg-gray-800">
+                <TabsList className={isDarkMode ? "bg-gray-800" : "bg-gray-100"}>
                   <TabsTrigger value="all">{t('legal.categories.all')}</TabsTrigger>
                   <TabsTrigger value="federal">{t('legal.categories.federal')}</TabsTrigger>
                   <TabsTrigger value="state">{t('legal.categories.state')}</TabsTrigger>
@@ -292,8 +310,8 @@ const LegalUpdates: React.FC = () => {
         
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold text-white">{t('legal.latestUpdates')}</h2>
-            <span className="text-sm text-white">
+            <h2 className="text-xl font-semibold">{t('legal.latestUpdates')}</h2>
+            <span className="text-sm">
               {filteredUpdates.length} {t('legal.resultsFound')}
             </span>
           </div>
@@ -302,16 +320,16 @@ const LegalUpdates: React.FC = () => {
             <div className="space-y-4">
               {filteredUpdates.map((update) => (
                 <Collapsible key={update.id} className="w-full">
-                  <Card className="bg-gray-800 border-gray-700 overflow-hidden hover:bg-gray-750 transition-colors">
+                  <Card className={`${getCardBgColor()} ${getCardBorderColor()} overflow-hidden hover:bg-gray-750 transition-colors`}>
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div className="flex">
                           <div className="mr-3 mt-1">
-                            <update.icon className="h-5 w-5 text-gray-400" />
+                            <update.icon className={`h-5 w-5 ${getMutedTextColor()}`} />
                           </div>
                           <div>
-                            <CardTitle className="text-white text-lg">{update.title}</CardTitle>
-                            <CardDescription className="flex items-center text-gray-300 mt-1">
+                            <CardTitle className={getTextColor()}>{update.title}</CardTitle>
+                            <CardDescription className={`flex items-center ${getMutedTextColor()} mt-1`}>
                               <Calendar className="h-4 w-4 mr-1" />
                               {t('legal.postedOn')} {formatDate(update.date)}
                             </CardDescription>
@@ -324,7 +342,7 @@ const LegalUpdates: React.FC = () => {
                     </CardHeader>
                     <CardContent>
                       <CollapsibleTrigger className="text-left w-full">
-                        <p className="text-gray-300 line-clamp-2">{update.content}</p>
+                        <p className={`${getMutedTextColor()} line-clamp-2`}>{update.content}</p>
                         <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300 p-0 mt-1">
                           {t('legal.readMore')}
                         </Button>
@@ -332,9 +350,9 @@ const LegalUpdates: React.FC = () => {
                       <CollapsibleContent>
                         <Separator className="my-3 bg-gray-700" />
                         <div className="pt-2">
-                          <p className="text-gray-300">{update.content}</p>
+                          <p className={getMutedTextColor()}>{update.content}</p>
                           <div className="mt-4">
-                            <h4 className="font-medium text-sm text-white mb-2">{t('legal.relatedLinks')}</h4>
+                            <h4 className={`font-medium text-sm ${getTextColor()} mb-2`}>{t('legal.relatedLinks')}</h4>
                             <ul className="list-disc list-inside space-y-1 pl-2">
                               {update.relatedLinks.map((link, index) => (
                                 <li key={`${update.id}-link-${index}`} className="text-blue-400">
@@ -352,8 +370,8 @@ const LegalUpdates: React.FC = () => {
                         </div>
                       </CollapsibleContent>
                     </CardContent>
-                    <CardFooter className="flex justify-between pt-2 border-t border-gray-700">
-                      <span className="text-sm text-white">
+                    <CardFooter className={`flex justify-between pt-2 border-t ${getCardBorderColor()}`}>
+                      <span className={`text-sm ${getTextColor()}`}>
                         {t('legal.source')}: {update.source}
                       </span>
                       <button 
@@ -369,14 +387,14 @@ const LegalUpdates: React.FC = () => {
               ))}
 
               <div className="pt-4 flex justify-center">
-                <Button variant="outline" className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700">
+                <Button variant="outline" className={`${getButtonBgColor()} ${getTextColor()}`}>
                   {t('legal.loadMore')}
                 </Button>
               </div>
             </div>
           ) : (
-            <Card className="bg-gray-800 border-gray-700 text-center p-8">
-              <p className="text-white">{t('legal.noUpdates')}</p>
+            <Card className={`${getCardBgColor()} ${getCardBorderColor()} text-center p-8`}>
+              <p className={getTextColor()}>{t('legal.noUpdates')}</p>
             </Card>
           )}
         </div>

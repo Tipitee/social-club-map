@@ -23,7 +23,7 @@ import { JournalEntry } from "@/types/journal";
 import { CheckCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface NewJournalEntryProps {
   isOpen: boolean;
@@ -57,6 +57,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
   const [sideEffects, setSideEffects] = useState<string[]>([]);
   const [notes, setNotes] = useState("");
   const { toast } = useToast();
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
   const handleSideEffectToggle = (effect: string) => {
     setSideEffects((prev) =>
@@ -118,11 +119,30 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
     setNotes("");
   };
 
+  // Determine color scheme based on theme
+  const bgColor = isDarkMode ? "bg-gray-900" : "bg-white";
+  const borderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
+  const inputBgColor = isDarkMode ? "bg-gray-800" : "bg-gray-50";
+  const inputBorderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
+  const textColor = isDarkMode ? "text-white" : "text-gray-900";
+  const textMutedColor = isDarkMode ? "text-gray-400" : "text-gray-500";
+  
+  // Button colors
+  const primaryBtnBg = "bg-emerald-600 hover:bg-emerald-700";
+  const outlineBtnBg = isDarkMode ? "bg-gray-800 hover:bg-gray-700 border-gray-700" : 
+    "bg-white hover:bg-gray-100 border-gray-200";
+  
+  // Effect badge colors
+  const badgeBg = isDarkMode ? "bg-gray-800" : "bg-gray-100";
+  const badgeBorder = isDarkMode ? "border-gray-700" : "border-gray-200";
+  const selectedBadgeBg = isDarkMode ? "bg-emerald-900/50 border-emerald-600" : 
+    "bg-emerald-100 border-emerald-400";
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className={`${bgColor} ${borderColor} ${textColor} max-w-md max-h-[90vh] overflow-y-auto`}>
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-white">{t('journal.addNewEntry')}</DialogTitle>
+          <DialogTitle className={`text-xl font-bold ${textColor}`}>{t('journal.addNewEntry')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
@@ -133,24 +153,23 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
                 id="dosage"
                 value={dosage}
                 onChange={(e) => setDosage(e.target.value)}
-                placeholder={t('journal.dosagePlaceholder')}
-                className="bg-gray-800 border-gray-700 text-white"
+                className={`${inputBgColor} ${inputBorderColor} ${textColor}`}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="dosageType">{t('journal.type')}</Label>
               <Select value={dosageType} onValueChange={setDosageType}>
-                <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                  <SelectValue placeholder={t('journal.selectType')} />
+                <SelectTrigger className={`${inputBgColor} ${inputBorderColor} ${textColor}`}>
+                  <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-gray-800 border-gray-700">
-                  <SelectItem value="edible" className="text-white">{t('journal.edible')}</SelectItem>
-                  <SelectItem value="flower" className="text-white">{t('journal.flower')}</SelectItem>
-                  <SelectItem value="vaporized" className="text-white">{t('journal.vaporized')}</SelectItem>
-                  <SelectItem value="tincture" className="text-white">{t('journal.tincture')}</SelectItem>
-                  <SelectItem value="concentrate" className="text-white">{t('journal.concentrate')}</SelectItem>
-                  <SelectItem value="other" className="text-white">{t('journal.other')}</SelectItem>
+                <SelectContent className={`${inputBgColor} ${borderColor}`}>
+                  <SelectItem value="edible" className={textColor}>{t('journal.edible')}</SelectItem>
+                  <SelectItem value="flower" className={textColor}>{t('journal.flower')}</SelectItem>
+                  <SelectItem value="vaporized" className={textColor}>{t('journal.vaporized')}</SelectItem>
+                  <SelectItem value="tincture" className={textColor}>{t('journal.tincture')}</SelectItem>
+                  <SelectItem value="concentrate" className={textColor}>{t('journal.concentrate')}</SelectItem>
+                  <SelectItem value="other" className={textColor}>{t('journal.other')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -167,8 +186,8 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
                   onClick={() => setEffectiveness(rating)}
                   className={`flex-1 ${
                     effectiveness === rating
-                      ? "bg-emerald-600 hover:bg-emerald-700"
-                      : "bg-gray-800 border-gray-700 hover:bg-gray-700"
+                      ? primaryBtnBg
+                      : outlineBtnBg
                   }`}
                 >
                   {rating}
@@ -183,8 +202,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
               id="mood"
               value={mood}
               onChange={(e) => setMood(e.target.value)}
-              placeholder={t('journal.moodPlaceholder')}
-              className="bg-gray-800 border-gray-700 text-white"
+              className={`${inputBgColor} ${inputBorderColor} ${textColor}`}
             />
           </div>
 
@@ -194,8 +212,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
               id="activity"
               value={activity}
               onChange={(e) => setActivity(e.target.value)}
-              placeholder={t('journal.activityPlaceholder')}
-              className="bg-gray-800 border-gray-700 text-white"
+              className={`${inputBgColor} ${inputBorderColor} ${textColor}`}
             />
           </div>
 
@@ -208,8 +225,8 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
                   variant="outline"
                   className={`cursor-pointer select-none px-2.5 py-1 text-sm ${
                     sideEffects.includes(effect)
-                      ? "bg-emerald-900/50 border-emerald-600"
-                      : "bg-gray-800 border-gray-700"
+                      ? selectedBadgeBg
+                      : `${badgeBg} ${badgeBorder}`
                   }`}
                   onClick={() => handleSideEffectToggle(effect)}
                 >
@@ -228,17 +245,23 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder={t('journal.notesPlaceholder')}
-              className="bg-gray-800 border-gray-700 text-white min-h-[100px]"
+              className={`${inputBgColor} ${inputBorderColor} ${textColor} min-h-[100px]`}
             />
           </div>
         </div>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose} className="bg-gray-800 border-gray-700 text-white">
+        <DialogFooter className="flex justify-end gap-3">
+          <Button 
+            variant="outline" 
+            onClick={onClose} 
+            className={outlineBtnBg}
+          >
             {t('common.cancel')}
           </Button>
-          <Button onClick={handleSubmit} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button 
+            onClick={handleSubmit} 
+            className={primaryBtnBg}
+          >
             {t('journal.saveEntry')}
           </Button>
         </DialogFooter>
