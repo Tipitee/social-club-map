@@ -74,7 +74,7 @@ const StrainDetail: React.FC = () => {
     .slice(0, 3); // Only show top 3 effects
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white">
+    <div className="min-h-screen bg-[#121212] text-white pb-20">
       <Navbar />
       <main className="container px-4 py-8 max-w-5xl mx-auto mb-20">
         <div className="mb-6">
@@ -119,18 +119,22 @@ const StrainDetail: React.FC = () => {
               </div>
               
               {/* THC and Terpene Info - IMPROVED SMALLER SIZE */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="bg-gray-800 p-2 rounded-lg">
-                  <h3 className="text-xs text-gray-400">{t('strains.thcLevel')}</h3>
-                  <p className="text-base font-semibold text-white">
-                    {strain.thc_level ? `${strain.thc_level}%` : t('strains.unknown')}
-                  </p>
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                <div className="bg-gray-800 px-2 py-1 rounded-md inline-flex items-center">
+                  <div>
+                    <span className="text-xs text-gray-400">{t('strains.thcLevel')}</span>
+                    <p className="text-sm font-semibold text-white">
+                      {strain.thc_level ? `${strain.thc_level}%` : t('strains.unknown')}
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-gray-800 p-2 rounded-lg">
-                  <h3 className="text-xs text-gray-400">{t('strains.dominantTerpene')}</h3>
-                  <p className="text-base font-semibold text-white">
-                    {strain.most_common_terpene || t('strains.unknown')}
-                  </p>
+                <div className="bg-gray-800 px-2 py-1 rounded-md inline-flex items-center">
+                  <div>
+                    <span className="text-xs text-gray-400">{t('strains.dominantTerpene')}</span>
+                    <p className="text-sm font-semibold text-white">
+                      {strain.most_common_terpene || t('strains.unknown')}
+                    </p>
+                  </div>
                 </div>
               </div>
               
@@ -196,8 +200,7 @@ const StrainDetail: React.FC = () => {
         </div>
 
         {/* Reviews Section */}
-        <div>
-          <h2 className="text-xl font-bold text-white mb-4">{t('strains.userReviews')}</h2>
+        <div className="mb-20">
           <StrainReviews strainId={id || '1'} strainName={strain.name} />
         </div>
       </main>

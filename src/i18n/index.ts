@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next';
 import enTranslation from './locales/en.json';
 import deTranslation from './locales/de.json';
 
+// Make sure any missing translations fallback to English
 i18n
   .use(initReactI18next)
   .init({
@@ -19,6 +20,13 @@ i18n
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false
+    },
+    nsSeparator: false,
+    keySeparator: false,
+    parseMissingKeyHandler: (key) => {
+      console.warn(`Missing translation key: ${key}`);
+      // Return the key as fallback
+      return key.split('.').pop() || key;
     }
   });
 

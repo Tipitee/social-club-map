@@ -120,14 +120,14 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-semibold text-white">{t('strains.reviews.title')}</h2>
             {reviews.length > 0 && (
-              <p className="text-gray-400 flex items-center">
+              <span className="text-gray-400 flex items-center">
                 <span className="flex text-yellow-400 mr-1">
                   {Array.from({ length: 5 }, (_, i) => (
                     <Star key={i} className={`h-4 w-4 ${i < Math.round(averageRating) ? 'fill-yellow-400' : ''}`} />
                   ))}
                 </span>
                 <span className="text-sm">({reviews.length})</span>
-              </p>
+              </span>
             )}
           </div>
           {reviews.length > 0 && (

@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Book, Cannabis, MapPin, Bell, User } from "lucide-react";
+import { Home, BookOpen, Cannabis, MapPin, Bell, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -16,7 +16,7 @@ const BottomNav: React.FC = () => {
 
   const navItems = [
     { path: "/", label: t('navigation.home'), icon: Home },
-    { path: "/journal", label: t('navigation.journal'), icon: Book },
+    { path: "/journal", label: t('navigation.journal'), icon: BookOpen },
     { path: "/strains", label: t('navigation.strains'), icon: Cannabis },
     { path: "/clubs", label: t('navigation.clubs'), icon: MapPin },
     { path: "/legal", label: t('navigation.updates'), icon: Bell },
@@ -35,8 +35,8 @@ const BottomNav: React.FC = () => {
             }`}
             aria-label={item.label}
           >
-            <item.icon size={22} className={isActive(item.path) ? "text-primary" : ""} />
-            <span className="text-xs mt-1 truncate px-1 max-w-full">{item.label}</span>
+            <item.icon size={20} className={isActive(item.path) ? "text-primary" : ""} />
+            <span className="text-[10px] mt-1 truncate px-1 max-w-full">{item.label}</span>
           </Link>
         ))}
       </div>
