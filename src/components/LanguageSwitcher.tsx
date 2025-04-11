@@ -34,13 +34,13 @@ const LanguageSwitcher: React.FC = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40 bg-gray-800 border-gray-700">
         <DropdownMenuItem 
-          className={`${language === 'en' ? 'bg-[#348080] text-white' : 'text-white hover:bg-gray-700'}`}
+          className={`${language === 'en' ? 'bg-primary text-white' : 'text-white hover:bg-gray-700'}`}
           onClick={() => changeLanguage('en')}
         >
           {t('language.english')}
         </DropdownMenuItem>
         <DropdownMenuItem 
-          className={`${language === 'de' ? 'bg-[#348080] text-white' : 'text-white hover:bg-gray-700'}`}
+          className={`${language === 'de' ? 'bg-primary text-white' : 'text-white hover:bg-gray-700'}`}
           onClick={() => changeLanguage('de')}
         >
           {t('language.german')}

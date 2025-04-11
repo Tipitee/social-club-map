@@ -27,16 +27,17 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: '#348080', // Teal from logo
-					light: '#A0D4C0', // Light teal
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
 					DEFAULT: '#B0E0E6', // Pale teal from logo background
+					light: '#D3F9F9',
+					dark: '#2A6666',
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
 				destructive: {
-					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
+					DEFAULT: '#e11d48', // Rose-600
+					foreground: '#ffffff'
 				},
 				muted: {
 					DEFAULT: 'hsl(var(--muted))',
@@ -96,6 +97,18 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			fontSize: {
+				'xs': ['0.75rem', { lineHeight: '1rem' }],
+				'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+				'base': ['1rem', { lineHeight: '1.5rem' }],
+				'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+				'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+				'2xl': ['1.5rem', { lineHeight: '2rem' }],
+				'3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+			},
+			boxShadow: {
+				'card': '0 2px 8px rgba(0, 0, 0, 0.15)',
 			}
 		}
 	},

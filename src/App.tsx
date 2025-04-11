@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import StrainExplorer from "./pages/StrainExplorer";
 import StrainDetail from "./pages/StrainDetail";
 import ClubMap from "./pages/ClubMap";
@@ -13,6 +14,7 @@ import Journal from "./pages/Journal";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
+import Auth from "./pages/Auth";
 import LegalUpdates from "./pages/LegalUpdates";
 import CannabisGuide from "./pages/CannabisGuide";
 import BottomNav from "./components/BottomNav";
@@ -23,31 +25,34 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <BrowserRouter>
-          <TooltipProvider>
-            <div className="min-h-screen bg-[#121212] text-white">
-              <main>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/strains" element={<StrainExplorer />} />
-                  <Route path="/strains/:id" element={<StrainDetail />} />
-                  <Route path="/clubs" element={<ClubMap />} />
-                  <Route path="/journal" element={<Journal />} />
-                  <Route path="/legal" element={<LegalUpdates />} />
-                  <Route path="/guide" element={<CannabisGuide />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
-              <BottomNav />
-            </div>
-            <Toaster />
-            <Sonner />
-          </TooltipProvider>
-        </BrowserRouter>
-      </LanguageProvider>
+      <BrowserRouter>
+        <LanguageProvider>
+          <AuthProvider>
+            <TooltipProvider>
+              <div className="min-h-screen bg-[#121212] text-white">
+                <main>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/strains" element={<StrainExplorer />} />
+                    <Route path="/strains/:id" element={<StrainDetail />} />
+                    <Route path="/clubs" element={<ClubMap />} />
+                    <Route path="/journal" element={<Journal />} />
+                    <Route path="/legal" element={<LegalUpdates />} />
+                    <Route path="/guide" element={<CannabisGuide />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/auth" element={<Auth />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+                <BottomNav />
+              </div>
+              <Toaster />
+              <Sonner />
+            </TooltipProvider>
+          </AuthProvider>
+        </LanguageProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 };

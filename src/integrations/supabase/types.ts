@@ -9,6 +9,75 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      journal_entries: {
+        Row: {
+          activity: string
+          created_at: string | null
+          date: string
+          dosage: string
+          dosage_type: string
+          effectiveness: number
+          id: string
+          mood: string
+          notes: string | null
+          side_effects: string[]
+          user_id: string
+        }
+        Insert: {
+          activity: string
+          created_at?: string | null
+          date: string
+          dosage: string
+          dosage_type: string
+          effectiveness: number
+          id?: string
+          mood: string
+          notes?: string | null
+          side_effects: string[]
+          user_id: string
+        }
+        Update: {
+          activity?: string
+          created_at?: string | null
+          date?: string
+          dosage?: string
+          dosage_type?: string
+          effectiveness?: number
+          id?: string
+          mood?: string
+          notes?: string | null
+          side_effects?: string[]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          id: string
+          language: string | null
+          updated_at: string | null
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          id: string
+          language?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          id?: string
+          language?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
       strains: {
         Row: {
           description: string | null

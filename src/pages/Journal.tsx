@@ -1,6 +1,7 @@
 
-import React, { useState } from "react";
-import { Book, Plus, Calendar, Filter, CalendarDays, Clock } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Book, Plus, Filter, CalendarDays, Clock, Loader2 } from "lucide-react";
 import JournalEntryComponent from "@/components/JournalEntry";
 import { JournalEntry } from "@/types/journal";
 import { Button } from "@/components/ui/button";
@@ -8,44 +9,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import NewJournalEntry from "@/components/NewJournalEntry";
-import { v4 as uuidv4 } from "uuid";
-
-// Mock journal entries (in a real app, these would come from Supabase)
-const mockEntries: JournalEntry[] = [
-  {
-    id: "1",
-    date: "January 15th, 2025",
-    dosage: "10mg",
-    dosageType: "edible",
-    effectiveness: 4,
-    mood: "relaxed",
-    activity: "Evening relaxation",
-    sideEffects: ["Dry Mouth", "hunger"],
-    notes: "Helped with anxiety and sleep. Felt relaxed after about 1 hour."
-  },
-  {
-    id: "2",
-    date: "January 10th, 2025",
-    dosage: "0.5g",
-    dosageType: "vaporized",
-    effectiveness: 3,
-    mood: "Creative",
-    activity: "Music production",
-    sideEffects: ["Dry Eyes", "Paranoia"],
-    notes: "Good for creativity but not as relaxing as expected. The effects lasted around 2 hours with a gradual come down. I was able to focus on my music project and came up with some interesting melody ideas. Next time I might try a slightly smaller dose to reduce the paranoia effect."
-  },
-  {
-    id: "3",
-    date: "January 2nd, 2025",
-    dosage: "15mg",
-    dosageType: "tincture",
-    effectiveness: 5,
-    mood: "Sleepy",
-    activity: "Sleep aid",
-    sideEffects: ["Dry Mouth"],
-    notes: "Perfect for sleep. Took about 45 minutes to kick in and helped me fall asleep quickly."
-  }
-];
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import Navbar from "@/components/Navbar";
+import { useTranslation } from "react-i18next";
 
 type FilterState = {
   effectiveness: number | null;
@@ -54,7 +21,7 @@ type FilterState = {
 };
 
 const Journal: React.FC = () => {
-  const [entries, setEntries] = useState<JournalEntry[]>(mockEntries);
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [showFilters, setShowFilters] = useState(false);
   const [showNewEntryDialog, setShowNewEntryDialog] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
@@ -62,14 +29,84 @@ const Journal: React.FC = () => {
     dateRange: { start: null, end: null },
     searchText: ""
   });
+  const [isLoading, setIsLoading] = useState(true);
+  
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const deleteEntry = (id: string) => {
-    setEntries(prevEntries => prevEntries.filter(entry => entry.id !== id));
-    toast({
-      title: "Entry deleted",
-      description: "Journal entry has been removed successfully",
-    });
+  // Fetch journal entries from Supabase
+  useEffect(() => {
+    async function fetchEntries() {
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('journal_entries')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        
+        if (data) {
+          const formattedEntries: JournalEntry[] = data.map(entry => ({
+            id: entry.id,
+            date: entry.date,
+            dosage: entry.dosage,
+            dosageType: entry.dosage_type,
+            effectiveness: entry.effectiveness,
+            mood: entry.mood,
+            activity: entry.activity,
+            sideEffects: entry.side_effects,
+            notes: entry.notes || ''
+          }));
+          setEntries(formattedEntries);
+        }
+      } catch (error: any) {
+        console.error('Error fetching journal entries:', error.message);
+        toast({
+          title: "Error",
+          description: "Failed to load journal entries",
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    
+    fetchEntries();
+  }, [user, toast]);
+
+  const deleteEntry = async (id: string) => {
+    if (!user) return;
+    
+    try {
+      const { error } = await supabase
+        .from('journal_entries')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+      
+      if (error) throw error;
+      
+      setEntries(prevEntries => prevEntries.filter(entry => entry.id !== id));
+      toast({
+        title: "Entry deleted",
+        description: "Journal entry has been removed successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to delete entry",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleEditEntry = (entry: JournalEntry) => {
@@ -87,19 +124,64 @@ const Journal: React.FC = () => {
     }));
   };
 
-  const handleSaveNewEntry = (newEntryData: Omit<JournalEntry, "id">) => {
-    const newEntry: JournalEntry = {
-      ...newEntryData,
-      id: uuidv4(),
-    };
+  const handleSaveNewEntry = async (newEntryData: Omit<JournalEntry, "id">) => {
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to save journal entries",
+        variant: "destructive"
+      });
+      navigate('/auth');
+      return;
+    }
     
-    setEntries(prev => [newEntry, ...prev]);
-    setShowNewEntryDialog(false);
-    
-    toast({
-      title: "Entry added",
-      description: "Your journal entry has been saved successfully",
-    });
+    try {
+      const { data, error } = await supabase
+        .from('journal_entries')
+        .insert({
+          user_id: user.id,
+          date: newEntryData.date,
+          dosage: newEntryData.dosage,
+          dosage_type: newEntryData.dosageType,
+          effectiveness: newEntryData.effectiveness,
+          mood: newEntryData.mood,
+          activity: newEntryData.activity,
+          side_effects: newEntryData.sideEffects,
+          notes: newEntryData.notes
+        })
+        .select('*')
+        .single();
+      
+      if (error) throw error;
+      
+      if (data) {
+        const formattedEntry: JournalEntry = {
+          id: data.id,
+          date: data.date,
+          dosage: data.dosage,
+          dosageType: data.dosage_type,
+          effectiveness: data.effectiveness,
+          mood: data.mood,
+          activity: data.activity,
+          sideEffects: data.side_effects,
+          notes: data.notes || ''
+        };
+        
+        setEntries(prev => [formattedEntry, ...prev]);
+        setShowNewEntryDialog(false);
+        
+        toast({
+          title: "Entry added",
+          description: "Your journal entry has been saved successfully",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save journal entry",
+        variant: "destructive"
+      });
+    }
   };
 
   const filteredEntries = entries.filter(entry => {
@@ -114,7 +196,7 @@ const Journal: React.FC = () => {
       const matchesSearch = 
         entry.mood.toLowerCase().includes(searchLower) ||
         entry.activity.toLowerCase().includes(searchLower) ||
-        entry.notes?.toLowerCase().includes(searchLower) ||
+        (entry.notes && entry.notes.toLowerCase().includes(searchLower)) ||
         entry.sideEffects.some(effect => effect.toLowerCase().includes(searchLower));
       
       if (!matchesSearch) return false;
@@ -123,99 +205,64 @@ const Journal: React.FC = () => {
     return true;
   });
 
-  return (
-    <div className="container px-4 py-6 mb-20">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-white">Journal</h1>
-        <div className="flex gap-2">
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      );
+    }
+
+    if (!user) {
+      return (
+        <Card className="bg-gray-900 p-8 rounded-lg text-center border border-gray-700">
+          <Book size={48} className="mx-auto mb-4 text-gray-400" />
+          <h3 className="text-xl font-semibold mb-2 text-white">{t('journal.authRequired')}</h3>
+          <p className="text-gray-300 mb-4">
+            {t('journal.signInToViewEntries')}
+          </p>
           <Button 
-            variant="outline" 
-            size="sm"
-            className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
-            onClick={() => setShowFilters(!showFilters)}
+            className="px-4 py-2 bg-primary text-white rounded-md flex items-center gap-2 mx-auto hover:bg-primary/90"
+            onClick={() => navigate('/auth')}
           >
-            <Filter size={18} />
-            <span className="hidden sm:inline ml-1">Filters</span>
+            {t('auth.signIn')}
           </Button>
+        </Card>
+      );
+    }
+
+    if (filteredEntries.length === 0) {
+      return (
+        <Card className="bg-gray-900 p-8 rounded-lg text-center border border-gray-700">
+          <Book size={48} className="mx-auto mb-4 text-gray-400" />
+          <h3 className="text-xl font-semibold mb-2 text-white">
+            {entries.length > 0 
+              ? t('journal.noEntriesFound')
+              : t('journal.noEntries')}
+          </h3>
+          <p className="text-gray-300 mb-4">
+            {entries.length > 0 
+              ? t('journal.adjustFilters')
+              : t('journal.startTracking')}
+          </p>
           <Button 
-            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="px-4 py-2 bg-primary text-white rounded-md flex items-center gap-2 mx-auto hover:bg-primary/90"
             onClick={() => setShowNewEntryDialog(true)}
           >
             <Plus size={18} />
-            <span className="hidden sm:inline ml-1">New Entry</span>
+            {entries.length > 0 ? t('journal.addNew') : t('journal.addFirst')}
           </Button>
-        </div>
-      </div>
-
-      {showFilters && (
-        <Card className="mb-6 bg-gray-800 border-gray-700">
-          <CardContent className="p-4">
-            <div className="flex flex-wrap gap-5">
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">Effectiveness</label>
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Button 
-                      key={star} 
-                      variant="outline" 
-                      size="sm" 
-                      className={`px-3 py-1 border-gray-600 
-                        ${filters.effectiveness === star 
-                          ? "bg-emerald-700 text-white border-emerald-600" 
-                          : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white"}`}
-                      onClick={() => handleEffectivenessFilter(star)}
-                    >
-                      {star}
-                    </Button>
-                  ))}
-                  {filters.effectiveness !== null && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setFilters(prev => ({ ...prev, effectiveness: null }))}
-                      className="ml-2 text-gray-400 hover:text-white"
-                    >
-                      Clear
-                    </Button>
-                  )}
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">Filter by Time</label>
-                <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600">
-                    <CalendarDays size={16} className="mr-1" />
-                    This Month
-                  </Button>
-                  <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600">
-                    <Clock size={16} className="mr-1" />
-                    Last Week
-                  </Button>
-                  <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600">
-                    <Calendar size={16} className="mr-1" />
-                    Custom Range
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </CardContent>
         </Card>
-      )}
+      );
+    }
 
-      {filters.effectiveness && (
-        <div className="flex gap-2 mb-4">
-          <Badge className="bg-emerald-700 text-white px-3 py-1">
-            Rating: {filters.effectiveness} ★
-          </Badge>
+    return (
+      <>
+        <div className="mb-4 text-sm text-gray-400">
+          {filteredEntries.length} {filteredEntries.length === 1 ? t('journal.entry') : t('journal.entries')}
         </div>
-      )}
 
-      <div className="mb-4 text-sm text-gray-400">
-        {filteredEntries.length} {filteredEntries.length === 1 ? 'entry' : 'entries'}
-      </div>
-
-      {filteredEntries.length > 0 ? (
         <div className="space-y-4">
           {filteredEntries.map(entry => (
             <JournalEntryComponent 
@@ -226,30 +273,104 @@ const Journal: React.FC = () => {
             />
           ))}
         </div>
-      ) : (
-        <Card className="bg-gray-900 p-8 rounded-lg text-center border border-gray-700">
-          <Book size={48} className="mx-auto mb-4 text-gray-400" />
-          <h3 className="text-xl font-semibold mb-2 text-white">No journal entries found</h3>
-          <p className="text-gray-300 mb-4">
-            {entries.length > 0 
-              ? "No entries match your current filters. Try adjusting your search criteria."
-              : "Start tracking your cannabis experiences"}
-          </p>
-          <Button 
-            className="px-4 py-2 bg-emerald-600 text-white rounded-md flex items-center gap-2 mx-auto hover:bg-emerald-700"
-            onClick={() => setShowNewEntryDialog(true)}
-          >
-            <Plus size={18} />
-            {entries.length > 0 ? "Add New Entry" : "Add First Entry"}
-          </Button>
-        </Card>
-      )}
+      </>
+    );
+  };
 
-      <NewJournalEntry 
-        isOpen={showNewEntryDialog}
-        onClose={() => setShowNewEntryDialog(false)}
-        onSave={handleSaveNewEntry}
-      />
+  return (
+    <div className="min-h-screen bg-[#121212] text-white pb-24">
+      <Navbar />
+      <div className="container px-4 py-6 max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-white">{t('journal.title')}</h1>
+          <div className="flex gap-2">
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Filter size={18} />
+              <span className="hidden sm:inline ml-1">{t('journal.filters')}</span>
+            </Button>
+            <Button 
+              className="bg-primary hover:bg-primary/90 text-white"
+              onClick={() => setShowNewEntryDialog(true)}
+            >
+              <Plus size={18} />
+              <span className="hidden sm:inline ml-1">{t('journal.newEntry')}</span>
+            </Button>
+          </div>
+        </div>
+
+        {showFilters && (
+          <Card className="mb-6 bg-gray-800 border-gray-700">
+            <CardContent className="p-4">
+              <div className="flex flex-wrap gap-5">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">{t('journal.effectiveness')}</label>
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Button 
+                        key={star} 
+                        variant="outline" 
+                        size="sm" 
+                        className={`px-3 py-1 border-gray-600 
+                          ${filters.effectiveness === star 
+                            ? "bg-primary text-white border-primary/50" 
+                            : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white"}`}
+                        onClick={() => handleEffectivenessFilter(star)}
+                      >
+                        {star}
+                      </Button>
+                    ))}
+                    {filters.effectiveness !== null && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setFilters(prev => ({ ...prev, effectiveness: null }))}
+                        className="ml-2 text-gray-400 hover:text-white"
+                      >
+                        {t('common.clear')}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">{t('journal.filterByTime')}</label>
+                  <div className="flex flex-wrap gap-2">
+                    <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600">
+                      <CalendarDays size={16} className="mr-1" />
+                      {t('journal.thisMonth')}
+                    </Button>
+                    <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600">
+                      <Clock size={16} className="mr-1" />
+                      {t('journal.lastWeek')}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {filters.effectiveness && (
+          <div className="flex gap-2 mb-4">
+            <Badge className="bg-primary text-white px-3 py-1">
+              {t('journal.ratingBadge', { rating: filters.effectiveness })}
+            </Badge>
+          </div>
+        )}
+
+        {renderContent()}
+
+        <NewJournalEntry 
+          isOpen={showNewEntryDialog}
+          onClose={() => setShowNewEntryDialog(false)}
+          onSave={handleSaveNewEntry}
+        />
+      </div>
     </div>
   );
 };
