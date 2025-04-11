@@ -1,4 +1,3 @@
-
 {
   "app": {
     "title": "German Cannabis Explorer",
@@ -148,22 +147,29 @@
   },
   "legal": {
     "title": "Legal Updates",
-    "subtitle": "Stay informed about cannabis legislation in Germany",
-    "latestUpdates": "Latest Updates",
-    "loadMore": "Load More Updates",
-    "source": "Source",
-    "readMore": "Read More",
-    "postedOn": "Posted on",
-    "noUpdates": "No legal updates available at this time",
-    "filterByCategory": "Filter by Category",
+    "subtitle": "Stay informed about the latest cannabis regulations and legal developments in Germany",
     "categories": {
-      "all": "All Categories",
-      "federal": "Federal Law",
-      "state": "State Regulations",
-      "medical": "Medical Cannabis",
-      "recreational": "Recreational Use",
-      "business": "Business & Licensing"
-    }
+      "all": "All Updates",
+      "federal": "Federal",
+      "state": "State",
+      "medical": "Medical",
+      "recreational": "Recreational",
+      "business": "Business",
+      "filter": "Filter",
+      "selectCategory": "Select Category"
+    },
+    "latestUpdates": "Latest Legal Updates",
+    "postedOn": "Posted on",
+    "source": "Source",
+    "readMore": "Read more",
+    "visitSource": "Visit source",
+    "loadMore": "Load More Updates",
+    "noUpdates": "No legal updates found matching your filters",
+    "resultsFound": "updates found",
+    "relatedLinks": "Related Links",
+    "officialAnnouncement": "Official Announcement",
+    "pressRelease": "Press Release",
+    "fullDocumentation": "Full Documentation"
   },
   "guide": {
     "title": "Cannabis Guide",

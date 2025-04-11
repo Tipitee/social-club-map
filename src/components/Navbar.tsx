@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Cannabis, MapPin, Book, BookOpen, Scale } from "lucide-react";
+import { Cannabis, MapPin, Book, BookOpen, Scale, Menu, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -27,12 +27,12 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="bg-gray-900 border-b border-gray-800 shadow-md">
+    <nav className="bg-[#131922] border-b border-gray-800 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              <Cannabis className="h-6 w-6 text-primary" />
+              <Cannabis className="h-6 w-6 text-[#4CAF50]" />
               <span className="font-bold text-xl text-white">GCE</span>
             </Link>
           </div>
@@ -50,33 +50,9 @@ const Navbar: React.FC = () => {
             >
               <span className="sr-only">{t('app.navigation.mobileMenu')}</span>
               {isOpen ? (
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <X className="h-6 w-6" />
               ) : (
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
+                <Menu className="h-6 w-6" />
               )}
             </button>
           </div>
@@ -105,7 +81,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile menu, show/hide based on menu state */}
       <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[#131922] absolute w-full z-50 border-b border-gray-800">
           {navItems.map((item) => (
             <Link
               key={item.path}

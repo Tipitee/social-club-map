@@ -1,4 +1,3 @@
-
 {
   "app": {
     "title": "Deutscher Cannabis-Explorer",
@@ -148,22 +147,29 @@
   },
   "legal": {
     "title": "Rechtliche Updates",
-    "subtitle": "Bleibe informiert über die Cannabis-Gesetzgebung in Deutschland",
-    "latestUpdates": "Neueste Updates",
-    "loadMore": "Weitere Updates laden",
-    "source": "Quelle",
-    "readMore": "Mehr lesen",
-    "postedOn": "Veröffentlicht am",
-    "noUpdates": "Derzeit sind keine rechtlichen Updates verfügbar",
-    "filterByCategory": "Nach Kategorie filtern",
+    "subtitle": "Bleiben Sie informiert über die neuesten Cannabis-Vorschriften und rechtliche Entwicklungen in Deutschland",
     "categories": {
-      "all": "Alle Kategorien",
-      "federal": "Bundesgesetz",
-      "state": "Länderregelungen",
-      "medical": "Medizinisches Cannabis",
-      "recreational": "Freizeitnutzung",
-      "business": "Geschäft & Lizenzen"
-    }
+      "all": "Alle Updates",
+      "federal": "Bundesebene",
+      "state": "Landesebene",
+      "medical": "Medizinisch",
+      "recreational": "Freizeitkonsum",
+      "business": "Geschäftlich",
+      "filter": "Filter",
+      "selectCategory": "Kategorie auswählen"
+    },
+    "latestUpdates": "Neueste rechtliche Updates",
+    "postedOn": "Veröffentlicht am",
+    "source": "Quelle",
+    "readMore": "Weiterlesen",
+    "visitSource": "Quelle besuchen",
+    "loadMore": "Mehr Updates laden",
+    "noUpdates": "Keine rechtlichen Updates gefunden, die Ihren Filtern entsprechen",
+    "resultsFound": "Ergebnisse gefunden",
+    "relatedLinks": "Verwandte Links",
+    "officialAnnouncement": "Offizielle Ankündigung",
+    "pressRelease": "Pressemitteilung",
+    "fullDocumentation": "Vollständige Dokumentation"
   },
   "guide": {
     "title": "Cannabis-Ratgeber",
