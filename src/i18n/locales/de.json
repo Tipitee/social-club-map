@@ -3,7 +3,9 @@
   "language": {
     "select": "Deutsch",
     "en": "Englisch",
-    "de": "Deutsch"
+    "de": "Deutsch",
+    "english": "Englisch",
+    "german": "Deutsch"
   },
   "app": {
     "navigation": {
@@ -14,7 +16,8 @@
       "legal": "Rechtliches",
       "guide": "Guide",
       "mobileMenu": "Hauptmenü öffnen",
-      "profile": "Profil"
+      "profile": "Profil",
+      "settings": "Einstellungen"
     },
     "footer": {
       "about": "Über uns",
@@ -22,6 +25,17 @@
       "privacy": "Datenschutz",
       "terms": "Nutzungsbedingungen"
     }
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "appearance": "Erscheinungsbild",
+    "language": "Sprache",
+    "theme": "Thema",
+    "darkMode": "Dunkler Modus",
+    "lightMode": "Heller Modus",
+    "about": "Über",
+    "version": "Version",
+    "comingSoon": "Demnächst verfügbar"
   },
   "strains": {
     "explorer": "Sortenexplorer",

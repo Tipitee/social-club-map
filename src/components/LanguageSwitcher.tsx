@@ -23,7 +23,11 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 transition-colors"
+        >
           <Globe size={16} className="mr-2" />
           {language === 'en' ? 'EN' : 'DE'}
         </Button>

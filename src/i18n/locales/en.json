@@ -3,7 +3,9 @@
   "language": {
     "select": "English",
     "en": "English",
-    "de": "German"
+    "de": "German",
+    "english": "English",
+    "german": "German"
   },
   "app": {
     "navigation": {
@@ -23,6 +25,17 @@
       "privacy": "Privacy",
       "terms": "Terms"
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "language": "Language",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "about": "About",
+    "version": "Version",
+    "comingSoon": "Coming Soon"
   },
   "strains": {
     "explorer": "Strain Explorer",
