@@ -24,12 +24,12 @@ interface StrainReviewsProps {
   strainName: string;
 }
 
-// Mock reviews data
+// Mock reviews data with updated names as requested
 const mockReviews: Review[] = [
   {
     id: '1',
     userId: 'user1',
-    userName: 'Jane Doe',
+    userName: 'Mhd Bsl',
     rating: 5,
     comment: 'Excellent strain for relaxation. Great body high without being too sedating. Helped with my anxiety and back pain.',
     date: '2025-03-15',
@@ -38,7 +38,7 @@ const mockReviews: Review[] = [
   {
     id: '2',
     userId: 'user2',
-    userName: 'John Smith',
+    userName: 'Sal Mtb',
     rating: 4,
     comment: 'Nice flavor profile with hints of citrus. Good for daytime use as it doesn\'t cause too much drowsiness.',
     date: '2025-03-01',
@@ -188,7 +188,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
       {reviews.length > 0 ? (
         <div className="space-y-4">
           {reviews.map((review) => (
-            <Card key={review.id} className="bg-gray-800 border-gray-700">
+            <Card key={review.id} className="bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300">
               <CardHeader className="pb-2">
                 <div className="flex items-center">
                   <Avatar className="h-8 w-8 mr-2 bg-gray-700">
