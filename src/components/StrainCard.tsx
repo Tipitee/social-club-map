@@ -48,9 +48,13 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
 
   // Filter out invalid effects and show top 3
   const validEffects = strain.effects
-    .filter(effect => effect && effect.effect && effect.intensity > 0)
+    .filter(effect => effect && effect.effect && typeof effect.intensity === 'number')
     .sort((a, b) => b.intensity - a.intensity)
     .slice(0, 3); // Show top 3 effects
+    
+  // Debug logging to help troubleshoot
+  console.log("Strain data:", strain.name, "Effects:", strain.effects);
+  console.log("Valid effects after filtering:", validEffects);
 
   return (
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900 h-full">

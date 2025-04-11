@@ -12,21 +12,21 @@ export const extractEffects = (item: any): StrainEffect[] => {
   if (item.top_effect) {
     effects.push({
       effect: item.top_effect,
-      intensity: safeParsePercent(item.top_percent || item.highest_percent || 90),
+      intensity: safeParsePercent(item.top_percent || 0),
     });
   }
   
   if (item.second_effect) {
     effects.push({
       effect: item.second_effect,
-      intensity: safeParsePercent(item.second_percent || 80),
+      intensity: safeParsePercent(item.second_percent || 0),
     });
   }
   
   if (item.third_effect) {
     effects.push({
       effect: item.third_effect,
-      intensity: safeParsePercent(item.third_percent || 70),
+      intensity: safeParsePercent(item.third_percent || 0),
     });
   }
   
@@ -66,6 +66,14 @@ export const extractEffects = (item: any): StrainEffect[] => {
   } catch (e) {
     console.error("Error handling effects:", e);
   }
+  
+  // Add debug logs to help track issues
+  console.log("Extracted effects:", effects);
+  console.log("Raw effect data:", {
+    top: { effect: item.top_effect, percent: item.top_percent },
+    second: { effect: item.second_effect, percent: item.second_percent },
+    third: { effect: item.third_effect, percent: item.third_percent }
+  });
   
   return effects;
 };
