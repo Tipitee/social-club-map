@@ -69,6 +69,67 @@ export default {
 					indica: '#9333ea', // purple-600
 					sativa: '#f59e0b', // amber-500
 					hybrid: '#10b981', // emerald-500
+				},
+				// Adding the new color palette
+				airForceBlue: {
+					DEFAULT: '#4D8499',
+					100: '#0f1a1f',
+					200: '#1f343d',
+					300: '#2e4f5c',
+					400: '#3e697a',
+					500: '#4d8499',
+					600: '#6a9fb4',
+					700: '#8fb7c7',
+					800: '#b4cfd9',
+					900: '#dae7ec'
+				},
+				cadetGray: {
+					DEFAULT: '#81A0AE',
+					100: '#172125',
+					200: '#2f4149',
+					300: '#46626e',
+					400: '#5e8293',
+					500: '#81a0ae',
+					600: '#99b2be',
+					700: '#b2c5ce',
+					800: '#ccd9de',
+					900: '#e5ecef'
+				},
+				ashGray: {
+					DEFAULT: '#B8D3CB',
+					100: '#1e302b',
+					200: '#3c6156',
+					300: '#5b9181',
+					400: '#87b4a6',
+					500: '#b8d3cb',
+					600: '#c5dbd4',
+					700: '#d4e4df',
+					800: '#e2edea',
+					900: '#f1f6f4'
+				},
+				oldLace: {
+					DEFAULT: '#FAF2E6',
+					100: '#503610',
+					200: '#a06d20',
+					300: '#da9f45',
+					400: '#eac895',
+					500: '#faf2e6',
+					600: '#fbf4eb',
+					700: '#fcf7f0',
+					800: '#fdfaf5',
+					900: '#fefcfa'
+				},
+				linen: {
+					DEFAULT: '#FCF3E8',
+					100: '#56340b',
+					200: '#ac6816',
+					300: '#e69a3d',
+					400: '#f1c793',
+					500: '#fcf3e8',
+					600: '#fdf6ed',
+					700: '#fdf8f1',
+					800: '#fefaf6',
+					900: '#fefdfa'
 				}
 			},
 			borderRadius: {

@@ -133,7 +133,11 @@
       "reviewAdded": "Your review has been added.",
       "ratingRequired": "Rating Required",
       "pleaseProvideRating": "Please provide a rating before submitting.",
-      "anonymous": "Anonymous"
+      "anonymous": "Anonymous",
+      "setUsername": "Set Username",
+      "usernameRequired": "Username Required",
+      "usernameNeeded": "You need a username to post reviews.",
+      "enterUsername": "Enter a username to continue"
     },
     "strainDetails": "Additional Information",
     "strainNotFound": "Strain Not Found",
@@ -165,5 +169,23 @@
     "officialAnnouncement": "Official Announcement",
     "pressRelease": "Press Release",
     "fullDocumentation": "Full Documentation"
+  },
+  "profile": {
+    "myProfile": "My Profile",
+    "editProfile": "Edit Profile",
+    "saveProfile": "Save",
+    "cancel": "Cancel",
+    "usernameLabel": "Username",
+    "saving": "Saving...",
+    "profileUpdated": "Profile Updated",
+    "profileUpdateSuccess": "Your profile has been updated successfully",
+    "signOut": "Sign Out",
+    "changeAvatar": "Change Avatar",
+    "accountActions": "Account Actions",
+    "languagePreferences": "Language Preferences",
+    "setUsername": "Set Username",
+    "usernamePrompt": "Choose a username to rate strains and participate in the community",
+    "createUsername": "Create Username",
+    "usernameRequired": "Username is required to post reviews and ratings"
   }
 }

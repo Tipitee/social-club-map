@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Star, Plus, Upload, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import UsernamePrompt from './UsernamePrompt';
 
 interface Review {
   id: string;
@@ -24,7 +27,7 @@ interface StrainReviewsProps {
   strainName: string;
 }
 
-// Mock reviews data with updated names as requested
+// Mock reviews data
 const mockReviews: Review[] = [
   {
     id: '1',
@@ -48,10 +51,41 @@ const mockReviews: Review[] = [
 
 const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) => {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const [profile, setProfile] = useState<any>(null);
   const [reviews, setReviews] = useState<Review[]>(mockReviews);
   const [userRating, setUserRating] = useState<number>(0);
   const [userReview, setUserReview] = useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [isUsernamePromptOpen, setIsUsernamePromptOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Load user profile if user is logged in
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('username, avatar_url')
+          .eq('id', user.id)
+          .single();
+        
+        if (error) throw error;
+        setProfile(data);
+      } catch (error) {
+        console.error('Error loading profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, [user]);
 
   const averageRating = reviews.length > 0 
     ? Math.round(reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length * 10) / 10
@@ -59,6 +93,24 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
 
   const handleStarClick = (rating: number) => {
     setUserRating(rating);
+  };
+
+  const handleAddReviewClick = () => {
+    if (!user) {
+      toast({
+        title: t('strains.reviews.loginToReview'),
+        description: "",
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (!profile?.username) {
+      setIsUsernamePromptOpen(true);
+      return;
+    }
+
+    setIsDialogOpen(true);
   };
 
   const handleSubmitReview = () => {
@@ -73,8 +125,8 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
 
     const newReview: Review = {
       id: `review-${Date.now()}`,
-      userId: 'current-user',
-      userName: t('strains.reviews.anonymous'),
+      userId: user?.id || 'anonymous',
+      userName: profile?.username || t('strains.reviews.anonymous'),
       rating: userRating,
       comment: userReview,
       date: new Date().toISOString().split('T')[0]
@@ -89,6 +141,11 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
       title: t('strains.reviews.thankYou'),
       description: t('strains.reviews.reviewAdded')
     });
+  };
+
+  const handleUsernameSaved = (username: string) => {
+    setProfile({ ...profile, username });
+    setIsDialogOpen(true);
   };
 
   const renderStars = (rating: number, interactive = false) => {
@@ -114,11 +171,11 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
 
   return (
     <div className="space-y-6">
-      {/* Reviews Header - IMPROVED LAYOUT */}
+      {/* Reviews Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold text-white">{t('strains.reviews.title')}</h2>
+            <h2 className="text-xl font-semibold text-foreground">{t('strains.reviews.title')}</h2>
             {reviews.length > 0 && (
               <span className="flex items-center">
                 <span className="flex text-yellow-400 mr-1">
@@ -128,20 +185,22 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
             )}
           </div>
           {reviews.length > 0 && (
-            <p className="text-gray-400 text-sm mt-1">
+            <p className="text-muted-foreground text-sm mt-1">
               {t('strains.reviews.averageRating')}: {averageRating} 
             </p>
           )}
         </div>
         
+        <Button 
+          className="bg-emerald-600 hover:bg-emerald-700 w-full sm:w-auto"
+          onClick={handleAddReviewClick}
+        >
+          <Plus size={16} className="mr-1" />
+          {t('strains.reviews.addReview')}
+        </Button>
+
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-emerald-600 hover:bg-emerald-700 w-full sm:w-auto">
-              <Plus size={16} className="mr-1" />
-              {t('strains.reviews.addReview')}
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-gray-800 text-white border-gray-700">
+          <DialogContent className="bg-card text-foreground border-primary/20">
             <DialogHeader>
               <DialogTitle>{t('strains.reviews.addReview')}: {strainName}</DialogTitle>
             </DialogHeader>
@@ -163,13 +222,13 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
                 <Textarea
                   value={userReview}
                   onChange={(e) => setUserReview(e.target.value)}
-                  className="bg-gray-700 border-gray-600 text-white"
+                  className="bg-background border-input text-foreground"
                   rows={4}
                 />
               </div>
               
               <div>
-                <Button variant="outline" className="bg-gray-700 text-white border-gray-600 w-full">
+                <Button variant="outline" className="w-full">
                   <Upload size={16} className="mr-2" />
                   {t('strains.reviews.photoUpload')}
                 </Button>
@@ -185,22 +244,29 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Username Prompt Dialog */}
+        <UsernamePrompt 
+          isOpen={isUsernamePromptOpen} 
+          onClose={() => setIsUsernamePromptOpen(false)}
+          onUsernameSaved={handleUsernameSaved}
+        />
       </div>
       
       {reviews.length > 0 ? (
         <div className="space-y-4">
           {reviews.map((review) => (
-            <Card key={review.id} className="bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300">
+            <Card key={review.id} className="hover:border-primary/30 transition-all duration-300">
               <CardHeader className="pb-2">
                 <div className="flex items-center">
-                  <Avatar className="h-8 w-8 mr-2 bg-gray-700">
-                    <AvatarFallback className="bg-gray-700 text-emerald-400">
-                      <User size={16} />
+                  <Avatar className="h-8 w-8 mr-2">
+                    <AvatarFallback className="bg-primary/20 text-primary">
+                      {review.userName.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <CardTitle className="text-base font-medium text-white">{review.userName}</CardTitle>
-                    <CardDescription className="text-xs text-gray-400">
+                    <CardTitle className="text-base font-medium text-foreground">{review.userName}</CardTitle>
+                    <CardDescription className="text-xs text-muted-foreground">
                       {formatDate(review.date)}
                     </CardDescription>
                   </div>
@@ -210,7 +276,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
                 <div className="flex mb-2">
                   {renderStars(review.rating)}
                 </div>
-                <p className="text-gray-300 text-sm">{review.comment}</p>
+                <p className="text-sm">{review.comment}</p>
                 {review.photoUrl && (
                   <div className="mt-3">
                     <img 
@@ -225,8 +291,8 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
           ))}
         </div>
       ) : (
-        <Card className="bg-gray-800 border-gray-700 text-center p-8">
-          <p className="text-gray-400">{t('strains.reviews.noReviews')}</p>
+        <Card className="text-center p-8 border-primary/20">
+          <p className="text-muted-foreground">{t('strains.reviews.noReviews')}</p>
         </Card>
       )}
     </div>

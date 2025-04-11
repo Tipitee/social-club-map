@@ -86,8 +86,8 @@ const Profile: React.FC = () => {
       if (error) throw error;
       
       toast({
-        title: "Profile Updated",
-        description: "Your profile has been updated successfully",
+        title: t('profile.profileUpdated'),
+        description: t('profile.profileUpdateSuccess'),
       });
       setEditMode(false);
       
@@ -150,7 +150,7 @@ const Profile: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white pb-24">
+      <div className="min-h-screen bg-background text-foreground pb-24">
         <Navbar />
         <div className="container px-4 py-8 flex justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -161,18 +161,18 @@ const Profile: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white pb-24">
+      <div className="min-h-screen bg-background text-foreground pb-24">
         <Navbar />
         <div className="container px-4 py-8 max-w-md mx-auto">
-          <Card className="bg-gray-900/70 border-gray-700 shadow-xl">
+          <Card className="border-primary/20 shadow-xl">
             <CardContent className="pt-6 text-center">
               <div className="flex justify-center">
-                <div className="h-24 w-24 bg-gray-800 rounded-full flex items-center justify-center mb-4">
-                  <User className="h-12 w-12 text-gray-400" />
+                <div className="h-24 w-24 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                  <User className="h-12 w-12 text-primary/60" />
                 </div>
               </div>
               <h2 className="text-xl font-bold mb-2">Not Signed In</h2>
-              <p className="text-gray-400 mb-4">Sign in to access your profile</p>
+              <p className="text-muted-foreground mb-4">Sign in to access your profile</p>
               <Button onClick={() => navigate('/auth')} className="bg-primary hover:bg-primary/90">
                 Sign In
               </Button>
@@ -184,12 +184,12 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white pb-24">
+    <div className="min-h-screen bg-background text-foreground pb-24">
       <Navbar />
       <div className="container px-4 py-8 max-w-xl mx-auto">
-        <h1 className="text-2xl font-bold mb-8 text-center">My Profile</h1>
+        <h1 className="text-2xl font-bold mb-8 text-center">{t('profile.myProfile')}</h1>
         
-        <Card className="bg-gray-900/70 border-gray-700 shadow-xl backdrop-blur mb-8">
+        <Card className="border-primary/20 shadow-xl backdrop-blur mb-8">
           <CardContent className="pt-6">
             <div className="flex flex-col items-center mb-6">
               <div className="relative mb-4">
@@ -199,27 +199,33 @@ const Profile: React.FC = () => {
                     {username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <Button size="sm" className="absolute bottom-0 right-0 rounded-full h-8 w-8 p-0 bg-primary hover:bg-primary/90">
+                <Button 
+                  size="sm" 
+                  className="absolute bottom-0 right-0 rounded-full h-8 w-8 p-0 bg-primary hover:bg-primary/90"
+                  aria-label={t('profile.changeAvatar')}
+                >
                   <Camera className="h-4 w-4" />
-                  <span className="sr-only">Change Avatar</span>
+                  <span className="sr-only">{t('profile.changeAvatar')}</span>
                 </Button>
               </div>
               
               <div className="text-center">
                 <h2 className="text-xl font-bold">{profile?.username || user.email?.split('@')[0]}</h2>
-                <p className="text-gray-400">{user.email}</p>
+                <p className="text-muted-foreground">{user.email}</p>
               </div>
             </div>
 
             {editMode ? (
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="username" className="text-white">Username</Label>
+                  <Label htmlFor="username" className="text-foreground">{t('profile.usernameLabel')}</Label>
                   <Input
                     id="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="bg-gray-800/80 border-gray-700 text-white"
+                    className="bg-background/60 border-input text-foreground"
+                    placeholder={t('profile.usernameLabel')}
+                    autoFocus
                   />
                 </div>
                 
@@ -230,9 +236,9 @@ const Profile: React.FC = () => {
                       setEditMode(false);
                       setUsername(profile?.username || user.email?.split('@')[0] || '');
                     }}
-                    className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                    className="border-input hover:bg-background/80"
                   >
-                    Cancel
+                    {t('profile.cancel')}
                   </Button>
                   <Button 
                     onClick={updateProfile} 
@@ -242,12 +248,12 @@ const Profile: React.FC = () => {
                     {updating ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Saving...
+                        {t('profile.saving')}
                       </>
                     ) : (
                       <>
                         <Save className="mr-2 h-4 w-4" />
-                        Save
+                        {t('profile.saveProfile')}
                       </>
                     )}
                   </Button>
@@ -257,26 +263,27 @@ const Profile: React.FC = () => {
               <div className="flex justify-center">
                 <Button 
                   onClick={() => setEditMode(true)}
-                  className="mt-4 bg-gray-800 hover:bg-gray-700 text-white"
+                  className="mt-4 bg-primary hover:bg-primary/90"
+                  variant="default"
                 >
                   <Edit className="mr-2 h-4 w-4" />
-                  Edit Profile
+                  {t('profile.editProfile')}
                 </Button>
               </div>
             )}
           </CardContent>
         </Card>
         
-        <Card className="bg-gray-900/70 border-gray-700 shadow-xl backdrop-blur mb-8">
+        <Card className="border-primary/20 shadow-xl backdrop-blur mb-8">
           <CardContent className="pt-6">
-            <h3 className="text-lg font-semibold mb-4">Language Preferences</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('profile.languagePreferences')}</h3>
             <div className="flex gap-3">
               <Button 
                 variant={profile?.language === 'en' ? 'default' : 'outline'}
                 onClick={() => handleLanguageChange('en')} 
                 className={profile?.language === 'en' 
                   ? 'bg-primary hover:bg-primary/90 flex-1' 
-                  : 'bg-gray-800 border-gray-700 hover:bg-gray-700 flex-1'
+                  : 'bg-background border-input hover:bg-background/80 flex-1'
                 }
               >
                 English
@@ -286,7 +293,7 @@ const Profile: React.FC = () => {
                 onClick={() => handleLanguageChange('de')} 
                 className={profile?.language === 'de' 
                   ? 'bg-primary hover:bg-primary/90 flex-1' 
-                  : 'bg-gray-800 border-gray-700 hover:bg-gray-700 flex-1'
+                  : 'bg-background border-input hover:bg-background/80 flex-1'
                 }
               >
                 Deutsch
@@ -295,10 +302,10 @@ const Profile: React.FC = () => {
           </CardContent>
         </Card>
         
-        <Card className="bg-gray-900/70 border-gray-700 shadow-xl backdrop-blur">
+        <Card className="border-primary/20 shadow-xl backdrop-blur">
           <CardContent className="pt-6">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">Account Actions</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('profile.accountActions')}</h3>
               
               <Button 
                 variant="destructive" 
@@ -306,7 +313,7 @@ const Profile: React.FC = () => {
                 onClick={signOut}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                Sign Out
+                {t('profile.signOut')}
               </Button>
             </div>
           </CardContent>
