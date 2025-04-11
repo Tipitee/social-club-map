@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Strain } from "@/types/strain";
-import { Cannabis, Sun, CircleDashed, HelpCircle } from "lucide-react";
+import { Cannabis, Sun, CircleDashed } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useTranslation } from "react-i18next";
@@ -49,7 +49,6 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
   // Filter out effects without names but include those with zero intensity
   const validEffects = strain.effects
     .filter(effect => effect && effect.effect)
-    .sort((a, b) => b.intensity - a.intensity)
     .slice(0, 3); // Show top 3 effects
 
   return (

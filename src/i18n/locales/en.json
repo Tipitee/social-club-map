@@ -14,7 +14,8 @@
       "legal": "Legal",
       "guide": "Guide",
       "mobileMenu": "Open main menu",
-      "profile": "Profile"
+      "profile": "Profile",
+      "settings": "Settings"
     },
     "footer": {
       "about": "About",
@@ -71,6 +72,7 @@
     "description": "Description",
     "noDescriptionAvailable": "No description available for this strain yet.",
     "effects": "Effects",
+    "unknown": "Unknown",
     "reviews": {
       "title": "Reviews",
       "latestReviews": "Latest Reviews",

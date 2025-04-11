@@ -8,7 +8,14 @@ import { safeParsePercent } from "./parseUtils";
 export const extractEffects = (item: any): StrainEffect[] => {
   let effects: StrainEffect[] = [];
   
-  // Process top 3 effects with their respective percentages
+  // Debug logs to see what's coming in
+  console.log("Extracting effects from item:", {
+    top: { effect: item.top_effect, percent: item.top_percent },
+    second: { effect: item.second_effect, percent: item.second_percent },
+    third: { effect: item.third_effect, percent: item.third_percent },
+  });
+  
+  // Process effects in correct order - top effect first
   if (item.top_effect) {
     effects.push({
       effect: item.top_effect,
@@ -16,6 +23,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
     });
   }
   
+  // Second effect
   if (item.second_effect) {
     effects.push({
       effect: item.second_effect,
@@ -23,6 +31,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
     });
   }
   
+  // Third effect
   if (item.third_effect) {
     effects.push({
       effect: item.third_effect,
@@ -30,7 +39,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
     });
   }
   
-  // Try to parse effects from JSON as well
+  // Try to parse effects from JSON as well if we don't have enough effects
   try {
     if (item.effects_json && typeof item.effects_json === 'string' && effects.length < 3) {
       let parsedEffects;
@@ -67,6 +76,11 @@ export const extractEffects = (item: any): StrainEffect[] => {
     console.error("Error handling effects:", e);
   }
   
+  // Sort effects by intensity - highest first
+  effects = effects.sort((a, b) => b.intensity - a.intensity);
+  
+  console.log("Extracted effects after sorting:", effects);
+  
   // Make sure we always return at least 3 effects (even if empty)
   while (effects.length < 3) {
     effects.push({
@@ -75,5 +89,6 @@ export const extractEffects = (item: any): StrainEffect[] => {
     });
   }
   
-  return effects;
+  // Only return the top 3 effects
+  return effects.slice(0, 3);
 };
