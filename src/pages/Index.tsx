@@ -1,9 +1,10 @@
 
 import React from "react";
-import Home from "./Home";
+import { Navigate } from "react-router-dom";
 
 const Index: React.FC = () => {
-  return <Home />;
+  // Redirect to the strains page
+  return <Navigate to="/strains" replace />;
 };
 
 export default Index;
