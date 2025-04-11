@@ -37,8 +37,8 @@ export const mapToStrainType = (item: any): Strain => {
 export const sortStrainsByImagePresence = (strains: Strain[]): Strain[] => {
   return [...strains].sort((a, b) => {
     // First priority: Has image or not
-    const aHasImage = Boolean(a.img_url);
-    const bHasImage = Boolean(b.img_url);
+    const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
+    const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
     
     if (aHasImage && !bHasImage) return -1;
     if (!aHasImage && bHasImage) return 1;

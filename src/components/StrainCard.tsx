@@ -46,15 +46,10 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
-  // Use only valid effects (non-Unknown) for display
-  const validEffects = strain.effects.filter(effect => 
-    effect && effect.effect && effect.effect !== "Unknown"
-  );
-
   console.log("Strain effects data for display:", {
     name: strain.name,
     effects: strain.effects,
-    validEffects,
+    validEffects: strain.effects.filter(effect => effect && effect.effect && effect.effect !== "Unknown"),
     raw: {
       top: strain.top_effect, 
       top_percent: strain.top_percent,

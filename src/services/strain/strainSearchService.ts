@@ -32,7 +32,7 @@ export const fetchStrains = async (
       query = query.ilike("name", `%${searchQuery}%`);
     }
     
-    // Apply sorting
+    // Apply sorting - but we'll do custom image sorting later
     if (sort === "name") {
       query = query.order("name", { ascending: true });
     } else if (sort === "thc_high") {
@@ -61,6 +61,7 @@ export const fetchStrains = async (
     // Log processed strains data
     console.log("Processed strains data:", strains.slice(0, 2).map(s => ({ 
       name: s.name,
+      hasImage: Boolean(s.img_url),
       effects: s.effects,
       raw_effects: {
         top: s.top_effect,
@@ -72,8 +73,14 @@ export const fetchStrains = async (
       }
     })));
     
-    // Manually sort strains to prioritize ones with images
+    // Apply custom sorting to ensure strains with images are displayed first
     const sortedStrains = sortStrainsByImagePresence(strains);
+    
+    // Log sorted order to verify image sorting
+    console.log("Sorted strains by image:", sortedStrains.slice(0, 5).map(s => ({
+      name: s.name,
+      hasImage: Boolean(s.img_url && s.img_url.trim() !== '')
+    })));
     
     return { 
       strains: sortedStrains, 
