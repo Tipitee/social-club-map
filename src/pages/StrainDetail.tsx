@@ -58,7 +58,7 @@ const StrainDetail: React.FC = () => {
   // Get valid effects, filtering out "Unknown" values
   const displayEffects = strain.effects
     .filter(effect => effect && effect.effect && effect.effect !== "Unknown")
-    .sort((a, b) => (b.intensity || 0) - (a.intensity || 0));
+    .sort((a, b) => b.intensity - a.intensity);
 
   return (
     <div className="min-h-screen bg-[#121212] text-white pb-24">
@@ -134,11 +134,11 @@ const StrainDetail: React.FC = () => {
                         index === 0 ? 'bg-emerald-600' : 
                         index === 1 ? 'bg-purple-600' : 'bg-blue-600'
                       }`}
-                      style={{ width: effect.intensity !== null && effect.intensity !== undefined ? `${effect.intensity}%` : '50%' }}
+                      style={{ width: `${effect.intensity}%` }}
                     ></div>
                   </div>
                   <p className="text-right text-sm text-white mt-1">
-                    {effect.intensity !== null && effect.intensity !== undefined ? `${effect.intensity}%` : '?'}
+                    {`${effect.intensity}%`}
                   </p>
                 </div>
               ))

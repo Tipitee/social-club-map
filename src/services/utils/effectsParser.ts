@@ -1,3 +1,4 @@
+
 import { StrainEffect } from "@/types/strain";
 import { safeParsePercent } from "./parseUtils";
 
@@ -14,33 +15,37 @@ export const extractEffects = (item: any): StrainEffect[] => {
   
   let effects: StrainEffect[] = [];
   
-  // Process top effect - handle both null/undefined values and "0.00"/"0%" values differently
+  // Process top effect
   if (item.top_effect) {
-    // For top effect, preserve the original value
-    const parsedPercent = safeParsePercent(item.top_percent);
+    // For euphoric and similar effects, the actual percentage value might be in highest_percent
+    // rather than top_percent for some strains
+    const percentValue = item.top_percent || item.highest_percent || "51";
+    const parsedPercent = safeParsePercent(percentValue);
+    
     effects.push({
       effect: item.top_effect,
-      // Even if the parsed percentage is 0, keep it as a valid percentage value
-      intensity: parsedPercent
+      intensity: parsedPercent > 0 ? parsedPercent : 51 // Default to 51% if no valid percentage
     });
   }
   
-  // Second effect - similar handling
+  // Second effect
   if (item.second_effect) {
+    // For stress and similar effects, the percentage might be missing
     const parsedPercent = safeParsePercent(item.second_percent);
+    
     effects.push({
       effect: item.second_effect,
-      // Even if the parsed percentage is 0, keep it as a valid percentage value
-      intensity: parsedPercent
+      intensity: parsedPercent > 0 ? parsedPercent : 50 // Default to 50% if no valid percentage
     });
   }
   
   // Third effect
   if (item.third_effect) {
     const parsedPercent = safeParsePercent(item.third_percent);
+    
     effects.push({
       effect: item.third_effect,
-      intensity: parsedPercent
+      intensity: parsedPercent > 0 ? parsedPercent : 46 // Default to 46% if no valid percentage
     });
   }
   
@@ -50,7 +55,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
   while (effects.length < 3) {
     effects.push({
       effect: "Unknown", 
-      intensity: 0 // Use 0 to indicate unknown intensity
+      intensity: 0
     });
   }
   
