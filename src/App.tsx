@@ -11,10 +11,10 @@ import ClubMap from "./pages/ClubMap";
 import NotFound from "./pages/NotFound";
 import Journal from "./pages/Journal";
 import Home from "./pages/Home";
+import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import LegalUpdates from "./pages/LegalUpdates";
 import CannabisGuide from "./pages/CannabisGuide";
-import OfflineAccess from "./pages/OfflineAccess";
 import BottomNav from "./components/BottomNav";
 import "./i18n";
 
@@ -37,7 +37,7 @@ const App = () => {
                   <Route path="/legal" element={<LegalUpdates />} />
                   <Route path="/guide" element={<CannabisGuide />} />
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/profile/offline" element={<OfflineAccess />} />
+                  <Route path="/settings" element={<Settings />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

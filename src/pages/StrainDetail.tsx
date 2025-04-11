@@ -89,13 +89,13 @@ const StrainDetail: React.FC = () => {
               <div>
                 <p className="text-gray-400">{t('strains.thcLevel')}</p>
                 <p className="text-xl font-medium text-white">
-                  {strain.thc_level ? `${strain.thc_level}%` : t('strains.dataPending')}
+                  {strain.thc_level ? `${strain.thc_level}%` : t('strains.unknown')}
                 </p>
               </div>
               <div>
                 <p className="text-gray-400">{t('strains.dominantTerpene')}</p>
                 <p className="text-xl font-medium text-white">
-                  {strain.most_common_terpene || t('strains.dataPending')}
+                  {strain.most_common_terpene || t('strains.unknown')}
                 </p>
               </div>
             </div>
@@ -138,7 +138,7 @@ const StrainDetail: React.FC = () => {
                   <div className="w-full bg-gray-700 rounded-full h-2.5">
                     <div className="bg-gray-600 h-2.5 rounded-full w-[50%]"></div>
                   </div>
-                  <p className="text-right text-sm text-white mt-1">{t('strains.dataPending')}</p>
+                  <p className="text-right text-sm text-white mt-1">{t('strains.unknown')}</p>
                 </div>
               ))
             )}

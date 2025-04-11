@@ -216,7 +216,7 @@ export const fetchStrains = async (
       let effects: StrainEffect[] = [];
       const thcLevel = extractThcLevel(item);
       
-      // Add effects from top/second/third effect fields with their respective percentages
+      // Process top 3 effects
       if (item.top_effect) {
         effects.push({
           effect: item.top_effect,
@@ -240,7 +240,7 @@ export const fetchStrains = async (
       
       // Try to parse effects from JSON as well
       try {
-        if (item.effects_json && typeof item.effects_json === 'string') {
+        if (item.effects_json && typeof item.effects_json === 'string' && effects.length < 3) {
           let parsedEffects;
           try {
             parsedEffects = JSON.parse(item.effects_json);
@@ -248,7 +248,7 @@ export const fetchStrains = async (
             // Handle different formats
             if (Array.isArray(parsedEffects)) {
               parsedEffects.forEach((effect: any) => {
-                if (effect.name && effect.score) {
+                if (effect.name && effect.score && !effects.some(e => e.effect === effect.name)) {
                   effects.push({
                     effect: effect.name,
                     intensity: Math.round(effect.score * 100)
@@ -259,7 +259,7 @@ export const fetchStrains = async (
             else if (typeof parsedEffects === 'object') {
               // Handle object format
               for (const [key, value] of Object.entries(parsedEffects)) {
-                if (typeof value === 'number') {
+                if (typeof value === 'number' && !effects.some(e => e.effect === key)) {
                   effects.push({
                     effect: key,
                     intensity: Math.round(Number(value) * 100)
@@ -276,7 +276,7 @@ export const fetchStrains = async (
       }
       
       // Ensure we have a valid ID
-      const strainId = item.unique_identifier || item.name.replace(/\s+/g, '-').toLowerCase();
+      const strainId = item.unique_identifier || item.id || item.name.replace(/\s+/g, '-').toLowerCase();
 
       // Create strain object
       return {
@@ -291,7 +291,7 @@ export const fetchStrains = async (
       };
     });
     
-    // Always prioritize strains with images first, then sort alphabetically
+    // Always prioritize strains with images first
     strains.sort((a, b) => {
       const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
       const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
@@ -419,36 +419,44 @@ export const fetchStrainById = async (idOrName: string): Promise<Strain | null> 
     
     // Try to parse effects from JSON
     try {
-      if (item.effects_json && typeof item.effects_json === 'string') {
-        const parsedEffects = JSON.parse(item.effects_json);
-        
-        if (Array.isArray(parsedEffects)) {
-          parsedEffects.forEach((effect: any) => {
-            if (effect.name && effect.score) {
-              effects.push({
-                effect: effect.name,
-                intensity: Math.round(effect.score * 100)
-              });
-            }
-          });
-        } else if (typeof parsedEffects === 'object') {
-          for (const [key, value] of Object.entries(parsedEffects)) {
-            if (typeof value === 'number') {
-              effects.push({
-                effect: key,
-                intensity: Math.round(Number(value) * 100)
-              });
+      if (item.effects_json && typeof item.effects_json === 'string' && effects.length < 3) {
+        let parsedEffects;
+        try {
+          parsedEffects = JSON.parse(item.effects_json);
+          
+          // Handle different formats
+          if (Array.isArray(parsedEffects)) {
+            parsedEffects.forEach((effect: any) => {
+              if (effect.name && effect.score && !effects.some(e => e.effect === effect.name)) {
+                effects.push({
+                  effect: effect.name,
+                  intensity: Math.round(effect.score * 100)
+                });
+              }
+            });
+          }
+          else if (typeof parsedEffects === 'object') {
+            // Handle object format
+            for (const [key, value] of Object.entries(parsedEffects)) {
+              if (typeof value === 'number' && !effects.some(e => e.effect === key)) {
+                effects.push({
+                  effect: key,
+                  intensity: Math.round(Number(value) * 100)
+                });
+              }
             }
           }
+        } catch (e) {
+          console.warn("Could not parse effects_json for strain:", item.name);
         }
       }
     } catch (e) {
-      console.warn("Could not parse effects_json", e);
+      console.error("Error handling effects for strain:", item.name, e);
     }
     
     // Create strain object
     const thcLevel = extractThcLevel(item);
-    const strainId = item.unique_identifier || item.name.replace(/\s+/g, '-').toLowerCase();
+    const strainId = item.unique_identifier || item.id || item.name.replace(/\s+/g, '-').toLowerCase();
     
     return {
       id: strainId,

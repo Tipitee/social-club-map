@@ -1,15 +1,9 @@
 
 import React from "react";
-import StrainExplorer from "./StrainExplorer";
-import BottomNav from "@/components/BottomNav";
+import Home from "./Home";
 
 const Index: React.FC = () => {
-  return (
-    <>
-      <StrainExplorer />
-      <BottomNav />
-    </>
-  );
+  return <Home />;
 };
 
 export default Index;

@@ -11,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import Navbar from "@/components/Navbar";
 
 const LAST_VIEWED_STRAIN_KEY = "last-viewed-strain";
 const LAST_SCROLL_POSITION_KEY = "last-scroll-position";
@@ -28,7 +28,6 @@ const StrainExplorer: React.FC = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const strainListRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const location = useLocation();
   
   const [filters, setFilters] = useState<StrainFiltersType>({
     type: null,
@@ -314,7 +313,6 @@ const StrainExplorer: React.FC = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-white">{t('strains.explorer')}</h1>
         </div>
         <div className="flex items-center gap-2">
-          <LanguageSwitcher />
           <Button
             onClick={toggleFilters}
             variant="secondary"
