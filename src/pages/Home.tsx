@@ -12,38 +12,38 @@ const Home: React.FC = () => {
     {
       path: "/journal",
       icon: Book,
-      title: t('home.sections.journal.title'),
-      description: t('home.sections.journal.description')
+      title: "Journal",
+      description: "Track your consumption and experiences"
     },
     {
       path: "/strains",
       icon: Cannabis,
-      title: t('home.sections.strains.title'),
-      description: t('home.sections.strains.description')
+      title: "Strains",
+      description: "Explore cannabis strains and their effects"
     },
     {
       path: "/clubs",
       icon: Map,
-      title: t('home.sections.clubs.title'),
-      description: t('home.sections.clubs.description')
+      title: "Clubs",
+      description: "Find local cannabis clubs near you"
     },
     {
       path: "/legal",
       icon: Scale,
-      title: t('home.sections.legal.title'),
-      description: t('home.sections.legal.description')
+      title: "Legal Updates",
+      description: "Stay informed about cannabis laws"
     },
     {
       path: "/guide",
       icon: BookOpen,
-      title: t('home.sections.guide.title'),
-      description: t('home.sections.guide.description')
+      title: "Cannabis Guide",
+      description: "Learn more about cannabis usage"
     },
     {
       path: "/settings",
       icon: Settings,
-      title: t('home.sections.settings.title'),
-      description: t('home.sections.settings.description')
+      title: "Settings",
+      description: "Manage your app preferences"
     }
   ];
 
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
       <Navbar />
       <div className="container px-4 py-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white">{t('app.title')}</h1>
+          <h1 className="text-2xl font-bold text-white">Cannabis Companion</h1>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

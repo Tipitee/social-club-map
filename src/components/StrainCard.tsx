@@ -133,13 +133,13 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               <div className="flex justify-between text-xs mb-1">
                 <span className="font-medium text-white">{effect.effect}</span>
                 <span className="font-bold text-white">
-                  {effect.intensity > 0 ? `${effect.intensity}%` : '?'}
+                  {effect.intensity <= 0 ? '?' : `${effect.intensity}%`}
                 </span>
               </div>
               <Progress 
                 className="h-2 rounded-full mb-1"
-                value={effect.intensity || 50}
-                indicatorClassName={getEffectColor(index)}
+                value={effect.intensity > 0 ? effect.intensity : 50}
+                indicatorClassName={effect.intensity > 0 ? getEffectColor(index) : "bg-white/30"}
               />
             </div>
           ))}

@@ -50,13 +50,13 @@ export const extractEffects = (item: any): StrainEffect[] => {
   // Default extraction logic
   let effects: StrainEffect[] = [];
   
-  // Process effects in correct order with clear zero handling
+  // Process effects in correct order with proper 0% handling
   if (item.top_effect) {
     const parsedPercent = safeParsePercent(item.top_percent);
     effects.push({
       effect: item.top_effect,
-      // Always show a value for top effect, default to 51% if missing
-      intensity: parsedPercent === 0 ? 0 : parsedPercent || 51
+      // Use 0 to indicate 0%, which will be shown as "?" in the UI
+      intensity: parsedPercent
     });
   }
   
@@ -65,8 +65,8 @@ export const extractEffects = (item: any): StrainEffect[] => {
     const parsedPercent = safeParsePercent(item.second_percent);
     effects.push({
       effect: item.second_effect,
-      // Always show a value for second effect, default to 50% if missing
-      intensity: parsedPercent === 0 ? 0 : parsedPercent || 50
+      // Use 0 to indicate 0%, which will be shown as "?" in the UI
+      intensity: parsedPercent
     });
   }
   
@@ -75,7 +75,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
     const parsedPercent = safeParsePercent(item.third_percent);
     effects.push({
       effect: item.third_effect,
-      intensity: parsedPercent === 0 ? 0 : parsedPercent
+      intensity: parsedPercent
     });
   }
   

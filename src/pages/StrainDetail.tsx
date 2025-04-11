@@ -166,11 +166,11 @@ const StrainDetail: React.FC = () => {
                         index === 0 ? 'bg-emerald-600' : 
                         index === 1 ? 'bg-purple-600' : 'bg-blue-600'
                       }`}
-                      style={{ width: `${effect.intensity}%` }}
+                      style={{ width: effect.intensity > 0 ? `${effect.intensity}%` : '50%' }}
                     ></div>
                   </div>
                   <p className="text-right text-sm text-white mt-1">
-                    {effect.intensity > 0 ? `${effect.intensity}%` : '?'}
+                    {effect.intensity <= 0 ? '?' : `${effect.intensity}%`}
                   </p>
                 </div>
               ))
