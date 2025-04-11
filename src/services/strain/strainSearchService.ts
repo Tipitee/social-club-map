@@ -32,10 +32,7 @@ export const fetchStrains = async (
       query = query.ilike("name", `%${searchQuery}%`);
     }
     
-    // First prioritize strains with images by ordering img_url with nulls last
-    query = query.order('img_url', { nullsFirst: false });
-    
-    // Apply additional sorting
+    // Apply sorting
     if (sort === "name") {
       query = query.order("name", { ascending: true });
     } else if (sort === "thc_high") {
@@ -75,9 +72,12 @@ export const fetchStrains = async (
       }
     })));
     
+    // Manually sort strains to prioritize ones with images
+    const sortedStrains = sortStrainsByImagePresence(strains);
+    
     return { 
-      strains: strains, 
-      total: count || strains.length 
+      strains: sortedStrains, 
+      total: count || sortedStrains.length 
     };
   } catch (error) {
     console.error("Error in fetchStrains:", error);

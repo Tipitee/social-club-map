@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Strain } from "@/types/strain";
 import { Cannabis, Sun, CircleDashed } from "lucide-react";
@@ -46,12 +45,10 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
-  // Filter out effects without names but include those with zero intensity
   const validEffects = strain.effects
-    .filter(effect => effect && effect.effect)
-    .slice(0, 3); // Show top 3 effects
+    .filter(effect => effect && effect.effect && effect.effect !== "Unknown")
+    .slice(0, 3);
 
-  // For debugging - log the raw strain effects data
   console.log("Strain effects data:", {
     effects: strain.effects,
     raw: {
@@ -135,26 +132,17 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                 <div className="flex justify-between text-xs mb-1">
                   <span className="font-medium text-white">{effect.effect}</span>
                   <span className="font-bold text-white">
-                    {typeof effect.intensity === 'number' && effect.intensity > 0 ? `${effect.intensity}%` : '?'}
+                    {effect.intensity > 0 ? `${effect.intensity}%` : '?'}
                   </span>
                 </div>
-                {typeof effect.intensity === 'number' && effect.intensity > 0 ? (
-                  <Progress 
-                    className="h-2 rounded-full mb-1"
-                    value={effect.intensity}
-                    indicatorClassName={getEffectColor(index)}
-                  />
-                ) : (
-                  <Progress 
-                    className="h-2 rounded-full mb-1 bg-gray-800"
-                    value={50}
-                    indicatorClassName="bg-white/30"
-                  />
-                )}
+                <Progress 
+                  className="h-2 rounded-full mb-1"
+                  value={effect.intensity || 50}
+                  indicatorClassName={getEffectColor(index)}
+                />
               </div>
             ))
           ) : (
-            // If no effects data, show 3 placeholder bars
             <>
               {[0, 1, 2].map((index) => (
                 <div key={`placeholder-effect-${index}`}>

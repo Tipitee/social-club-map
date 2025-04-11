@@ -32,15 +32,18 @@ export const mapToStrainType = (item: any): Strain => {
 
 /**
  * Sort strains with preference for those with images
+ * This ensures strains with images come first in the list
  */
 export const sortStrainsByImagePresence = (strains: Strain[]): Strain[] => {
   return [...strains].sort((a, b) => {
-    const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
-    const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
+    // First priority: Has image or not
+    const aHasImage = Boolean(a.img_url);
+    const bHasImage = Boolean(b.img_url);
     
     if (aHasImage && !bHasImage) return -1;
     if (!aHasImage && bHasImage) return 1;
     
+    // Second priority: Alphabetical by name
     return a.name.localeCompare(b.name);
   });
 };

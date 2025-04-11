@@ -15,11 +15,14 @@ export const extractEffects = (item: any): StrainEffect[] => {
     third: { effect: item.third_effect, percent: item.third_percent },
   });
   
+  // Ensure we have a default intensity for effects even if percentage isn't provided
+  const DEFAULT_INTENSITY = 50; // Use 50% as default intensity if not provided
+  
   // Process effects in correct order - top effect first
   if (item.top_effect) {
     effects.push({
       effect: item.top_effect,
-      intensity: safeParsePercent(item.top_percent || 0),
+      intensity: item.top_percent ? safeParsePercent(item.top_percent) : DEFAULT_INTENSITY,
     });
   }
   
@@ -27,7 +30,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
   if (item.second_effect) {
     effects.push({
       effect: item.second_effect,
-      intensity: safeParsePercent(item.second_percent || 0),
+      intensity: item.second_percent ? safeParsePercent(item.second_percent) : DEFAULT_INTENSITY,
     });
   }
   
@@ -35,7 +38,7 @@ export const extractEffects = (item: any): StrainEffect[] => {
   if (item.third_effect) {
     effects.push({
       effect: item.third_effect,
-      intensity: safeParsePercent(item.third_percent || 0),
+      intensity: item.third_percent ? safeParsePercent(item.third_percent) : DEFAULT_INTENSITY,
     });
   }
   
@@ -76,8 +79,8 @@ export const extractEffects = (item: any): StrainEffect[] => {
   // Make sure we always return at least 3 effects (even if empty)
   while (effects.length < 3) {
     effects.push({
-      effect: "", 
-      intensity: 0
+      effect: "Unknown", 
+      intensity: DEFAULT_INTENSITY
     });
   }
   
