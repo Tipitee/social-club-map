@@ -21,23 +21,24 @@ const BottomNav: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-[#1A3A47] border-t border-[#215366] z-50 shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50 shadow-lg">
       <div className="flex justify-around items-center h-16">
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
             className={`flex flex-col items-center justify-center w-full h-full ${
-              isActive(item.path) ? "text-[#AED3D9]" : "text-gray-400"
+              isActive(item.path) ? "text-secondary" : "text-gray-400"
             }`}
             aria-label={item.label}
           >
-            <item.icon size={22} className={isActive(item.path) ? "text-[#AED3D9]" : ""} />
+            <item.icon size={22} className={isActive(item.path) ? "text-secondary" : ""} />
             <span className="text-xs mt-1 truncate px-1 max-w-full">{item.label}</span>
           </Link>
         ))}
       </div>
-      <div className="h-safe-bottom bg-[#1A3A47] border-t-0"></div>
+      {/* Add a safe area for iOS devices */}
+      <div className="h-safe-bottom bg-gray-900 border-t-0"></div>
     </div>
   );
 };
