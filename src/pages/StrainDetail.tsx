@@ -45,7 +45,7 @@ const StrainDetail: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#121212]">
+      <div className="flex items-center justify-center h-screen">
         <div className="h-8 w-8 border-t-2 border-primary rounded-full animate-spin"></div>
       </div>
     );
@@ -53,14 +53,14 @@ const StrainDetail: React.FC = () => {
 
   if (error || !strain) {
     return (
-      <div className="container px-4 py-6 mb-20 bg-[#121212] text-white">
-        <h1 className="text-2xl font-bold text-white mb-4">{t('strains.strainNotFound')}</h1>
-        <p className="text-gray-400 mb-4">{t('strains.errorLoadingStrain')}</p>
-        <p className="text-gray-400 mb-6">{t('strains.requestedStrainNotFound')}</p>
+      <div className="container px-4 py-6 mb-20">
+        <h1 className="text-2xl font-bold mb-4">{t('strains.strainNotFound')}</h1>
+        <p className="text-muted-foreground mb-4">{t('strains.errorLoadingStrain')}</p>
+        <p className="text-muted-foreground mb-6">{t('strains.requestedStrainNotFound')}</p>
         <Link to="/strains">
-          <Button variant="outline" className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700">
+          <Button variant="outline">
             <ChevronLeft className="mr-2 h-4 w-4" />
-            {t('strains.backToAllStrains')}
+            Back to Strains
           </Button>
         </Link>
       </div>
@@ -74,24 +74,24 @@ const StrainDetail: React.FC = () => {
     .slice(0, 3); // Only show top 3 effects
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white pb-20">
+    <div className="min-h-screen pb-20">
       <Navbar />
       <main className="container px-4 py-8 max-w-5xl mx-auto mb-20">
         <div className="mb-6">
           <Link to="/strains">
-            <Button variant="outline" size="sm" className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700 flex items-center">
+            <Button variant="outline" size="sm" className="flex items-center">
               <ChevronLeft className="mr-1 h-4 w-4" />
-              {t('strains.backToAllStrains')}
+              Back to Strains
             </Button>
           </Link>
         </div>
 
         {/* Main Strain Info Card */}
-        <div className="bg-gray-900 rounded-xl overflow-hidden border border-gray-800 shadow-lg mb-6">
+        <div className="bg-card rounded-xl overflow-hidden border shadow-lg mb-6">
           <div className="flex flex-col md:flex-row">
             {/* Strain Image */}
             <div className="md:w-1/3 h-56 md:h-auto">
-              <div className="h-full relative bg-gray-800">
+              <div className="h-full relative">
                 {strain.img_url ? (
                   <img
                     src={strain.img_url}
@@ -99,7 +99,7 @@ const StrainDetail: React.FC = () => {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-full h-full flex items-center justify-center bg-muted">
                     {getTypeIcon(strain.type)}
                   </div>
                 )}
@@ -109,7 +109,7 @@ const StrainDetail: React.FC = () => {
             {/* Strain Details */}
             <div className="md:w-2/3 p-6">
               <div className="flex justify-between items-start mb-4">
-                <h1 className="text-2xl font-bold text-white">{strain.name}</h1>
+                <h1 className="text-2xl font-bold">{strain.name}</h1>
                 <Badge className={`${getTypeColor(strain.type)} px-3 py-1 text-sm`}>
                   <div className="flex items-center gap-1">
                     {getTypeIcon(strain.type)}
@@ -120,48 +120,41 @@ const StrainDetail: React.FC = () => {
               
               {/* THC and Terpene Info - IMPROVED SMALLER SIZE */}
               <div className="grid grid-cols-2 gap-2 mb-4">
-                <div className="bg-gray-800 rounded-md inline-flex items-center">
-                  <div className="px-2 py-1">
-                    <span className="text-xs text-gray-400">{t('strains.thcLevel')}</span>
-                    <p className="text-xs font-semibold text-white">
+                <div className="bg-muted rounded-md inline-flex items-center p-2">
+                  <div className="px-2">
+                    <span className="text-xs text-muted-foreground">THC Level</span>
+                    <p className="text-xs font-semibold">
                       {strain.thc_level ? `${strain.thc_level}%` : t('strains.unknown')}
                     </p>
                   </div>
                 </div>
-                <div className="bg-gray-800 rounded-md inline-flex items-center">
-                  <div className="px-2 py-1">
-                    <span className="text-xs text-gray-400">{t('strains.dominantTerpene')}</span>
-                    <p className="text-xs font-semibold text-white">
+                <div className="bg-muted rounded-md inline-flex items-center p-2">
+                  <div className="px-2">
+                    <span className="text-xs text-muted-foreground">Dominant Terpene</span>
+                    <p className="text-xs font-semibold">
                       {strain.most_common_terpene || t('strains.unknown')}
                     </p>
                   </div>
                 </div>
               </div>
-              
-              {/* Description */}
-              {strain.description && (
-                <div>
-                  <p className="text-gray-300 line-clamp-3">{strain.description}</p>
-                </div>
-              )}
             </div>
           </div>
         </div>
 
-        {/* Effects Section with improved design */}
+        {/* Effects Section with improved design - SLIMMER HEIGHT */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center">
+          <h2 className="text-xl font-bold mb-4 flex items-center">
             <Leaf className="mr-2 h-5 w-5 text-primary" />
             {t('strains.effects')}
           </h2>
           
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-4 md:p-6">
+          <div className="bg-card rounded-xl border p-4 md:p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {displayEffects && displayEffects.length > 0 ? (
                 displayEffects.map((effect, index) => (
-                  <div key={`effect-${index}`} className="bg-gray-800 rounded-lg p-4 border border-gray-700 transition-all duration-300 hover:shadow-lg">
-                    <h3 className="text-base font-semibold mb-2 text-white">{effect.effect}</h3>
-                    <div className="w-full bg-gray-700 rounded-full h-2 mb-1">
+                  <div key={`effect-${index}`} className="effect-block bg-muted/50 border-muted">
+                    <h3 className="text-sm font-semibold mb-1">{effect.effect}</h3>
+                    <div className="w-full bg-muted rounded-full h-2 mb-1">
                       <div 
                         className={`h-2 rounded-full ${
                           index === 0 ? 'bg-primary' : 
@@ -170,7 +163,7 @@ const StrainDetail: React.FC = () => {
                         style={{ width: `${effect.intensity}%` }}
                       ></div>
                     </div>
-                    <p className="text-right text-xs font-medium text-gray-300 mt-1">
+                    <p className="text-right text-xs font-medium text-muted-foreground mt-1">
                       {`${effect.intensity}%`}
                     </p>
                   </div>
@@ -178,12 +171,12 @@ const StrainDetail: React.FC = () => {
               ) : (
                 // If no effect data available, show placeholders
                 Array.from({length: 3}).map((_, index) => (
-                  <div key={`effect-placeholder-${index}`} className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-                    <h3 className="text-base font-semibold mb-2 text-white">{t('strains.noData')}</h3>
-                    <div className="w-full bg-gray-700 rounded-full h-2 mb-1">
-                      <div className="bg-gray-600 h-2 rounded-full w-[50%]"></div>
+                  <div key={`effect-placeholder-${index}`} className="effect-block bg-muted/50 border-muted">
+                    <h3 className="text-sm font-semibold mb-1">{t('strains.noData')}</h3>
+                    <div className="w-full bg-muted rounded-full h-2 mb-1">
+                      <div className="bg-muted/50 h-2 rounded-full w-[50%]"></div>
                     </div>
-                    <p className="text-right text-xs font-medium text-gray-300 mt-1">{t('strains.unknown')}</p>
+                    <p className="text-right text-xs font-medium text-muted-foreground mt-1">{t('strains.unknown')}</p>
                   </div>
                 ))
               )}
@@ -193,9 +186,9 @@ const StrainDetail: React.FC = () => {
 
         {/* Description Section */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold text-white mb-4">{t('strains.description')}</h2>
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-4 md:p-6">
-            <p className="text-gray-300 whitespace-pre-line">{strain.description || t('strains.noDescriptionAvailable')}</p>
+          <h2 className="text-xl font-bold mb-4">Description</h2>
+          <div className="bg-card rounded-xl border p-4 md:p-6">
+            <p className="text-foreground whitespace-pre-line">{strain.description || t('strains.noDescriptionAvailable')}</p>
           </div>
         </div>
 

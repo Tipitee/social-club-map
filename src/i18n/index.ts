@@ -21,7 +21,29 @@ const initTheme = () => {
 // Initialize theme
 initTheme();
 
-// Make sure any missing translations fallback to English
+// Make strings more user-friendly when missing translations
+const formatMissingKey = (key: string): string => {
+  if (!key) return '';
+  
+  // Extract the last part after the dot
+  const lastPart = key.split('.').pop() || key;
+  
+  // Handle specific known keys with special formatting
+  if (lastPart === 'thcLevel') return 'THC Level';
+  if (lastPart === 'dominantTerpene') return 'Dominant Terpene';
+  if (lastPart === 'backToAllStrains') return 'Back to Strains';
+  if (lastPart === 'title' && key.includes('review')) return 'Rating';
+  if (lastPart === 'averageRating') return 'Average Rating';
+  if (lastPart === 'addReview') return 'Add Review';
+  
+  // General formatting for other keys
+  return lastPart
+    .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+    .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+    .trim();
+};
+
+// Configure i18next with better fallbacks
 i18n
   .use(initReactI18next)
   .init({
@@ -40,16 +62,7 @@ i18n
     },
     nsSeparator: false,
     keySeparator: false,
-    parseMissingKeyHandler: (key) => {
-      console.warn(`Missing translation key: ${key}`);
-      // Return the key as fallback with proper capitalization and formatting
-      const lastPart = key.split('.').pop() || key;
-      // Convert camelCase to normal text with spaces and capitalize first letter
-      return lastPart
-        .replace(/([A-Z])/g, ' $1')
-        .replace(/^./, (str) => str.toUpperCase())
-        .trim();
-    }
+    parseMissingKeyHandler: formatMissingKey
   });
 
 export default i18n;

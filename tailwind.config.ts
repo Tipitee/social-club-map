@@ -70,7 +70,7 @@ export default {
 					sativa: '#f59e0b', // amber-500
 					hybrid: '#10b981', // emerald-500
 				},
-				// Adding the new color palette
+				// New color palette
 				airForceBlue: {
 					DEFAULT: '#4D8499',
 					100: '#0f1a1f',

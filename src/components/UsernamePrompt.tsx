@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, User } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface UsernamePromptProps {
   isOpen: boolean;
@@ -40,7 +40,7 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
       
       toast({
         title: t('profile.profileUpdated'),
-        description: t('profile.profileUpdateSuccess'),
+        description: t('profile.usernameUpdated'),
       });
       
       onUsernameSaved(username);
@@ -62,10 +62,10 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
       <DialogContent className="bg-card border-primary/20">
         <DialogHeader>
           <DialogTitle className="text-center text-xl font-bold">
-            {t('profile.setUsername')}
+            {t('profile.createUsername')}
           </DialogTitle>
           <DialogDescription className="text-center">
-            {t('profile.usernamePrompt')}
+            {t('profile.usernameNeededForReviews')}
           </DialogDescription>
         </DialogHeader>
         
@@ -82,7 +82,7 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={t('profile.usernameLabel')}
+              placeholder={t('profile.enterUsername')}
               className="w-full"
               autoFocus
             />
@@ -99,7 +99,7 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
                 {t('profile.saving')}
               </>
             ) : (
-              t('profile.createUsername')
+              t('profile.saveUsername')
             )}
           </Button>
         </div>

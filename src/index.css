@@ -6,7 +6,7 @@
 @layer base {
   :root {
     /* Light mode (using the new color palette) */
-    --background: 0 0% 100%;
+    --background: 36 77% 95%; /* Linen */
     --foreground: 240 10% 3.9%;
 
     --card: 36 67% 94%; /* Based on Old lace */
@@ -106,6 +106,11 @@
   html {
     @apply antialiased;
   }
+
+  /* Force light mode on all pages except profile which already has it */
+  body:not(.force-dark) {
+    @apply light;
+  }
 }
 
 @layer components {
@@ -125,6 +130,7 @@
     @apply h-full absolute left-0 top-0 bg-emerald-500 transition-all duration-300;
   }
 
+  /* Strain Cards and Effects with improved sizes */
   .strain-card {
     @apply bg-card rounded-xl shadow-lg overflow-hidden border border-gray-700 transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
   }
@@ -161,32 +167,11 @@
     @apply font-bold text-lg mb-2;
   }
   
-  /* New glow effects for icons */
-  .drop-shadow-glow-purple {
-    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+  /* New styles for effects blocks - slimmer height */
+  .effect-block {
+    @apply p-3 rounded-lg border transition-all;
   }
   
-  .drop-shadow-glow-amber {
-    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
-  }
-  
-  .drop-shadow-glow-emerald {
-    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
-  }
-  
-  /* Improved filter styles */
-  .filter-section {
-    @apply bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg p-4 border border-gray-800 mb-4 shadow-md;
-  }
-  
-  .filter-heading {
-    @apply text-lg font-semibold mb-3 text-foreground flex items-center;
-  }
-  
-  .filter-option {
-    @apply transition-colors duration-200 hover:bg-gray-800 rounded-md px-3 py-2;
-  }
-
   /* Light mode specific styles */
   .light .strain-card {
     @apply bg-oldLace border-cadetGray-300;
@@ -195,6 +180,11 @@
   .light .effect-bar,
   .light .thc-bar {
     @apply bg-cadetGray-200;
+  }
+  
+  .light input::placeholder,
+  .light textarea::placeholder {
+    @apply text-gray-500;
   }
 
   /* Dark mode specific styles */
@@ -205,5 +195,28 @@
   .dark .effect-bar,
   .dark .thc-bar {
     @apply bg-gray-800;
+  }
+  
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    @apply text-gray-400;
+  }
+  
+  /* Improved contrast for better readability */
+  .journal-entry {
+    @apply bg-white dark:bg-gray-800 border border-cadetGray-300 dark:border-gray-700;
+  }
+  
+  .journal-text {
+    @apply text-gray-900 dark:text-white;
+  }
+  
+  .journal-label {
+    @apply text-gray-700 dark:text-gray-300 font-medium;
+  }
+  
+  /* Remove placeholders in search boxes */
+  .search-input::placeholder {
+    @apply opacity-50;
   }
 }

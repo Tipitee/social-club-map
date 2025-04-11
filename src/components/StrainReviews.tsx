@@ -175,7 +175,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold text-foreground">{t('strains.reviews.title')}</h2>
+            <h2 className="text-xl font-semibold text-foreground">Reviews</h2>
             {reviews.length > 0 && (
               <span className="flex items-center">
                 <span className="flex text-yellow-400 mr-1">
@@ -186,7 +186,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
           </div>
           {reviews.length > 0 && (
             <p className="text-muted-foreground text-sm mt-1">
-              {t('strains.reviews.averageRating')}: {averageRating} 
+              Average Rating: {averageRating} 
             </p>
           )}
         </div>
@@ -196,19 +196,19 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
           onClick={handleAddReviewClick}
         >
           <Plus size={16} className="mr-1" />
-          {t('strains.reviews.addReview')}
+          Add Review
         </Button>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="bg-card text-foreground border-primary/20">
             <DialogHeader>
-              <DialogTitle>{t('strains.reviews.addReview')}: {strainName}</DialogTitle>
+              <DialogTitle>Add Review: {strainName}</DialogTitle>
             </DialogHeader>
             
             <div className="space-y-4 pt-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  {t('strains.reviews.yourRating')}
+                  Your Rating
                 </label>
                 <div className="flex space-x-1">
                   {renderStars(userRating, true)}
@@ -217,20 +217,21 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
               
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  {t('strains.reviews.writeReview')}
+                  Write Review
                 </label>
                 <Textarea
                   value={userReview}
                   onChange={(e) => setUserReview(e.target.value)}
                   className="bg-background border-input text-foreground"
                   rows={4}
+                  placeholder="Share your experience with this strain..."
                 />
               </div>
               
               <div>
                 <Button variant="outline" className="w-full">
                   <Upload size={16} className="mr-2" />
-                  {t('strains.reviews.photoUpload')}
+                  Add Photo (Optional)
                 </Button>
               </div>
               
@@ -239,7 +240,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
                 disabled={userRating === 0}
                 className="w-full bg-emerald-600 hover:bg-emerald-700"
               >
-                {t('strains.reviews.submitReview')}
+                Submit Review
               </Button>
             </div>
           </DialogContent>
@@ -292,7 +293,7 @@ const StrainReviews: React.FC<StrainReviewsProps> = ({ strainId, strainName }) =
         </div>
       ) : (
         <Card className="text-center p-8 border-primary/20">
-          <p className="text-muted-foreground">{t('strains.reviews.noReviews')}</p>
+          <p className="text-muted-foreground">No reviews yet. Be the first to review!</p>
         </Card>
       )}
     </div>
