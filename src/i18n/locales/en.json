@@ -1,254 +1,122 @@
+
 {
+  "language": {
+    "select": "English",
+    "en": "English",
+    "de": "German"
+  },
   "app": {
-    "title": "German Cannabis Explorer",
     "navigation": {
       "home": "Home",
-      "journal": "Journal",
       "strains": "Strains",
       "clubs": "Clubs",
-      "profile": "Profile",
+      "journal": "Journal",
+      "legal": "Legal",
+      "guide": "Guide",
       "mobileMenu": "Open main menu",
-      "legal": "Legal Updates",
-      "guide": "Cannabis Guide"
+      "profile": "Profile"
+    },
+    "footer": {
+      "about": "About",
+      "contact": "Contact",
+      "privacy": "Privacy",
+      "terms": "Terms"
     }
-  },
-  "home": {
-    "sections": {
-      "journal": {
-        "title": "Track in Journal",
-        "description": "Keep a personal cannabis journal to record your experiences"
-      },
-      "strains": {
-        "title": "Explore Strains",
-        "description": "Discover cannabis strains with detailed profiles and effects"
-      },
-      "clubs": {
-        "title": "Find Clubs",
-        "description": "Locate cannabis clubs in your area with our interactive map"
-      },
-      "legal": {
-        "title": "Legal Updates",
-        "description": "Stay informed about cannabis legislation and policy changes in Germany"
-      },
-      "guide": {
-        "title": "Cannabis Guide",
-        "description": "Learn about cannabis laws, safe use practices, and basic information"
-      },
-      "offline": {
-        "title": "Offline Access",
-        "description": "Save important information for use without internet connection"
-      }
-    }
-  },
-  "journal": {
-    "title": "Journal",
-    "filters": "Filters",
-    "newEntry": "New Entry",
-    "effectiveness": "Effectiveness",
-    "filterByTime": "Filter by Time",
-    "thisMonth": "This Month",
-    "lastWeek": "Last Week",
-    "customRange": "Custom Range",
-    "rating": "Rating",
-    "entries": "entries",
-    "entry": "entry",
-    "noEntriesFound": "No journal entries found",
-    "noMatchingEntries": "No entries match your current filters. Try adjusting your search criteria.",
-    "startTracking": "Start tracking your cannabis experiences",
-    "addFirstEntry": "Add First Entry",
-    "addNewEntry": "Add New Entry",
-    "entryDeleted": "Entry deleted",
-    "entryDeletedDesc": "Journal entry has been removed successfully",
-    "entryAdded": "Entry added",
-    "entryAddedDesc": "Your journal entry has been saved successfully"
   },
   "strains": {
     "explorer": "Strain Explorer",
-    "filters": "Filters",
-    "hideFilters": "Hide Filters",
-    "filterStrains": "Filter Strains",
-    "thcLevel": "THC Level",
-    "labDataPending": "Lab data pending",
-    "noData": "No data",
-    "dominantTerpene": "Dominant Terpene",
-    "terpeneUnavailable": "Terpene data unavailable",
-    "noStrainsFound": "No strains found",
-    "tryAdjustingFilters": "Try adjusting your filters to see more results.",
-    "errorLoading": "Error loading strains",
-    "errorLoadingStrains": "Error Loading Strains",
-    "errorLoadingMore": "Error loading more strains",
-    "couldNotLoadAdditional": "Could not load additional strains. Please try again.",
-    "loadingMore": "Loading more strains...",
-    "retry": "Retry",
     "filters": {
+      "title": "Filters",
+      "search": "Search",
       "type": "Type",
+      "indicator": "Indicator",
+      "strain": "Strain",
       "effect": "Effect",
       "terpene": "Terpene",
-      "search": "Search",
-      "searchPlaceholder": "Search strains...",
+      "sort": "Sort by",
+      "thc": "THC Level",
+      "apply": "Apply",
+      "clear": "Clear All",
       "all": "All",
       "indica": "Indica",
       "sativa": "Sativa",
       "hybrid": "Hybrid",
-      "dominantEffect": "Dominant Effect",
-      "allEffects": "All Effects",
-      "allTerpenes": "All Terpenes",
-      "sortBy": "Sort By",
+      "any": "Any",
       "nameAZ": "Name (A-Z)",
-      "thcHighToLow": "THC (High to Low)",
-      "thcLowToHigh": "THC (Low to High)"
+      "thcHighLow": "THC (High to Low)",
+      "thcLowHigh": "THC (Low to High)"
     },
-    "backToAllStrains": "Back to All Strains",
-    "effects": "Effects",
+    "hideFilters": "Hide Filters",
+    "showFilters": "Show Filters",
+    "filters": "Filters",
+    "noStrainsFound": "No strains found",
+    "tryAdjustingFilters": "Try adjusting your filters or search query.",
+    "thcLevel": "THC Level",
+    "dataPending": "Data pending",
+    "labDataPending": "Data pending",
+    "dominantTerpene": "Dominant Terpene",
+    "terpenePending": "Data pending",
+    "terpeneUnavailable": "Terpene data unavailable",
+    "noData": "No data",
+    "noEffectsData": "No effects data available",
+    "errorLoading": "Error loading strains",
+    "couldNotLoadStrains": "Could not load strains. Please try again.",
+    "retry": "Retry",
+    "errorLoadingStrains": "Error loading strains",
+    "errorLoadingMore": "Error loading more",
+    "couldNotLoadAdditional": "Could not load additional strains. Please try again.",
+    "loadingMore": "Loading more strains...",
+    "back": "Back",
+    "backToAllStrains": "Back to all strains",
     "description": "Description",
-    "strainDetails": "Strain Details",
-    "strainNotFound": "Strain Not Found",
-    "errorLoadingStrain": "Error Loading Strain",
-    "requestedStrainNotFound": "The requested strain could not be found.",
+    "noDescriptionAvailable": "No description available for this strain yet.",
+    "effects": "Effects",
     "reviews": {
-      "title": "User Reviews",
-      "addReview": "Add Review",
-      "yourRating": "Your Rating",
+      "title": "Reviews",
+      "latestReviews": "Latest Reviews",
+      "noReviews": "No reviews yet for this strain.",
       "writeReview": "Write a review",
-      "submitReview": "Submit Review",
-      "thankYou": "Thank you for your review!",
-      "noReviews": "No reviews yet. Be the first to review this strain!",
-      "anonymous": "Anonymous User",
-      "photoUpload": "Upload Photo",
-      "averageRating": "Average Rating"
-    }
-  },
-  "profile": {
-    "title": "Profile",
-    "guestUser": "Guest User",
-    "createAccount": "Create an account to save your journal entries and preferences",
-    "signUp": "Sign Up",
-    "login": "Login"
-  },
-  "clubs": {
-    "title": "Cannabis Clubs in Germany",
-    "description": "Explore cannabis clubs across Germany. The map below shows clubs in major cities:",
-    "mockNotice": "*Currently displaying mock data - Real club locations coming soon",
-    "cities": {
-      "berlin": "Berlin - Northeastern Germany",
-      "munich": "Munich - Southern Bavaria",
-      "hamburg": "Hamburg - Northern Germany",
-      "cologne": "Cologne - Western Germany"
+      "rating": "Rating",
+      "yourReview": "Your Review",
+      "submit": "Submit Review",
+      "editReview": "Edit Review",
+      "posted": "Posted",
+      "deleteReview": "Delete Review",
+      "deleteConfirm": "Are you sure you want to delete this review?",
+      "loginToReview": "Log in to write a review",
+      "readMore": "Read more",
+      "readLess": "Read less",
+      "confirm": "Confirm"
     },
-    "about": {
-      "title": "About German Cannabis Clubs",
-      "description": "Cannabis Social Clubs in Germany are part of the country's new cannabis policy. These non-profit associations allow members to collectively cultivate and distribute cannabis for personal use, providing a regulated alternative to the illicit market."
-    }
-  },
-  "language": {
-    "select": "Language",
-    "english": "English",
-    "german": "German"
+    "strainDetails": "Additional Information",
+    "strainNotFound": "Strain Not Found",
+    "errorLoadingStrain": "There was an error loading this strain.",
+    "requestedStrainNotFound": "The strain you requested could not be found."
   },
   "legal": {
     "title": "Legal Updates",
-    "subtitle": "Stay informed about the latest cannabis regulations and legal developments in Germany",
+    "subtitle": "Stay informed about cannabis laws and regulations in Germany",
+    "latestUpdates": "Latest Updates",
+    "resultsFound": "results found",
+    "noUpdates": "No legal updates found matching your criteria.",
+    "readMore": "Read more",
+    "loadMore": "Load More Updates",
     "categories": {
-      "all": "All Updates",
+      "all": "All",
       "federal": "Federal",
       "state": "State",
       "medical": "Medical",
       "recreational": "Recreational",
       "business": "Business",
-      "filter": "Filter",
+      "filter": "Filter by Category",
       "selectCategory": "Select Category"
     },
-    "latestUpdates": "Latest Legal Updates",
     "postedOn": "Posted on",
     "source": "Source",
-    "readMore": "Read more",
-    "visitSource": "Visit source",
-    "loadMore": "Load More Updates",
-    "noUpdates": "No legal updates found matching your filters",
-    "resultsFound": "updates found",
+    "visitSource": "Visit Source",
     "relatedLinks": "Related Links",
     "officialAnnouncement": "Official Announcement",
     "pressRelease": "Press Release",
     "fullDocumentation": "Full Documentation"
-  },
-  "guide": {
-    "title": "Cannabis Guide",
-    "sections": {
-      "laws": "Laws & Regulations",
-      "safeUse": "Safe Use",
-      "basics": "Cannabis Basics"
-    },
-    "lawsContent": {
-      "title": "German Cannabis Laws",
-      "possession": {
-        "title": "Possession",
-        "content": "Adults may possess up to 25 grams in public and up to 50 grams at home. Home growing of up to three plants per adult is permitted."
-      },
-      "consumption": {
-        "title": "Consumption",
-        "content": "Public consumption is allowed, but not near schools, sports facilities, or in the presence of minors."
-      },
-      "driving": {
-        "title": "Driving",
-        "content": "Driving under the influence is strictly prohibited and subject to penalties."
-      },
-      "clubs": {
-        "title": "Cannabis Clubs",
-        "content": "Non-profit associations are permitted to grow and distribute cannabis to members only."
-      }
-    },
-    "safeUseContent": {
-      "title": "Safe Use Practices",
-      "startLow": {
-        "title": "Start Low, Go Slow",
-        "content": "Begin with a low dose, especially with edibles, and wait for effects before consuming more."
-      },
-      "knowSource": {
-        "title": "Know Your Source",
-        "content": "Obtain cannabis from legal, reliable sources to avoid contaminants and unknown potency."
-      },
-      "mindset": {
-        "title": "Set and Setting",
-        "content": "Use in a comfortable environment with trusted people when in a positive mindset."
-      },
-      "hydration": {
-        "title": "Stay Hydrated",
-        "content": "Drink plenty of water and avoid mixing with alcohol or other substances."
-      }
-    },
-    "basicsContent": {
-      "title": "Cannabis Basics",
-      "compounds": {
-        "title": "Key Compounds",
-        "content": "THC (psychoactive), CBD (non-psychoactive), and terpenes (aromas) are the main active components."
-      },
-      "methods": {
-        "title": "Consumption Methods",
-        "content": "Smoking, vaporizing, edibles, tinctures, and topicals each have different onset times and effect durations."
-      },
-      "types": {
-        "title": "Cannabis Types",
-        "content": "Indica (relaxing), Sativa (energizing), and Hybrid strains offer different effects and therapeutic properties."
-      },
-      "tolerance": {
-        "title": "Tolerance",
-        "content": "Regular use can build tolerance requiring higher doses for the same effect. Taking breaks can reset sensitivity."
-      }
-    }
-  },
-  "offline": {
-    "title": "Offline Access",
-    "description": "Save content for offline access",
-    "saveStrain": "Save Strain for Offline",
-    "saveClub": "Save Club for Offline",
-    "savedItems": "Saved Items",
-    "noSavedItems": "No items saved for offline access",
-    "strainSaved": "Strain saved for offline access",
-    "clubSaved": "Club saved for offline access",
-    "removedFromOffline": "Item removed from offline access",
-    "availableOffline": "Available Offline",
-    "manage": "Manage Offline Content",
-    "storageUsage": "Storage Usage",
-    "clearAll": "Clear All Saved Data"
   }
 }

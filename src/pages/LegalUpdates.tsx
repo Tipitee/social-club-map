@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, ExternalLink, Search, Filter, FileText, MapPin, AlertTriangle, BookOpen } from "lucide-react";
+import { Calendar, ExternalLink, Search, Filter, FileText, MapPin, AlertTriangle, BookOpen, ArrowUpRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,8 +25,13 @@ const mockLegalUpdates = [
     category: "federal",
     date: "2025-03-15",
     source: "Bundesgesundheitsministerium",
-    url: "#",
-    icon: FileText
+    url: "https://www.bundesgesundheitsministerium.de",
+    icon: FileText,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.bundesgesundheitsministerium.de/announcements" },
+      { title: "Press Release", url: "https://www.bundesgesundheitsministerium.de/press" },
+      { title: "Full Documentation", url: "https://www.bundesgesundheitsministerium.de/documents" }
+    ]
   },
   {
     id: "legal-2",
@@ -35,8 +40,13 @@ const mockLegalUpdates = [
     category: "state",
     date: "2025-02-28",
     source: "Bayerisches Staatsministerium",
-    url: "#",
-    icon: MapPin
+    url: "https://www.bayern.de",
+    icon: MapPin,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.bayern.de/announcements" },
+      { title: "Press Release", url: "https://www.bayern.de/press" },
+      { title: "Full Documentation", url: "https://www.bayern.de/documents" }
+    ]
   },
   {
     id: "legal-3",
@@ -45,8 +55,13 @@ const mockLegalUpdates = [
     category: "medical",
     date: "2025-02-10",
     source: "GKV-Spitzenverband",
-    url: "#",
-    icon: FileText
+    url: "https://www.gkv-spitzenverband.de",
+    icon: FileText,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.gkv-spitzenverband.de/announcements" },
+      { title: "Press Release", url: "https://www.gkv-spitzenverband.de/press" },
+      { title: "Full Documentation", url: "https://www.gkv-spitzenverband.de/documents" }
+    ]
   },
   {
     id: "legal-4",
@@ -55,8 +70,13 @@ const mockLegalUpdates = [
     category: "business",
     date: "2025-01-22",
     source: "Bundesgesundheitsministerium",
-    url: "#",
-    icon: FileText
+    url: "https://www.bundesgesundheitsministerium.de",
+    icon: FileText,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.bundesgesundheitsministerium.de/announcements" },
+      { title: "Press Release", url: "https://www.bundesgesundheitsministerium.de/press" },
+      { title: "Full Documentation", url: "https://www.bundesgesundheitsministerium.de/documents" }
+    ]
   },
   {
     id: "legal-5",
@@ -65,8 +85,13 @@ const mockLegalUpdates = [
     category: "recreational",
     date: "2025-01-05",
     source: "Bundesverkehrsministerium",
-    url: "#",
-    icon: AlertTriangle
+    url: "https://www.bmvi.de",
+    icon: AlertTriangle,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.bmvi.de/announcements" },
+      { title: "Press Release", url: "https://www.bmvi.de/press" },
+      { title: "Full Documentation", url: "https://www.bmvi.de/documents" }
+    ]
   },
   {
     id: "legal-6",
@@ -75,8 +100,13 @@ const mockLegalUpdates = [
     category: "business",
     date: "2024-12-15",
     source: "Bundesinstitut für Arzneimittel und Medizinprodukte",
-    url: "#",
-    icon: BookOpen
+    url: "https://www.bfarm.de",
+    icon: BookOpen,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.bfarm.de/announcements" },
+      { title: "Press Release", url: "https://www.bfarm.de/press" },
+      { title: "Full Documentation", url: "https://www.bfarm.de/documents" }
+    ]
   },
   {
     id: "legal-7",
@@ -85,8 +115,13 @@ const mockLegalUpdates = [
     category: "state",
     date: "2024-12-03",
     source: "Berlin Senatsverwaltung",
-    url: "#",
-    icon: MapPin
+    url: "https://www.berlin.de",
+    icon: MapPin,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.berlin.de/announcements" },
+      { title: "Press Release", url: "https://www.berlin.de/press" },
+      { title: "Full Documentation", url: "https://www.berlin.de/documents" }
+    ]
   },
   {
     id: "legal-8",
@@ -95,8 +130,13 @@ const mockLegalUpdates = [
     category: "federal",
     date: "2024-11-20",
     source: "Bundeszentrale für gesundheitliche Aufklärung",
-    url: "#",
-    icon: BookOpen
+    url: "https://www.bzga.de",
+    icon: BookOpen,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.bzga.de/announcements" },
+      { title: "Press Release", url: "https://www.bzga.de/press" },
+      { title: "Full Documentation", url: "https://www.bzga.de/documents" }
+    ]
   },
   {
     id: "legal-9",
@@ -105,8 +145,13 @@ const mockLegalUpdates = [
     category: "state",
     date: "2024-11-05",
     source: "Hamburg Senat",
-    url: "#",
-    icon: MapPin
+    url: "https://www.hamburg.de",
+    icon: MapPin,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.hamburg.de/announcements" },
+      { title: "Press Release", url: "https://www.hamburg.de/press" },
+      { title: "Full Documentation", url: "https://www.hamburg.de/documents" }
+    ]
   },
   {
     id: "legal-10",
@@ -115,8 +160,13 @@ const mockLegalUpdates = [
     category: "medical",
     date: "2024-10-18",
     source: "Bundesinstitut für Arzneimittel und Medizinprodukte",
-    url: "#",
-    icon: FileText
+    url: "https://www.bfarm.de",
+    icon: FileText,
+    relatedLinks: [
+      { title: "Official Announcement", url: "https://www.bfarm.de/announcements" },
+      { title: "Press Release", url: "https://www.bfarm.de/press" },
+      { title: "Full Documentation", url: "https://www.bfarm.de/documents" }
+    ]
   }
 ];
 
@@ -159,6 +209,16 @@ const LegalUpdates: React.FC = () => {
       case 'business': return 'bg-indigo-600 text-white';
       default: return 'bg-gray-600 text-white';
     }
+  };
+
+  const handleClickSource = (url: string) => {
+    // Open in a new tab
+    window.open(url, '_blank', 'noopener noreferrer');
+  };
+
+  const handleClickRelatedLink = (url: string) => {
+    // Open in a new tab
+    window.open(url, '_blank', 'noopener noreferrer');
   };
 
   return (
@@ -275,10 +335,18 @@ const LegalUpdates: React.FC = () => {
                           <p className="text-gray-300">{update.content}</p>
                           <div className="mt-4">
                             <h4 className="font-medium text-sm text-white mb-2">{t('legal.relatedLinks')}</h4>
-                            <ul className="list-disc list-inside text-blue-400 space-y-1 pl-2">
-                              <li><a href="#" className="hover:underline">{t('legal.officialAnnouncement')}</a></li>
-                              <li><a href="#" className="hover:underline">{t('legal.pressRelease')}</a></li>
-                              <li><a href="#" className="hover:underline">{t('legal.fullDocumentation')}</a></li>
+                            <ul className="list-disc list-inside space-y-1 pl-2">
+                              {update.relatedLinks.map((link, index) => (
+                                <li key={`${update.id}-link-${index}`} className="text-blue-400">
+                                  <button 
+                                    className="hover:underline inline-flex items-center"
+                                    onClick={() => handleClickRelatedLink(link.url)}
+                                  >
+                                    {link.title}
+                                    <ArrowUpRight className="h-3 w-3 ml-1" />
+                                  </button>
+                                </li>
+                              ))}
                             </ul>
                           </div>
                         </div>
@@ -288,10 +356,13 @@ const LegalUpdates: React.FC = () => {
                       <span className="text-sm text-white">
                         {t('legal.source')}: {update.source}
                       </span>
-                      <a href={update.url} className="text-blue-400 hover:text-blue-300 flex items-center text-sm">
+                      <button 
+                        onClick={() => handleClickSource(update.url)}
+                        className="text-blue-400 hover:text-blue-300 flex items-center text-sm"
+                      >
                         <ExternalLink className="h-3 w-3 mr-1" />
                         {t('legal.visitSource')}
-                      </a>
+                      </button>
                     </CardFooter>
                   </Card>
                 </Collapsible>

@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Cannabis, MapPin, Book, BookOpen, Scale, Menu, X } from "lucide-react";
+import { Cannabis, MapPin, Book, Scale, Menu, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -23,7 +23,6 @@ const Navbar: React.FC = () => {
     { path: "/clubs", icon: MapPin, label: t('app.navigation.clubs') },
     { path: "/journal", icon: Book, label: t('app.navigation.journal') },
     { path: "/legal", icon: Scale, label: t('app.navigation.legal') },
-    { path: "/guide", icon: BookOpen, label: t('app.navigation.guide') },
   ];
 
   return (

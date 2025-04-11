@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Book, Cannabis, User, MapPin, Scale, BookOpen } from "lucide-react";
+import { Home, Book, Cannabis, MapPin, Scale } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const BottomNav: React.FC = () => {

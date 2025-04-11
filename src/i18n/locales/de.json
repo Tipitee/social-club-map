@@ -1,254 +1,122 @@
+
 {
+  "language": {
+    "select": "Deutsch",
+    "en": "Englisch",
+    "de": "Deutsch"
+  },
   "app": {
-    "title": "Deutscher Cannabis-Explorer",
     "navigation": {
-      "home": "Startseite",
-      "journal": "Tagebuch",
+      "home": "Home",
       "strains": "Sorten",
       "clubs": "Clubs",
-      "profile": "Profil",
+      "journal": "Journal",
+      "legal": "Rechtliches",
+      "guide": "Guide",
       "mobileMenu": "Hauptmenü öffnen",
-      "legal": "Rechtliche Updates",
-      "guide": "Cannabis-Ratgeber"
+      "profile": "Profil"
+    },
+    "footer": {
+      "about": "Über uns",
+      "contact": "Kontakt",
+      "privacy": "Datenschutz",
+      "terms": "Nutzungsbedingungen"
     }
-  },
-  "home": {
-    "sections": {
-      "journal": {
-        "title": "Im Tagebuch erfassen",
-        "description": "Führe ein persönliches Cannabis-Tagebuch, um deine Erfahrungen zu dokumentieren"
-      },
-      "strains": {
-        "title": "Sorten entdecken",
-        "description": "Entdecke Cannabis-Sorten mit detaillierten Profilen und Wirkungen"
-      },
-      "clubs": {
-        "title": "Clubs finden",
-        "description": "Finde Cannabis-Clubs in deiner Nähe mit unserer interaktiven Karte"
-      },
-      "legal": {
-        "title": "Rechtliche Updates",
-        "description": "Bleibe informiert über Änderungen der Cannabis-Gesetzgebung und Politik in Deutschland"
-      },
-      "guide": {
-        "title": "Cannabis-Ratgeber",
-        "description": "Erfahre mehr über Cannabis-Gesetze, sichere Anwendung und grundlegende Informationen"
-      },
-      "offline": {
-        "title": "Offline-Zugang",
-        "description": "Speichere wichtige Informationen zur Nutzung ohne Internetverbindung"
-      }
-    }
-  },
-  "journal": {
-    "title": "Tagebuch",
-    "filters": "Filter",
-    "newEntry": "Neuer Eintrag",
-    "effectiveness": "Wirksamkeit",
-    "filterByTime": "Nach Zeit filtern",
-    "thisMonth": "Diesen Monat",
-    "lastWeek": "Letzte Woche",
-    "customRange": "Benutzerdefiniert",
-    "rating": "Bewertung",
-    "entries": "Einträge",
-    "entry": "Eintrag",
-    "noEntriesFound": "Keine Tagebucheinträge gefunden",
-    "noMatchingEntries": "Keine Einträge entsprechen deinen aktuellen Filtern. Versuche, deine Suchkriterien anzupassen.",
-    "startTracking": "Beginne, deine Cannabis-Erfahrungen zu dokumentieren",
-    "addFirstEntry": "Ersten Eintrag hinzufügen",
-    "addNewEntry": "Neuen Eintrag hinzufügen",
-    "entryDeleted": "Eintrag gelöscht",
-    "entryDeletedDesc": "Tagebucheintrag wurde erfolgreich entfernt",
-    "entryAdded": "Eintrag hinzugefügt",
-    "entryAddedDesc": "Dein Tagebucheintrag wurde erfolgreich gespeichert"
   },
   "strains": {
-    "explorer": "Sorten-Explorer",
-    "filters": "Filter",
-    "hideFilters": "Filter ausblenden",
-    "filterStrains": "Sorten filtern",
-    "thcLevel": "THC-Gehalt",
-    "labDataPending": "Labordaten ausstehend",
-    "noData": "Keine Daten",
-    "dominantTerpene": "Dominantes Terpen",
-    "terpeneUnavailable": "Terpendaten nicht verfügbar",
-    "noStrainsFound": "Keine Sorten gefunden",
-    "tryAdjustingFilters": "Versuche, deine Filter anzupassen, um mehr Ergebnisse zu sehen.",
-    "errorLoading": "Fehler beim Laden der Sorten",
-    "errorLoadingStrains": "Fehler beim Laden der Sorten",
-    "errorLoadingMore": "Fehler beim Laden weiterer Sorten",
-    "couldNotLoadAdditional": "Konnte keine weiteren Sorten laden. Bitte versuche es erneut.",
-    "loadingMore": "Lade weitere Sorten...",
-    "retry": "Wiederholen",
+    "explorer": "Sortenexplorer",
     "filters": {
+      "title": "Filter",
+      "search": "Suche",
       "type": "Typ",
+      "indicator": "Indikator",
+      "strain": "Sorte",
       "effect": "Wirkung",
       "terpene": "Terpen",
-      "search": "Suche",
-      "searchPlaceholder": "Sorten suchen...",
+      "sort": "Sortieren nach",
+      "thc": "THC Gehalt",
+      "apply": "Anwenden",
+      "clear": "Alle zurücksetzen",
       "all": "Alle",
       "indica": "Indica",
       "sativa": "Sativa",
       "hybrid": "Hybrid",
-      "dominantEffect": "Dominante Wirkung",
-      "allEffects": "Alle Wirkungen",
-      "allTerpenes": "Alle Terpene",
-      "sortBy": "Sortieren nach",
+      "any": "Beliebig",
       "nameAZ": "Name (A-Z)",
-      "thcHighToLow": "THC (Hoch nach Niedrig)",
-      "thcLowToHigh": "THC (Niedrig nach Hoch)"
+      "thcHighLow": "THC (Hoch zu Niedrig)",
+      "thcLowHigh": "THC (Niedrig zu Hoch)"
     },
+    "hideFilters": "Filter ausblenden",
+    "showFilters": "Filter anzeigen",
+    "filters": "Filter",
+    "noStrainsFound": "Keine Sorten gefunden",
+    "tryAdjustingFilters": "Versuche deine Filter oder Suchanfrage anzupassen.",
+    "thcLevel": "THC Gehalt",
+    "dataPending": "Daten ausstehend",
+    "labDataPending": "Daten ausstehend",
+    "dominantTerpene": "Dominantes Terpen",
+    "terpenePending": "Daten ausstehend",
+    "terpeneUnavailable": "Terpen-Daten nicht verfügbar",
+    "noData": "Keine Daten",
+    "noEffectsData": "Keine Wirkungsdaten verfügbar",
+    "errorLoading": "Fehler beim Laden",
+    "couldNotLoadStrains": "Sorten konnten nicht geladen werden. Bitte versuche es erneut.",
+    "retry": "Wiederholen",
+    "errorLoadingStrains": "Fehler beim Laden der Sorten",
+    "errorLoadingMore": "Fehler beim Laden weiterer Sorten",
+    "couldNotLoadAdditional": "Konnte keine weiteren Sorten laden. Bitte versuche es erneut.",
+    "loadingMore": "Lade weitere Sorten...",
+    "back": "Zurück",
     "backToAllStrains": "Zurück zu allen Sorten",
-    "effects": "Wirkungen",
     "description": "Beschreibung",
-    "strainDetails": "Sortendetails",
-    "strainNotFound": "Sorte nicht gefunden",
-    "errorLoadingStrain": "Fehler beim Laden der Sorte",
-    "requestedStrainNotFound": "Die angeforderte Sorte konnte nicht gefunden werden.",
+    "noDescriptionAvailable": "Noch keine Beschreibung für diese Sorte verfügbar.",
+    "effects": "Wirkungen",
     "reviews": {
-      "title": "Benutzerbewertungen",
-      "addReview": "Bewertung hinzufügen",
-      "yourRating": "Deine Bewertung",
+      "title": "Bewertungen",
+      "latestReviews": "Neueste Bewertungen",
+      "noReviews": "Noch keine Bewertungen für diese Sorte.",
       "writeReview": "Bewertung schreiben",
-      "submitReview": "Bewertung absenden",
-      "thankYou": "Vielen Dank für deine Bewertung!",
-      "noReviews": "Noch keine Bewertungen. Sei der Erste, der diese Sorte bewertet!",
-      "anonymous": "Anonymer Benutzer",
-      "photoUpload": "Foto hochladen",
-      "averageRating": "Durchschnittliche Bewertung"
-    }
-  },
-  "profile": {
-    "title": "Profil",
-    "guestUser": "Gastnutzer",
-    "createAccount": "Erstelle ein Konto, um deine Tagebucheinträge und Einstellungen zu speichern",
-    "signUp": "Registrieren",
-    "login": "Anmelden"
-  },
-  "clubs": {
-    "title": "Cannabis-Clubs in Deutschland",
-    "description": "Entdecke Cannabis-Clubs in ganz Deutschland. Die Karte unten zeigt Clubs in großen Städten:",
-    "mockNotice": "*Derzeit werden Demodaten angezeigt - Echte Club-Standorte folgen in Kürze",
-    "cities": {
-      "berlin": "Berlin - Nordostdeutschland",
-      "munich": "München - Südbayern",
-      "hamburg": "Hamburg - Norddeutschland",
-      "cologne": "Köln - Westdeutschland"
+      "rating": "Bewertung",
+      "yourReview": "Deine Bewertung",
+      "submit": "Bewertung abschicken",
+      "editReview": "Bewertung bearbeiten",
+      "posted": "Veröffentlicht",
+      "deleteReview": "Bewertung löschen",
+      "deleteConfirm": "Bist du sicher, dass du diese Bewertung löschen möchtest?",
+      "loginToReview": "Einloggen zum Bewerten",
+      "readMore": "Mehr lesen",
+      "readLess": "Weniger lesen",
+      "confirm": "Bestätigen"
     },
-    "about": {
-      "title": "Über deutsche Cannabis-Clubs",
-      "description": "Cannabis Social Clubs in Deutschland sind Teil der neuen Cannabis-Politik des Landes. Diese gemeinnützigen Vereine ermöglichen es Mitgliedern, gemeinsam Cannabis für den persönlichen Gebrauch anzubauen und zu verteilen und bieten eine regulierte Alternative zum illegalen Markt."
-    }
-  },
-  "language": {
-    "select": "Sprache",
-    "english": "Englisch",
-    "german": "Deutsch"
+    "strainDetails": "Zusätzliche Informationen",
+    "strainNotFound": "Sorte nicht gefunden",
+    "errorLoadingStrain": "Beim Laden dieser Sorte ist ein Fehler aufgetreten.",
+    "requestedStrainNotFound": "Die angeforderte Sorte konnte nicht gefunden werden."
   },
   "legal": {
     "title": "Rechtliche Updates",
-    "subtitle": "Bleiben Sie informiert über die neuesten Cannabis-Vorschriften und rechtliche Entwicklungen in Deutschland",
+    "subtitle": "Bleibe informiert über Cannabis-Gesetze und Vorschriften in Deutschland",
+    "latestUpdates": "Aktuelle Updates",
+    "resultsFound": "Ergebnisse gefunden",
+    "noUpdates": "Keine rechtlichen Updates entsprechend deiner Kriterien gefunden.",
+    "readMore": "Mehr lesen",
+    "loadMore": "Weitere Updates laden",
     "categories": {
-      "all": "Alle Updates",
-      "federal": "Bundesebene",
-      "state": "Landesebene",
+      "all": "Alle",
+      "federal": "Bundesweit",
+      "state": "Bundesland",
       "medical": "Medizinisch",
-      "recreational": "Freizeitkonsum",
-      "business": "Geschäftlich",
-      "filter": "Filter",
+      "recreational": "Freizeit",
+      "business": "Gewerbe",
+      "filter": "Nach Kategorie filtern",
       "selectCategory": "Kategorie auswählen"
     },
-    "latestUpdates": "Neueste rechtliche Updates",
     "postedOn": "Veröffentlicht am",
     "source": "Quelle",
-    "readMore": "Weiterlesen",
     "visitSource": "Quelle besuchen",
-    "loadMore": "Mehr Updates laden",
-    "noUpdates": "Keine rechtlichen Updates gefunden, die Ihren Filtern entsprechen",
-    "resultsFound": "Ergebnisse gefunden",
     "relatedLinks": "Verwandte Links",
     "officialAnnouncement": "Offizielle Ankündigung",
     "pressRelease": "Pressemitteilung",
     "fullDocumentation": "Vollständige Dokumentation"
-  },
-  "guide": {
-    "title": "Cannabis-Ratgeber",
-    "sections": {
-      "laws": "Gesetze & Vorschriften",
-      "safeUse": "Sichere Anwendung",
-      "basics": "Cannabis-Grundlagen"
-    },
-    "lawsContent": {
-      "title": "Deutsche Cannabis-Gesetze",
-      "possession": {
-        "title": "Besitz",
-        "content": "Erwachsene dürfen bis zu 25 Gramm in der Öffentlichkeit und bis zu 50 Gramm zu Hause besitzen. Der Heimanbau von bis zu drei Pflanzen pro Erwachsenem ist erlaubt."
-      },
-      "consumption": {
-        "title": "Konsum",
-        "content": "Konsum in der Öffentlichkeit ist erlaubt, jedoch nicht in der Nähe von Schulen, Sportanlagen oder in Anwesenheit von Minderjährigen."
-      },
-      "driving": {
-        "title": "Fahren",
-        "content": "Fahren unter Einfluss ist streng verboten und mit Strafen belegt."
-      },
-      "clubs": {
-        "title": "Cannabis-Clubs",
-        "content": "Gemeinnützige Vereine dürfen Cannabis anbauen und nur an Mitglieder verteilen."
-      }
-    },
-    "safeUseContent": {
-      "title": "Praktiken für sichere Anwendung",
-      "startLow": {
-        "title": "Niedrig beginnen, langsam steigern",
-        "content": "Beginne mit einer niedrigen Dosis, besonders bei Esswaren, und warte die Wirkung ab, bevor du mehr konsumierst."
-      },
-      "knowSource": {
-        "title": "Kenne deine Quelle",
-        "content": "Beziehe Cannabis aus legalen, zuverlässigen Quellen, um Verunreinigungen und unbekannte Wirkstoffgehalte zu vermeiden."
-      },
-      "mindset": {
-        "title": "Set und Setting",
-        "content": "Konsumiere in einer angenehmen Umgebung mit vertrauten Personen und in einer positiven Grundstimmung."
-      },
-      "hydration": {
-        "title": "Bleib hydriert",
-        "content": "Trinke ausreichend Wasser und vermeide die Mischung mit Alkohol oder anderen Substanzen."
-      }
-    },
-    "basicsContent": {
-      "title": "Cannabis-Grundlagen",
-      "compounds": {
-        "title": "Schlüsselverbindungen",
-        "content": "THC (psychoaktiv), CBD (nicht-psychoaktiv) und Terpene (Aromen) sind die wichtigsten aktiven Komponenten."
-      },
-      "methods": {
-        "title": "Konsummethoden",
-        "content": "Rauchen, Verdampfen, Essbare Produkte, Tinkturen und topische Anwendungen haben jeweils unterschiedliche Wirkungseintrittszeiten und -dauern."
-      },
-      "types": {
-        "title": "Cannabis-Typen",
-        "content": "Indica (entspannend), Sativa (energetisierend) und Hybride bieten unterschiedliche Wirkungen und therapeutische Eigenschaften."
-      },
-      "tolerance": {
-        "title": "Toleranz",
-        "content": "Regelmäßiger Konsum kann eine Toleranz aufbauen, die höhere Dosen für die gleiche Wirkung erfordert. Pausen können die Empfindlichkeit zurücksetzen."
-      }
-    }
-  },
-  "offline": {
-    "title": "Offline-Zugang",
-    "description": "Speichere Inhalte für den Offline-Zugriff",
-    "saveStrain": "Sorte für Offline-Nutzung speichern",
-    "saveClub": "Club für Offline-Nutzung speichern",
-    "savedItems": "Gespeicherte Elemente",
-    "noSavedItems": "Keine Elemente für den Offline-Zugriff gespeichert",
-    "strainSaved": "Sorte für Offline-Zugriff gespeichert",
-    "clubSaved": "Club für Offline-Zugriff gespeichert",
-    "removedFromOffline": "Element vom Offline-Zugriff entfernt",
-    "availableOffline": "Offline verfügbar",
-    "manage": "Offline-Inhalte verwalten",
-    "storageUsage": "Speichernutzung",
-    "clearAll": "Alle gespeicherten Daten löschen"
   }
 }

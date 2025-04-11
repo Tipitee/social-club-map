@@ -105,7 +105,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             <>
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-medium text-white">{t('strains.thcLevel')}</span>
-                <span className="font-bold text-white">{t('strains.labDataPending')}</span>
+                <span className="font-bold text-white">{t('strains.dataPending')}</span>
               </div>
               <Progress 
                 className="h-3 rounded-full mb-5 bg-gray-800"
@@ -160,7 +160,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             </div>
           ) : (
             <div className="flex items-center h-full">
-              <span className="text-xs text-white">{t('strains.terpeneUnavailable')}</span>
+              <span className="text-xs text-white">{t('strains.terpenePending')}</span>
             </div>
           )}
         </div>

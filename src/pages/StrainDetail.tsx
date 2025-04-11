@@ -7,7 +7,6 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchStrainById } from "@/services/strainService";
 import StrainReviews from "@/components/StrainReviews";
 import Navbar from "@/components/Navbar";
@@ -84,13 +83,13 @@ const StrainDetail: React.FC = () => {
               <div>
                 <p className="text-gray-400">{t('strains.thcLevel')}</p>
                 <p className="text-xl font-medium text-white">
-                  {strain.thc_level ? `${strain.thc_level}%` : t('strains.labDataPending')}
+                  {strain.thc_level ? `${strain.thc_level}%` : t('strains.dataPending')}
                 </p>
               </div>
               <div>
                 <p className="text-gray-400">{t('strains.dominantTerpene')}</p>
                 <p className="text-xl font-medium text-white">
-                  {strain.most_common_terpene || t('strains.terpeneUnavailable')}
+                  {strain.most_common_terpene || t('strains.dataPending')}
                 </p>
               </div>
             </div>
@@ -101,7 +100,7 @@ const StrainDetail: React.FC = () => {
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-white mb-4">{t('strains.description')}</h2>
           <div className="bg-gray-800 rounded-lg p-6">
-            <p className="text-gray-300 whitespace-pre-line">{strain.description || "No description available for this strain yet."}</p>
+            <p className="text-gray-300 whitespace-pre-line">{strain.description || t('strains.noDescriptionAvailable')}</p>
           </div>
         </div>
 
@@ -109,57 +108,32 @@ const StrainDetail: React.FC = () => {
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-white mb-4">{t('strains.effects')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {strain.top_effect && (
-              <div className="bg-gray-800 rounded-lg p-4">
-                <h3 className="font-medium mb-2 text-white">{strain.top_effect}</h3>
-                <div className="w-full bg-gray-700 rounded-full h-2.5">
-                  <div 
-                    className="bg-emerald-600 h-2.5 rounded-full" 
-                    style={{ width: `${strain.highest_percent || '80'}%` }}
-                  ></div>
-                </div>
-                <p className="text-right text-sm text-white mt-1">{strain.highest_percent}%</p>
-              </div>
-            )}
-
-            {strain.second_effect && (
-              <div className="bg-gray-800 rounded-lg p-4">
-                <h3 className="font-medium mb-2 text-white">{strain.second_effect}</h3>
-                <div className="w-full bg-gray-700 rounded-full h-2.5">
-                  <div 
-                    className="bg-emerald-600 h-2.5 rounded-full" 
-                    style={{ width: `${strain.second_percent || '60'}%` }}
-                  ></div>
-                </div>
-                <p className="text-right text-sm text-white mt-1">{strain.second_percent}%</p>
-              </div>
-            )}
-
-            {strain.third_effect && (
-              <div className="bg-gray-800 rounded-lg p-4">
-                <h3 className="font-medium mb-2 text-white">{strain.third_effect}</h3>
-                <div className="w-full bg-gray-700 rounded-full h-2.5">
-                  <div 
-                    className="bg-emerald-600 h-2.5 rounded-full" 
-                    style={{ width: `${strain.third_percent || '40'}%` }}
-                  ></div>
-                </div>
-                <p className="text-right text-sm text-white mt-1">{strain.third_percent}%</p>
-              </div>
-            )}
-            
-            {/* If no effect data available, show the effects array data */}
-            {(!strain.top_effect && strain.effects && strain.effects.length > 0) && (
+            {/* Use effects array data for consistent display */}
+            {strain.effects && strain.effects.length > 0 ? (
               strain.effects.slice(0, 3).map((effect, index) => (
                 <div key={`effect-${index}`} className="bg-gray-800 rounded-lg p-4">
                   <h3 className="font-medium mb-2 text-white">{effect.effect}</h3>
                   <div className="w-full bg-gray-700 rounded-full h-2.5">
                     <div 
-                      className="bg-emerald-600 h-2.5 rounded-full" 
+                      className={`h-2.5 rounded-full ${
+                        index === 0 ? 'bg-emerald-600' : 
+                        index === 1 ? 'bg-purple-600' : 'bg-blue-600'
+                      }`}
                       style={{ width: `${effect.intensity}%` }}
                     ></div>
                   </div>
                   <p className="text-right text-sm text-white mt-1">{effect.intensity}%</p>
+                </div>
+              ))
+            ) : (
+              // If no effect data available, show placeholders
+              Array.from({length: 3}).map((_, index) => (
+                <div key={`effect-placeholder-${index}`} className="bg-gray-800 rounded-lg p-4">
+                  <h3 className="font-medium mb-2 text-white">{t('strains.noData')}</h3>
+                  <div className="w-full bg-gray-700 rounded-full h-2.5">
+                    <div className="bg-gray-600 h-2.5 rounded-full w-[50%]"></div>
+                  </div>
+                  <p className="text-right text-sm text-white mt-1">{t('strains.noEffectsData')}</p>
                 </div>
               ))
             )}
