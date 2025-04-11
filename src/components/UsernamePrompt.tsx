@@ -44,6 +44,7 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
       toast({
         title: t('profile.profileUpdated'),
         description: t('profile.usernameUpdated'),
+        duration: 2000,
       });
       
       onUsernameSaved(username);
@@ -54,6 +55,7 @@ const UsernamePrompt: React.FC<UsernamePromptProps> = ({ isOpen, onClose, onUser
         title: "Error",
         description: error.message,
         variant: "destructive",
+        duration: 2000,
       });
     } finally {
       setSaving(false);

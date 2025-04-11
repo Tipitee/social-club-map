@@ -1,3 +1,4 @@
+
 import * as React from "react"
 
 import type {
@@ -6,7 +7,7 @@ import type {
 } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+const TOAST_REMOVE_DELAY = 3000  // Reduced from 1000000 to 3000 (3 seconds)
 
 type ToasterToast = ToastProps & {
   id: string
@@ -141,6 +142,11 @@ type Toast = Omit<ToasterToast, "id">
 
 function toast({ ...props }: Toast) {
   const id = genId()
+  
+  // Set default duration if not provided
+  if (props.duration === undefined) {
+    props.duration = 3000; // 3 seconds is a good default
+  }
 
   const update = (props: ToasterToast) =>
     dispatch({

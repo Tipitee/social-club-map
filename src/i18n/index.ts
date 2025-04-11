@@ -76,7 +76,21 @@ const extendedDeTranslations = {
       'paranoia': 'Paranoia',
       'dizziness': 'Schwindel',
       'anxiety': 'Angst'
-    }
+    },
+    filters: 'Filter',
+    search: 'Suchen',
+    filterByTime: 'Filtern nach Zeit',
+    thisMonth: 'Dieser Monat',
+    lastWeek: 'Letzte Woche',
+    noEntries: 'Keine Einträge',
+    noEntriesFound: 'Keine Einträge gefunden',
+    adjustFilters: 'Passen Sie die Filter an',
+    startTracking: 'Beginnen Sie mit der Verfolgung Ihres Konsums',
+    addNew: 'Neuen Eintrag hinzufügen',
+    addFirst: 'Ersten Eintrag hinzufügen',
+    entry: 'Eintrag',
+    entries: 'Einträge',
+    ratingBadge: 'Bewertung: {rating}'
   },
   app: {
     ...(deTranslation as any).app,
@@ -86,7 +100,8 @@ const extendedDeTranslations = {
     ...(deTranslation as any).auth,
     welcomeTo: 'Willkommen bei SocialClub Map',
     signInToTrack: 'Melden Sie sich an, um Ihren Konsum zu verfolgen und Ihre Vorlieben zu speichern',
-    signInOrCreate: 'Anmelden / Konto erstellen'
+    signInOrCreate: 'Anmelden / Konto erstellen',
+    signIn: 'Anmelden'
   },
   strains: {
     ...(deTranslation as any).strains,
@@ -97,14 +112,20 @@ const extendedDeTranslations = {
   },
   legal: {
     ...(deTranslation as any).legal,
-    stayInformed: 'Bleiben Sie über Cannabis-Gesetze informiert'
+    stayInformed: 'Bleiben Sie über Cannabis-Gesetze informiert',
+    title: 'Aktualisierungen'
   },
   guide: {
     learnMore: 'Erfahren Sie mehr über Cannabis-Nutzung'
   },
   settings: {
     ...(deTranslation as any).settings,
-    managePreferences: 'Verwalten Sie Ihre App-Einstellungen'
+    managePreferences: 'Verwalten Sie Ihre App-Einstellungen',
+    appearance: 'Erscheinungsbild',
+    language: 'Sprache',
+    theme: 'Theme',
+    lightMode: 'Heller Modus',
+    darkMode: 'Dunkler Modus'
   },
   profile: {
     ...(deTranslation as any).profile,
@@ -112,14 +133,31 @@ const extendedDeTranslations = {
     createUsername: 'Benutzername erstellen',
     enterUsername: 'Benutzernamen eingeben',
     saveUsername: 'Benutzername speichern',
-    usernameLabel: 'Benutzername',
+    usernameLabel: 'Benutzername wählen',
     saving: 'Wird gespeichert...',
     profileUpdated: 'Profil aktualisiert',
-    usernameUpdated: 'Benutzername wurde aktualisiert'
+    usernameUpdated: 'Benutzername wurde aktualisiert',
+    myProfile: 'Mein Profil',
+    editProfile: 'Profil bearbeiten',
+    saveProfile: 'Profil speichern',
+    changeAvatar: 'Avatar ändern',
+    cancel: 'Abbrechen',
+    accountActions: 'Kontoaktionen',
+    signOut: 'Abmelden'
   },
   common: {
     cancel: 'Abbrechen',
-    saving: 'Speichern...'
+    saving: 'Speichern...',
+    clear: 'Löschen'
+  },
+  navigation: {
+    home: 'Home',
+    journal: 'Journal',
+    strains: 'Sorten',
+    clubs: 'Clubs',
+    updates: 'Updates',
+    profile: 'Profil',
+    signIn: 'Anmelden'
   }
 };
 

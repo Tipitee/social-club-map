@@ -62,6 +62,7 @@ const Profile: React.FC = () => {
           title: "Error",
           description: "Couldn't load your profile information",
           variant: "destructive",
+          duration: 2000,
         });
       } finally {
         setLoading(false);
@@ -89,6 +90,7 @@ const Profile: React.FC = () => {
       toast({
         title: t('profile.profileUpdated'),
         description: t('profile.profileUpdateSuccess'),
+        duration: 2000,
       });
       setEditMode(false);
       
@@ -105,6 +107,7 @@ const Profile: React.FC = () => {
         title: "Error",
         description: error.message,
         variant: "destructive",
+        duration: 2000,
       });
     } finally {
       setUpdating(false);
@@ -130,6 +133,7 @@ const Profile: React.FC = () => {
       toast({
         title: "Language Updated",
         description: lang === 'en' ? "Language set to English" : "Sprache auf Deutsch eingestellt",
+        duration: 2000,
       });
       
       // Refresh profile data
@@ -145,6 +149,7 @@ const Profile: React.FC = () => {
         title: "Error",
         description: error.message,
         variant: "destructive",
+        duration: 2000,
       });
     }
   };
@@ -237,11 +242,9 @@ const Profile: React.FC = () => {
               </div>
               
               <div className="text-center">
-                {/* Only show email when not in edit mode, show username in edit mode */}
-                {editMode ? (
-                  <h2 className="text-xl font-bold">{profile?.username || ""}</h2>
-                ) : null}
-                <p className={isDarkMode ? "text-gray-400" : "text-gray-500"}>{user.email}</p>
+                {!editMode && (
+                  <h2 className="text-xl font-bold">{profile?.username || username}</h2>
+                )}
               </div>
             </div>
 
@@ -258,8 +261,22 @@ const Profile: React.FC = () => {
                     className={isDarkMode 
                       ? "bg-gray-700/60 border-gray-600 text-white" 
                       : "bg-gray-50 border-gray-200 text-gray-900"}
-                    placeholder={t('profile.usernameLabel')}
+                    placeholder={t('profile.enterUsername')}
                     autoFocus
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="email" className={isDarkMode ? "text-gray-200" : "text-gray-700"}>
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    value={user.email || ""}
+                    readOnly
+                    className={isDarkMode 
+                      ? "bg-gray-700/60 border-gray-600 text-gray-400" 
+                      : "bg-gray-50 border-gray-200 text-gray-500"}
                   />
                 </div>
                 

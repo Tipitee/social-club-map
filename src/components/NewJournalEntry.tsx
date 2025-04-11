@@ -96,8 +96,8 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
     : "text-gray-800";
 
   const getInputClass = () => isDarkMode
-    ? "bg-gray-700 border-gray-600 text-white" 
-    : "bg-white/70 border-cadetGray-300 text-gray-800";
+    ? "bg-gray-700 border-gray-600 text-white focus:ring-primary/70" 
+    : "bg-white/70 border-cadetGray-300 text-gray-800 focus:ring-primary/70";
     
   return (
     <Dialog open={isOpen} onOpenChange={(open) => {
@@ -127,13 +127,12 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
                   type="number"
                   value={dosage}
                   onChange={(e) => setDosage(e.target.value)}
-                  className={`${getInputClass()} rounded-r-none`}
-                  placeholder={t('journal.dosageAmount')}
+                  className={`${getInputClass()} rounded-r-none flex-grow`}
                 />
                 <select
                   value={dosageType}
                   onChange={(e) => setDosageType(e.target.value)}
-                  className={`${getInputClass()} rounded-l-none border-l-0 min-w-[80px]`}
+                  className={`${getInputClass()} rounded-l-none border-l-0 min-w-[80px] py-2 px-3`}
                 >
                   <option value="mg">mg</option>
                   <option value="g">g</option>
@@ -231,20 +230,22 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
                       variant={isSelected ? "default" : "outline"}
                       size="sm"
                       onClick={() => toggleEffect(effect.id)}
-                      className={`flex items-center justify-start gap-2 ${
+                      className={`flex items-center justify-start gap-2 h-auto py-1.5 ${
                         isSelected 
                           ? "bg-primary hover:bg-primary/90 text-white" 
                           : isDarkMode
-                            ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-                            : "bg-white border-cadetGray-300 text-gray-800 hover:bg-gray-100"
+                            ? "bg-gray-700/90 border-gray-600 text-gray-100 hover:bg-gray-600"
+                            : "bg-white/90 border-cadetGray-300 text-gray-800 hover:bg-gray-100"
                       }`}
                     >
                       {isSelected ? (
-                        <CheckCircle2 className="w-4 h-4" />
+                        <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                       ) : (
-                        <effect.icon className="w-4 h-4" />
+                        <effect.icon className="w-4 h-4 flex-shrink-0" />
                       )}
-                      <span className="text-xs">{t(`journal.sideEffects.${effect.id}`)}</span>
+                      <span className="text-xs whitespace-nowrap overflow-hidden text-ellipsis">
+                        {t(`journal.sideEffects.${effect.id}`)}
+                      </span>
                     </Button>
                   );
                 })}
