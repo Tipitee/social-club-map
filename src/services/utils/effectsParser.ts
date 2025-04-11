@@ -67,13 +67,13 @@ export const extractEffects = (item: any): StrainEffect[] => {
     console.error("Error handling effects:", e);
   }
   
-  // Add debug logs to help track issues
-  console.log("Extracted effects:", effects);
-  console.log("Raw effect data:", {
-    top: { effect: item.top_effect, percent: item.top_percent },
-    second: { effect: item.second_effect, percent: item.second_percent },
-    third: { effect: item.third_effect, percent: item.third_percent }
-  });
+  // Make sure we always return at least 3 effects (even if empty)
+  while (effects.length < 3) {
+    effects.push({
+      effect: "", 
+      intensity: 0
+    });
+  }
   
   return effects;
 };

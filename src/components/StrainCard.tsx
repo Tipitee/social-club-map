@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Strain } from "@/types/strain";
-import { Cannabis, Sun, CircleDashed } from "lucide-react";
+import { Cannabis, Sun, CircleDashed, HelpCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useTranslation } from "react-i18next";
@@ -46,15 +46,11 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   };
 
-  // Filter out invalid effects and show top 3
+  // Filter out effects without names but include those with zero intensity
   const validEffects = strain.effects
-    .filter(effect => effect && effect.effect && typeof effect.intensity === 'number')
+    .filter(effect => effect && effect.effect)
     .sort((a, b) => b.intensity - a.intensity)
     .slice(0, 3); // Show top 3 effects
-    
-  // Debug logging to help troubleshoot
-  console.log("Strain data:", strain.name, "Effects:", strain.effects);
-  console.log("Valid effects after filtering:", validEffects);
 
   return (
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900 h-full">
@@ -109,7 +105,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             <>
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-medium text-white">{t('strains.thcLevel')}</span>
-                <span className="font-bold text-white">{t('strains.unknown')}</span>
+                <span className="font-bold text-white">?</span>
               </div>
               <Progress 
                 className="h-3 rounded-full mb-5 bg-gray-800"
@@ -126,13 +122,23 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               <div key={`${effect.effect}-${index}`}>
                 <div className="flex justify-between text-xs mb-1">
                   <span className="font-medium text-white">{effect.effect}</span>
-                  <span className="font-bold text-white">{effect.intensity}%</span>
+                  <span className="font-bold text-white">
+                    {typeof effect.intensity === 'number' && effect.intensity > 0 ? `${effect.intensity}%` : '?'}
+                  </span>
                 </div>
-                <Progress 
-                  className="h-2 rounded-full mb-1"
-                  value={effect.intensity}
-                  indicatorClassName={getEffectColor(index)}
-                />
+                {typeof effect.intensity === 'number' && effect.intensity > 0 ? (
+                  <Progress 
+                    className="h-2 rounded-full mb-1"
+                    value={effect.intensity}
+                    indicatorClassName={getEffectColor(index)}
+                  />
+                ) : (
+                  <Progress 
+                    className="h-2 rounded-full mb-1 bg-gray-800"
+                    value={50}
+                    indicatorClassName="bg-white/30"
+                  />
+                )}
               </div>
             ))
           ) : (
@@ -142,6 +148,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
                 <div key={`placeholder-effect-${index}`}>
                   <div className="flex justify-between text-xs mb-1">
                     <span className="font-medium text-white">{t('strains.noData')}</span>
+                    <span className="font-bold text-white">?</span>
                   </div>
                   <Progress 
                     className="h-2 rounded-full mb-1 bg-gray-800"
@@ -164,7 +171,10 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             </div>
           ) : (
             <div className="flex items-center h-full">
-              <span className="text-xs text-white">{t('strains.unknown')}</span>
+              <span className="text-xs text-white mr-2">{t('strains.dominantTerpene')}:</span>
+              <Badge variant="outline" className="font-medium text-xs border-gray-600 text-white">
+                {t('strains.unknown')}
+              </Badge>
             </div>
           )}
         </div>

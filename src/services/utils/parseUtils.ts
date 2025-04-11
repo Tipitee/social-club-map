@@ -20,11 +20,11 @@ export const safeParsePercent = (value: string | number | null | undefined): num
  * Extract thc level from item data
  */
 export const extractThcLevel = (item: any): number | null => {
-  if (item.thc_level) {
+  if (item.thc_level && !isNaN(parseFloat(item.thc_level))) {
     return parseFloat(item.thc_level);
   }
   
-  if (item.thc) {
+  if (item.thc && !isNaN(parseFloat(item.thc))) {
     return parseFloat(item.thc);
   }
   
