@@ -160,7 +160,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
             </div>
           ) : (
             <div className="flex items-center h-full">
-              <span className="text-xs text-white">{t('strains.terpenePending')}</span>
+              <span className="text-xs text-white">{t('strains.dataPending')}</span>
             </div>
           )}
         </div>

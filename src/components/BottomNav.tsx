@@ -30,12 +30,15 @@ const BottomNav: React.FC = () => {
             className={`flex flex-col items-center justify-center w-full h-full ${
               isActive(item.path) ? "text-secondary" : "text-gray-400"
             }`}
+            aria-label={item.label}
           >
-            <item.icon size={24} className={isActive(item.path) ? "text-secondary" : ""} />
-            <span className="text-xs mt-1 truncate px-1">{item.label}</span>
+            <item.icon size={22} className={isActive(item.path) ? "text-secondary" : ""} />
+            <span className="text-xs mt-1 truncate px-1 max-w-full">{item.label}</span>
           </Link>
         ))}
       </div>
+      {/* Add a safe area for iOS devices */}
+      <div className="h-safe-bottom bg-gray-900 border-t-0"></div>
     </div>
   );
 };

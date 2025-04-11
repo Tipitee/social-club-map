@@ -44,6 +44,12 @@ const StrainDetail: React.FC = () => {
     );
   }
 
+  // Ensure effects are properly sorted and displayed
+  const sortedEffects = strain.effects
+    .filter(effect => effect && effect.effect && effect.intensity > 0)
+    .sort((a, b) => b.intensity - a.intensity)
+    .slice(0, 3); // Get top 3 effects
+
   return (
     <div className="min-h-screen bg-[#121212] text-white pb-24">
       <Navbar />
@@ -108,9 +114,8 @@ const StrainDetail: React.FC = () => {
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-white mb-4">{t('strains.effects')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Use effects array data for consistent display */}
-            {strain.effects && strain.effects.length > 0 ? (
-              strain.effects.slice(0, 3).map((effect, index) => (
+            {sortedEffects && sortedEffects.length > 0 ? (
+              sortedEffects.map((effect, index) => (
                 <div key={`effect-${index}`} className="bg-gray-800 rounded-lg p-4">
                   <h3 className="font-medium mb-2 text-white">{effect.effect}</h3>
                   <div className="w-full bg-gray-700 rounded-full h-2.5">
@@ -133,14 +138,14 @@ const StrainDetail: React.FC = () => {
                   <div className="w-full bg-gray-700 rounded-full h-2.5">
                     <div className="bg-gray-600 h-2.5 rounded-full w-[50%]"></div>
                   </div>
-                  <p className="text-right text-sm text-white mt-1">{t('strains.noEffectsData')}</p>
+                  <p className="text-right text-sm text-white mt-1">{t('strains.dataPending')}</p>
                 </div>
               ))
             )}
           </div>
         </div>
 
-        {/* Reviews Section */}
+        {/* Reviews Section - Fix the duplication issue */}
         <div className="mt-8">
           <h2 className="text-xl font-semibold text-white mb-4">{t('strains.reviews.title')}</h2>
           <StrainReviews strainId={id || '1'} strainName={strain.name} />
