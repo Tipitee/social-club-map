@@ -60,6 +60,9 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   });
 
+  // Filter out "Unknown" effects for display
+  const displayEffects = strain.effects.filter(e => e.effect && e.effect !== "Unknown");
+
   return (
     <div className="rounded-xl overflow-hidden border border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-900 h-full">
       <div className="relative h-48 overflow-hidden group">
@@ -125,7 +128,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
         </div>
         
         <div className="space-y-2 mb-5">
-          {strain.effects.map((effect, index) => (
+          {displayEffects.map((effect, index) => (
             <div key={`${effect.effect}-${index}`}>
               <div className="flex justify-between text-xs mb-1">
                 <span className="font-medium text-white">{effect.effect}</span>

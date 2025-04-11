@@ -53,15 +53,21 @@ export const fetchStrains = async (
     }
     
     // Log raw data sample for debugging
-    console.log("Raw strains data from Supabase (first 2):", data?.slice(0, 2));
+    console.log("Raw strains data from Supabase (first 2):", 
+      data?.slice(0, 2).map(item => ({
+        name: item.name,
+        img_url: item.img_url,
+        has_image: Boolean(item.img_url && item.img_url.trim() !== '')
+      }))
+    );
     
     // Transform data into our Strain type
     const strains = data.map(mapToStrainType);
     
-    // Apply custom sorting to ensure strains with images are displayed first
+    // IMPORTANT: ALWAYS apply custom sorting to ensure strains with images are displayed first
     const sortedStrains = sortStrainsByImagePresence(strains);
     
-    // Log sorted data to verify image sorting took effect
+    // Log final sorted data
     console.log("Sorted strains by image (first 5):", 
       sortedStrains.slice(0, 5).map(s => ({
         name: s.name,

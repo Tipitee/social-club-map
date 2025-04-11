@@ -40,15 +40,20 @@ export const sortStrainsByImagePresence = (strains: Strain[]): Strain[] => {
     strains.slice(0, 5).map(s => ({ name: s.name, hasImg: Boolean(s.img_url && s.img_url.trim() !== '') }))
   );
   
-  const sorted = [...strains].sort((a, b) => {
-    // First priority: Has image or not - STRICT BOOLEAN COMPARISON
+  // First make a copy to avoid mutating the original array
+  const sorted = [...strains];
+  
+  // IMPORTANT: Strict image-first sorting with no secondary sort yet
+  sorted.sort((a, b) => {
+    // ONLY sort by image presence first - this is the primary sort criterion
     const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
     const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
     
+    // Images first - this is our PRIMARY sort criterion
     if (aHasImage && !bHasImage) return -1;
     if (!aHasImage && bHasImage) return 1;
     
-    // Second priority: Alphabetical by name
+    // Secondary sort by name (ONLY after image criterion is applied)
     return a.name.localeCompare(b.name);
   });
   
