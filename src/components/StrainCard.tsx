@@ -60,7 +60,7 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
     }
   });
 
-  // Filter out "Unknown" effects for display and all effects with 0 intensity should display "?"
+  // Filter out "Unknown" effects for display
   const displayEffects = strain.effects.filter(e => e.effect && e.effect !== "Unknown");
 
   return (
@@ -133,7 +133,8 @@ const StrainCard: React.FC<StrainCardProps> = ({ strain }) => {
               <div className="flex justify-between text-xs mb-1">
                 <span className="font-medium text-white">{effect.effect}</span>
                 <span className="font-bold text-white">
-                  {effect.intensity <= 0 ? '?' : `${effect.intensity}%`}
+                  {/* Show 0% as 0% instead of ? */}
+                  {effect.intensity !== null && effect.intensity !== undefined ? `${effect.intensity}%` : '?'}
                 </span>
               </div>
               <Progress 

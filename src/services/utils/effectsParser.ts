@@ -12,26 +12,25 @@ export const extractEffects = (item: any): StrainEffect[] => {
     third: { effect: item.third_effect, percent: item.third_percent },
   });
   
-  // Default extraction logic - Don't use special case handling, 
-  // always stick to actual values from database
   let effects: StrainEffect[] = [];
   
-  // Process effects in correct order with proper 0% handling
+  // Process top effect - handle both null/undefined values and "0.00"/"0%" values differently
   if (item.top_effect) {
+    // For top effect, preserve the original value
     const parsedPercent = safeParsePercent(item.top_percent);
     effects.push({
       effect: item.top_effect,
-      // Keep actual parsed value even if 0
+      // Even if the parsed percentage is 0, keep it as a valid percentage value
       intensity: parsedPercent
     });
   }
   
-  // Second effect
+  // Second effect - similar handling
   if (item.second_effect) {
     const parsedPercent = safeParsePercent(item.second_percent);
     effects.push({
       effect: item.second_effect,
-      // Keep actual parsed value even if 0
+      // Even if the parsed percentage is 0, keep it as a valid percentage value
       intensity: parsedPercent
     });
   }
