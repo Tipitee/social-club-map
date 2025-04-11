@@ -14,14 +14,13 @@ export type Strain = {
   description: string | null;
   effects: StrainEffect[];
   created_at?: string;
-  // Add missing properties required by StrainDetail component
-  unique_identifier?: string;
-  top_effect?: string | null;
-  highest_percent?: string | number | null;
-  second_effect?: string | null;
-  second_percent?: string | number | null;
-  third_effect?: string | null;
-  third_percent?: string | number | null;
+  // Add explicit properties for original effect data
+  top_effect: string | null;
+  top_percent: string | number | null;
+  second_effect: string | null;
+  second_percent: string | number | null;
+  third_effect: string | null;
+  third_percent: string | number | null;
 };
 
 export type StrainFilters = {
