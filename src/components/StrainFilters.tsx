@@ -95,11 +95,11 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
     filters.effect && 'effect',
     filters.terpene && 'terpene',
     filters.search && 'search',
-    (filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && 'thc'
+    (filters.thcRange[0] > 0 || filters.thcRange[1] < 30) ? 'thc' : null
   ].filter(Boolean);
 
   return (
-    <div className="bg-gray-800/80 p-4 rounded-xl border border-gray-700 shadow-md space-y-5 sticky top-20">
+    <div className="bg-gray-800/80 p-4 rounded-xl border border-gray-700 shadow-md space-y-4 sticky top-20">
       <div className="flex justify-between items-center mb-2">
         <h2 className="font-bold text-lg text-white">{t('strains.filters.title')}</h2>
         {activeFilters.length > 0 && (

@@ -25,8 +25,13 @@ i18n
     keySeparator: false,
     parseMissingKeyHandler: (key) => {
       console.warn(`Missing translation key: ${key}`);
-      // Return the key as fallback
-      return key.split('.').pop() || key;
+      // Return the key as fallback with proper capitalization and formatting
+      const lastPart = key.split('.').pop() || key;
+      // Convert camelCase to normal text with spaces and capitalize first letter
+      return lastPart
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, (str) => str.toUpperCase())
+        .trim();
     }
   });
 

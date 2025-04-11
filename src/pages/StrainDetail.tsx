@@ -87,7 +87,7 @@ const StrainDetail: React.FC = () => {
         </div>
 
         {/* Main Strain Info Card */}
-        <div className="bg-gray-900 rounded-xl overflow-hidden border border-gray-800 shadow-lg mb-8">
+        <div className="bg-gray-900 rounded-xl overflow-hidden border border-gray-800 shadow-lg mb-6">
           <div className="flex flex-col md:flex-row">
             {/* Strain Image */}
             <div className="md:w-1/3 h-56 md:h-auto">
@@ -120,18 +120,18 @@ const StrainDetail: React.FC = () => {
               
               {/* THC and Terpene Info - IMPROVED SMALLER SIZE */}
               <div className="grid grid-cols-2 gap-2 mb-4">
-                <div className="bg-gray-800 px-2 py-1 rounded-md inline-flex items-center">
-                  <div>
+                <div className="bg-gray-800 rounded-md inline-flex items-center">
+                  <div className="px-2 py-1">
                     <span className="text-xs text-gray-400">{t('strains.thcLevel')}</span>
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-xs font-semibold text-white">
                       {strain.thc_level ? `${strain.thc_level}%` : t('strains.unknown')}
                     </p>
                   </div>
                 </div>
-                <div className="bg-gray-800 px-2 py-1 rounded-md inline-flex items-center">
-                  <div>
+                <div className="bg-gray-800 rounded-md inline-flex items-center">
+                  <div className="px-2 py-1">
                     <span className="text-xs text-gray-400">{t('strains.dominantTerpene')}</span>
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-xs font-semibold text-white">
                       {strain.most_common_terpene || t('strains.unknown')}
                     </p>
                   </div>
@@ -149,7 +149,7 @@ const StrainDetail: React.FC = () => {
         </div>
 
         {/* Effects Section with improved design */}
-        <div className="mb-8">
+        <div className="mb-6">
           <h2 className="text-xl font-bold text-white mb-4 flex items-center">
             <Leaf className="mr-2 h-5 w-5 text-primary" />
             {t('strains.effects')}
@@ -192,7 +192,7 @@ const StrainDetail: React.FC = () => {
         </div>
 
         {/* Description Section */}
-        <div className="mb-8">
+        <div className="mb-6">
           <h2 className="text-xl font-bold text-white mb-4">{t('strains.description')}</h2>
           <div className="bg-gray-900 rounded-xl border border-gray-800 p-4 md:p-6">
             <p className="text-gray-300 whitespace-pre-line">{strain.description || t('strains.noDescriptionAvailable')}</p>
