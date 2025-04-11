@@ -1,3 +1,4 @@
+
 import { Strain, StrainEffect } from "../types/strain";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -216,11 +217,11 @@ export const fetchStrains = async (
       let effects: StrainEffect[] = [];
       const thcLevel = extractThcLevel(item);
       
-      // Process top 3 effects
+      // Process top 3 effects - using the correct property names
       if (item.top_effect) {
         effects.push({
           effect: item.top_effect,
-          intensity: safeParsePercent(item.highest_percent || 90),
+          intensity: safeParsePercent(item.highest_percent || 90), // highest_percent is the DB field for top_percent
         });
       }
       
@@ -275,8 +276,8 @@ export const fetchStrains = async (
         console.error("Error handling effects for strain:", item.name, e);
       }
       
-      // Ensure we have a valid ID
-      const strainId = item.unique_identifier || item.id || item.name.replace(/\s+/g, '-').toLowerCase();
+      // Ensure we have a valid ID - removed item.id reference
+      const strainId = item.unique_identifier || item.name.replace(/\s+/g, '-').toLowerCase();
 
       // Create strain object
       return {
@@ -454,9 +455,9 @@ export const fetchStrainById = async (idOrName: string): Promise<Strain | null> 
       console.error("Error handling effects for strain:", item.name, e);
     }
     
-    // Create strain object
+    // Create strain object - removed item.id reference
     const thcLevel = extractThcLevel(item);
-    const strainId = item.unique_identifier || item.id || item.name.replace(/\s+/g, '-').toLowerCase();
+    const strainId = item.unique_identifier || item.name.replace(/\s+/g, '-').toLowerCase();
     
     return {
       id: strainId,
