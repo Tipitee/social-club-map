@@ -10,7 +10,6 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchStrainById } from "@/services/strainService";
 import StrainReviews from "@/components/StrainReviews";
-import OfflineSaveButton from "@/components/OfflineSaveButton";
 import Navbar from "@/components/Navbar";
 
 const StrainDetail: React.FC = () => {
@@ -84,111 +83,101 @@ const StrainDetail: React.FC = () => {
             <div className="mt-4 grid grid-cols-2 gap-4">
               <div>
                 <p className="text-gray-400">{t('strains.thcLevel')}</p>
-                <p className="text-xl font-medium">
+                <p className="text-xl font-medium text-white">
                   {strain.thc_level ? `${strain.thc_level}%` : t('strains.labDataPending')}
                 </p>
               </div>
               <div>
                 <p className="text-gray-400">{t('strains.dominantTerpene')}</p>
-                <p className="text-xl font-medium">
+                <p className="text-xl font-medium text-white">
                   {strain.most_common_terpene || t('strains.terpeneUnavailable')}
                 </p>
               </div>
             </div>
-
-            <div className="mt-8 space-y-3">
-              <OfflineSaveButton 
-                itemId={strain.unique_identifier || strain.id || '1'} 
-                itemName={strain.name} 
-                itemType="strain" 
-              />
-            </div>
           </div>
         </div>
 
-        <Tabs defaultValue="effects" className="w-full mt-6">
-          <TabsList className="grid grid-cols-3">
-            <TabsTrigger value="effects">{t('strains.effects')}</TabsTrigger>
-            <TabsTrigger value="description">{t('strains.description')}</TabsTrigger>
-            <TabsTrigger value="reviews">{t('strains.reviews.title')}</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="effects" className="mt-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {strain.top_effect && (
-                <div className="bg-gray-800 rounded-lg p-4">
-                  <h3 className="font-medium mb-2">{strain.top_effect}</h3>
+        {/* Description Section - Now shown directly */}
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold text-white mb-4">{t('strains.description')}</h2>
+          <div className="bg-gray-800 rounded-lg p-6">
+            <p className="text-gray-300 whitespace-pre-line">{strain.description || "No description available for this strain yet."}</p>
+          </div>
+        </div>
+
+        {/* Effects Section */}
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold text-white mb-4">{t('strains.effects')}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {strain.top_effect && (
+              <div className="bg-gray-800 rounded-lg p-4">
+                <h3 className="font-medium mb-2 text-white">{strain.top_effect}</h3>
+                <div className="w-full bg-gray-700 rounded-full h-2.5">
+                  <div 
+                    className="bg-emerald-600 h-2.5 rounded-full" 
+                    style={{ width: `${strain.highest_percent || '80'}%` }}
+                  ></div>
+                </div>
+                <p className="text-right text-sm text-white mt-1">{strain.highest_percent}%</p>
+              </div>
+            )}
+
+            {strain.second_effect && (
+              <div className="bg-gray-800 rounded-lg p-4">
+                <h3 className="font-medium mb-2 text-white">{strain.second_effect}</h3>
+                <div className="w-full bg-gray-700 rounded-full h-2.5">
+                  <div 
+                    className="bg-emerald-600 h-2.5 rounded-full" 
+                    style={{ width: `${strain.second_percent || '60'}%` }}
+                  ></div>
+                </div>
+                <p className="text-right text-sm text-white mt-1">{strain.second_percent}%</p>
+              </div>
+            )}
+
+            {strain.third_effect && (
+              <div className="bg-gray-800 rounded-lg p-4">
+                <h3 className="font-medium mb-2 text-white">{strain.third_effect}</h3>
+                <div className="w-full bg-gray-700 rounded-full h-2.5">
+                  <div 
+                    className="bg-emerald-600 h-2.5 rounded-full" 
+                    style={{ width: `${strain.third_percent || '40'}%` }}
+                  ></div>
+                </div>
+                <p className="text-right text-sm text-white mt-1">{strain.third_percent}%</p>
+              </div>
+            )}
+            
+            {/* If no effect data available, show the effects array data */}
+            {(!strain.top_effect && strain.effects && strain.effects.length > 0) && (
+              strain.effects.slice(0, 3).map((effect, index) => (
+                <div key={`effect-${index}`} className="bg-gray-800 rounded-lg p-4">
+                  <h3 className="font-medium mb-2 text-white">{effect.effect}</h3>
                   <div className="w-full bg-gray-700 rounded-full h-2.5">
                     <div 
                       className="bg-emerald-600 h-2.5 rounded-full" 
-                      style={{ width: `${strain.highest_percent || '80'}%` }}
+                      style={{ width: `${effect.intensity}%` }}
                     ></div>
                   </div>
-                  <p className="text-right text-sm text-gray-400 mt-1">{strain.highest_percent}%</p>
+                  <p className="text-right text-sm text-white mt-1">{effect.intensity}%</p>
                 </div>
-              )}
+              ))
+            )}
+          </div>
+        </div>
 
-              {strain.second_effect && (
-                <div className="bg-gray-800 rounded-lg p-4">
-                  <h3 className="font-medium mb-2">{strain.second_effect}</h3>
-                  <div className="w-full bg-gray-700 rounded-full h-2.5">
-                    <div 
-                      className="bg-emerald-600 h-2.5 rounded-full" 
-                      style={{ width: `${strain.second_percent || '60'}%` }}
-                    ></div>
-                  </div>
-                  <p className="text-right text-sm text-gray-400 mt-1">{strain.second_percent}%</p>
-                </div>
-              )}
-
-              {strain.third_effect && (
-                <div className="bg-gray-800 rounded-lg p-4">
-                  <h3 className="font-medium mb-2">{strain.third_effect}</h3>
-                  <div className="w-full bg-gray-700 rounded-full h-2.5">
-                    <div 
-                      className="bg-emerald-600 h-2.5 rounded-full" 
-                      style={{ width: `${strain.third_percent || '40'}%` }}
-                    ></div>
-                  </div>
-                  <p className="text-right text-sm text-gray-400 mt-1">{strain.third_percent}%</p>
-                </div>
-              )}
-              
-              {/* If no effect data available, show the effects array data */}
-              {(!strain.top_effect && strain.effects && strain.effects.length > 0) && (
-                strain.effects.slice(0, 3).map((effect, index) => (
-                  <div key={`effect-${index}`} className="bg-gray-800 rounded-lg p-4">
-                    <h3 className="font-medium mb-2">{effect.effect}</h3>
-                    <div className="w-full bg-gray-700 rounded-full h-2.5">
-                      <div 
-                        className="bg-emerald-600 h-2.5 rounded-full" 
-                        style={{ width: `${effect.intensity}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-right text-sm text-gray-400 mt-1">{effect.intensity}%</p>
-                  </div>
-                ))
-              )}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="description" className="mt-4">
-            <div className="bg-gray-800 rounded-lg p-6">
-              <p className="text-gray-300 whitespace-pre-line">{strain.description || "No description available for this strain yet."}</p>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="reviews" className="mt-4">
-            <StrainReviews strainId={id || '1'} strainName={strain.name} />
-          </TabsContent>
-        </Tabs>
+        {/* Reviews Section */}
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold text-white mb-4">{t('strains.reviews.title')}</h2>
+          <StrainReviews strainId={id || '1'} strainName={strain.name} />
+        </div>
 
         <Separator className="my-8 bg-gray-700" />
 
         <div>
           <h2 className="text-xl font-semibold mb-4">{t('strains.strainDetails')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-            {/* Strain details here */}
+            {/* Additional strain details here if needed */}
           </div>
         </div>
       </main>

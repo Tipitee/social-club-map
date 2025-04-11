@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, ExternalLink, Search, Filter } from "lucide-react";
+import { Calendar, ExternalLink, Search, Filter, FileText, MapPin, AlertTriangle, BookOpen } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,7 +25,8 @@ const mockLegalUpdates = [
     category: "federal",
     date: "2025-03-15",
     source: "Bundesgesundheitsministerium",
-    url: "#"
+    url: "#",
+    icon: FileText
   },
   {
     id: "legal-2",
@@ -34,7 +35,8 @@ const mockLegalUpdates = [
     category: "state",
     date: "2025-02-28",
     source: "Bayerisches Staatsministerium",
-    url: "#"
+    url: "#",
+    icon: MapPin
   },
   {
     id: "legal-3",
@@ -43,7 +45,8 @@ const mockLegalUpdates = [
     category: "medical",
     date: "2025-02-10",
     source: "GKV-Spitzenverband",
-    url: "#"
+    url: "#",
+    icon: FileText
   },
   {
     id: "legal-4",
@@ -52,7 +55,8 @@ const mockLegalUpdates = [
     category: "business",
     date: "2025-01-22",
     source: "Bundesgesundheitsministerium",
-    url: "#"
+    url: "#",
+    icon: FileText
   },
   {
     id: "legal-5",
@@ -61,7 +65,8 @@ const mockLegalUpdates = [
     category: "recreational",
     date: "2025-01-05",
     source: "Bundesverkehrsministerium",
-    url: "#"
+    url: "#",
+    icon: AlertTriangle
   },
   {
     id: "legal-6",
@@ -70,7 +75,8 @@ const mockLegalUpdates = [
     category: "business",
     date: "2024-12-15",
     source: "Bundesinstitut für Arzneimittel und Medizinprodukte",
-    url: "#"
+    url: "#",
+    icon: BookOpen
   },
   {
     id: "legal-7",
@@ -79,7 +85,38 @@ const mockLegalUpdates = [
     category: "state",
     date: "2024-12-03",
     source: "Berlin Senatsverwaltung",
-    url: "#"
+    url: "#",
+    icon: MapPin
+  },
+  {
+    id: "legal-8",
+    title: "New Educational Campaign on Cannabis Use Launched",
+    content: "The Federal Center for Health Education has launched a nationwide campaign to educate the public about responsible cannabis use, focusing on harm reduction strategies and health impacts.",
+    category: "federal",
+    date: "2024-11-20",
+    source: "Bundeszentrale für gesundheitliche Aufklärung",
+    url: "#",
+    icon: BookOpen
+  },
+  {
+    id: "legal-9",
+    title: "Hamburg Announces Cannabis Zones in City Parks",
+    content: "Hamburg city officials have designated specific areas in public parks where cannabis consumption will be permitted, aiming to reduce use in residential areas and around children.",
+    category: "state",
+    date: "2024-11-05",
+    source: "Hamburg Senat",
+    url: "#",
+    icon: MapPin
+  },
+  {
+    id: "legal-10",
+    title: "Cannabis Export Regulations for Medical Products Updated",
+    content: "German regulators have updated the framework for domestic cannabis producers to export medical cannabis products to other EU countries, opening new market opportunities.",
+    category: "medical",
+    date: "2024-10-18",
+    source: "Bundesinstitut für Arzneimittel und Medizinprodukte",
+    url: "#",
+    icon: FileText
   }
 ];
 
@@ -113,6 +150,17 @@ const LegalUpdates: React.FC = () => {
     }).format(date);
   };
 
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case 'federal': return 'bg-blue-600 text-white';
+      case 'state': return 'bg-green-600 text-white';
+      case 'medical': return 'bg-purple-600 text-white';
+      case 'recreational': return 'bg-amber-600 text-white';
+      case 'business': return 'bg-indigo-600 text-white';
+      default: return 'bg-gray-600 text-white';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#121212] text-white pb-24">
       <Navbar />
@@ -122,7 +170,7 @@ const LegalUpdates: React.FC = () => {
           <p className="text-gray-400">{t('legal.subtitle')}</p>
         </div>
         
-        <div className="mb-6 sticky top-0 z-10 bg-[#121212] pt-2 pb-3">
+        <div className="mb-6 sticky top-16 z-10 bg-[#121212] pt-2 pb-3">
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
@@ -185,7 +233,7 @@ const LegalUpdates: React.FC = () => {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold text-white">{t('legal.latestUpdates')}</h2>
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-white">
               {filteredUpdates.length} {t('legal.resultsFound')}
             </span>
           </div>
@@ -194,22 +242,22 @@ const LegalUpdates: React.FC = () => {
             <div className="space-y-4">
               {filteredUpdates.map((update) => (
                 <Collapsible key={update.id} className="w-full">
-                  <Card className="bg-gray-800 border-gray-700 overflow-hidden">
+                  <Card className="bg-gray-800 border-gray-700 overflow-hidden hover:bg-gray-750 transition-colors">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
-                        <div>
-                          <CardTitle className="text-white text-lg">{update.title}</CardTitle>
-                          <CardDescription className="flex items-center text-gray-400 mt-1">
-                            <Calendar className="h-4 w-4 mr-1" />
-                            {t('legal.postedOn')} {formatDate(update.date)}
-                          </CardDescription>
+                        <div className="flex">
+                          <div className="mr-3 mt-1">
+                            <update.icon className="h-5 w-5 text-gray-400" />
+                          </div>
+                          <div>
+                            <CardTitle className="text-white text-lg">{update.title}</CardTitle>
+                            <CardDescription className="flex items-center text-gray-300 mt-1">
+                              <Calendar className="h-4 w-4 mr-1" />
+                              {t('legal.postedOn')} {formatDate(update.date)}
+                            </CardDescription>
+                          </div>
                         </div>
-                        <Badge className={`
-                          ${update.category === 'federal' ? 'bg-blue-600' : 
-                            update.category === 'state' ? 'bg-green-600' : 
-                            update.category === 'medical' ? 'bg-purple-600' : 
-                            update.category === 'recreational' ? 'bg-amber-600' : 'bg-gray-600'}
-                        `}>
+                        <Badge className={getCategoryColor(update.category)}>
                           {t(`legal.categories.${update.category}`)}
                         </Badge>
                       </div>
@@ -226,7 +274,7 @@ const LegalUpdates: React.FC = () => {
                         <div className="pt-2">
                           <p className="text-gray-300">{update.content}</p>
                           <div className="mt-4">
-                            <h4 className="font-medium text-sm text-gray-400 mb-2">{t('legal.relatedLinks')}</h4>
+                            <h4 className="font-medium text-sm text-white mb-2">{t('legal.relatedLinks')}</h4>
                             <ul className="list-disc list-inside text-blue-400 space-y-1 pl-2">
                               <li><a href="#" className="hover:underline">{t('legal.officialAnnouncement')}</a></li>
                               <li><a href="#" className="hover:underline">{t('legal.pressRelease')}</a></li>
@@ -237,7 +285,7 @@ const LegalUpdates: React.FC = () => {
                       </CollapsibleContent>
                     </CardContent>
                     <CardFooter className="flex justify-between pt-2 border-t border-gray-700">
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-white">
                         {t('legal.source')}: {update.source}
                       </span>
                       <a href={update.url} className="text-blue-400 hover:text-blue-300 flex items-center text-sm">
@@ -257,7 +305,7 @@ const LegalUpdates: React.FC = () => {
             </div>
           ) : (
             <Card className="bg-gray-800 border-gray-700 text-center p-8">
-              <p className="text-gray-400">{t('legal.noUpdates')}</p>
+              <p className="text-white">{t('legal.noUpdates')}</p>
             </Card>
           )}
         </div>
@@ -267,4 +315,3 @@ const LegalUpdates: React.FC = () => {
 };
 
 export default LegalUpdates;
-

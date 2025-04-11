@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
           <div className="flex md:hidden items-center ml-2">
             <button
               onClick={toggleMenu}
-              className="p-2 rounded-md text-gray-400"
+              className="p-2 rounded-md text-gray-300"
               aria-expanded="false"
             >
               <span className="sr-only">{t('app.navigation.mobileMenu')}</span>
@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile menu, show/hide based on menu state */}
       <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[#131922] absolute w-full z-50 border-b border-gray-800">
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[#131922] absolute w-full z-50 border-b border-gray-800 shadow-lg">
           {navItems.map((item) => (
             <Link
               key={item.path}

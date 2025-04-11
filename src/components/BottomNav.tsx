@@ -21,14 +21,14 @@ const BottomNav: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50 shadow-lg">
       <div className="flex justify-around items-center h-16">
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
             className={`flex flex-col items-center justify-center w-full h-full ${
-              isActive(item.path) ? "text-secondary" : "text-gray-500"
+              isActive(item.path) ? "text-secondary" : "text-gray-400"
             }`}
           >
             <item.icon size={24} className={isActive(item.path) ? "text-secondary" : ""} />

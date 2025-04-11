@@ -291,6 +291,17 @@ export const fetchStrains = async (
       };
     });
     
+    // Always prioritize strains with images first, then sort alphabetically
+    strains.sort((a, b) => {
+      const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
+      const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
+      
+      if (aHasImage && !bHasImage) return -1;
+      if (!aHasImage && bHasImage) return 1;
+      
+      return a.name.localeCompare(b.name);
+    });
+    
     return { 
       strains, 
       total: count || strains.length 
