@@ -307,7 +307,7 @@ const Journal: React.FC = () => {
       <Navbar />
       <div className="container px-4 py-6 max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold">{t('journal.trackConsumption')}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">{t('navigation.journal')}</h1>
           
           {/* Button layout */}
           <div className="flex gap-2">

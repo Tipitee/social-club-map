@@ -80,7 +80,7 @@ const Settings: React.FC = () => {
             <div className="p-3 rounded-full bg-primary/10 border border-primary/20">
               <SettingsIcon className="h-7 w-7 text-primary" />
             </div>
-            <h1 className="text-3xl font-bold">{t('settings.title')}</h1>
+            <h1 className="text-3xl font-bold">{t('navigation.settings')}</h1>
           </div>
 
           <Card className="mb-8 hover:border-primary/50 transition-colors shadow-lg rounded-xl overflow-hidden">

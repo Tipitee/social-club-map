@@ -12,12 +12,15 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
+
 const LAST_VIEWED_STRAIN_KEY = "last-viewed-strain";
 const LAST_SCROLL_POSITION_KEY = "last-scroll-position";
+
 const StrainExplorer: React.FC = () => {
   const {
     t
   } = useTranslation();
+
   const [strains, setStrains] = useState<Strain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +33,7 @@ const StrainExplorer: React.FC = () => {
   const {
     toast
   } = useToast();
+
   const [filters, setFilters] = useState<StrainFiltersType>({
     type: null,
     thcRange: [0, 30],
@@ -38,7 +42,9 @@ const StrainExplorer: React.FC = () => {
     sort: 'name',
     search: ''
   });
+
   const strainsPerPage = 20;
+
   useEffect(() => {
     return () => {
       if (strainListRef.current) {
@@ -46,6 +52,7 @@ const StrainExplorer: React.FC = () => {
       }
     };
   }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const savedPosition = sessionStorage.getItem(LAST_SCROLL_POSITION_KEY);
@@ -70,6 +77,7 @@ const StrainExplorer: React.FC = () => {
     }, 100);
     return () => clearTimeout(timer);
   }, [loading, strains]);
+
   useEffect(() => {
     const loadStrains = async () => {
       try {
@@ -100,7 +108,6 @@ const StrainExplorer: React.FC = () => {
           filteredData = filteredData.filter(strain => strain.most_common_terpene === filters.terpene);
         }
 
-        // Always prioritize strains with images first, then sort alphabetically
         filteredData.sort((a, b) => {
           const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
           const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
@@ -125,6 +132,7 @@ const StrainExplorer: React.FC = () => {
     };
     loadStrains();
   }, [filters, toast, t]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && !loading && !loadingMore && strains.length < totalStrains) {
@@ -142,6 +150,7 @@ const StrainExplorer: React.FC = () => {
       }
     };
   }, [loadingMore, loading, strains, totalStrains]);
+
   const handleFilterChange = (newFilters: StrainFiltersType) => {
     setFilters(newFilters);
     window.scrollTo({
@@ -151,9 +160,11 @@ const StrainExplorer: React.FC = () => {
     sessionStorage.removeItem(LAST_VIEWED_STRAIN_KEY);
     sessionStorage.removeItem(LAST_SCROLL_POSITION_KEY);
   };
+
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
+
   const clearFilter = (filterType: keyof StrainFiltersType) => {
     if (filterType === 'type') {
       setFilters(prev => ({
@@ -182,6 +193,7 @@ const StrainExplorer: React.FC = () => {
       }));
     }
   };
+
   const handleLoadMore = async () => {
     if (loadingMore || currentPage * strainsPerPage >= totalStrains) return;
     try {
@@ -204,7 +216,6 @@ const StrainExplorer: React.FC = () => {
         filteredData = filteredData.filter(strain => strain.most_common_terpene === filters.terpene);
       }
 
-      // Always prioritize strains with images first, then sort alphabetically
       filteredData.sort((a, b) => {
         const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
         const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
@@ -227,6 +238,7 @@ const StrainExplorer: React.FC = () => {
       setLoadingMore(false);
     }
   };
+
   const renderSkeletonLoader = () => <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {Array.from({
       length: 8
@@ -247,18 +259,21 @@ const StrainExplorer: React.FC = () => {
           </CardContent>
         </Card>)}
     </div>;
+
   const handleStrainClick = (strainId: string) => {
     sessionStorage.setItem(LAST_VIEWED_STRAIN_KEY, strainId);
     sessionStorage.setItem(LAST_SCROLL_POSITION_KEY, window.scrollY.toString());
   };
+
   const activeFilterCount = [filters.type, filters.effect, filters.terpene, filters.search, filters.thcRange[0] > 0 || filters.thcRange[1] < 30 ? 'thc' : null].filter(Boolean).length;
   const remainingStrains = totalStrains - currentPage * strainsPerPage;
+
   return <div className="min-h-screen dark:bg-navy-dark bg-sand-light/50 pb-28">
       <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">{t('strains.explorer')}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">{t('strains.strainsExplorer')}</h1>
           </div>
           <div className="flex items-center gap-2">
             <Button onClick={toggleFilters} variant="outline" className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark border-none h-9 px-3 text-teal-100">
@@ -339,4 +354,5 @@ const StrainExplorer: React.FC = () => {
       </div>
     </div>;
 };
+
 export default StrainExplorer;

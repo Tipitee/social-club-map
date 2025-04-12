@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, Cannabis, MapPin, Settings } from "lucide-react";
+import { Home, BookOpen, Cannabis, MapPin, Settings, BookText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const BottomNav: React.FC = () => {
@@ -18,6 +18,7 @@ const BottomNav: React.FC = () => {
     { path: "/journal", label: t('navigation.journal'), icon: BookOpen },
     { path: "/strains", label: t('navigation.strains'), icon: Cannabis },
     { path: "/clubs", label: t('navigation.clubs'), icon: MapPin },
+    { path: "/guide", label: t('navigation.guide'), icon: BookText },
     { path: "/settings", label: t('navigation.settings'), icon: Settings },
   ];
 

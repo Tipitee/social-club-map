@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Book, Cannabis, Map, BookOpen, Settings } from "lucide-react";
+import { Book, Cannabis, Map, BookOpen, Settings, BookText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
       icon: Book,
       title: t('navigation.journal'),
       description: t('journal.trackConsumption'),
-      colorDark: "from-teal-DEFAULT/40 to-teal-dark/30",
+      colorDark: "from-emerald-700/40 to-teal-800/30",
       colorLight: "from-teal-light/30 to-teal-DEFAULT/20"
     },
     {
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
       icon: Cannabis,
       title: t('navigation.strains'),
       description: t('strains.explorer'),
-      colorDark: "from-coral-light/40 to-coral-dark/30",
+      colorDark: "from-amber-700/40 to-yellow-600/30",
       colorLight: "from-coral-light/20 to-coral-DEFAULT/30"
     },
     {
@@ -33,15 +33,15 @@ const Home: React.FC = () => {
       icon: Map,
       title: t('navigation.clubs'),
       description: t('clubs.findNearYou'),
-      colorDark: "from-sand-light/40 to-sand-dark/30",
+      colorDark: "from-blue-700/40 to-cyan-800/30",
       colorLight: "from-sand-light/40 to-sand-dark/20"
     },
     {
       path: "/guide",
-      icon: BookOpen,
+      icon: BookText,
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
-      colorDark: "from-coral-light/40 to-coral-dark/30",
+      colorDark: "from-indigo-700/40 to-violet-800/30",
       colorLight: "from-coral-light/20 to-coral-dark/20"
     },
     {
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
       icon: Settings,
       title: t('navigation.settings'),
       description: t('settings.managePreferences'),
-      colorDark: "from-sand-light/40 to-sand-dark/30",
+      colorDark: "from-slate-700/40 to-gray-800/30",
       colorLight: "from-sand-light/30 to-sand-dark/20"
     }
   ];
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
   };
 
   const getCardBorderClass = () => isDarkMode 
-    ? "border-navy/30" 
+    ? "border-gray-700/30" 
     : "border-sand-dark/30";
     
   const getTextClass = () => isDarkMode 
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
     : "text-gray-600";
     
   const getIconBgClass = () => isDarkMode
-    ? "bg-navy/40"
+    ? "bg-gray-800/40"
     : "bg-sand-light/70";
     
   const getBackgroundClass = () => isDarkMode
@@ -83,8 +83,6 @@ const Home: React.FC = () => {
     <div className={`min-h-screen pb-20 ${getBackgroundClass()}`}>
       <Navbar />
       <div className="container px-4 py-6">
-        <h1 className={`text-2xl font-bold ${getTextClass()} mb-6`}>{t('app.title')}</h1>
-        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map((section, index) => (
             <Link 

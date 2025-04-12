@@ -38,6 +38,7 @@ const formatMissingKey = (key: string): string => {
   if (lastPart === 'title' && key.includes('journal')) return 'Track Your Consumption';
   if (lastPart === 'title' && key.includes('legal')) return 'Updates';
   if (lastPart === 'subtitle') return '';
+  if (lastPart === 'strainsExplorer') return 'Strains Explorer';
   
   // General formatting for other keys
   return lastPart
@@ -105,7 +106,8 @@ const extendedDeTranslations = {
   },
   strains: {
     ...(deTranslation as any).strains,
-    explorer: 'Sortenexplorer'
+    explorer: 'Sortenexplorer',
+    strainsExplorer: 'Sortenexplorer'
   },
   clubs: {
     findNearYou: 'Finden Sie Cannabis-Clubs in Ihrer Nähe'
@@ -155,8 +157,10 @@ const extendedDeTranslations = {
     journal: 'Journal',
     strains: 'Sorten',
     clubs: 'Clubs',
+    guide: 'Ratgeber',
     updates: 'Updates',
     profile: 'Profil',
+    settings: 'Einstellungen',
     signIn: 'Anmelden'
   }
 };
@@ -167,7 +171,13 @@ i18n
   .init({
     resources: {
       en: {
-        translation: enTranslation
+        translation: {
+          ...enTranslation,
+          strains: {
+            ...enTranslation.strains,
+            strainsExplorer: 'Strains Explorer'
+          }
+        }
       },
       de: {
         translation: extendedDeTranslations

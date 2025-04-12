@@ -189,11 +189,11 @@
 
   /* Dark mode specific styles with improved colors */
   .dark .strain-card {
-    @apply bg-navy-dark/90 border-primary/20;
+    @apply bg-gray-800 border-gray-700;
   }
 
   .dark .journal-entry {
-    @apply bg-navy-dark/90 border-primary/20;
+    @apply bg-gray-800 border-gray-700;
   }
 
   .dark .effect-bar,
@@ -245,7 +245,7 @@
   
   /* Dark mode specific */
   .dark .journal-entry {
-    @apply bg-navy-light border-navy; /* Fixed: Changed from border-navy-DEFAULT to border-navy */
+    @apply bg-gray-800 border-gray-700;
   }
   
   /* Toast notifications - more discreet */

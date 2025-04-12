@@ -91,7 +91,7 @@ const StrainCard: React.FC<StrainCardProps> = ({
         </Badge>
       </div>
       
-      <div className="p-5 bg-zinc-50 dark:bg-navy-dark/95">
+      <div className="p-5 bg-zinc-50 dark:bg-gray-800">
         <h3 className="text-lg font-bold mb-4 line-clamp-1 dark:text-gray-100 text-navy-dark">{strain.name}</h3>
         
         <div className="mt-3">
@@ -144,14 +144,14 @@ const StrainCard: React.FC<StrainCardProps> = ({
           {strain.most_common_terpene ? (
             <div className="flex items-center">
               <span className="text-xs text-gray-600 dark:text-gray-300 mr-1">{t('strains.dominantTerpene')}:</span>
-              <Badge variant="outline" className="font-medium text-xs border-gray-300 dark:border-primary/30 text-navy-dark dark:text-gray-200">
+              <Badge variant="outline" className="font-medium text-xs border-gray-300 dark:border-gray-600 text-navy-dark dark:text-gray-200">
                 {strain.most_common_terpene}
               </Badge>
             </div>
           ) : (
             <div className="flex items-center h-full">
               <span className="text-xs text-gray-600 dark:text-gray-300 mr-1">{t('strains.dominantTerpene')}:</span>
-              <Badge variant="outline" className="font-medium text-xs border-gray-300 dark:border-primary/30 text-navy-dark dark:text-gray-200">
+              <Badge variant="outline" className="font-medium text-xs border-gray-300 dark:border-gray-600 text-navy-dark dark:text-gray-200">
                 {t('strains.unknown')}
               </Badge>
             </div>
