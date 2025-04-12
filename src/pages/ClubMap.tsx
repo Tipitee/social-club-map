@@ -5,10 +5,10 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const ClubMap: React.FC = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container px-4 py-6">
-        <h1 className="text-2xl font-bold mb-6">Cannabis Clubs in Germany</h1>
+        <h1 className="text-2xl font-bold mb-6 text-foreground">Cannabis Clubs in Germany</h1>
         
         <div className="mb-6">
           <p className="mb-4 text-muted-foreground">
@@ -16,7 +16,7 @@ const ClubMap: React.FC = () => {
           </p>
         </div>
         
-        <div className="w-full h-[70vh] rounded-lg overflow-hidden shadow-lg border border-border mb-6">
+        <div className="w-full h-[70vh] rounded-lg overflow-hidden shadow-lg border border-border mb-6 bg-card">
           <iframe 
             src="https://www.google.com/maps/d/u/0/embed?mid=1b3IKZqStnrLLakQHjyJz8Sp_JDZ8vOw&ehbc=2E312F&noprof=1" 
             width="100%" 
@@ -29,9 +29,9 @@ const ClubMap: React.FC = () => {
           />
         </div>
         
-        <Card className="mt-6">
+        <Card className="mt-6 border-border">
           <CardContent className="pt-6">
-            <h2 className="text-lg font-semibold mb-2">About German Cannabis Clubs</h2>
+            <h2 className="text-lg font-semibold mb-2 text-foreground">About German Cannabis Clubs</h2>
             <p className="text-muted-foreground text-sm">
               Cannabis Social Clubs in Germany are part of the country's new cannabis policy. 
               These non-profit associations allow members to collectively cultivate and 

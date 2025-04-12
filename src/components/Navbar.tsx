@@ -5,12 +5,9 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
-  const isDarkMode = document.documentElement.classList.contains('dark');
 
   return (
-    <nav className={isDarkMode 
-      ? "bg-transparent sticky top-0 z-50"
-      : "bg-transparent sticky top-0 z-50"}>
+    <nav className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b border-border/40">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
@@ -19,7 +16,7 @@ const Navbar: React.FC = () => {
               alt="SocialClub Map Logo"
               className="h-10 w-auto" 
             />
-            <span className={`font-bold text-xl ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>SocialClub Map</span>
+            <span className="font-bold text-xl text-foreground">SocialClub Map</span>
           </Link>
           
           {user && (
