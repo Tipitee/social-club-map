@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -188,7 +187,11 @@
 
   /* Dark mode specific styles */
   .dark .strain-card {
-    @apply bg-navy-DEFAULT border-navy-light;
+    @apply bg-navy-dark border-navy-light; /* Updated to use new navy color classes */
+  }
+
+  .dark .journal-entry {
+    @apply bg-navy-dark border-navy-light; /* Updated to match strain card */
   }
 
   .dark .effect-bar,
