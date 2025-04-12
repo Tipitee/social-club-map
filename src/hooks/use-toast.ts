@@ -1,4 +1,3 @@
-
 import * as React from "react"
 
 import type {
@@ -7,7 +6,7 @@ import type {
 } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 2000  // Reduced to 2 seconds for more discreet notifications
+const TOAST_REMOVE_DELAY = 1500  // Reduced to 1.5 seconds for more discreet notifications
 
 type ToasterToast = ToastProps & {
   id: string
@@ -91,8 +90,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -143,12 +140,10 @@ type Toast = Omit<ToasterToast, "id">
 function toast({ ...props }: Toast) {
   const id = genId()
   
-  // Set default duration if not provided - make more discreet by shortening duration
   if (props.duration === undefined) {
-    props.duration = 2000; // 2 seconds is better for discreet notifications
+    props.duration = 1500; // 1.5 seconds is better for discreet notifications
   }
   
-  // Make toast more discreet by default
   props.className = `toast-notification ${props.className || ''}`.trim();
 
   const update = (props: ToasterToast) =>

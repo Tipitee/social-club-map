@@ -247,4 +247,9 @@
   .toast-notification {
     @apply opacity-90 shadow-sm;
   }
+  
+  /* Linear gradient background */
+  .linear-gradient-bg {
+    background: linear-gradient(0.25turn, #ffebee, #ffe0b3, #e0f7fa, #4eb7ac, #007a6c);
+  }
 }

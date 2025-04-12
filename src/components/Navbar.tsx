@@ -9,8 +9,8 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className={isDarkMode 
-      ? "bg-[#131922] border-b border-gray-800 shadow-md sticky top-0 z-50"
-      : "bg-oldLace-500 border-b border-cadetGray-200 shadow-sm sticky top-0 z-50"}>
+      ? "bg-transparent sticky top-0 z-50"
+      : "bg-transparent sticky top-0 z-50"}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">

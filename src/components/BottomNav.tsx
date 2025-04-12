@@ -1,14 +1,12 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, Cannabis, MapPin, Bell, User } from "lucide-react";
+import { Home, BookOpen, Cannabis, MapPin, Settings } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "@/contexts/AuthContext";
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
-  const { user } = useAuth();
   const isDarkMode = document.documentElement.classList.contains('dark');
   
   const isActive = (path: string) => {
@@ -20,8 +18,7 @@ const BottomNav: React.FC = () => {
     { path: "/journal", label: t('navigation.journal'), icon: BookOpen },
     { path: "/strains", label: t('navigation.strains'), icon: Cannabis },
     { path: "/clubs", label: t('navigation.clubs'), icon: MapPin },
-    { path: "/legal", label: t('navigation.updates'), icon: Bell },
-    { path: user ? "/profile" : "/auth", label: user ? t('navigation.profile') : t('navigation.signIn'), icon: User },
+    { path: "/settings", label: t('navigation.settings'), icon: Settings },
   ];
 
   const getNavBackgroundClass = () => isDarkMode 

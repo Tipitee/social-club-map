@@ -9,6 +9,13 @@ import { Label } from "@/components/ui/label";
 import { JournalEntry } from "@/types/journal";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 
 type NewJournalEntryProps = {
   isOpen: boolean;
@@ -31,6 +38,19 @@ const ACTIVITIES = [
   { id: "music", label: "Listening to Music", icon: Music },
   { id: "watching", label: "Watching TV/Movies", icon: Tv },
   { id: "social", label: "Socializing", icon: Users },
+];
+
+const DOSAGE_TYPES = [
+  { value: "mg", label: "mg (Milligrams)" },
+  { value: "g", label: "g (Grams)" },
+  { value: "ml", label: "ml (Milliliters)" },
+  { value: "puffs", label: "Puffs" },
+  { value: "drops", label: "Drops" },
+  { value: "servings", label: "Servings" },
+  { value: "edible", label: "Edible" },
+  { value: "flower", label: "Flower" },
+  { value: "concentrate", label: "Concentrate" },
+  { value: "tincture", label: "Tincture" },
 ];
 
 const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSave }) => {
@@ -99,6 +119,10 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
     ? "bg-gray-700 border-gray-600 text-white focus:ring-primary/70" 
     : "bg-white/70 border-cadetGray-300 text-gray-800 focus:ring-primary/70";
     
+  const getDropdownClass = () => isDarkMode
+    ? "bg-gray-700 border-gray-600 text-white"
+    : "bg-white border-cadetGray-300 text-gray-800";
+    
   return (
     <Dialog open={isOpen} onOpenChange={(open) => {
       if (!open) {
@@ -127,18 +151,35 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
                   type="number"
                   value={dosage}
                   onChange={(e) => setDosage(e.target.value)}
-                  className={`${getInputClass()} rounded-r-none flex-grow`}
+                  className={`${getInputClass()} rounded-r-none w-3/4`}
+                  placeholder="Enter amount"
                 />
-                <select
-                  value={dosageType}
-                  onChange={(e) => setDosageType(e.target.value)}
-                  className={`${getInputClass()} rounded-l-none border-l-0 min-w-[80px] py-2 px-3`}
-                >
-                  <option value="mg">mg</option>
-                  <option value="g">g</option>
-                  <option value="ml">ml</option>
-                  <option value="puffs">{t('journal.puffs')}</option>
-                </select>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      className={`${getDropdownClass()} rounded-l-none flex-grow flex justify-between items-center`}
+                    >
+                      {dosageType}
+                      <ChevronDown className="h-4 w-4 ml-2 opacity-70" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className={getDropdownClass()}>
+                    {DOSAGE_TYPES.map((type) => (
+                      <DropdownMenuItem 
+                        key={type.value}
+                        onClick={() => setDosageType(type.value)}
+                        className={
+                          dosageType === type.value
+                            ? "bg-primary/20 text-primary font-medium"
+                            : ""
+                        }
+                      >
+                        {type.label}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
             

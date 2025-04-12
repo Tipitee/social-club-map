@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Book, Cannabis, Map, Bell, BookOpen, Settings, User } from "lucide-react";
+import { Book, Cannabis, Map, BookOpen, Settings, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -18,8 +18,8 @@ const Home: React.FC = () => {
       icon: Book,
       title: t('navigation.journal'),
       description: t('journal.trackConsumption'),
-      colorDark: "from-teal-light/30 to-teal-dark/40",
-      colorLight: "from-teal-light/20 to-teal-dark/10"
+      colorDark: "from-teal-DEFAULT/30 to-teal-dark/40",
+      colorLight: "from-teal-light/30 to-teal-DEFAULT/20"
     },
     {
       path: "/strains",
@@ -27,7 +27,7 @@ const Home: React.FC = () => {
       title: t('navigation.strains'),
       description: t('strains.explorer'),
       colorDark: "from-coral-light/30 to-coral-dark/40",
-      colorLight: "from-coral-light/10 to-coral-DEFAULT/20"
+      colorLight: "from-coral-light/20 to-coral-DEFAULT/30"
     },
     {
       path: "/clubs",
@@ -35,15 +35,7 @@ const Home: React.FC = () => {
       title: t('navigation.clubs'),
       description: t('clubs.findNearYou'),
       colorDark: "from-sand-light/30 to-sand-dark/40",
-      colorLight: "from-sand-light/30 to-sand-dark/10"
-    },
-    {
-      path: "/legal",
-      icon: Bell,
-      title: t('navigation.updates'),
-      description: t('legal.stayInformed'),
-      colorDark: "from-navy-light/40 to-navy-dark/50",
-      colorLight: "from-navy-light/10 to-navy-DEFAULT/10"
+      colorLight: "from-sand-light/40 to-sand-dark/20"
     },
     {
       path: "/guide",
@@ -51,7 +43,7 @@ const Home: React.FC = () => {
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
       colorDark: "from-coral-light/30 to-coral-dark/40",
-      colorLight: "from-coral-light/10 to-coral-dark/10"
+      colorLight: "from-coral-light/20 to-coral-dark/20"
     },
     {
       path: "/settings",
@@ -59,7 +51,7 @@ const Home: React.FC = () => {
       title: t('navigation.settings'),
       description: t('settings.managePreferences'),
       colorDark: "from-sand-light/30 to-sand-dark/40",
-      colorLight: "from-sand-light/10 to-sand-dark/10"
+      colorLight: "from-sand-light/30 to-sand-dark/20"
     }
   ];
 
@@ -70,7 +62,7 @@ const Home: React.FC = () => {
 
   const getCardBorderClass = () => isDarkMode 
     ? "border-navy-light/30" 
-    : "border-sand-dark/20";
+    : "border-sand-dark/30";
     
   const getTextClass = () => isDarkMode 
     ? "text-white" 
@@ -82,14 +74,18 @@ const Home: React.FC = () => {
     
   const getIconBgClass = () => isDarkMode
     ? "bg-navy-light/30"
-    : "bg-sand-light/50";
+    : "bg-sand-light/70";
+    
+  const getBackgroundClass = () => isDarkMode
+    ? "bg-gradient-to-b from-[#131922] to-[#1c2432]"
+    : "bg-gradient-to-b from-oldLace-DEFAULT to-cadetGray-100";
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className={`min-h-screen pb-20 ${getBackgroundClass()}`}>
       <Navbar />
       <div className="container px-4 py-6">
         {!user && (
-          <div className={`mb-8 p-6 ${isDarkMode ? 'bg-navy-light/40 border-navy-light/30' : 'bg-sand-light/70 border-sand-dark/20'} rounded-xl text-center border shadow-lg`}>
+          <div className={`mb-8 p-6 ${isDarkMode ? 'bg-navy-light/40 border-navy-light/30' : 'bg-sand-light/90 border-sand-dark/30'} rounded-xl text-center border shadow-lg`}>
             <User className={`mx-auto h-12 w-12 text-teal-DEFAULT mb-3`} />
             <h2 className={`text-xl font-bold mb-2 ${getTextClass()}`}>{t('auth.welcomeTo')}</h2>
             <p className={`${getDescriptionClass()} mb-4`}>{t('auth.signInToTrack')}</p>
@@ -111,7 +107,7 @@ const Home: React.FC = () => {
               to={section.path} 
               className="block hover:scale-[1.02] transition-transform duration-200"
             >
-              <div className={`bg-gradient-to-br ${getBgGradient(index)} border ${getCardBorderClass()} rounded-xl shadow-md hover:shadow-lg p-6 h-full`}>
+              <div className={`bg-gradient-to-br ${getBgGradient(index)} backdrop-blur-sm border ${getCardBorderClass()} rounded-xl shadow-md hover:shadow-lg p-6 h-full`}>
                 <div className={`flex justify-center items-center h-16 w-16 ${getIconBgClass()} rounded-full mb-4 mx-auto shadow-sm`}>
                   <section.icon className="h-8 w-8 text-teal-DEFAULT" />
                 </div>

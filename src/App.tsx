@@ -23,14 +23,21 @@ import "./i18n";
 const queryClient = new QueryClient();
 
 const App = () => {
+  // Detect whether we're in dark or light mode
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  
+  const getAppBgClass = () => isDarkMode 
+    ? "bg-gradient-to-b from-[#131922] to-[#1c2432]" 
+    : "bg-gradient-to-b from-oldLace-DEFAULT to-cadetGray-100";
+  
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <LanguageProvider>
           <AuthProvider>
             <TooltipProvider>
-              <div className="min-h-screen bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white">
-                <main>
+              <div className={`min-h-screen ${getAppBgClass()} text-foreground`}>
+                <main className="pb-20">
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/strains" element={<StrainExplorer />} />
