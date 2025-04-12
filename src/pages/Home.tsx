@@ -16,7 +16,7 @@ const Home: React.FC = () => {
       path: "/journal",
       icon: Book,
       title: t('navigation.journal'),
-      description: t('journal.trackConsumption'),
+      description: t('journal.trackYourConsumption'),
       colorDark: "from-emerald-700/40 to-teal-800/30",
       colorLight: "from-teal-light/30 to-teal-DEFAULT/20"
     },
@@ -24,15 +24,15 @@ const Home: React.FC = () => {
       path: "/strains",
       icon: Cannabis,
       title: t('navigation.strains'),
-      description: t('strains.explorer'),
-      colorDark: "from-amber-700/40 to-yellow-600/30",
+      description: t('strains.exploreDatabase'),
+      colorDark: "from-indigo-600/40 to-blue-700/30",
       colorLight: "from-coral-light/20 to-coral-DEFAULT/30"
     },
     {
       path: "/clubs",
       icon: Map,
       title: t('navigation.clubs'),
-      description: t('clubs.findNearYou'),
+      description: t('clubs.findLocalClub'),
       colorDark: "from-blue-700/40 to-cyan-800/30",
       colorLight: "from-sand-light/40 to-sand-dark/20"
     },
@@ -41,7 +41,7 @@ const Home: React.FC = () => {
       icon: BookText,
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
-      colorDark: "from-indigo-700/40 to-violet-800/30",
+      colorDark: "from-violet-700/40 to-purple-800/30",
       colorLight: "from-coral-light/20 to-coral-dark/20"
     },
     {

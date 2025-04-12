@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Plus, X, Loader2, ThumbsUp, ThumbsDown, Wind, Coffee, Book, Music, Tv, Users, CheckCircle2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -15,7 +14,6 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
 
 type NewJournalEntryProps = {
   isOpen: boolean;
@@ -41,13 +39,14 @@ const ACTIVITIES = [
 ];
 
 const DOSAGE_TYPES = [
+  { value: "edible", label: "Edible" },
+  { value: "joints", label: "Joints" },
   { value: "mg", label: "mg (Milligrams)" },
   { value: "g", label: "g (Grams)" },
   { value: "ml", label: "ml (Milliliters)" },
   { value: "puffs", label: "Puffs" },
   { value: "drops", label: "Drops" },
   { value: "servings", label: "Servings" },
-  { value: "edible", label: "Edible" },
   { value: "flower", label: "Flower" },
   { value: "concentrate", label: "Concentrate" },
   { value: "tincture", label: "Tincture" },
@@ -59,7 +58,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
   
   // Form state
   const [dosage, setDosage] = useState("");
-  const [dosageType, setDosageType] = useState("mg");
+  const [dosageType, setDosageType] = useState("edible");
   const [effectiveness, setEffectiveness] = useState(0);
   const [mood, setMood] = useState("");
   const [activity, setActivity] = useState("");
@@ -91,7 +90,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
   
   const clearForm = () => {
     setDosage("");
-    setDosageType("mg");
+    setDosageType("edible");
     setEffectiveness(0);
     setMood("");
     setActivity("");
@@ -140,7 +139,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left column */}
           <div className="space-y-4">
-            {/* Dosage */}
+            {/* Dosage - Modified to remove dropdown arrows */}
             <div>
               <Label htmlFor="dosage" className={getLabelClass()}>
                 {t('journal.dosage')}
@@ -148,7 +147,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
               <div className="flex mt-1">
                 <Input
                   id="dosage"
-                  type="number"
+                  type="text"
                   value={dosage}
                   onChange={(e) => setDosage(e.target.value)}
                   className={`${getInputClass()} rounded-r-none w-3/4`}
@@ -160,8 +159,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
                       variant="outline" 
                       className={`${getDropdownClass()} rounded-l-none flex-grow flex justify-between items-center`}
                     >
-                      {dosageType}
-                      <ChevronDown className="h-4 w-4 ml-2 opacity-70" />
+                      {DOSAGE_TYPES.find(type => type.value === dosageType)?.label || dosageType}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className={getDropdownClass()}>

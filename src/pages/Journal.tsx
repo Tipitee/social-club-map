@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Book, Plus, Filter, CalendarDays, Clock, Loader2 } from "lucide-react";
@@ -37,10 +36,8 @@ const Journal: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   
-  // Detect theme for styling
   const isDarkMode = document.documentElement.classList.contains('dark');
 
-  // Fetch journal entries from Supabase
   useEffect(() => {
     async function fetchEntries() {
       if (!user) {
@@ -189,12 +186,10 @@ const Journal: React.FC = () => {
   };
 
   const filteredEntries = entries.filter(entry => {
-    // Filter by effectiveness
     if (filters.effectiveness !== null && entry.effectiveness !== filters.effectiveness) {
       return false;
     }
     
-    // Simple search across fields
     if (filters.searchText) {
       const searchLower = filters.searchText.toLowerCase();
       const matchesSearch = 
@@ -209,7 +204,6 @@ const Journal: React.FC = () => {
     return true;
   });
 
-  // Dynamic styling based on theme
   const getBackgroundClass = () => isDarkMode 
     ? "bg-[#121212] text-white"
     : "bg-oldLace-500 text-gray-800";
@@ -225,6 +219,10 @@ const Journal: React.FC = () => {
   const getSecondaryTextClass = () => isDarkMode
     ? "text-gray-400"
     : "text-gray-500";
+    
+  const getFilterButtonClass = () => isDarkMode
+    ? "bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+    : "bg-teal-100 border-teal-200 text-teal-800 hover:bg-teal-200";
 
   const renderContent = () => {
     if (isLoading) {
@@ -309,15 +307,11 @@ const Journal: React.FC = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold">{t('navigation.journal')}</h1>
           
-          {/* Button layout */}
           <div className="flex gap-2">
             <Button 
               variant="outline" 
               size="icon"
-              className={isDarkMode 
-                ? "bg-gray-800 border-gray-700 text-white hover:bg-gray-700 h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
-                : "bg-white border-gray-200 text-gray-800 hover:bg-gray-100 h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
-              }
+              className={`${getFilterButtonClass()} h-10 w-10 sm:h-10 sm:w-auto sm:px-4`}
               onClick={() => setShowFilters(!showFilters)}
             >
               <Filter size={20} className="sm:mr-2" />

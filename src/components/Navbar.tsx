@@ -6,6 +6,7 @@ import { User } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
   return (
     <nav className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b border-border/40">
@@ -13,7 +14,9 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
             <img 
-              src="/lovable-uploads/7bfa1a23-8c92-4adb-b85b-63bb2f75ff2c.png" 
+              src={isDarkMode 
+                ? "/lovable-uploads/7ab5a972-c5dc-4fff-97ee-8c47731f57ef.png" 
+                : "/lovable-uploads/7bfa1a23-8c92-4adb-b85b-63bb2f75ff2c.png"}
               alt="SocialClub Map Logo"
               className="h-10 w-auto" 
             />
