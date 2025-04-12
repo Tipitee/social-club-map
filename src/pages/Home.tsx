@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Book, Cannabis, Map, BookOpen, Settings, BookText } from "lucide-react";
+import { Book, Cannabis, Map, BookOpen, Settings, BookText, Newspaper } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
       icon: Cannabis,
       title: t('navigation.strains'),
       description: t('strains.exploreDatabase'),
-      colorDark: "from-indigo-600/40 to-blue-700/30",
+      colorDark: "from-purple-700/40 to-violet-800/30",
       colorLight: "from-coral-light/20 to-coral-DEFAULT/30"
     },
     {
@@ -41,8 +41,16 @@ const Home: React.FC = () => {
       icon: BookText,
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
-      colorDark: "from-violet-700/40 to-purple-800/30",
-      colorLight: "from-coral-light/20 to-coral-dark/20"
+      colorDark: "from-amber-700/40 to-orange-800/30",
+      colorLight: "from-amber-light/20 to-amber-dark/20"
+    },
+    {
+      path: "/news",
+      icon: Newspaper,
+      title: t('navigation.news'),
+      description: t('news.stayInformed'),
+      colorDark: "from-teal-700/40 to-cyan-800/30",
+      colorLight: "from-blue-light/30 to-blue-DEFAULT/20"
     },
     {
       path: "/settings",

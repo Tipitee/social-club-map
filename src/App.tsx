@@ -15,7 +15,7 @@ import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
-import LegalUpdates from "./pages/LegalUpdates";
+import News from "./pages/News";
 import CannabisGuide from "./pages/CannabisGuide";
 import BottomNav from "./components/BottomNav";
 import "./i18n";
@@ -37,7 +37,7 @@ const App = () => {
                     <Route path="/strains/:id" element={<StrainDetail />} />
                     <Route path="/clubs" element={<ClubMap />} />
                     <Route path="/journal" element={<Journal />} />
-                    <Route path="/legal" element={<LegalUpdates />} />
+                    <Route path="/news" element={<News />} />
                     <Route path="/guide" element={<CannabisGuide />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />

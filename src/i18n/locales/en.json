@@ -1,4 +1,3 @@
-
 {
   "auth": {
     "signIn": "Sign In",
@@ -45,6 +44,7 @@
     "settings": "Settings",
     "profile": "Profile",
     "guide": "Guide",
+    "news": "News",
     "legalUpdates": "Legal Updates"
   },
   "profile": {
@@ -237,6 +237,29 @@
     "researchFindings": "Research Findings",
     "news": "News and Updates",
     "regulations": "Regulations"
+  },
+  "news": {
+    "stayInformed": "Stay informed on legal updates",
+    "updates": "Legal Updates",
+    "latestUpdates": "Latest Updates",
+    "resultsFound": "results found",
+    "readMore": "Read more",
+    "source": "Source",
+    "visitSource": "Visit source",
+    "loadMore": "Load More",
+    "noUpdates": "No legal updates found",
+    "postedOn": "Posted on",
+    "relatedLinks": "Related Links",
+    "categories": {
+      "filter": "Filter by category",
+      "selectCategory": "Select Category",
+      "all": "All Updates",
+      "federal": "Federal",
+      "state": "State",
+      "medical": "Medical",
+      "recreational": "Recreational",
+      "business": "Business"
+    }
   },
   "errors": {
     "offline": "You are offline",
