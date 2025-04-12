@@ -243,7 +243,7 @@
   
   /* Dark mode specific */
   .dark .journal-entry {
-    @apply bg-navy-light border-navy-DEFAULT;
+    @apply bg-navy-light border-navy; /* Fixed: Changed from border-navy-DEFAULT to border-navy */
   }
   
   /* Toast notifications - more discreet */
