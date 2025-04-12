@@ -1,37 +1,45 @@
 
 import React from "react";
-import MockMap from "@/components/MockMap";
+import Navbar from "@/components/Navbar";
+import { Card, CardContent } from "@/components/ui/card";
 
 const ClubMap: React.FC = () => {
   return (
-    <div className="container px-4 py-6">
-      <h1 className="text-2xl font-bold mb-6">Cannabis Clubs in Germany</h1>
-      
-      <div className="mb-6">
-        <p className="text-gray-300 mb-4">
-          Explore cannabis clubs across Germany. The map below shows clubs in major cities:
-        </p>
-        <ul className="list-disc list-inside text-gray-400 mb-4 pl-2">
-          <li>Berlin - Northeastern Germany</li>
-          <li>Munich - Southern Bavaria</li>
-          <li>Hamburg - Northern Germany</li>
-          <li>Cologne - Western Germany</li>
-        </ul>
-        <p className="text-sm text-gray-500 italic">
-          *Currently displaying mock data - Real club locations coming soon
-        </p>
-      </div>
-      
-      <MockMap />
-      
-      <div className="mt-6 p-4 bg-card rounded-lg border border-gray-800">
-        <h2 className="text-lg font-semibold mb-2">About German Cannabis Clubs</h2>
-        <p className="text-gray-300 text-sm">
-          Cannabis Social Clubs in Germany are part of the country's new cannabis policy. 
-          These non-profit associations allow members to collectively cultivate and 
-          distribute cannabis for personal use, providing a regulated alternative to 
-          the illicit market.
-        </p>
+    <div className="min-h-screen">
+      <Navbar />
+      <div className="container px-4 py-6">
+        <h1 className="text-2xl font-bold mb-6">Cannabis Clubs in Germany</h1>
+        
+        <div className="mb-6">
+          <p className="mb-4 text-muted-foreground">
+            Explore cannabis clubs across Germany. The map below shows established and upcoming clubs in major cities.
+          </p>
+        </div>
+        
+        <div className="w-full h-[70vh] rounded-lg overflow-hidden shadow-lg border border-border mb-6">
+          <iframe 
+            src="https://www.google.com/maps/d/u/0/embed?mid=1b3IKZqStnrLLakQHjyJz8Sp_JDZ8vOw&ehbc=2E312F&noprof=1" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }} 
+            allowFullScreen={true} 
+            loading="lazy"
+            title="Cannabis Clubs in Germany"
+            className="w-full h-full" 
+          />
+        </div>
+        
+        <Card className="mt-6">
+          <CardContent className="pt-6">
+            <h2 className="text-lg font-semibold mb-2">About German Cannabis Clubs</h2>
+            <p className="text-muted-foreground text-sm">
+              Cannabis Social Clubs in Germany are part of the country's new cannabis policy. 
+              These non-profit associations allow members to collectively cultivate and 
+              distribute cannabis for personal use, providing a regulated alternative to 
+              the illicit market.
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
