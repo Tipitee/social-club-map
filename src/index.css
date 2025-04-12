@@ -51,6 +51,7 @@
   }
 
   .dark {
+    /* Improved dark mode colors based on image reference */
     --background: 215 28% 17%; /* Improved Navy dark */
     --foreground: 210 40% 98%;
 
