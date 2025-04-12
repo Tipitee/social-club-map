@@ -70,7 +70,7 @@ const StrainCard: React.FC<StrainCardProps> = ({
                   `;
           }
         }} />
-          </div> : <div className="w-full h-full flex items-center justify-center bg-white/10 dark:bg-navy-light/30 backdrop-blur-sm rounded-sm">
+          </div> : <div className="w-full h-full flex items-center justify-center backdrop-blur-sm rounded-md bg-ashGray-500">
             {getTypeIcon()}
           </div>}
         <Badge className={`absolute top-3 right-3 ${getTypeColor()} px-3 py-1 text-xs font-medium shadow-md`}>
