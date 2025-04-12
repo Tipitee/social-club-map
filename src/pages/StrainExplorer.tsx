@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -13,12 +12,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
-
 const LAST_VIEWED_STRAIN_KEY = "last-viewed-strain";
 const LAST_SCROLL_POSITION_KEY = "last-scroll-position";
-
 const StrainExplorer: React.FC = () => {
-  const { t } = useTranslation();
+  const {
+    t
+  } = useTranslation();
   const [strains, setStrains] = useState<Strain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,19 +27,18 @@ const StrainExplorer: React.FC = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const strainListRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
   const [filters, setFilters] = useState<StrainFiltersType>({
     type: null,
     thcRange: [0, 30],
     effect: null,
     terpene: null,
     sort: 'name',
-    search: '',
+    search: ''
   });
-
   const strainsPerPage = 20;
-
   useEffect(() => {
     return () => {
       if (strainListRef.current) {
@@ -48,19 +46,21 @@ const StrainExplorer: React.FC = () => {
       }
     };
   }, []);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       const savedPosition = sessionStorage.getItem(LAST_SCROLL_POSITION_KEY);
       const lastViewedStrainId = sessionStorage.getItem(LAST_VIEWED_STRAIN_KEY);
-      
       if (savedPosition && lastViewedStrainId && !loading) {
         const position = parseInt(savedPosition, 10);
-        window.scrollTo({ top: position });
-        
+        window.scrollTo({
+          top: position
+        });
         const strainElement = document.getElementById(`strain-${lastViewedStrainId}`);
         if (strainElement) {
-          strainElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          strainElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
           strainElement.classList.add('ring-2', 'ring-secondary');
           setTimeout(() => {
             strainElement.classList.remove('ring-2', 'ring-secondary');
@@ -68,72 +68,46 @@ const StrainExplorer: React.FC = () => {
         }
       }
     }, 100);
-    
     return () => clearTimeout(timer);
   }, [loading, strains]);
-
   useEffect(() => {
     const loadStrains = async () => {
       try {
         setLoading(true);
         setError(null);
-        const { strains: data, total } = await fetchStrains(
-          filters.sort, 
-          1, 
-          strainsPerPage,
-          filters.search
-        );
-        
+        const {
+          strains: data,
+          total
+        } = await fetchStrains(filters.sort, 1, strainsPerPage, filters.search);
         let filteredData = [...data];
-        
         if (filters.type) {
           filteredData = filteredData.filter(strain => strain.type === filters.type);
         }
-
         if (filters.thcRange[0] > 0 || filters.thcRange[1] < 30) {
-          filteredData = filteredData.filter(
-            strain => 
-              strain.thc_level !== null && 
-              strain.thc_level >= filters.thcRange[0] && 
-              strain.thc_level <= filters.thcRange[1]
-          );
+          filteredData = filteredData.filter(strain => strain.thc_level !== null && strain.thc_level >= filters.thcRange[0] && strain.thc_level <= filters.thcRange[1]);
         }
-
         if (filters.effect) {
-          filteredData = filteredData.filter(strain =>
-            strain.effects.some(
-              effect => effect.effect === filters.effect && effect.intensity > 0
-            )
-          );
-          
+          filteredData = filteredData.filter(strain => strain.effects.some(effect => effect.effect === filters.effect && effect.intensity > 0));
           filteredData.sort((a, b) => {
             const aEffect = a.effects.find(e => e.effect === filters.effect);
             const bEffect = b.effects.find(e => e.effect === filters.effect);
-            
             const aIntensity = aEffect?.intensity || 0;
             const bIntensity = bEffect?.intensity || 0;
-            
             return bIntensity - aIntensity;
           });
         }
-
         if (filters.terpene) {
-          filteredData = filteredData.filter(
-            strain => strain.most_common_terpene === filters.terpene
-          );
+          filteredData = filteredData.filter(strain => strain.most_common_terpene === filters.terpene);
         }
-        
+
         // Always prioritize strains with images first, then sort alphabetically
         filteredData.sort((a, b) => {
           const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
           const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
-          
           if (aHasImage && !bHasImage) return -1;
           if (!aHasImage && bHasImage) return 1;
-          
           return a.name.localeCompare(b.name);
         });
-        
         setStrains(filteredData);
         setTotalStrains(total);
         setCurrentPage(1);
@@ -143,116 +117,101 @@ const StrainExplorer: React.FC = () => {
         toast({
           title: t('strains.errorLoading'),
           description: message,
-          variant: "destructive",
+          variant: "destructive"
         });
       } finally {
         setLoading(false);
       }
     };
-
     loadStrains();
   }, [filters, toast, t]);
-
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !loading && !loadingMore && strains.length < totalStrains) {
-          handleLoadMore();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !loading && !loadingMore && strains.length < totalStrains) {
+        handleLoadMore();
+      }
+    }, {
+      threshold: 0.1
+    });
     if (loadMoreRef.current) {
       observer.observe(loadMoreRef.current);
     }
-    
     return () => {
       if (loadMoreRef.current) {
         observer.unobserve(loadMoreRef.current);
       }
     };
   }, [loadingMore, loading, strains, totalStrains]);
-
   const handleFilterChange = (newFilters: StrainFiltersType) => {
     setFilters(newFilters);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     sessionStorage.removeItem(LAST_VIEWED_STRAIN_KEY);
     sessionStorage.removeItem(LAST_SCROLL_POSITION_KEY);
   };
-
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
-
   const clearFilter = (filterType: keyof StrainFiltersType) => {
     if (filterType === 'type') {
-      setFilters(prev => ({ ...prev, type: null }));
+      setFilters(prev => ({
+        ...prev,
+        type: null
+      }));
     } else if (filterType === 'effect') {
-      setFilters(prev => ({ ...prev, effect: null }));
+      setFilters(prev => ({
+        ...prev,
+        effect: null
+      }));
     } else if (filterType === 'terpene') {
-      setFilters(prev => ({ ...prev, terpene: null }));
+      setFilters(prev => ({
+        ...prev,
+        terpene: null
+      }));
     } else if (filterType === 'search') {
-      setFilters(prev => ({ ...prev, search: '' }));
+      setFilters(prev => ({
+        ...prev,
+        search: ''
+      }));
     } else if (filterType === 'thcRange') {
-      setFilters(prev => ({ ...prev, thcRange: [0, 30] }));
+      setFilters(prev => ({
+        ...prev,
+        thcRange: [0, 30]
+      }));
     }
   };
-
   const handleLoadMore = async () => {
     if (loadingMore || currentPage * strainsPerPage >= totalStrains) return;
-    
     try {
       setLoadingMore(true);
       const nextPage = currentPage + 1;
-      
-      const { strains: newStrains } = await fetchStrains(
-        filters.sort,
-        nextPage,
-        strainsPerPage,
-        filters.search
-      );
-      
+      const {
+        strains: newStrains
+      } = await fetchStrains(filters.sort, nextPage, strainsPerPage, filters.search);
       let filteredData = [...newStrains];
-      
       if (filters.type) {
         filteredData = filteredData.filter(strain => strain.type === filters.type);
       }
-
       if (filters.thcRange[0] > 0 || filters.thcRange[1] < 30) {
-        filteredData = filteredData.filter(
-          strain => 
-            strain.thc_level !== null && 
-            strain.thc_level >= filters.thcRange[0] && 
-            strain.thc_level <= filters.thcRange[1]
-        );
+        filteredData = filteredData.filter(strain => strain.thc_level !== null && strain.thc_level >= filters.thcRange[0] && strain.thc_level <= filters.thcRange[1]);
       }
-
       if (filters.effect) {
-        filteredData = filteredData.filter(strain =>
-          strain.effects.some(
-            effect => effect.effect === filters.effect && effect.intensity > 0
-          )
-        );
+        filteredData = filteredData.filter(strain => strain.effects.some(effect => effect.effect === filters.effect && effect.intensity > 0));
+      }
+      if (filters.terpene) {
+        filteredData = filteredData.filter(strain => strain.most_common_terpene === filters.terpene);
       }
 
-      if (filters.terpene) {
-        filteredData = filteredData.filter(
-          strain => strain.most_common_terpene === filters.terpene
-        );
-      }
-      
       // Always prioritize strains with images first, then sort alphabetically
       filteredData.sort((a, b) => {
         const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
         const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
-        
         if (aHasImage && !bHasImage) return -1;
         if (!aHasImage && bHasImage) return 1;
-        
         return a.name.localeCompare(b.name);
       });
-      
       if (filteredData.length > 0) {
         setStrains(prev => [...prev, ...filteredData]);
         setCurrentPage(nextPage);
@@ -262,17 +221,16 @@ const StrainExplorer: React.FC = () => {
       toast({
         title: t('strains.errorLoadingMore'),
         description: t('strains.couldNotLoadAdditional'),
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoadingMore(false);
     }
   };
-
-  const renderSkeletonLoader = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {Array.from({ length: 8 }).map((_, index) => (
-        <Card key={index} className="overflow-hidden dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+  const renderSkeletonLoader = () => <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {Array.from({
+      length: 8
+    }).map((_, index) => <Card key={index} className="overflow-hidden dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
           <div className="h-40 dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
             <Skeleton className="h-full w-full dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
           </div>
@@ -287,28 +245,15 @@ const StrainExplorer: React.FC = () => {
               <Skeleton className="h-2 w-full dark:bg-navy-DEFAULT/70 bg-sand-DEFAULT/10" />
             </div>
           </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-
+        </Card>)}
+    </div>;
   const handleStrainClick = (strainId: string) => {
     sessionStorage.setItem(LAST_VIEWED_STRAIN_KEY, strainId);
     sessionStorage.setItem(LAST_SCROLL_POSITION_KEY, window.scrollY.toString());
   };
-
-  const activeFilterCount = [
-    filters.type, 
-    filters.effect, 
-    filters.terpene, 
-    filters.search, 
-    filters.thcRange[0] > 0 || filters.thcRange[1] < 30 ? 'thc' : null
-  ].filter(Boolean).length;
-
-  const remainingStrains = totalStrains - (currentPage * strainsPerPage);
-
-  return (
-    <div className="min-h-screen dark:bg-navy-dark bg-sand-light/50 pb-28">
+  const activeFilterCount = [filters.type, filters.effect, filters.terpene, filters.search, filters.thcRange[0] > 0 || filters.thcRange[1] < 30 ? 'thc' : null].filter(Boolean).length;
+  const remainingStrains = totalStrains - currentPage * strainsPerPage;
+  return <div className="min-h-screen dark:bg-navy-dark bg-sand-light/50 pb-28">
       <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
@@ -316,148 +261,82 @@ const StrainExplorer: React.FC = () => {
             <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">{t('strains.explorer')}</h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              onClick={toggleFilters}
-              variant="outline"
-              className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark text-white border-none h-9 px-3"
-            >
+            <Button onClick={toggleFilters} variant="outline" className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark border-none h-9 px-3 text-teal-100">
               <Filter size={16} /> 
               {showFilters ? t('strains.hideFilters') : t('strains.filters')}
-              {activeFilterCount > 0 && (
-                <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">
+              {activeFilterCount > 0 && <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">
                   {activeFilterCount}
-                </Badge>
-              )}
+                </Badge>}
             </Button>
           </div>
         </div>
 
-        {activeFilterCount > 0 && (
-          <div className="flex flex-wrap gap-2 mb-6 dark:bg-navy-light/50 bg-sand-DEFAULT/10 p-3 rounded-lg">
-            {filters.type && (
-              <Badge 
-                variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
-              >
+        {activeFilterCount > 0 && <div className="flex flex-wrap gap-2 mb-6 dark:bg-navy-light/50 bg-sand-DEFAULT/10 p-3 rounded-lg">
+            {filters.type && <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
                 {t('strains.filters.type')}: {filters.type}
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('type')} />
-              </Badge>
-            )}
-            {filters.effect && (
-              <Badge 
-                variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
-              >
+              </Badge>}
+            {filters.effect && <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
                 {t('strains.filters.effect')}: {filters.effect}
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('effect')} />
-              </Badge>
-            )}
-            {filters.terpene && (
-              <Badge 
-                variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
-              >
+              </Badge>}
+            {filters.terpene && <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
                 {t('strains.filters.terpene')}: {filters.terpene}
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('terpene')} />
-              </Badge>
-            )}
-            {filters.search && (
-              <Badge 
-                variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
-              >
+              </Badge>}
+            {filters.search && <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
                 {t('strains.filters.search')}: "{filters.search}"
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('search')} />
-              </Badge>
-            )}
-            {(filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && (
-              <Badge 
-                variant="secondary"
-                className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30"
-              >
+              </Badge>}
+            {(filters.thcRange[0] > 0 || filters.thcRange[1] < 30) && <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
                 {t('strains.thcLevel')}: {filters.thcRange[0]}% - {filters.thcRange[1]}%
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('thcRange')} />
-              </Badge>
-            )}
-          </div>
-        )}
+              </Badge>}
+          </div>}
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div className={`${showFilters ? "block" : "hidden"} lg:block lg:col-span-1`}>
-            <StrainFilters 
-              filters={filters} 
-              onFilterChange={handleFilterChange}
-            />
+            <StrainFilters filters={filters} onFilterChange={handleFilterChange} />
           </div>
 
           <div className={`${showFilters ? "col-span-4" : "col-span-4"} lg:col-span-3`} ref={strainListRef}>
-            {error ? (
-              <Card className="dark:bg-navy-light p-8 rounded-xl text-center border border-destructive bg-sand-light">
+            {error ? <Card className="dark:bg-navy-light p-8 rounded-xl text-center border border-destructive bg-sand-light">
                 <CardContent className="pt-6">
                   <h3 className="text-xl font-semibold mb-2 dark:text-white text-navy-dark">{t('strains.errorLoadingStrains')}</h3>
                   <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
-                  <Button 
-                    onClick={() => {
-                      setCurrentPage(1);
-                      fetchStrains(filters.sort, 1, strainsPerPage)
-                        .then(({strains}) => setStrains(strains))
-                        .catch(() => {});
-                    }}
-                    variant="default"
-                    className="px-4 py-2 bg-teal-DEFAULT hover:bg-teal-dark text-white"
-                  >
+                  <Button onClick={() => {
+                setCurrentPage(1);
+                fetchStrains(filters.sort, 1, strainsPerPage).then(({
+                  strains
+                }) => setStrains(strains)).catch(() => {});
+              }} variant="default" className="px-4 py-2 bg-teal-DEFAULT hover:bg-teal-dark text-white">
                     {t('strains.retry')}
                   </Button>
                 </CardContent>
-              </Card>
-            ) : loading ? (
-              renderSkeletonLoader()
-            ) : strains.length > 0 ? (
-              <>
+              </Card> : loading ? renderSkeletonLoader() : strains.length > 0 ? <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                  {strains.map((strain) => (
-                    <Link 
-                      to={`/strains/${strain.id}`} 
-                      key={strain.id} 
-                      id={`strain-${strain.id}`}
-                      className="block" 
-                      onClick={() => handleStrainClick(strain.id)}
-                    >
+                  {strains.map(strain => <Link to={`/strains/${strain.id}`} key={strain.id} id={`strain-${strain.id}`} className="block" onClick={() => handleStrainClick(strain.id)}>
                       <StrainCard strain={strain} />
-                    </Link>
-                  ))}
+                    </Link>)}
                 </div>
                 
-                {remainingStrains > 0 && (
-                  <div 
-                    ref={loadMoreRef} 
-                    className="mt-8 text-center py-8" 
-                    aria-hidden="true"
-                  >
-                    {loadingMore && (
-                      <div className="flex items-center justify-center">
+                {remainingStrains > 0 && <div ref={loadMoreRef} className="mt-8 text-center py-8" aria-hidden="true">
+                    {loadingMore && <div className="flex items-center justify-center">
                         <Loader2 className="h-6 w-6 animate-spin text-teal-DEFAULT mr-2" />
                         <span className="text-gray-600 dark:text-gray-400">{t('strains.loadingMore')}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </>
-            ) : (
-              <Card className="dark:bg-navy-light p-8 rounded-xl text-center border dark:border-navy-DEFAULT border-sand-DEFAULT bg-sand-light">
+                      </div>}
+                  </div>}
+              </> : <Card className="dark:bg-navy-light p-8 rounded-xl text-center border dark:border-navy-DEFAULT border-sand-DEFAULT bg-sand-light">
                 <CardContent className="pt-6">
                   <h3 className="text-xl font-semibold mb-2 dark:text-white text-navy-dark">{t('strains.noStrainsFound')}</h3>
                   <p className="text-gray-600 dark:text-gray-400">
                     {t('strains.tryAdjustingFilters')}
                   </p>
                 </CardContent>
-              </Card>
-            )}
+              </Card>}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default StrainExplorer;
