@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { User } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
@@ -19,15 +20,11 @@ const Navbar: React.FC = () => {
             <span className="font-bold text-xl text-foreground">SocialClub Map</span>
           </Link>
           
-          {user && (
-            <Link to="/profile" className="ml-auto">
-              <div className="h-9 w-9 bg-primary/20 rounded-full flex items-center justify-center">
-                <span className="text-primary font-medium">
-                  {user.email?.charAt(0).toUpperCase() || 'U'}
-                </span>
-              </div>
-            </Link>
-          )}
+          <Link to="/profile" className="ml-auto">
+            <div className="h-9 w-9 bg-primary/20 hover:bg-primary/30 transition-colors rounded-full flex items-center justify-center shadow-sm">
+              <User className="h-5 w-5 text-primary" />
+            </div>
+          </Link>
         </div>
       </div>
     </nav>

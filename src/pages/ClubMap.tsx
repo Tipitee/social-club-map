@@ -29,10 +29,10 @@ const ClubMap: React.FC = () => {
           />
         </div>
         
-        <Card className="mt-6 border-border">
+        <Card className="mt-6">
           <CardContent className="pt-6">
             <h2 className="text-lg font-semibold mb-2 text-foreground">About German Cannabis Clubs</h2>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground">
               Cannabis Social Clubs in Germany are part of the country's new cannabis policy. 
               These non-profit associations allow members to collectively cultivate and 
               distribute cannabis for personal use, providing a regulated alternative to 
