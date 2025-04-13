@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import StrainExplorer from "./pages/StrainExplorer";
 import StrainDetail from "./pages/StrainDetail";
 import ClubMap from "./pages/ClubMap";
+import ClubDetail from "./pages/ClubDetail";
 import NotFound from "./pages/NotFound";
 import Journal from "./pages/Journal";
 import Home from "./pages/Home";
@@ -38,6 +39,7 @@ const App = () => {
                       <Route path="/strains" element={<StrainExplorer />} />
                       <Route path="/strains/:id" element={<StrainDetail />} />
                       <Route path="/clubs" element={<ClubMap />} />
+                      <Route path="/clubs/:id" element={<ClubDetail />} />
                       <Route path="/journal" element={<Journal />} />
                       <Route path="/news" element={<News />} />
                       <Route path="/guide" element={<CannabisGuide />} />

@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -181,18 +182,20 @@ const ClubMap: React.FC = () => {
                               </span>
                             )}
                           </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-300">{club.address}</p>
+                          <p className="text-sm text-navy-dark dark:text-gray-300">{club.address}</p>
                           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                             {club.distance.toFixed(1)} km away
                           </div>
                         </div>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
-                        >
-                          Details
-                        </Button>
+                        <Link to={`/clubs/${club.id}`}>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
+                          >
+                            Details
+                          </Button>
+                        </Link>
                       </div>
                     ))}
                   </div>

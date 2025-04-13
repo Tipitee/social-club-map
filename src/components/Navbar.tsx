@@ -14,8 +14,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
 import { User } from "lucide-react";
-import logoDark from '../assets/logo-dark.png';
-import logoLight from '../assets/logo-light.png';
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
@@ -27,7 +25,9 @@ const Navbar: React.FC = () => {
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           <img 
-            src={theme === 'dark' ? logoDark : logoLight} 
+            src={theme === 'dark' 
+              ? "/lovable-uploads/27f327ef-1fe4-46e4-88ae-7e523c37dee6.png" 
+              : "/lovable-uploads/8aadd7cd-2da7-4b51-833e-73194cbe47ee.png"}
             alt="Logo" 
             className="h-10 w-auto mr-2" 
           />

@@ -47,6 +47,7 @@ const Settings: React.FC = () => {
                   id="dark-mode" 
                   checked={theme === "dark"}
                   onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+                  className="data-[state=checked]:bg-teal"
                 />
               </div>
             </CardContent>
@@ -93,21 +94,21 @@ const Settings: React.FC = () => {
                   <Label htmlFor="notifications" className="text-navy-dark dark:text-gray-300 font-medium">
                     {t('settings.enableNotifications')}
                   </Label>
-                  <Switch id="notifications" />
+                  <Switch id="notifications" className="data-[state=checked]:bg-teal" />
                 </div>
                 
                 <div className="flex justify-between items-center">
                   <Label htmlFor="analytics" className="text-navy-dark dark:text-gray-300 font-medium">
                     {t('settings.shareAnalytics')}
                   </Label>
-                  <Switch id="analytics" defaultChecked />
+                  <Switch id="analytics" defaultChecked className="data-[state=checked]:bg-teal" />
                 </div>
                 
                 <div className="flex justify-between items-center">
                   <Label htmlFor="newsletter" className="text-navy-dark dark:text-gray-300 font-medium">
                     {t('settings.subscribeNewsletter')}
                   </Label>
-                  <Switch id="newsletter" />
+                  <Switch id="newsletter" className="data-[state=checked]:bg-teal" />
                 </div>
               </div>
             </CardContent>
