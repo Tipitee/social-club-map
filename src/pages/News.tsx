@@ -152,13 +152,13 @@ const News: React.FC = () => {
           </h2>
           
           <div className="rounded-lg overflow-hidden shadow-sm mb-6 bg-white dark:bg-navy-DEFAULT">
-            <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 text-center">
+            <div className="grid grid-cols-3 text-center">
               <button
                 onClick={() => setActiveTab('all')}
                 className={`px-4 py-3 text-sm font-medium ${
                   activeTab === 'all'
-                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
                 }`}
               >
                 All
@@ -167,8 +167,8 @@ const News: React.FC = () => {
                 onClick={() => setActiveTab('federal')}
                 className={`px-4 py-3 text-sm font-medium ${
                   activeTab === 'federal'
-                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
                 }`}
               >
                 Federal
@@ -177,18 +177,20 @@ const News: React.FC = () => {
                 onClick={() => setActiveTab('state')}
                 className={`px-4 py-3 text-sm font-medium ${
                   activeTab === 'state'
-                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
                 }`}
               >
                 State
               </button>
+            </div>
+            <div className="grid grid-cols-3 text-center border-t border-gray-200 dark:border-navy-light">
               <button
                 onClick={() => setActiveTab('medical')}
                 className={`px-4 py-3 text-sm font-medium ${
                   activeTab === 'medical'
-                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
                 }`}
               >
                 Medical
@@ -197,8 +199,8 @@ const News: React.FC = () => {
                 onClick={() => setActiveTab('recreational')}
                 className={`px-4 py-3 text-sm font-medium ${
                   activeTab === 'recreational'
-                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
                 }`}
               >
                 Recreational
@@ -207,8 +209,8 @@ const News: React.FC = () => {
                 onClick={() => setActiveTab('business')}
                 className={`px-4 py-3 text-sm font-medium ${
                   activeTab === 'business'
-                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
                 }`}
               >
                 Business

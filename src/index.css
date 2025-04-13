@@ -216,7 +216,7 @@
   }
   
   .journal-entry {
-    @apply border;
+    @apply border bg-white dark:bg-navy-light;
   }
   
   .journal-text {
@@ -261,6 +261,7 @@
     background: linear-gradient(0.25turn, #ffebee, #ffe0b3, #e0f7fa, #4eb7ac, #007a6c);
   }
 
+  /* Updated gradient styles for dark mode cards */
   .dark .home-card-journal {
     @apply bg-gradient-to-br from-teal-600/50 to-emerald-800/40 backdrop-blur-sm border-emerald-700/30;
   }
@@ -343,11 +344,11 @@
   }
   
   .news-tab-button-active {
-    @apply border-b-2 border-primary text-primary dark:text-primary-light;
+    @apply border-b-2 border-teal dark:border-primary text-teal dark:text-primary-light;
   }
   
   .news-tab-button-inactive {
-    @apply text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light;
+    @apply text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light;
   }
 
   /* Common card style for auth containers */

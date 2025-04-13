@@ -96,33 +96,63 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="driving">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Driving Restrictions
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {isGerman ? "Fahreinschränkungen" : "Driving Restrictions"}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Driving under the influence of cannabis remains strictly prohibited. The legal limit for THC while driving is set at 1 nanogram per milliliter of blood.</p>
-                      <p className="mt-2">Penalties for driving under the influence of cannabis include:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Monetary fines starting at €500</li>
-                        <li>License suspension for at least one month</li>
-                        <li>Two points in the driving offense registry</li>
-                      </ul>
-                      <p className="mt-2">For regular consumers, THC can be detectable in blood for several days after consumption, even when no longer impaired.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Das Fahren unter Einfluss von Cannabis bleibt streng verboten. Der gesetzliche Grenzwert für THC beim Fahren liegt bei 1 Nanogramm pro Milliliter Blut.</p>
+                          <p className="mt-2">Strafen für das Fahren unter Cannabiseinfluss umfassen:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Geldstrafen ab 500 €</li>
+                            <li>Führerscheinentzug für mindestens einen Monat</li>
+                            <li>Zwei Punkte im Fahreignungsregister</li>
+                          </ul>
+                          <p className="mt-2">Für regelmäßige Konsumenten kann THC noch mehrere Tage nach dem Konsum im Blut nachweisbar sein, auch wenn keine Beeinträchtigung mehr vorliegt.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Driving under the influence of cannabis remains strictly prohibited. The legal limit for THC while driving is set at 1 nanogram per milliliter of blood.</p>
+                          <p className="mt-2">Penalties for driving under the influence of cannabis include:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Monetary fines starting at €500</li>
+                            <li>License suspension for at least one month</li>
+                            <li>Two points in the driving offense registry</li>
+                          </ul>
+                          <p className="mt-2">For regular consumers, THC can be detectable in blood for several days after consumption, even when no longer impaired.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="clubs">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Cannabis Social Clubs
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {isGerman ? "Cannabis Social Clubs" : "Cannabis Social Clubs"}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Cannabis Social Clubs (CSCs) are non-profit associations that can cultivate and distribute cannabis exclusively to their members. These clubs operate under specific regulations:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Maximum of 500 adult members per club</li>
-                        <li>Members must be residents in the same federal state as the club</li>
-                        <li>Distribution limited to 25 grams per day and 50 grams per month per member</li>
-                        <li>Clubs must maintain minimum distances from schools and facilities for children</li>
-                        <li>Sale of cannabis products is restricted to plain packaging with health warnings</li>
-                      </ul>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Cannabis Social Clubs (CSCs) sind gemeinnützige Vereine, die Cannabis ausschließlich für ihre Mitglieder anbauen und verteilen können. Diese Clubs unterliegen spezifischen Vorschriften:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Maximal 500 erwachsene Mitglieder pro Club</li>
+                            <li>Mitglieder müssen im selben Bundesland wie der Club wohnen</li>
+                            <li>Verteilung beschränkt auf 25 Gramm pro Tag und 50 Gramm pro Monat pro Mitglied</li>
+                            <li>Clubs müssen Mindestabstände zu Schulen und Einrichtungen für Kinder einhalten</li>
+                            <li>Verkauf von Cannabisprodukten ist auf schlichte Verpackungen mit Gesundheitswarnungen beschränkt</li>
+                          </ul>
+                        </>
+                      ) : (
+                        <>
+                          <p>Cannabis Social Clubs (CSCs) are non-profit associations that can cultivate and distribute cannabis exclusively to their members. These clubs operate under specific regulations:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Maximum of 500 adult members per club</li>
+                            <li>Members must be residents in the same federal state as the club</li>
+                            <li>Distribution limited to 25 grams per day and 50 grams per month per member</li>
+                            <li>Clubs must maintain minimum distances from schools and facilities for children</li>
+                            <li>Sale of cannabis products is restricted to plain packaging with health warnings</li>
+                          </ul>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
@@ -142,63 +172,123 @@ const CannabisGuide: React.FC = () => {
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="startLow">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Start Low, Go Slow
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {isGerman ? "Niedrig beginnen, langsam steigern" : "Start Low, Go Slow"}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>When trying cannabis, especially for beginners or when trying a new strain or product:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Begin with a minimal dose (1-2.5mg THC for edibles, small inhalation for smoking)</li>
-                        <li>Wait at least 15-30 minutes between inhalations</li>
-                        <li>For edibles, wait at least 2 hours before taking more</li>
-                        <li>Gradually increase dosage in small increments if needed</li>
-                      </ul>
-                      <p className="mt-2">This approach helps prevent uncomfortable experiences and allows you to find your optimal dose.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Bei der Verwendung von Cannabis, besonders für Anfänger oder beim Ausprobieren einer neuen Sorte oder eines neuen Produkts:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Beginnen Sie mit einer minimalen Dosis (1-2,5 mg THC für Esswaren, kleine Inhalation beim Rauchen)</li>
+                            <li>Warten Sie mindestens 15-30 Minuten zwischen den Inhalationen</li>
+                            <li>Bei Esswaren mindestens 2 Stunden warten, bevor mehr genommen wird</li>
+                            <li>Dosis bei Bedarf langsam in kleinen Schritten steigern</li>
+                          </ul>
+                          <p className="mt-2">Dieser Ansatz hilft, unangenehme Erfahrungen zu vermeiden und ermöglicht es Ihnen, Ihre optimale Dosis zu finden.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>When trying cannabis, especially for beginners or when trying a new strain or product:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Begin with a minimal dose (1-2.5mg THC for edibles, small inhalation for smoking)</li>
+                            <li>Wait at least 15-30 minutes between inhalations</li>
+                            <li>For edibles, wait at least 2 hours before taking more</li>
+                            <li>Gradually increase dosage in small increments if needed</li>
+                          </ul>
+                          <p className="mt-2">This approach helps prevent uncomfortable experiences and allows you to find your optimal dose.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="knowSource">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Know Your Source
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {isGerman ? "Kenne deine Quelle" : "Know Your Source"}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Obtaining cannabis from reliable and legal sources is crucial for safety:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Purchase from licensed cannabis social clubs when possible</li>
-                        <li>Be cautious of products from unregulated sources</li>
-                        <li>Look for lab-tested products with clear potency information</li>
-                        <li>Avoid products with signs of mold, unusual odors, or contaminants</li>
-                      </ul>
-                      <p className="mt-2">Quality cannabis should have proper labeling including strain information, THC/CBD content, and harvest date.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Die Beschaffung von Cannabis aus zuverlässigen und legalen Quellen ist entscheidend für die Sicherheit:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Kaufen Sie wenn möglich bei lizenzierten Cannabis Social Clubs</li>
+                            <li>Seien Sie vorsichtig bei Produkten aus unregulierten Quellen</li>
+                            <li>Achten Sie auf laborgetestete Produkte mit klaren Angaben zum Wirkstoffgehalt</li>
+                            <li>Vermeiden Sie Produkte mit Anzeichen von Schimmel, ungewöhnlichem Geruch oder Verunreinigungen</li>
+                          </ul>
+                          <p className="mt-2">Qualitätscannabis sollte eine ordnungsgemäße Kennzeichnung mit Sorteninformationen, THC/CBD-Gehalt und Erntedatum haben.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Obtaining cannabis from reliable and legal sources is crucial for safety:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Purchase from licensed cannabis social clubs when possible</li>
+                            <li>Be cautious of products from unregulated sources</li>
+                            <li>Look for lab-tested products with clear potency information</li>
+                            <li>Avoid products with signs of mold, unusual odors, or contaminants</li>
+                          </ul>
+                          <p className="mt-2">Quality cannabis should have proper labeling including strain information, THC/CBD content, and harvest date.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="mindset">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Set and Setting
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {isGerman ? "Set und Setting" : "Set and Setting"}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Your mental state and environment significantly impact your cannabis experience:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Choose a comfortable, familiar environment when consuming</li>
-                        <li>Have a trusted person present, especially for new experiences</li>
-                        <li>Avoid cannabis if you're experiencing negative emotions or anxiety</li>
-                        <li>Don't mix cannabis with alcohol or other substances</li>
-                        <li>Plan activities beforehand and have necessities (water, snacks) nearby</li>
-                      </ul>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Ihr Geisteszustand und Ihre Umgebung beeinflussen Ihre Cannabis-Erfahrung erheblich:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Wählen Sie eine komfortable, vertraute Umgebung für den Konsum</li>
+                            <li>Haben Sie eine Vertrauensperson anwesend, besonders bei neuen Erfahrungen</li>
+                            <li>Vermeiden Sie Cannabis, wenn Sie negative Emotionen oder Angstzustände erleben</li>
+                            <li>Mischen Sie Cannabis nicht mit Alkohol oder anderen Substanzen</li>
+                            <li>Planen Sie Aktivitäten im Voraus und halten Sie Notwendigkeiten (Wasser, Snacks) griffbereit</li>
+                          </ul>
+                        </>
+                      ) : (
+                        <>
+                          <p>Your mental state and environment significantly impact your cannabis experience:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Choose a comfortable, familiar environment when consuming</li>
+                            <li>Have a trusted person present, especially for new experiences</li>
+                            <li>Avoid cannabis if you're experiencing negative emotions or anxiety</li>
+                            <li>Don't mix cannabis with alcohol or other substances</li>
+                            <li>Plan activities beforehand and have necessities (water, snacks) nearby</li>
+                          </ul>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="hydration">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Stay Hydrated
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {isGerman ? "Bleibe hydriert" : "Stay Hydrated"}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Cannabis can cause dry mouth (cottonmouth) and mild dehydration:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Drink water before, during, and after cannabis use</li>
-                        <li>Keep non-alcoholic, non-caffeinated beverages nearby</li>
-                        <li>Herbal teas can be particularly soothing for dry throat</li>
-                        <li>Avoid excessive sugary drinks which can worsen dehydration</li>
-                      </ul>
-                      <p className="mt-2">Proper hydration helps minimize side effects and enhances the overall experience.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Cannabis kann einen trockenen Mund (Cottonmouth) und leichte Dehydrierung verursachen:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Trinken Sie vor, während und nach dem Cannabis-Konsum Wasser</li>
+                            <li>Halten Sie nicht-alkoholische, koffeinfreie Getränke bereit</li>
+                            <li>Kräutertees können besonders wohltuend für einen trockenen Hals sein</li>
+                            <li>Vermeiden Sie übermäßig zuckerhaltige Getränke, die die Dehydrierung verschlimmern können</li>
+                          </ul>
+                          <p className="mt-2">Ausreichende Flüssigkeitszufuhr hilft, Nebenwirkungen zu minimieren und verbessert das Gesamterlebnis.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Cannabis can cause dry mouth (cottonmouth) and mild dehydration:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Drink water before, during, and after cannabis use</li>
+                            <li>Keep non-alcoholic, non-caffeinated beverages nearby</li>
+                            <li>Herbal teas can be particularly soothing for dry throat</li>
+                            <li>Avoid excessive sugary drinks which can worsen dehydration</li>
+                          </ul>
+                          <p className="mt-2">Proper hydration helps minimize side effects and enhances the overall experience.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
