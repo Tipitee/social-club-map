@@ -17,48 +17,48 @@ const Home: React.FC = () => {
       icon: Book,
       title: t('navigation.journal'),
       description: t('journal.trackYourConsumption'),
-      colorDark: "from-emerald-700/40 to-teal-800/30",
-      colorLight: "from-teal-light/30 to-teal-DEFAULT/20"
+      colorDark: "from-emerald-600/50 to-teal-700/40",
+      colorLight: "from-teal-light/40 to-teal-DEFAULT/30"
     },
     {
       path: "/strains",
       icon: Cannabis,
       title: t('navigation.strains'),
       description: t('strains.exploreDatabase'),
-      colorDark: "from-purple-700/40 to-violet-800/30",
-      colorLight: "from-coral-light/20 to-coral-DEFAULT/30"
+      colorDark: "from-purple-600/50 to-indigo-700/40",
+      colorLight: "from-coral-light/30 to-coral-DEFAULT/40"
     },
     {
       path: "/clubs",
       icon: Map,
       title: t('navigation.clubs'),
       description: t('clubs.findLocalClub'),
-      colorDark: "from-blue-700/40 to-cyan-800/30",
-      colorLight: "from-sand-light/40 to-sand-dark/20"
+      colorDark: "from-blue-600/50 to-sky-700/40",
+      colorLight: "from-sand-light/50 to-sand-dark/30"
     },
     {
       path: "/guide",
       icon: BookText,
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
-      colorDark: "from-amber-700/40 to-orange-800/30",
-      colorLight: "from-amber-light/20 to-amber-dark/20"
+      colorDark: "from-amber-600/50 to-yellow-700/40",
+      colorLight: "from-amber-light/30 to-amber-DEFAULT/40"
     },
     {
       path: "/news",
       icon: Newspaper,
       title: t('navigation.news'),
       description: t('news.stayInformed'),
-      colorDark: "from-teal-700/40 to-cyan-800/30",
-      colorLight: "from-blue-light/30 to-blue-DEFAULT/20"
+      colorDark: "from-cyan-600/50 to-blue-700/40",
+      colorLight: "from-blue-light/40 to-blue-DEFAULT/30"
     },
     {
       path: "/settings",
       icon: Settings,
       title: t('navigation.settings'),
       description: t('settings.managePreferences'),
-      colorDark: "from-slate-700/40 to-gray-800/30",
-      colorLight: "from-sand-light/30 to-sand-dark/20"
+      colorDark: "from-slate-600/50 to-gray-700/40",
+      colorLight: "from-cadetGray-200/50 to-cadetGray-400/30"
     }
   ];
 
@@ -68,7 +68,7 @@ const Home: React.FC = () => {
   };
 
   const getCardBorderClass = () => isDarkMode 
-    ? "border-gray-700/30" 
+    ? "border-gray-700/40" 
     : "border-sand-dark/30";
     
   const getTextClass = () => isDarkMode 
@@ -80,8 +80,8 @@ const Home: React.FC = () => {
     : "text-gray-600";
     
   const getIconBgClass = () => isDarkMode
-    ? "bg-gray-800/40"
-    : "bg-sand-light/70";
+    ? "bg-gray-800/50"
+    : "bg-white/80";
     
   const getBackgroundClass = () => isDarkMode
     ? "bg-gradient-to-b from-[#1a2433] to-[#222e40]"
@@ -99,7 +99,7 @@ const Home: React.FC = () => {
               className="block hover:scale-[1.02] transition-transform duration-200"
             >
               <div className={`bg-gradient-to-br ${getBgGradient(index)} backdrop-blur-sm border ${getCardBorderClass()} rounded-xl shadow-md hover:shadow-lg p-6 h-full`}>
-                <div className={`flex justify-center items-center h-16 w-16 ${getIconBgClass()} rounded-full mb-4 mx-auto shadow-sm`}>
+                <div className={`flex justify-center items-center h-16 w-16 ${getIconBgClass()} rounded-full mb-4 mx-auto shadow-md`}>
                   <section.icon className="h-8 w-8 text-teal-DEFAULT" />
                 </div>
                 <h2 className={`text-xl font-bold ${getTextClass()} text-center mb-2`}>{section.title}</h2>

@@ -31,6 +31,9 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
   const [expanded, setExpanded] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const { t } = useTranslation();
+  
+  // Detect theme for conditional styling
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -38,7 +41,7 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
       stars.push(
         <Star
           key={i}
-          className={`${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-600"}`}
+          className={`${i < rating ? "text-yellow-400 fill-yellow-400" : isDarkMode ? "text-gray-600" : "text-gray-400"}`}
           size={20}
         />
       );
@@ -79,16 +82,44 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
     setShowDeleteDialog(false);
   };
   
+  const getEntryCardClass = () => isDarkMode 
+    ? "bg-gray-900 border-gray-800" 
+    : "bg-white border-cadetGray-200";
+    
+  const getLabelClass = () => isDarkMode 
+    ? "text-gray-400" 
+    : "text-gray-500";
+    
+  const getValueClass = () => isDarkMode 
+    ? "text-white" 
+    : "text-gray-800";
+    
+  const getNotesClass = () => isDarkMode 
+    ? "bg-gray-800 border-gray-700 text-white" 
+    : "bg-gray-50 border-gray-200 text-gray-800";
+    
+  const getBadgeClass = () => isDarkMode 
+    ? "bg-gray-800 text-white border-gray-700" 
+    : "bg-gray-100 text-gray-800 border-gray-200";
+    
+  const getAlertDialogClass = () => isDarkMode
+    ? "bg-gray-900 border-gray-700 text-white"
+    : "bg-white border-gray-200 text-gray-800";
+    
+  const getCancelButtonClass = () => isDarkMode
+    ? "bg-gray-800 text-white border-gray-700 hover:bg-gray-700"
+    : "bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200";
+  
   return (
     <>
-      <Card className="bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-6 mb-6 transition-all duration-300">
+      <Card className={`rounded-xl shadow-lg border p-6 mb-6 transition-all duration-300 ${getEntryCardClass()}`}>
         <div className="flex justify-between items-start">
-          <h2 className="text-xl font-bold mb-4 text-white">{entry.date}</h2>
+          <h2 className={`text-xl font-bold mb-4 ${getValueClass()}`}>{entry.date}</h2>
           <div className="flex gap-2">
             <Button 
               variant="ghost" 
               size="sm" 
-              className="text-gray-400 hover:text-white hover:bg-gray-800"
+              className={`${getLabelClass()} hover:${getValueClass()} hover:bg-accent/20`}
               onClick={handleEditClick}
             >
               <Edit size={18} />
@@ -96,7 +127,7 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
             <Button 
               variant="ghost" 
               size="sm" 
-              className="text-gray-400 hover:text-red-500 hover:bg-gray-800"
+              className={`${getLabelClass()} hover:text-red-500 hover:bg-red-500/10`}
               onClick={handleDeleteClick}
             >
               <Trash2 size={18} />
@@ -105,14 +136,14 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
         </div>
         
         <div className="flex justify-between mb-3">
-          <span className="text-gray-400">{t('journal.dosage')}:</span>
-          <span className="text-white font-medium">{entry.dosage} {entry.dosageType}</span>
+          <span className={getLabelClass()}>{t('journal.dosage')}:</span>
+          <span className={`${getValueClass()} font-medium`}>{entry.dosage} {entry.dosageType}</span>
         </div>
         
         <div className="mb-3">
           <div className="flex justify-between">
-            <span className="text-gray-400">{t('journal.effectiveness')}:</span>
-            <span className="text-white font-medium ml-2">({getEffectivenessLabel(entry.effectiveness)})</span>
+            <span className={getLabelClass()}>{t('journal.effectiveness')}:</span>
+            <span className={`${getValueClass()} font-medium ml-2`}>({getEffectivenessLabel(entry.effectiveness)})</span>
           </div>
           <div className="flex mt-1">
             {renderStars(entry.effectiveness)}
@@ -120,38 +151,38 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
         </div>
         
         <div className="flex justify-between mb-3">
-          <span className="text-gray-400">{t('journal.mood')}:</span>
+          <span className={getLabelClass()}>{t('journal.mood')}:</span>
           <div className="flex items-center">
             <span className="mr-2">{getMoodEmoji(entry.mood)}</span>
-            <span className="text-white font-medium">{entry.mood}</span>
+            <span className={`${getValueClass()} font-medium`}>{entry.mood}</span>
           </div>
         </div>
         
         <div className="flex justify-between mb-3">
-          <span className="text-gray-400">{t('journal.activity')}:</span>
-          <span className="text-white font-medium">{entry.activity}</span>
+          <span className={getLabelClass()}>{t('journal.activity')}:</span>
+          <span className={`${getValueClass()} font-medium`}>{entry.activity}</span>
         </div>
         
         <div className="mb-3">
-          <div className="text-gray-400 mb-2">{t('journal.sideEffects')}:</div>
+          <div className={`${getLabelClass()} mb-2`}>{t('journal.sideEffects')}:</div>
           <div className="flex flex-wrap gap-2">
             {entry.sideEffects.length > 0 ? (
               entry.sideEffects.map((effect, index) => (
-                <Badge key={index} variant="outline" className="bg-gray-800 text-sm text-white border border-gray-700">
+                <Badge key={index} variant="outline" className={`text-sm ${getBadgeClass()}`}>
                   {effect}
                 </Badge>
               ))
             ) : (
-              <span className="text-sm text-gray-400">{t('journal.noSideEffects')}</span>
+              <span className={`text-sm ${getLabelClass()}`}>{t('journal.noSideEffects')}</span>
             )}
           </div>
         </div>
         
         {entry.notes && (
           <div className={`mt-4 ${!expanded && entry.notes.length > 120 ? 'relative' : ''}`}>
-            <div className="text-gray-400 mb-1">{t('journal.notes')}:</div>
+            <div className={`${getLabelClass()} mb-1`}>{t('journal.notes')}:</div>
             <div className="relative">
-              <p className={`text-white bg-gray-800 p-3 rounded-md border border-gray-700 ${
+              <p className={`${getNotesClass()} p-3 rounded-md border ${
                 !expanded && entry.notes.length > 120 ? 'line-clamp-3' : ''
               }`}>
                 {entry.notes}
@@ -162,7 +193,7 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => setExpanded(!expanded)}
-                  className="mt-1 text-gray-400 hover:text-white flex items-center justify-center w-full"
+                  className={`mt-1 ${getLabelClass()} hover:${getValueClass()} flex items-center justify-center w-full`}
                 >
                   {expanded ? (
                     <>{t('journal.showLess')} <ChevronUp size={16} className="ml-1" /></>
@@ -177,15 +208,15 @@ const JournalEntryComponent: React.FC<JournalEntryComponentProps> = ({
       </Card>
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent className="bg-gray-900 border border-gray-700 text-white">
+        <AlertDialogContent className={getAlertDialogClass()}>
           <AlertDialogHeader>
             <AlertDialogTitle>{t('journal.deleteEntry')}</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-400">
+            <AlertDialogDescription className={getLabelClass()}>
               {t('journal.deleteConfirmation')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-gray-800 text-white border-gray-700 hover:bg-gray-700">
+            <AlertDialogCancel className={getCancelButtonClass()}>
               {t('common.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction 

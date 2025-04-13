@@ -1,4 +1,3 @@
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enTranslation from './locales/en.json';
@@ -50,6 +49,10 @@ const formatMissingKey = (key: string): string => {
 // Add additional translations to German locale
 const extendedDeTranslations = {
   ...deTranslation,
+  settings: {
+    ...(deTranslation as any).settings,
+    languageChanged: 'Sprache geändert',
+  },
   journal: {
     ...(deTranslation as any).journal,
     trackConsumption: 'Konsum verfolgen',
@@ -84,7 +87,7 @@ const extendedDeTranslations = {
     entry: 'Eintrag',
     entries: 'Einträge',
     ratingBadge: 'Bewertung: {rating}',
-    sideEffectsOptions: { // Renamed to avoid conflict
+    sideEffectsOptions: {
       'dry-mouth': 'Mundtrockenheit',
       'dry-eyes': 'Trockene Augen',
       'headache': 'Kopfschmerzen',
@@ -92,6 +95,11 @@ const extendedDeTranslations = {
       'dizziness': 'Schwindel',
       'anxiety': 'Angst'
     }
+  },
+  language: {
+    ...(deTranslation as any).language,
+    english: 'Englisch',
+    german: 'Deutsch'
   },
   app: {
     ...(deTranslation as any).app,
@@ -165,19 +173,27 @@ const extendedDeTranslations = {
   }
 };
 
+// Add additional translations to English locale
+const extendedEnTranslations = {
+  ...enTranslation,
+  settings: {
+    ...enTranslation.settings,
+    languageChanged: 'Language changed',
+  },
+  language: {
+    ...enTranslation.language,
+    english: 'English',
+    german: 'German'
+  }
+};
+
 // Configure i18next with better fallbacks
 i18n
   .use(initReactI18next)
   .init({
     resources: {
       en: {
-        translation: {
-          ...enTranslation,
-          strains: {
-            ...enTranslation.strains,
-            strainsExplorer: 'Strains Explorer'
-          }
-        }
+        translation: extendedEnTranslations
       },
       de: {
         translation: extendedDeTranslations
@@ -190,7 +206,16 @@ i18n
     },
     nsSeparator: false,
     keySeparator: false,
-    parseMissingKeyHandler: formatMissingKey
+    parseMissingKeyHandler: formatMissingKey,
+    react: {
+      useSuspense: false
+    }
   });
+
+// Debug language loading
+console.log("i18n initialized with language:", i18n.language);
+window.addEventListener('languageChanged', (e) => {
+  console.log("Language changed event:", e);
+});
 
 export default i18n;

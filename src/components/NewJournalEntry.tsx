@@ -56,7 +56,6 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
   const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   
-  // Form state
   const [dosage, setDosage] = useState("");
   const [dosageType, setDosageType] = useState("edible");
   const [effectiveness, setEffectiveness] = useState(0);
@@ -65,7 +64,6 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
   const [selectedEffects, setSelectedEffects] = useState<string[]>([]);
   const [notes, setNotes] = useState("");
 
-  // Detect theme for conditional styling
   const isDarkMode = document.documentElement.classList.contains('dark');
   
   const handleSave = () => {
@@ -137,27 +135,25 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
         </DialogHeader>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Left column */}
           <div className="space-y-4">
-            {/* Dosage - Modified to remove dropdown arrows */}
             <div>
               <Label htmlFor="dosage" className={getLabelClass()}>
                 {t('journal.dosage')}
               </Label>
-              <div className="flex mt-1">
+              <div className="flex mt-1 gap-0">
                 <Input
                   id="dosage"
                   type="text"
                   value={dosage}
                   onChange={(e) => setDosage(e.target.value)}
-                  className={`${getInputClass()} rounded-r-none w-3/4`}
+                  className={`${getInputClass()} rounded-r-none flex-1`}
                   placeholder="Enter amount"
                 />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button 
                       variant="outline" 
-                      className={`${getDropdownClass()} rounded-l-none flex-grow flex justify-between items-center`}
+                      className={`${getDropdownClass()} rounded-l-none min-w-[120px] flex justify-between items-center`}
                     >
                       {DOSAGE_TYPES.find(type => type.value === dosageType)?.label || dosageType}
                     </Button>
@@ -181,7 +177,6 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
               </div>
             </div>
             
-            {/* Effectiveness */}
             <div>
               <Label className={getLabelClass()}>
                 {t('journal.effectiveness')}
@@ -207,7 +202,6 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
               </div>
             </div>
             
-            {/* Mood */}
             <div>
               <Label htmlFor="mood" className={getLabelClass()}>
                 {t('journal.mood')}
@@ -220,7 +214,6 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
               />
             </div>
             
-            {/* Activity */}
             <div>
               <Label htmlFor="activity" className={getLabelClass()}>
                 {t('journal.activity')}
@@ -252,9 +245,7 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
             </div>
           </div>
           
-          {/* Right column */}
           <div className="space-y-4">
-            {/* Side Effects */}
             <div>
               <Label className={getLabelClass()}>
                 {t('journal.sideEffects')}
@@ -291,7 +282,6 @@ const NewJournalEntry: React.FC<NewJournalEntryProps> = ({ isOpen, onClose, onSa
               </div>
             </div>
             
-            {/* Notes */}
             <div>
               <Label htmlFor="notes" className={getLabelClass()}>
                 {t('journal.notes')}
