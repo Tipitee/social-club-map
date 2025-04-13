@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -22,19 +23,19 @@ const CannabisGuide: React.FC = () => {
           <TabsList className="grid grid-cols-4 mb-8">
             <TabsTrigger value="laws">
               <Gavel className="h-4 w-4 mr-2" />
-              {isGerman ? "Gesetze" : "Laws"}
+              {t('guide.laws')}
             </TabsTrigger>
             <TabsTrigger value="safeUse">
               <Shield className="h-4 w-4 mr-2" />
-              {isGerman ? "Sicherer Konsum" : "Safe Use"}
+              {t('guide.safeUse')}
             </TabsTrigger>
             <TabsTrigger value="basics">
               <Sprout className="h-4 w-4 mr-2" />
-              {isGerman ? "Grundlagen" : "Basics"}
+              {t('guide.basics')}
             </TabsTrigger>
             <TabsTrigger value="health">
               <AlertTriangle className="h-4 w-4 mr-2" />
-              {isGerman ? "Gesundheit" : "Health"}
+              {t('guide.health')}
             </TabsTrigger>
           </TabsList>
           
@@ -44,14 +45,14 @@ const CannabisGuide: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Gavel className="h-5 w-5 mr-2 text-primary" />
-                  {isGerman ? "Gesetze und Vorschriften" : "Laws and Regulations"}
+                  {t('guide.lawsAndRegulations')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="possession">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
-                      {isGerman ? "Besitzgrenzen" : "Possession Limits"}
+                      {t('guide.possessionLimits')}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300">
                       {isGerman ? (
@@ -69,7 +70,7 @@ const CannabisGuide: React.FC = () => {
                   </AccordionItem>
                   <AccordionItem value="consumption">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
-                      {isGerman ? "Konsumvorschriften" : "Consumption Regulations"}
+                      {t('guide.consumptionRegulations')}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300">
                       {isGerman ? (
@@ -97,7 +98,7 @@ const CannabisGuide: React.FC = () => {
                   </AccordionItem>
                   <AccordionItem value="driving">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
-                      {isGerman ? "Fahreinschränkungen" : "Driving Restrictions"}
+                      {t('guide.drivingRestrictions')}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300">
                       {isGerman ? (
@@ -127,7 +128,7 @@ const CannabisGuide: React.FC = () => {
                   </AccordionItem>
                   <AccordionItem value="clubs">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
-                      {isGerman ? "Cannabis Social Clubs" : "Cannabis Social Clubs"}
+                      {t('guide.cannabisSocialClubs')}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300">
                       {isGerman ? (
@@ -166,14 +167,14 @@ const CannabisGuide: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Shield className="h-5 w-5 mr-2 text-primary" />
-                  {isGerman ? "Praktiken für sicheren Konsum" : "Safe Use Practices"}
+                  {t('guide.safeUsePractices')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="startLow">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
-                      {isGerman ? "Niedrig beginnen, langsam steigern" : "Start Low, Go Slow"}
+                      {t('guide.startLow')}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300">
                       {isGerman ? (
@@ -203,7 +204,7 @@ const CannabisGuide: React.FC = () => {
                   </AccordionItem>
                   <AccordionItem value="knowSource">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
-                      {isGerman ? "Kenne deine Quelle" : "Know Your Source"}
+                      {t('guide.knowSource')}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300">
                       {isGerman ? (
@@ -233,7 +234,7 @@ const CannabisGuide: React.FC = () => {
                   </AccordionItem>
                   <AccordionItem value="mindset">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
-                      {isGerman ? "Set und Setting" : "Set and Setting"}
+                      {t('guide.setAndSetting')}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300">
                       {isGerman ? (
@@ -263,7 +264,7 @@ const CannabisGuide: React.FC = () => {
                   </AccordionItem>
                   <AccordionItem value="hydration">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
-                      {isGerman ? "Bleibe hydriert" : "Stay Hydrated"}
+                      {t('guide.stayHydrated')}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300">
                       {isGerman ? (
@@ -302,68 +303,127 @@ const CannabisGuide: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Sprout className="h-5 w-5 mr-2 text-primary" />
-                  {isGerman ? "Cannabis-Grundlagen" : "Cannabis Basics"}
+                  {t('guide.cannabisBasics')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="compounds">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Key Compounds
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {t('guide.compounds')}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Cannabis contains over 100 cannabinoids, with these being most significant:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-2">
-                        <li><strong>THC (Tetrahydrocannabinol):</strong> The primary psychoactive compound responsible for the "high." It can provide pain relief, appetite stimulation, and mood elevation.</li>
-                        <li><strong>CBD (Cannabidiol):</strong> Non-intoxicating compound known for potential anti-inflammatory, anti-anxiety, and anti-seizure properties.</li>
-                        <li><strong>CBN (Cannabinol):</strong> Mildly psychoactive, formed when THC ages. Often associated with sedative effects.</li>
-                        <li><strong>CBG (Cannabigerol):</strong> Non-psychoactive precursor to other cannabinoids, being studied for various potential therapeutic properties.</li>
-                      </ul>
-                      <p className="mt-2">Terpenes are aromatic compounds that give cannabis its distinctive smell and contribute to its effects through the "entourage effect."</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Cannabis enthält über 100 Cannabinoide, wobei diese am wichtigsten sind:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-2">
+                            <li><strong>THC (Tetrahydrocannabinol):</strong> Die wichtigste psychoaktive Verbindung, die für den "Rausch" verantwortlich ist. Sie kann Schmerzlinderung, Appetitanregung und Stimmungsaufhellung bewirken.</li>
+                            <li><strong>CBD (Cannabidiol):</strong> Nicht berauschende Verbindung, die für potenzielle entzündungshemmende, angstlösende und antikonvulsive Eigenschaften bekannt ist.</li>
+                            <li><strong>CBN (Cannabinol):</strong> Leicht psychoaktiv, entsteht beim Altern von THC. Oft mit sedierenden Wirkungen verbunden.</li>
+                            <li><strong>CBG (Cannabigerol):</strong> Nicht-psychoaktiver Vorläufer anderer Cannabinoide, der auf verschiedene potenzielle therapeutische Eigenschaften untersucht wird.</li>
+                          </ul>
+                          <p className="mt-2">Terpene sind aromatische Verbindungen, die Cannabis seinen charakteristischen Geruch verleihen und durch den "Entourage-Effekt" zu seiner Wirkung beitragen.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Cannabis contains over 100 cannabinoids, with these being most significant:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-2">
+                            <li><strong>THC (Tetrahydrocannabinol):</strong> The primary psychoactive compound responsible for the "high." It can provide pain relief, appetite stimulation, and mood elevation.</li>
+                            <li><strong>CBD (Cannabidiol):</strong> Non-intoxicating compound known for potential anti-inflammatory, anti-anxiety, and anti-seizure properties.</li>
+                            <li><strong>CBN (Cannabinol):</strong> Mildly psychoactive, formed when THC ages. Often associated with sedative effects.</li>
+                            <li><strong>CBG (Cannabigerol):</strong> Non-psychoactive precursor to other cannabinoids, being studied for various potential therapeutic properties.</li>
+                          </ul>
+                          <p className="mt-2">Terpenes are aromatic compounds that give cannabis its distinctive smell and contribute to its effects through the "entourage effect."</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="methods">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Consumption Methods
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {t('guide.methods')}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Different consumption methods produce varying effects and onset times:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-2">
-                        <li><strong>Inhalation (Smoking/Vaping):</strong> Effects begin within minutes and typically last 2-4 hours. Dosage is easier to control.</li>
-                        <li><strong>Oral Consumption (Edibles):</strong> Effects take 30-120 minutes to begin but can last 6-8 hours. More potent and longer-lasting than inhalation.</li>
-                        <li><strong>Sublingual (Tinctures):</strong> Placed under the tongue, effects begin within 15-45 minutes and last 2-6 hours.</li>
-                        <li><strong>Topical (Creams/Balms):</strong> Applied to skin for localized relief without psychoactive effects.</li>
-                      </ul>
-                      <p className="mt-2">Each method has different bioavailability (percentage of cannabinoids that enter the bloodstream), affecting potency and duration.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Verschiedene Konsummethoden erzeugen unterschiedliche Wirkungen und Wirkungszeiten:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-2">
+                            <li><strong>Inhalation (Rauchen/Verdampfen):</strong> Wirkungen beginnen innerhalb von Minuten und halten typischerweise 2-4 Stunden an. Die Dosierung ist leichter zu kontrollieren.</li>
+                            <li><strong>Orale Einnahme (Esswaren):</strong> Die Wirkungen beginnen nach 30-120 Minuten, können aber 6-8 Stunden anhalten. Stärker und länger anhaltend als Inhalation.</li>
+                            <li><strong>Sublingual (Tinkturen):</strong> Unter die Zunge gelegt, beginnen die Wirkungen innerhalb von 15-45 Minuten und halten 2-6 Stunden an.</li>
+                            <li><strong>Topisch (Cremes/Balsame):</strong> Auf die Haut aufgetragen für lokale Linderung ohne psychoaktive Wirkungen.</li>
+                          </ul>
+                          <p className="mt-2">Jede Methode hat eine unterschiedliche Bioverfügbarkeit (Prozentsatz der Cannabinoide, die in den Blutkreislauf gelangen), was sich auf Stärke und Dauer auswirkt.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Different consumption methods produce varying effects and onset times:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-2">
+                            <li><strong>Inhalation (Smoking/Vaping):</strong> Effects begin within minutes and typically last 2-4 hours. Dosage is easier to control.</li>
+                            <li><strong>Oral Consumption (Edibles):</strong> Effects take 30-120 minutes to begin but can last 6-8 hours. More potent and longer-lasting than inhalation.</li>
+                            <li><strong>Sublingual (Tinctures):</strong> Placed under the tongue, effects begin within 15-45 minutes and last 2-6 hours.</li>
+                            <li><strong>Topical (Creams/Balms):</strong> Applied to skin for localized relief without psychoactive effects.</li>
+                          </ul>
+                          <p className="mt-2">Each method has different bioavailability (percentage of cannabinoids that enter the bloodstream), affecting potency and duration.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="types">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Cannabis Types
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {t('guide.types')}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Cannabis is commonly categorized into three main types:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-2">
-                        <li><strong>Sativa:</strong> Typically associated with energizing, uplifting effects. Often used for daytime use, creativity, and mood enhancement.</li>
-                        <li><strong>Indica:</strong> Generally linked to relaxing, sedating effects. Commonly used for evening use, sleep aid, and physical relaxation.</li>
-                        <li><strong>Hybrid:</strong> Cross-breeds of sativa and indica strains with balanced or specialized effects depending on the parent genetics.</li>
-                      </ul>
-                      <p className="mt-2">Modern understanding focuses more on cannabinoid and terpene profiles rather than simple indica/sativa classification, as effects can vary significantly within these categories.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Cannabis wird allgemein in drei Haupttypen eingeteilt:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-2">
+                            <li><strong>Sativa:</strong> Typischerweise mit energetisierenden, aufmunternden Wirkungen verbunden. Oft für die Tageszeit, Kreativität und Stimmungsverbesserung verwendet.</li>
+                            <li><strong>Indica:</strong> Allgemein mit entspannenden, beruhigenden Wirkungen verbunden. Häufig für abendliche Nutzung, als Schlafhilfe und zur körperlichen Entspannung.</li>
+                            <li><strong>Hybrid:</strong> Kreuzungen aus Sativa- und Indica-Sorten mit ausgewogenen oder spezialisierten Wirkungen, je nach den Elterngenen.</li>
+                          </ul>
+                          <p className="mt-2">Modernes Verständnis konzentriert sich mehr auf Cannabinoid- und Terpenprofil als auf die einfache Indica/Sativa-Klassifizierung, da die Wirkungen innerhalb dieser Kategorien erheblich variieren können.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Cannabis is commonly categorized into three main types:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-2">
+                            <li><strong>Sativa:</strong> Typically associated with energizing, uplifting effects. Often used for daytime use, creativity, and mood enhancement.</li>
+                            <li><strong>Indica:</strong> Generally linked to relaxing, sedating effects. Commonly used for evening use, sleep aid, and physical relaxation.</li>
+                            <li><strong>Hybrid:</strong> Cross-breeds of sativa and indica strains with balanced or specialized effects depending on the parent genetics.</li>
+                          </ul>
+                          <p className="mt-2">Modern understanding focuses more on cannabinoid and terpene profiles rather than simple indica/sativa classification, as effects can vary significantly within these categories.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="tolerance">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Tolerance and Breaks
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {t('guide.tolerance')}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Regular cannabis use can lead to tolerance, requiring more to achieve the same effects:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Tolerance typically begins developing within a few days of regular use</li>
-                        <li>Tolerance to different effects develops at different rates</li>
-                        <li>Taking "tolerance breaks" of 1-4 weeks can help reset sensitivity</li>
-                        <li>Rotating between different strains can help manage tolerance</li>
-                      </ul>
-                      <p className="mt-2">If you find yourself needing significantly more cannabis to achieve desired effects, consider taking a short break or reducing consumption.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Regelmäßiger Cannabiskonsum kann zu Toleranz führen, wodurch mehr benötigt wird, um die gleiche Wirkung zu erzielen:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Toleranz beginnt sich typischerweise innerhalb weniger Tage regelmäßiger Nutzung zu entwickeln</li>
+                            <li>Toleranz gegenüber verschiedenen Wirkungen entwickelt sich in unterschiedlichem Tempo</li>
+                            <li>"Toleranzpausen" von 1-4 Wochen können helfen, die Empfindlichkeit zurückzusetzen</li>
+                            <li>Wechseln zwischen verschiedenen Sorten kann helfen, Toleranz zu managen</li>
+                          </ul>
+                          <p className="mt-2">Wenn Sie feststellen, dass Sie deutlich mehr Cannabis benötigen, um die gewünschten Wirkungen zu erzielen, erwägen Sie eine kurze Pause oder reduzieren Sie den Konsum.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Regular cannabis use can lead to tolerance, requiring more to achieve the same effects:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Tolerance typically begins developing within a few days of regular use</li>
+                            <li>Tolerance to different effects develops at different rates</li>
+                            <li>Taking "tolerance breaks" of 1-4 weeks can help reset sensitivity</li>
+                            <li>Rotating between different strains can help manage tolerance</li>
+                          </ul>
+                          <p className="mt-2">If you find yourself needing significantly more cannabis to achieve desired effects, consider taking a short break or reducing consumption.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
@@ -377,73 +437,137 @@ const CannabisGuide: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <AlertTriangle className="h-5 w-5 mr-2 text-primary" />
-                  {isGerman ? "Gesundheitsaspekte" : "Health Considerations"}
+                  {t('guide.healthConsiderations')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="risks">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Potential Risks
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {t('guide.risks')}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>While cannabis has therapeutic benefits, it also carries potential risks:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Impaired memory and concentration during use</li>
-                        <li>Respiratory issues when smoked (bronchitis, chronic cough)</li>
-                        <li>Potential for psychological dependence</li>
-                        <li>May trigger anxiety or paranoia in some individuals</li>
-                        <li>Impacts on brain development in those under 25</li>
-                      </ul>
-                      <p className="mt-2">Individual responses vary significantly based on genetics, existing health conditions, and consumption patterns.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Obwohl Cannabis therapeutische Vorteile hat, birgt es auch potenzielle Risiken:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Beeinträchtigtes Gedächtnis und Konzentration während der Nutzung</li>
+                            <li>Atemwegsprobleme beim Rauchen (Bronchitis, chronischer Husten)</li>
+                            <li>Potenzial für psychologische Abhängigkeit</li>
+                            <li>Kann bei manchen Personen Angstzustände oder Paranoia auslösen</li>
+                            <li>Auswirkungen auf die Gehirnentwicklung bei Personen unter 25 Jahren</li>
+                          </ul>
+                          <p className="mt-2">Individuelle Reaktionen variieren erheblich je nach Genetik, bestehenden Gesundheitszuständen und Konsummustern.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>While cannabis has therapeutic benefits, it also carries potential risks:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Impaired memory and concentration during use</li>
+                            <li>Respiratory issues when smoked (bronchitis, chronic cough)</li>
+                            <li>Potential for psychological dependence</li>
+                            <li>May trigger anxiety or paranoia in some individuals</li>
+                            <li>Impacts on brain development in those under 25</li>
+                          </ul>
+                          <p className="mt-2">Individual responses vary significantly based on genetics, existing health conditions, and consumption patterns.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="interactions">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Medication Interactions
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {t('guide.interactions')}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Cannabis can interact with various medications:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Blood thinners (increased bleeding risk)</li>
-                        <li>Blood pressure medications (potential for hypotension)</li>
-                        <li>Sedatives and CNS depressants (heightened sedation)</li>
-                        <li>Some antidepressants and psychiatric medications</li>
-                        <li>Certain anticonvulsants and pain medications</li>
-                      </ul>
-                      <p className="mt-2">Always consult with a healthcare provider about potential interactions between cannabis and your medications.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Cannabis kann mit verschiedenen Medikamenten interagieren:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Blutverdünner (erhöhtes Blutungsrisiko)</li>
+                            <li>Blutdruckmedikamente (Potenzial für Hypotonie)</li>
+                            <li>Sedativa und ZNS-Depressiva (verstärkte Sedierung)</li>
+                            <li>Einige Antidepressiva und psychiatrische Medikamente</li>
+                            <li>Bestimmte Antikonvulsiva und Schmerzmedikamente</li>
+                          </ul>
+                          <p className="mt-2">Konsultieren Sie immer einen Gesundheitsdienstleister zu möglichen Wechselwirkungen zwischen Cannabis und Ihren Medikamenten.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Cannabis can interact with various medications:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Blood thinners (increased bleeding risk)</li>
+                            <li>Blood pressure medications (potential for hypotension)</li>
+                            <li>Sedatives and CNS depressants (heightened sedation)</li>
+                            <li>Some antidepressants and psychiatric medications</li>
+                            <li>Certain anticonvulsants and pain medications</li>
+                          </ul>
+                          <p className="mt-2">Always consult with a healthcare provider about potential interactions between cannabis and your medications.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="conditions">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Medical Contraindications
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {t('guide.conditions')}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Certain conditions may be worsened by cannabis use:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>History of psychosis or schizophrenia</li>
-                        <li>Severe cardiovascular disease</li>
-                        <li>Pregnancy and breastfeeding</li>
-                        <li>Substance use disorders</li>
-                        <li>Certain respiratory conditions when smoking</li>
-                      </ul>
-                      <p className="mt-2">If you have any pre-existing health conditions, consult a healthcare provider before using cannabis.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Bestimmte Zustände können durch Cannabiskonsum verschlimmert werden:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Vorgeschichte von Psychosen oder Schizophrenie</li>
+                            <li>Schwere kardiovaskuläre Erkrankungen</li>
+                            <li>Schwangerschaft und Stillzeit</li>
+                            <li>Substanzkonsumstörungen</li>
+                            <li>Bestimmte Atemwegserkrankungen beim Rauchen</li>
+                          </ul>
+                          <p className="mt-2">Wenn Sie bereits bestehende Gesundheitszustände haben, konsultieren Sie vor der Verwendung von Cannabis einen Gesundheitsdienstleister.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Certain conditions may be worsened by cannabis use:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>History of psychosis or schizophrenia</li>
+                            <li>Severe cardiovascular disease</li>
+                            <li>Pregnancy and breastfeeding</li>
+                            <li>Substance use disorders</li>
+                            <li>Certain respiratory conditions when smoking</li>
+                          </ul>
+                          <p className="mt-2">If you have any pre-existing health conditions, consult a healthcare provider before using cannabis.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="overuse">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Signs of Overuse
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {t('guide.overuse')}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Recognizing problematic use patterns is important:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Using more frequently or in larger amounts than intended</li>
-                        <li>Difficulty cutting down or controlling use</li>
-                        <li>Spending significant time obtaining, using, or recovering from cannabis</li>
-                        <li>Continued use despite negative consequences</li>
-                        <li>Neglecting important activities due to cannabis use</li>
-                      </ul>
-                      <p className="mt-2">If you're concerned about your cannabis use, speak with a healthcare provider or counselor who specializes in substance use issues.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Das Erkennen problematischer Nutzungsmuster ist wichtig:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Häufigere oder größere Mengen nutzen als beabsichtigt</li>
+                            <li>Schwierigkeiten beim Reduzieren oder Kontrollieren des Konsums</li>
+                            <li>Erhebliche Zeit mit der Beschaffung, dem Konsum oder der Erholung von Cannabis verbringen</li>
+                            <li>Fortgesetzter Konsum trotz negativer Konsequenzen</li>
+                            <li>Vernachlässigung wichtiger Aktivitäten aufgrund von Cannabiskonsum</li>
+                          </ul>
+                          <p className="mt-2">Wenn Sie besorgt über Ihren Cannabiskonsum sind, sprechen Sie mit einem Gesundheitsdienstleister oder Berater, der sich auf Substanznutzungsprobleme spezialisiert hat.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Recognizing problematic use patterns is important:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Using more frequently or in larger amounts than intended</li>
+                            <li>Difficulty cutting down or controlling use</li>
+                            <li>Spending significant time obtaining, using, or recovering from cannabis</li>
+                            <li>Continued use despite negative consequences</li>
+                            <li>Neglecting important activities due to cannabis use</li>
+                          </ul>
+                          <p className="mt-2">If you're concerned about your cannabis use, speak with a healthcare provider or counselor who specializes in substance use issues.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>

@@ -25,11 +25,19 @@ const Navbar: React.FC = () => {
     <div className="bg-white dark:bg-navy-dark border-b border-border sticky top-0 z-50">
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
-          <img 
-            src="/assets/logolightsocialclubmap.jpg"
-            alt="Logo" 
-            className="h-10 w-auto mr-2" 
-          />
+          {theme === 'dark' ? (
+            <img 
+              src="/lovable-uploads/27f327ef-1fe4-46e4-88ae-7e523c37dee6.png" 
+              alt="Logo" 
+              className="h-10 w-auto mr-2" 
+            />
+          ) : (
+            <img 
+              src="/lovable-uploads/8aadd7cd-2da7-4b51-833e-73194cbe47ee.png"
+              alt="Logo" 
+              className="h-10 w-auto mr-2" 
+            />
+          )}
         </Link>
 
         <div className="flex items-center gap-3">

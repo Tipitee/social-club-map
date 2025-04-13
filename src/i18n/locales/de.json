@@ -137,7 +137,15 @@
     "basicsTitle": "Cannabis Grundlagen",
     "basicsDescription": "Lerne die Grundlagen über Cannabis-Produkte und ihre Wirkungen",
     "healthTitle": "Gesundheitsaspekte",
-    "healthDescription": "Wichtige Informationen zu gesundheitlichen Auswirkungen"
+    "healthDescription": "Wichtige Informationen zu gesundheitlichen Auswirkungen",
+    "compounds": "Wichtige Verbindungen",
+    "methods": "Konsummethoden",
+    "types": "Cannabis-Typen",
+    "tolerance": "Toleranz und Pausen",
+    "risks": "Potenzielle Risiken",
+    "interactions": "Medikamenteninteraktionen",
+    "conditions": "Medizinische Kontraindikationen",
+    "overuse": "Anzeichen von Überkonsum"
   },
   "news": {
     "germanLegalization": "Deutsche Cannabis-Legalisierung",
@@ -151,12 +159,30 @@
     "internationalDevelopments": "Internationale Entwicklungen",
     "internationalDevelopmentsDesc": "Mehrere europäische Länder beobachten das deutsche Modell der Cannabis-Regulierung genau, da sie ihre eigene Drogenpolitik überarbeiten. Malta und Luxemburg entwickeln ähnliche Modelle.",
     "cannabisEducation": "Cannabis-Bildungsprogramme",
-    "cannabisEducationDesc": "Neue Bildungsprogramme werden eingeführt, um über verantwortungsvollen Cannabis-Konsum und Risikominimierung aufzuklären. Diese Programme richten sich an Erwachsene aller Altersgruppen."
+    "cannabisEducationDesc": "Neue Bildungsprogramme werden eingeführt, um über verantwortungsvollen Cannabis-Konsum und Risikominimierung aufzuklären. Diese Programme richten sich an Erwachsene aller Altersgruppen.",
+    "allUpdates": "Alle Updates",
+    "latestUpdates": "Neueste Updates",
+    "results": "Ergebnisse gefunden",
+    "federal": "Bundesweit",
+    "state": "Bundesland",
+    "medical": "Medizinisch",
+    "recreational": "Freizeitkonsum",
+    "business": "Wirtschaft",
+    "postedOn": "Veröffentlicht am",
+    "readMore": "Weiterlesen",
+    "source": "Quelle",
+    "visitSource": "Quelle besuchen",
+    "loadMore": "Mehr laden",
+    "searchComplete": "Suche abgeschlossen",
+    "found": "Gefunden"
   },
   "clubs": {
+    "findLocalClub": "Cannabis Club finden",
+    "findNearYou": "Finde Cannabis Social Clubs in deiner Nähe",
+    "searchNearby": "In der Nähe suchen",
     "searchTitle": "Club Suche",
     "searchPlaceholder": "Stadt oder Postleitzahl eingeben...",
-    "searchButton": "Suchen",
+    "searchButton": "Clubs suchen",
     "clubsNearby": "Clubs in der Nähe",
     "noClubsFound": "Keine Clubs gefunden",
     "tryDifferentLocation": "Versuchen Sie es mit einem anderen Standort",
@@ -188,6 +214,14 @@
     "joinClub": "Club beitreten",
     "clubDetails": "Club Details",
     "membershipStatus": "Mitgliedschaftsstatus",
-    "currentMembers": "Aktuelle Mitglieder"
+    "currentMembers": "Aktuelle Mitglieder",
+    "resultsWithin": "Ergebnisse innerhalb",
+    "of": "von",
+    "noClubsArea": "Keine Clubs in dieser Gegend gefunden. Versuchen Sie einen anderen Standort.",
+    "awayKm": "km entfernt",
+    "verified": "Verifiziert",
+    "searchError": "Suchfehler",
+    "pleaseEnterLocation": "Bitte geben Sie einen Standort für die Suche ein",
+    "enterCityPostal": "Stadt oder Postleitzahl eingeben"
   }
 }

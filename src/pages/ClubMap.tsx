@@ -72,8 +72,8 @@ const ClubMap: React.FC = () => {
   const handleSearch = () => {
     if (!searchQuery.trim()) {
       toast({
-        title: "Search Error",
-        description: "Please enter a location to search",
+        title: t('clubs.searchError'),
+        description: t('clubs.pleaseEnterLocation'),
         variant: "destructive"
       });
       return;
@@ -87,8 +87,8 @@ const ClubMap: React.FC = () => {
     setHasSearched(true);
     
     toast({
-      title: "Search Complete",
-      description: `Found ${mockClubs.length} clubs near ${searchQuery}`
+      title: t('clubs.searchComplete'),
+      description: `${t('clubs.found')} ${mockClubs.length} ${t('navigation.clubs')} ${t('clubs.of')} "${searchQuery}"`
     });
   };
   
@@ -129,7 +129,7 @@ const ClubMap: React.FC = () => {
               <div className="flex-grow relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-dark dark:text-gray-400" size={18} />
                 <Input
-                  placeholder="Enter city or postal code"
+                  placeholder={t('clubs.enterCityPostal')}
                   className="pl-10 bg-white dark:bg-navy-DEFAULT border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -140,19 +140,19 @@ const ClubMap: React.FC = () => {
                 onClick={handleSearch}
                 className="bg-teal dark:bg-teal-dark hover:bg-teal-dark text-white"
               >
-                Search Clubs
+                {t('clubs.searchButton')}
               </Button>
             </div>
             
             {hasSearched && (
               <div className="mt-4">
                 <h3 className="text-lg font-medium mb-3 text-navy-dark dark:text-white">
-                  Results within 30km {searchQuery && `of "${searchQuery}"`}
+                  {t('clubs.resultsWithin')} 30km {searchQuery && `${t('clubs.of')} "${searchQuery}"`}
                 </h3>
                 
                 {searchResults.length === 0 ? (
                   <div className="text-center py-8 text-navy-dark dark:text-gray-300">
-                    No clubs found in this area. Try another location.
+                    {t('clubs.noClubsArea')}
                   </div>
                 ) : (
                   <div className="space-y-4 mt-4">
@@ -178,13 +178,13 @@ const ClubMap: React.FC = () => {
                             <h4 className="font-semibold text-navy-dark dark:text-white">{club.name}</h4>
                             {club.status === "verified" && (
                               <span className="px-2 py-0.5 text-xs bg-teal/20 text-teal-dark dark:text-teal-light rounded-full">
-                                Verified
+                                {t('clubs.verified')}
                               </span>
                             )}
                           </div>
                           <p className="text-sm text-navy-dark dark:text-gray-300">{club.address}</p>
                           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            {club.distance.toFixed(1)} km away
+                            {club.distance.toFixed(1)} {t('clubs.awayKm')}
                           </div>
                         </div>
                         <Link to={`/clubs/${club.id}`}>
@@ -193,7 +193,7 @@ const ClubMap: React.FC = () => {
                             size="sm"
                             className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
                           >
-                            Details
+                            {t('clubs.details')}
                           </Button>
                         </Link>
                       </div>

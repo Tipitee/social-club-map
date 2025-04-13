@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -5,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowRight, Globe } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Mock news data
 const newsItems = [
@@ -112,17 +114,13 @@ const News: React.FC = () => {
   const displayedNews = filteredNews.slice(0, visibleCount);
   const hasMore = displayedNews.length < filteredNews.length;
   
-  const loadMore = () => {
-    setVisibleCount(prev => prev + 4);
-  };
-  
   const getCategoryLabel = (category: string) => {
     switch (category) {
-      case "federal": return "Federal";
-      case "state": return "State";
-      case "medical": return "Medical";
-      case "recreational": return "Recreational";
-      case "business": return "Business";
+      case "federal": return t('news.federal');
+      case "state": return t('news.state');
+      case "medical": return t('news.medical');
+      case "recreational": return t('news.recreational');
+      case "business": return t('news.business');
       default: return category;
     }
   };
@@ -138,6 +136,10 @@ const News: React.FC = () => {
     }
   };
   
+  const loadMore = () => {
+    setVisibleCount(prev => prev + 4);
+  };
+  
   return (
     <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
@@ -148,80 +150,38 @@ const News: React.FC = () => {
         
         <div className="mb-8">
           <h2 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">
-            All Updates
+            {t('news.allUpdates')}
           </h2>
           
-          <div className="bg-white dark:bg-navy-DEFAULT rounded-lg shadow-sm mb-6 overflow-auto">
-            <div className="flex flex-wrap justify-center border-b border-gray-200 dark:border-navy-light">
-              <button
-                onClick={() => setActiveTab('all')}
-                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
-                  activeTab === 'all'
-                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
-                }`}
-              >
-                All
-              </button>
-              <button
-                onClick={() => setActiveTab('federal')}
-                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
-                  activeTab === 'federal'
-                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
-                }`}
-              >
-                Federal
-              </button>
-              <button
-                onClick={() => setActiveTab('state')}
-                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
-                  activeTab === 'state'
-                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
-                }`}
-              >
-                State
-              </button>
-              <button
-                onClick={() => setActiveTab('medical')}
-                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
-                  activeTab === 'medical'
-                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
-                }`}
-              >
-                Medical
-              </button>
-              <button
-                onClick={() => setActiveTab('recreational')}
-                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
-                  activeTab === 'recreational'
-                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
-                }`}
-              >
-                Recreational
-              </button>
-              <button
-                onClick={() => setActiveTab('business')}
-                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
-                  activeTab === 'business'
-                    ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
-                    : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
-                }`}
-              >
-                Business
-              </button>
-            </div>
-          </div>
+          <Tabs defaultValue="all" onValueChange={setActiveTab} className="w-full">
+            <TabsList className="mb-8 grid grid-cols-6 w-full">
+              <TabsTrigger value="all">
+                {t('strains.all')}
+              </TabsTrigger>
+              <TabsTrigger value="federal">
+                {t('news.federal')}
+              </TabsTrigger>
+              <TabsTrigger value="state">
+                {t('news.state')}
+              </TabsTrigger>
+              <TabsTrigger value="medical">
+                {t('news.medical')}
+              </TabsTrigger>
+              <TabsTrigger value="recreational">
+                {t('news.recreational')}
+              </TabsTrigger>
+              <TabsTrigger value="business">
+                {t('news.business')}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
             
           <div className="mb-4">
             <p className="text-navy-dark dark:text-white font-medium">
-              Latest Updates
+              {t('news.latestUpdates')}
             </p>
             <p className="text-gray-600 dark:text-gray-300">
-              {filteredNews.length} results found
+              {filteredNews.length} {t('news.results')}
             </p>
           </div>
           
@@ -236,7 +196,7 @@ const News: React.FC = () => {
                     <div className="flex items-center mb-2 md:mb-0">
                       <Calendar size={16} className="mr-1.5 text-gray-500 dark:text-gray-400" />
                       <span className="text-sm text-gray-600 dark:text-gray-300">
-                        Posted on {item.date}
+                        {t('news.postedOn')} {item.date}
                       </span>
                     </div>
                     
@@ -256,14 +216,14 @@ const News: React.FC = () => {
                   <div className="flex flex-col md:flex-row md:items-center justify-between pt-3 border-t border-navy-DEFAULT/20 dark:border-navy-light/20">
                     <div className="mb-3 md:mb-0">
                       <Button variant="link" className="px-0 py-0 h-auto text-teal dark:text-teal-light flex items-center">
-                        Read more
+                        {t('news.readMore')}
                         <ArrowRight size={16} className="ml-1" />
                       </Button>
                     </div>
                     
                     <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-sm">
                       <span className="text-gray-600 dark:text-gray-400">
-                        Source: {item.source}
+                        {t('news.source')}: {item.source}
                       </span>
                       
                       <a 
@@ -273,7 +233,7 @@ const News: React.FC = () => {
                         className="flex items-center text-teal dark:text-teal-light hover:underline"
                       >
                         <Globe size={14} className="mr-1" />
-                        Visit source
+                        {t('news.visitSource')}
                       </a>
                     </div>
                   </div>
@@ -289,7 +249,7 @@ const News: React.FC = () => {
                 variant="outline"
                 className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10"
               >
-                Load More
+                {t('news.loadMore')}
               </Button>
             </div>
           )}
