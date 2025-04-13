@@ -23,7 +23,17 @@
     "signOut": "Abmelden",
     "username": "Benutzername",
     "email": "E-Mail",
-    "password": "Passwort"
+    "password": "Passwort",
+    "welcomeBack": "Willkommen zurück",
+    "joinUsToday": "Heute beitreten",
+    "signInDescription": "Melden Sie sich bei Ihrem Konto an, um Ihre Cannabis-Erfahrungen zu verfolgen",
+    "createAccountDescription": "Erstellen Sie ein Konto, um Ihre Cannabis-Erfahrungen zu verfolgen",
+    "signingIn": "Anmeldung läuft...",
+    "creatingAccount": "Konto wird erstellt...",
+    "noAccount": "Noch kein Konto?",
+    "haveAccount": "Haben Sie bereits ein Konto?",
+    "createOneNow": "Jetzt erstellen",
+    "createAccount": "Konto erstellen"
   },
   "navigation": {
     "home": "Startseite",
@@ -222,6 +232,8 @@
     "verified": "Verifiziert",
     "searchError": "Suchfehler",
     "pleaseEnterLocation": "Bitte geben Sie einen Standort für die Suche ein",
-    "enterCityPostal": "Stadt oder Postleitzahl eingeben"
+    "enterCityPostal": "Stadt oder Postleitzahl eingeben",
+    "mapView": "Kartenansicht",
+    "listView": "Listenansicht"
   }
 }

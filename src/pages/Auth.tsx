@@ -42,7 +42,7 @@ const Auth: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-oldLace-DEFAULT/80 dark:from-[#1a333d] dark:to-[#274754]">
+    <div className="min-h-screen bg-white dark:from-[#1a333d] dark:to-[#274754]">
       <Navbar />
       <div className="container px-4 py-16 flex flex-col items-center justify-center max-w-md mx-auto">
         <div className="flex items-center justify-center h-24 w-24 bg-teal-light/20 dark:bg-primary/10 rounded-full mb-8">
@@ -52,22 +52,22 @@ const Auth: React.FC = () => {
         <Card className="w-full bg-white/90 dark:bg-navy-light border-gray-200 dark:border-navy-300 shadow-xl backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-3xl font-bold text-center text-navy-dark dark:text-white">
-              {tab === "login" ? "Welcome Back" : "Join Us Today"}
+              {tab === "login" ? t("auth.welcomeBack") : t("auth.joinUsToday")}
             </CardTitle>
             <CardDescription className="text-center text-gray-600 dark:text-gray-300 text-lg">
               {tab === "login" 
-                ? "Sign in to your account to track your cannabis journey" 
-                : "Create an account to start tracking your cannabis experiences"}
+                ? t("auth.signInDescription") 
+                : t("auth.createAccountDescription")}
             </CardDescription>
           </CardHeader>
           
           <Tabs value={tab} onValueChange={setTab} className="w-full">
             <TabsList className="grid grid-cols-2 bg-gray-100 dark:bg-navy-dark mb-4">
               <TabsTrigger value="login" className="text-base data-[state=active]:bg-teal data-[state=active]:text-white dark:data-[state=active]:bg-primary dark:data-[state=active]:text-white">
-                Sign In
+                {t("auth.signIn")}
               </TabsTrigger>
               <TabsTrigger value="signup" className="text-base data-[state=active]:bg-teal data-[state=active]:text-white dark:data-[state=active]:bg-primary dark:data-[state=active]:text-white">
-                Create Account
+                {t("auth.createAccount")}
               </TabsTrigger>
             </TabsList>
             
@@ -82,7 +82,7 @@ const Auth: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-4 mt-2">
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-navy-dark dark:text-white text-base">Email Address</Label>
+                    <Label htmlFor="email" className="text-navy-dark dark:text-white text-base">{t("auth.email")}</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <Input
@@ -98,7 +98,7 @@ const Auth: React.FC = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-navy-dark dark:text-white text-base">Password</Label>
+                    <Label htmlFor="password" className="text-navy-dark dark:text-white text-base">{t("auth.password")}</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <Input
@@ -120,10 +120,10 @@ const Auth: React.FC = () => {
                     className="w-full bg-teal hover:bg-teal-dark dark:bg-primary dark:hover:bg-primary/90 text-white py-6 text-lg font-medium" 
                     disabled={isSubmitting || isLoading}
                   >
-                    {isSubmitting || isLoading ? "Signing in..." : "Sign In"}
+                    {isSubmitting || isLoading ? t("auth.signingIn") : t("auth.signIn")}
                   </Button>
                   <p className="mt-4 text-gray-600 dark:text-gray-400 text-sm text-center">
-                    Don't have an account? <span className="text-teal dark:text-primary cursor-pointer hover:underline" onClick={() => setTab("signup")}>Create one now</span>
+                    {t("auth.noAccount")} <span className="text-teal dark:text-primary cursor-pointer hover:underline" onClick={() => setTab("signup")}>{t("auth.createOneNow")}</span>
                   </p>
                 </CardFooter>
               </form>
@@ -133,7 +133,7 @@ const Auth: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-4 mt-2">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email" className="text-navy-dark dark:text-white text-base">Email Address</Label>
+                    <Label htmlFor="signup-email" className="text-navy-dark dark:text-white text-base">{t("auth.email")}</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <Input
@@ -149,7 +149,7 @@ const Auth: React.FC = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password" className="text-navy-dark dark:text-white text-base">Password</Label>
+                    <Label htmlFor="signup-password" className="text-navy-dark dark:text-white text-base">{t("auth.password")}</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <Input
@@ -171,10 +171,10 @@ const Auth: React.FC = () => {
                     className="w-full bg-teal hover:bg-teal-dark dark:bg-primary dark:hover:bg-primary/90 text-white py-6 text-lg font-medium" 
                     disabled={isSubmitting || isLoading}
                   >
-                    {isSubmitting || isLoading ? "Creating Account..." : "Create Account"}
+                    {isSubmitting || isLoading ? t("auth.creatingAccount") : t("auth.createAccount")}
                   </Button>
                   <p className="mt-4 text-gray-600 dark:text-gray-400 text-sm text-center">
-                    Already have an account? <span className="text-teal dark:text-primary cursor-pointer hover:underline" onClick={() => setTab("login")}>Sign in</span>
+                    {t("auth.haveAccount")} <span className="text-teal dark:text-primary cursor-pointer hover:underline" onClick={() => setTab("login")}>{t("auth.signIn")}</span>
                   </p>
                 </CardFooter>
               </form>
