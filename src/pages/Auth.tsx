@@ -42,14 +42,14 @@ const Auth: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-linen to-ashGray-200 dark:from-[#13141f] dark:to-[#1c1f2e]">
+    <div className="min-h-screen bg-oldLace-DEFAULT/80 dark:from-[#1a333d] dark:to-[#274754]">
       <Navbar />
       <div className="container px-4 py-16 flex flex-col items-center justify-center max-w-md mx-auto">
         <div className="flex items-center justify-center h-24 w-24 bg-teal-light/20 dark:bg-primary/10 rounded-full mb-8">
           <User className="h-12 w-12 text-teal dark:text-primary" />
         </div>
         
-        <Card className="w-full bg-white/90 dark:bg-gray-900/80 border-gray-200 dark:border-gray-800 shadow-xl backdrop-blur-sm">
+        <Card className="w-full bg-white/90 dark:bg-navy-light border-gray-200 dark:border-navy-300 shadow-xl backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-3xl font-bold text-center text-navy-dark dark:text-white">
               {tab === "login" ? "Welcome Back" : "Join Us Today"}
@@ -62,7 +62,7 @@ const Auth: React.FC = () => {
           </CardHeader>
           
           <Tabs value={tab} onValueChange={setTab} className="w-full">
-            <TabsList className="grid grid-cols-2 bg-gray-100 dark:bg-gray-800/80 mb-4">
+            <TabsList className="grid grid-cols-2 bg-gray-100 dark:bg-navy-dark mb-4">
               <TabsTrigger value="login" className="text-base data-[state=active]:bg-teal data-[state=active]:text-white dark:data-[state=active]:bg-primary dark:data-[state=active]:text-white">
                 Sign In
               </TabsTrigger>
@@ -92,7 +92,7 @@ const Auth: React.FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="pl-10 py-6 bg-white dark:bg-gray-800/70 border-gray-300 dark:border-gray-700 text-navy-dark dark:text-white text-base"
+                        className="pl-10 py-6 bg-white dark:bg-navy-DEFAULT border-gray-300 dark:border-gray-700 text-navy-dark dark:text-white text-base"
                       />
                     </div>
                   </div>
@@ -108,7 +108,7 @@ const Auth: React.FC = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="pl-10 py-6 bg-white dark:bg-gray-800/70 border-gray-300 dark:border-gray-700 text-navy-dark dark:text-white text-base"
+                        className="pl-10 py-6 bg-white dark:bg-navy-DEFAULT border-gray-300 dark:border-gray-700 text-navy-dark dark:text-white text-base"
                       />
                     </div>
                   </div>
@@ -143,7 +143,7 @@ const Auth: React.FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="pl-10 py-6 bg-white dark:bg-gray-800/70 border-gray-300 dark:border-gray-700 text-navy-dark dark:text-white text-base"
+                        className="pl-10 py-6 bg-white dark:bg-navy-DEFAULT border-gray-300 dark:border-gray-700 text-navy-dark dark:text-white text-base"
                       />
                     </div>
                   </div>
@@ -159,7 +159,7 @@ const Auth: React.FC = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="pl-10 py-6 bg-white dark:bg-gray-800/70 border-gray-300 dark:border-gray-700 text-navy-dark dark:text-white text-base"
+                        className="pl-10 py-6 bg-white dark:bg-navy-DEFAULT border-gray-300 dark:border-gray-700 text-navy-dark dark:text-white text-base"
                       />
                     </div>
                   </div>

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
 import { User } from "lucide-react";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
@@ -25,13 +26,15 @@ const Navbar: React.FC = () => {
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           <img 
-            src="/assets/logo.png"
+            src="/assets/logolightsocialclubmap.jpg"
             alt="Logo" 
             className="h-10 w-auto mr-2" 
           />
         </Link>
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+          
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

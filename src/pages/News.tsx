@@ -151,11 +151,11 @@ const News: React.FC = () => {
             All Updates
           </h2>
           
-          <div className="rounded-lg overflow-hidden shadow-sm mb-6 bg-white dark:bg-navy-DEFAULT">
-            <div className="grid grid-cols-3 text-center">
+          <div className="bg-white dark:bg-navy-DEFAULT rounded-lg shadow-sm mb-6 overflow-auto">
+            <div className="flex flex-wrap justify-center border-b border-gray-200 dark:border-navy-light">
               <button
                 onClick={() => setActiveTab('all')}
-                className={`px-4 py-3 text-sm font-medium ${
+                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
                   activeTab === 'all'
                     ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
                     : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
@@ -165,7 +165,7 @@ const News: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('federal')}
-                className={`px-4 py-3 text-sm font-medium ${
+                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
                   activeTab === 'federal'
                     ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
                     : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
@@ -175,7 +175,7 @@ const News: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('state')}
-                className={`px-4 py-3 text-sm font-medium ${
+                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
                   activeTab === 'state'
                     ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
                     : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
@@ -183,11 +183,9 @@ const News: React.FC = () => {
               >
                 State
               </button>
-            </div>
-            <div className="grid grid-cols-3 text-center border-t border-gray-200 dark:border-navy-light">
               <button
                 onClick={() => setActiveTab('medical')}
-                className={`px-4 py-3 text-sm font-medium ${
+                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
                   activeTab === 'medical'
                     ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
                     : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
@@ -197,7 +195,7 @@ const News: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('recreational')}
-                className={`px-4 py-3 text-sm font-medium ${
+                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
                   activeTab === 'recreational'
                     ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
                     : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'
@@ -207,7 +205,7 @@ const News: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('business')}
-                className={`px-4 py-3 text-sm font-medium ${
+                className={`px-6 py-3 text-sm font-medium whitespace-nowrap ${
                   activeTab === 'business'
                     ? 'border-b-2 border-teal text-teal dark:border-primary dark:text-primary-light'
                     : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light'

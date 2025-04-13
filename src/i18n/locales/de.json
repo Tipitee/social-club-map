@@ -127,7 +127,17 @@
     "potentialRisks": "Potenzielle Risiken",
     "medicationInteractions": "Medikamenteninteraktionen",
     "medicalContraindications": "Medizinische Kontraindikationen",
-    "signsOfOveruse": "Anzeichen von Überkonsum"
+    "signsOfOveruse": "Anzeichen von Überkonsum",
+    "title": "Cannabis-Ratgeber",
+    "subtitle": "Wichtige Informationen für den verantwortungsvollen Umgang",
+    "lawsTitle": "Gesetze & Vorschriften",
+    "lawsDescription": "Informiere dich über die aktuellen Gesetze zur Cannabis-Legalisierung",
+    "safeUseTitle": "Sicherer Konsum",
+    "safeUseDescription": "Tipps für einen sicheren und verantwortungsvollen Konsum",
+    "basicsTitle": "Cannabis Grundlagen",
+    "basicsDescription": "Lerne die Grundlagen über Cannabis-Produkte und ihre Wirkungen",
+    "healthTitle": "Gesundheitsaspekte",
+    "healthDescription": "Wichtige Informationen zu gesundheitlichen Auswirkungen"
   },
   "news": {
     "germanLegalization": "Deutsche Cannabis-Legalisierung",
@@ -170,6 +180,14 @@
     "about": "Über",
     "upcomingEvents": "Kommende Veranstaltungen",
     "availableStrains": "Verfügbare Sorten",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "findClubs": "Clubs finden",
+    "viewMap": "Karte anzeigen",
+    "clubsInYourArea": "Clubs in deiner Nähe",
+    "searchByLocation": "Nach Standort suchen",
+    "joinClub": "Club beitreten",
+    "clubDetails": "Club Details",
+    "membershipStatus": "Mitgliedschaftsstatus",
+    "currentMembers": "Aktuelle Mitglieder"
   }
 }
