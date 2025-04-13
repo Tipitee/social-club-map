@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
@@ -15,10 +15,18 @@ import { toast } from '@/hooks/use-toast';
 const LanguageSwitcher: React.FC = () => {
   const { i18n, t } = useTranslation();
   const { language, setLanguage } = useLanguage();
+  const [isChanging, useState] = useState<boolean>(false);
   const isDarkMode = document.documentElement.classList.contains('dark');
 
   const changeLanguage = (lng: 'en' | 'de') => {
+    // Skip if the language is already selected or a change is in progress
+    if (language === lng || isChanging) return;
+    
     try {
+      // Mark as changing to prevent multiple clicks
+      useState(true);
+      
+      // Update context and i18n instance
       i18n.changeLanguage(lng);
       setLanguage(lng);
       
@@ -40,6 +48,7 @@ const LanguageSwitcher: React.FC = () => {
         description: "Failed to change language. Please try again.",
         variant: "destructive",
       });
+      useState(false);
     }
   };
 
@@ -62,6 +71,7 @@ const LanguageSwitcher: React.FC = () => {
           variant="outline" 
           size="sm" 
           className={`${getButtonStyles()} transition-colors flex items-center gap-2`}
+          disabled={isChanging}
         >
           <Globe size={16} />
           {language === 'en' ? 'EN' : 'DE'}

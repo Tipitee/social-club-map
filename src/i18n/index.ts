@@ -47,7 +47,7 @@ const formatMissingKey = (key: string): string => {
     .trim();
 };
 
-// Add additional translations to German locale
+// Define the base structure for the German translations with proper type handling
 const extendedDeTranslations = {
   ...deTranslation,
   settings: {
@@ -175,15 +175,15 @@ const extendedDeTranslations = {
   }
 };
 
-// Add additional translations to English locale
+// Define extended English translations by explicitly adding the language key
 const extendedEnTranslations = {
   ...enTranslation,
   settings: {
-    ...enTranslation.settings,
+    ...(enTranslation as any).settings || {},
     languageChanged: 'Language changed',
   },
   language: {
-    ...enTranslation.language || {},
+    // Explicitly define the language property for English to fix the TypeScript error
     english: 'English',
     german: 'German'
   }
