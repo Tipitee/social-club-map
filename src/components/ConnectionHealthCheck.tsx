@@ -107,10 +107,11 @@ export const ConnectionHealthCheck: React.FC = () => {
     }
   }, []);
 
+  // Updated to return valid Badge variant values
   const getBadgeColor = () => {
-    if (status.isLoading) return "loading";
-    if (!status.success) return "error";
-    return status.count && status.count > 0 ? "success" : "warning";
+    if (status.isLoading) return "secondary";
+    if (!status.success) return "destructive";
+    return status.count && status.count > 0 ? "default" : "outline";
   };
 
   return (
@@ -190,3 +191,4 @@ export const ConnectionHealthCheck: React.FC = () => {
 };
 
 export default ConnectionHealthCheck;
+
