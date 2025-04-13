@@ -30,7 +30,6 @@ const LanguageSwitcher: React.FC = () => {
       });
       
       // Force a page refresh to ensure all components are updated with the new language
-      // This helps avoid any potential stale translations
       setTimeout(() => {
         window.location.reload();
       }, 300);

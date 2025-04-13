@@ -1,3 +1,4 @@
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enTranslation from './locales/en.json';
@@ -50,11 +51,11 @@ const formatMissingKey = (key: string): string => {
 const extendedDeTranslations = {
   ...deTranslation,
   settings: {
-    ...(deTranslation as any).settings,
+    ...(deTranslation as any).settings || {},
     languageChanged: 'Sprache geändert',
   },
   journal: {
-    ...(deTranslation as any).journal,
+    ...(deTranslation as any).journal || {},
     trackConsumption: 'Konsum verfolgen',
     newEntry: 'Neuer Eintrag',
     dosage: 'Dosis',
@@ -97,48 +98,46 @@ const extendedDeTranslations = {
     }
   },
   language: {
-    ...(deTranslation as any).language,
+    ...(deTranslation as any).language || {},
     english: 'Englisch',
     german: 'Deutsch'
   },
   app: {
-    ...(deTranslation as any).app,
+    ...(deTranslation as any).app || {},
     title: 'Cannabis Begleiter'
   },
   auth: {
-    ...(deTranslation as any).auth,
+    ...(deTranslation as any).auth || {},
     welcomeTo: 'Willkommen bei SocialClub Map',
     signInToTrack: 'Melden Sie sich an, um Ihren Konsum zu verfolgen und Ihre Vorlieben zu speichern',
     signInOrCreate: 'Anmelden / Konto erstellen',
     signIn: 'Anmelden'
   },
   strains: {
-    ...(deTranslation as any).strains,
+    ...(deTranslation as any).strains || {},
     explorer: 'Sortenexplorer',
-    strainsExplorer: 'Sortenexplorer'
+    strainsExplorer: 'Sortenexplorer',
+    exploreDatabase: 'Durchsuchen Sie die Datenbank'
   },
   clubs: {
+    ...(deTranslation as any).clubs || {},
     findNearYou: 'Finden Sie Cannabis-Clubs in Ihrer Nähe'
   },
   legal: {
-    ...(deTranslation as any).legal,
+    ...(deTranslation as any).legal || {},
     stayInformed: 'Bleiben Sie über Cannabis-Gesetze informiert',
     title: 'Aktualisierungen'
   },
   guide: {
+    ...(deTranslation as any).guide || {},
     learnMore: 'Erfahren Sie mehr über Cannabis-Nutzung'
   },
-  settings: {
-    ...(deTranslation as any).settings,
-    managePreferences: 'Verwalten Sie Ihre App-Einstellungen',
-    appearance: 'Erscheinungsbild',
-    language: 'Sprache',
-    theme: 'Theme',
-    lightMode: 'Heller Modus',
-    darkMode: 'Dunkler Modus'
+  news: {
+    ...(deTranslation as any).news || {},
+    stayInformed: 'Bleiben Sie über rechtliche Updates informiert'
   },
   profile: {
-    ...(deTranslation as any).profile,
+    ...(deTranslation as any).profile || {},
     usernameNeededForReviews: 'Benutzername wird benötigt, um Bewertungen abzugeben',
     createUsername: 'Benutzername erstellen',
     enterUsername: 'Benutzernamen eingeben',
@@ -156,11 +155,13 @@ const extendedDeTranslations = {
     signOut: 'Abmelden'
   },
   common: {
+    ...(deTranslation as any).common || {},
     cancel: 'Abbrechen',
     saving: 'Speichern...',
     clear: 'Löschen'
   },
   navigation: {
+    ...(deTranslation as any).navigation || {},
     home: 'Home',
     journal: 'Journal',
     strains: 'Sorten',
@@ -169,7 +170,8 @@ const extendedDeTranslations = {
     updates: 'Updates',
     profile: 'Profil',
     settings: 'Einstellungen',
-    signIn: 'Anmelden'
+    signIn: 'Anmelden',
+    news: 'Neuigkeiten'
   }
 };
 
@@ -181,7 +183,7 @@ const extendedEnTranslations = {
     languageChanged: 'Language changed',
   },
   language: {
-    ...enTranslation.language,
+    ...enTranslation.language || {},
     english: 'English',
     german: 'German'
   }
