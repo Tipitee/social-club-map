@@ -1,4 +1,3 @@
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enTranslation from './locales/en.json';
@@ -47,9 +46,38 @@ const formatMissingKey = (key: string): string => {
     .trim();
 };
 
+// Type definitions for our translation structure
+interface TranslationBase {
+  language: {
+    english: string;
+    german: string;
+  };
+}
+
+interface EnglishTranslations extends TranslationBase {
+  // Other English translation properties
+  settings: {
+    languageChanged: string;
+    [key: string]: string;
+  };
+}
+
+interface GermanTranslations extends TranslationBase {
+  // Other German translation properties
+  settings: {
+    languageChanged: string;
+    [key: string]: string;
+  };
+}
+
 // Define the base structure for the German translations with proper type handling
-const extendedDeTranslations = {
-  ...deTranslation,
+const extendedDeTranslations: GermanTranslations = {
+  ...deTranslation as any,
+  language: {
+    ...(deTranslation as any).language || {},
+    english: 'Englisch',
+    german: 'Deutsch'
+  },
   settings: {
     ...(deTranslation as any).settings || {},
     languageChanged: 'Sprache geändert',
@@ -176,18 +204,21 @@ const extendedDeTranslations = {
 };
 
 // Define extended English translations by explicitly adding the language key
-const extendedEnTranslations = {
-  ...enTranslation,
+const extendedEnTranslations: EnglishTranslations = {
+  ...enTranslation as any,
+  language: {
+    ...(enTranslation as any).language || {},
+    english: 'English',
+    german: 'German'
+  },
   settings: {
     ...(enTranslation as any).settings || {},
     languageChanged: 'Language changed',
   },
-  language: {
-    // Explicitly define the language property for English to fix the TypeScript error
-    english: 'English',
-    german: 'German'
-  }
 };
+
+// Get stored language or default to English
+const storedLanguage = localStorage.getItem('language') || 'en';
 
 // Configure i18next with better fallbacks
 i18n
@@ -201,7 +232,7 @@ i18n
         translation: extendedDeTranslations
       }
     },
-    lng: localStorage.getItem('language') || 'en',
+    lng: storedLanguage,
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false
@@ -216,8 +247,8 @@ i18n
 
 // Debug language loading
 console.log("i18n initialized with language:", i18n.language);
-window.addEventListener('languageChanged', (e) => {
-  console.log("Language changed event:", e);
+window.addEventListener('languageChanged', (e: any) => {
+  console.log("Language changed event:", e.detail);
 });
 
 export default i18n;

@@ -27,8 +27,11 @@ const LanguageSwitcher: React.FC = () => {
       setIsChanging(true);
       
       // Update context and i18n instance
-      i18n.changeLanguage(lng);
       setLanguage(lng);
+      i18n.changeLanguage(lng);
+      
+      // Save to localStorage directly as well to ensure persistence
+      localStorage.setItem('language', lng);
       
       // Provide feedback to the user
       toast({
@@ -37,10 +40,6 @@ const LanguageSwitcher: React.FC = () => {
         duration: 3000,
       });
       
-      // Force a page refresh to ensure all components are updated with the new language
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
     } catch (error) {
       console.error("Error changing language:", error);
       toast({
@@ -48,6 +47,7 @@ const LanguageSwitcher: React.FC = () => {
         description: "Failed to change language. Please try again.",
         variant: "destructive",
       });
+    } finally {
       setIsChanging(false);
     }
   };
