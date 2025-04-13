@@ -276,7 +276,7 @@ const StrainExplorer: React.FC = () => {
           <div className="flex items-center gap-2">
             <Button onClick={toggleFilters} variant="default" className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark text-white h-9 px-3">
               <Filter size={16} />
-              {showFilters ? t('strains.hideFilters') : t('filters.filter')}
+              {showFilters ? t('strains.hideFilters') : t('strains.showFilters')}
               {activeFilterCount > 0 && (
                 <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">
                   {activeFilterCount}

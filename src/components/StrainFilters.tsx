@@ -73,14 +73,14 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <div>
           <Label htmlFor="type" className="mb-2 block">{t('filters.type')}</Label>
           <Select
-            value={localFilters.type || ''}
-            onValueChange={(value) => handleChange('type', value || null)}
+            value={localFilters.type || 'all'}
+            onValueChange={(value) => handleChange('type', value === 'all' ? null : value)}
           >
             <SelectTrigger id="type">
               <SelectValue placeholder={t('strains.selectType')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">
+              <SelectItem value="all">
                 {t('strains.all')}
               </SelectItem>
               <SelectItem value="Indica">{t('strains.types.indica')}</SelectItem>
@@ -93,14 +93,14 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <div>
           <Label htmlFor="effect" className="mb-2 block">{t('filters.effects')}</Label>
           <Select
-            value={localFilters.effect || ''}
-            onValueChange={(value) => handleChange('effect', value || null)}
+            value={localFilters.effect || 'all'}
+            onValueChange={(value) => handleChange('effect', value === 'all' ? null : value)}
           >
             <SelectTrigger id="effect">
               <SelectValue placeholder={t('strains.selectEffect')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">{t('strains.all')}</SelectItem>
+              <SelectItem value="all">{t('strains.all')}</SelectItem>
               <SelectItem value="relaxed">{t('strains.effects.relaxed')}</SelectItem>
               <SelectItem value="happy">{t('strains.effects.happy')}</SelectItem>
               <SelectItem value="euphoric">{t('strains.effects.euphoric')}</SelectItem>
@@ -120,14 +120,14 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <div>
           <Label htmlFor="terpene" className="mb-2 block">{t('strains.terpenes')}</Label>
           <Select
-            value={localFilters.terpene || ''}
-            onValueChange={(value) => handleChange('terpene', value || null)}
+            value={localFilters.terpene || 'all'}
+            onValueChange={(value) => handleChange('terpene', value === 'all' ? null : value)}
           >
             <SelectTrigger id="terpene">
               <SelectValue placeholder={t('strains.selectTerpene')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">{t('strains.all')}</SelectItem>
+              <SelectItem value="all">{t('strains.all')}</SelectItem>
               <SelectItem value="Myrcene">{t('strains.terpenes.myrcene')}</SelectItem>
               <SelectItem value="Caryophyllene">{t('strains.terpenes.caryophyllene')}</SelectItem>
               <SelectItem value="Limonene">{t('strains.terpenes.limonene')}</SelectItem>

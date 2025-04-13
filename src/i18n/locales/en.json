@@ -11,7 +11,12 @@
     "darkMode": "Dark",
     "language": "Language",
     "title": "Settings",
-    "preferences": "Preferences"
+    "preferences": "Preferences",
+    "languageChanged": "Language Changed",
+    "enableNotifications": "Enable Notifications",
+    "shareAnalytics": "Share Analytics",
+    "subscribeNewsletter": "Subscribe to Newsletter",
+    "savePreferences": "Save Preferences"
   },
   "auth": {
     "signIn": "Sign In",
