@@ -6,61 +6,30 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Navbar from "@/components/Navbar";
 
 const CannabisGuide: React.FC = () => {
-  const isDarkMode = document.documentElement.classList.contains('dark');
-
-  // Dynamic styles based on theme
-  const getPageBackground = () => isDarkMode 
-    ? "bg-gradient-to-b from-[#13141f] to-[#1c1f2e] text-white" 
-    : "bg-gradient-to-b from-oldLace-DEFAULT to-cadetGray-100 text-gray-800";
-  
-  const getCardBackground = () => isDarkMode 
-    ? "bg-gray-800/70 border-gray-700 shadow-xl" 
-    : "bg-white/80 border-gray-200 shadow-md";
-  
-  const getTabsActiveClass = () => isDarkMode 
-    ? "data-[state=active]:bg-primary" 
-    : "data-[state=active]:bg-teal-DEFAULT data-[state=active]:text-white";
-  
-  const getTextClass = () => isDarkMode 
-    ? "text-white" 
-    : "text-gray-800";
-  
-  const getSubtitleClass = () => isDarkMode 
-    ? "text-gray-300" 
-    : "text-gray-600";
-  
-  const getAccordionTriggerClass = () => isDarkMode 
-    ? "text-gray-300 hover:text-white" 
-    : "text-gray-700 hover:text-black";
-  
-  const getAccordionContentClass = () => isDarkMode 
-    ? "text-gray-400" 
-    : "text-gray-600";
-
   return (
-    <div className={`min-h-screen ${getPageBackground()} pb-20`}>
+    <div className="page-container">
       <Navbar />
       <main className="container px-4 py-6">
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">Cannabis Guide</h1>
-          <p className={getSubtitleClass()}>Learn about cannabis use, laws, and best practices</p>
+          <p className="text-muted-foreground">Learn about cannabis use, laws, and best practices</p>
         </div>
 
         <Tabs defaultValue="laws" className="w-full">
           <TabsList className="grid grid-cols-4 mb-8">
-            <TabsTrigger value="laws" className={getTabsActiveClass()}>
+            <TabsTrigger value="laws">
               <Gavel className="h-4 w-4 mr-2" />
               Laws
             </TabsTrigger>
-            <TabsTrigger value="safeUse" className={getTabsActiveClass()}>
+            <TabsTrigger value="safeUse">
               <Shield className="h-4 w-4 mr-2" />
               Safe Use
             </TabsTrigger>
-            <TabsTrigger value="basics" className={getTabsActiveClass()}>
+            <TabsTrigger value="basics">
               <Sprout className="h-4 w-4 mr-2" />
               Basics
             </TabsTrigger>
-            <TabsTrigger value="health" className={getTabsActiveClass()}>
+            <TabsTrigger value="health">
               <AlertTriangle className="h-4 w-4 mr-2" />
               Health
             </TabsTrigger>
@@ -68,7 +37,7 @@ const CannabisGuide: React.FC = () => {
           
           {/* Laws & Regulations Content */}
           <TabsContent value="laws" className="space-y-6">
-            <Card className={getCardBackground()}>
+            <Card className="content-card">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Gavel className="h-5 w-5 mr-2 text-primary" />
@@ -76,21 +45,21 @@ const CannabisGuide: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="multiple" className={getTextClass()}>
+                <Accordion type="multiple" className="content-text">
                   <AccordionItem value="possession">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Possession Limits
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>As of April 2023, adults in Germany are permitted to possess up to 25 grams of cannabis for personal use in public spaces and up to 50 grams in private residences. Additionally, adults are allowed to grow up to three cannabis plants at home for personal consumption.</p>
                       <p className="mt-2">These limits apply to the entire federal territory. Exceeding these limits can result in fines or criminal charges depending on the quantity involved.</p>
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="consumption">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Consumption Regulations
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Cannabis consumption is prohibited in certain public areas, including:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Within 100 meters of schools, children's playgrounds, and sports facilities</li>
@@ -101,10 +70,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="driving">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Driving Restrictions
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Driving under the influence of cannabis remains strictly prohibited. The legal limit for THC while driving is set at 1 nanogram per milliliter of blood.</p>
                       <p className="mt-2">Penalties for driving under the influence of cannabis include:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
@@ -116,10 +85,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="clubs">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Cannabis Social Clubs
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Cannabis Social Clubs (CSCs) are non-profit associations that can cultivate and distribute cannabis exclusively to their members. These clubs operate under specific regulations:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Maximum of 500 adult members per club</li>
@@ -137,7 +106,7 @@ const CannabisGuide: React.FC = () => {
           
           {/* Safe Use Content */}
           <TabsContent value="safeUse" className="space-y-6">
-            <Card className={getCardBackground()}>
+            <Card className="content-card">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Shield className="h-5 w-5 mr-2 text-primary" />
@@ -145,12 +114,12 @@ const CannabisGuide: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="multiple" className={getTextClass()}>
+                <Accordion type="multiple" className="content-text">
                   <AccordionItem value="startLow">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Start Low, Go Slow
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>When trying cannabis, especially for beginners or when trying a new strain or product:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Begin with a minimal dose (1-2.5mg THC for edibles, small inhalation for smoking)</li>
@@ -162,10 +131,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="knowSource">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Know Your Source
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Obtaining cannabis from reliable and legal sources is crucial for safety:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Purchase from licensed cannabis social clubs when possible</li>
@@ -177,10 +146,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="mindset">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Set and Setting
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Your mental state and environment significantly impact your cannabis experience:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Choose a comfortable, familiar environment when consuming</li>
@@ -192,10 +161,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="hydration">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Stay Hydrated
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Cannabis can cause dry mouth (cottonmouth) and mild dehydration:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Drink water before, during, and after cannabis use</li>
@@ -213,7 +182,7 @@ const CannabisGuide: React.FC = () => {
           
           {/* Basics Content */}
           <TabsContent value="basics" className="space-y-6">
-            <Card className={getCardBackground()}>
+            <Card className="content-card">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Sprout className="h-5 w-5 mr-2 text-primary" />
@@ -221,12 +190,12 @@ const CannabisGuide: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="multiple" className={getTextClass()}>
+                <Accordion type="multiple" className="content-text">
                   <AccordionItem value="compounds">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Key Compounds
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Cannabis contains over 100 cannabinoids, with these being most significant:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-2">
                         <li><strong>THC (Tetrahydrocannabinol):</strong> The primary psychoactive compound responsible for the "high." It can provide pain relief, appetite stimulation, and mood elevation.</li>
@@ -238,10 +207,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="methods">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Consumption Methods
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Different consumption methods produce varying effects and onset times:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-2">
                         <li><strong>Inhalation (Smoking/Vaping):</strong> Effects begin within minutes and typically last 2-4 hours. Dosage is easier to control.</li>
@@ -253,10 +222,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="types">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Cannabis Types
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Cannabis is commonly categorized into three main types:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-2">
                         <li><strong>Sativa:</strong> Typically associated with energizing, uplifting effects. Often used for daytime use, creativity, and mood enhancement.</li>
@@ -267,10 +236,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="tolerance">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Tolerance and Breaks
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Regular cannabis use can lead to tolerance, requiring more to achieve the same effects:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Tolerance typically begins developing within a few days of regular use</li>
@@ -288,7 +257,7 @@ const CannabisGuide: React.FC = () => {
           
           {/* Health Tab */}
           <TabsContent value="health" className="space-y-6">
-            <Card className={getCardBackground()}>
+            <Card className="content-card">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <AlertTriangle className="h-5 w-5 mr-2 text-primary" />
@@ -296,12 +265,12 @@ const CannabisGuide: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="multiple" className={getTextClass()}>
+                <Accordion type="multiple" className="content-text">
                   <AccordionItem value="risks">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Potential Risks
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>While cannabis has therapeutic benefits, it also carries potential risks:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Impaired memory and concentration during use</li>
@@ -314,10 +283,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="interactions">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Medication Interactions
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Cannabis can interact with various medications:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Blood thinners (increased bleeding risk)</li>
@@ -330,10 +299,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="conditions">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Medical Contraindications
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Certain conditions may be worsened by cannabis use:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>History of psychosis or schizophrenia</li>
@@ -346,10 +315,10 @@ const CannabisGuide: React.FC = () => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="overuse">
-                    <AccordionTrigger className={getAccordionTriggerClass()}>
+                    <AccordionTrigger className="text-gray-300 hover:text-white">
                       Signs of Overuse
                     </AccordionTrigger>
-                    <AccordionContent className={getAccordionContentClass()}>
+                    <AccordionContent className="text-gray-400">
                       <p>Recognizing problematic use patterns is important:</p>
                       <ul className="list-disc pl-5 mt-2 space-y-1">
                         <li>Using more frequently or in larger amounts than intended</li>

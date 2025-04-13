@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
-import logo from '../assets/logo.png';
+import logoDark from '../assets/logo-dark.png';
+import logoLight from '../assets/logo-light.png';
 
 const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -30,29 +31,15 @@ const Navbar: React.FC = () => {
     <div className="bg-linen border-b border-border sticky top-0 z-50 dark:bg-navy-dark">
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
-          <img src={logo} alt="Logo" className="h-10 w-auto mr-2 navbar-logo" />
+          <img 
+            src={theme === 'dark' ? logoDark : logoLight} 
+            alt="Logo" 
+            className="h-12 w-auto mr-2 navbar-logo" 
+          />
         </Link>
 
         <div className="flex items-center space-x-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="text-sm">
-                {t('language.select')}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>
-                {t('settings.language')}
-              </DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => changeLanguage('en')}>
-                {t('language.en')}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage('de')}>
-                {t('language.de')}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
+          {/* Theme Toggle */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon" aria-label="Toggle theme">
@@ -73,6 +60,7 @@ const Navbar: React.FC = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
+          {/* User Profile */}
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
