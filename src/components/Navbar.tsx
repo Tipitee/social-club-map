@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
+import { User } from "lucide-react";
 import logoDark from '../assets/logo-dark.png';
 import logoLight from '../assets/logo-light.png';
 
@@ -28,7 +29,7 @@ const Navbar: React.FC = () => {
           <img 
             src={theme === 'dark' ? logoDark : logoLight} 
             alt="Logo" 
-            className="h-12 w-auto mr-2 navbar-logo" 
+            className="h-10 w-auto mr-2" 
           />
         </Link>
 
@@ -36,14 +37,17 @@ const Navbar: React.FC = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="text-sm">
-                  {t('navigation.profile')}
+                <Button variant="outline" size="icon" className="rounded-full">
+                  <User className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>{t('navigation.profile')}</DropdownMenuLabel>
                 <DropdownMenuItem>
-                  <Link to="/profile">{t('navigation.settings')}</Link>
+                  <Link to="/profile">{t('navigation.profile')}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/settings">{t('navigation.settings')}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>
@@ -53,7 +57,9 @@ const Navbar: React.FC = () => {
             </DropdownMenu>
           ) : (
             <Link to="/auth">
-              <Button variant="outline">{t('auth.signIn')}</Button>
+              <Button variant="outline" size="icon" className="rounded-full">
+                <User className="h-5 w-5" />
+              </Button>
             </Link>
           )}
         </div>

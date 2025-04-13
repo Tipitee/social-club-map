@@ -11,7 +11,12 @@
     "darkMode": "Dunkel",
     "language": "Sprache",
     "title": "Einstellungen",
-    "preferences": "Präferenzen"
+    "preferences": "Präferenzen",
+    "languageChanged": "Sprache geändert",
+    "enableNotifications": "Benachrichtigungen aktivieren",
+    "shareAnalytics": "Analysedaten teilen",
+    "subscribeNewsletter": "Newsletter abonnieren",
+    "savePreferences": "Einstellungen speichern"
   },
   "auth": {
     "signIn": "Anmelden",
@@ -97,5 +102,45 @@
       "thcLowHigh": "THC (Niedrig-Hoch)",
       "ratingHighLow": "Bewertung (Hoch-Niedrig)"
     }
+  },
+  "guide": {
+    "laws": "Gesetze",
+    "safeUse": "Sicherer Konsum",
+    "basics": "Grundlagen",
+    "health": "Gesundheit",
+    "lawsAndRegulations": "Gesetze und Vorschriften",
+    "possessionLimits": "Besitzgrenzen",
+    "consumptionRegulations": "Konsumvorschriften",
+    "drivingRestrictions": "Fahreinschränkungen",
+    "cannabisSocialClubs": "Cannabis Social Clubs",
+    "safeUsePractices": "Praktiken für sicheren Konsum",
+    "startLow": "Niedrig beginnen, langsam steigern",
+    "knowSource": "Kenne deine Quelle",
+    "setAndSetting": "Set und Setting",
+    "stayHydrated": "Bleibe hydriert",
+    "cannabisBasics": "Cannabis-Grundlagen",
+    "keyCompounds": "Wichtige Verbindungen",
+    "consumptionMethods": "Konsummethoden",
+    "cannabisTypes": "Cannabis-Typen",
+    "toleranceAndBreaks": "Toleranz und Pausen",
+    "healthConsiderations": "Gesundheitsaspekte",
+    "potentialRisks": "Potenzielle Risiken",
+    "medicationInteractions": "Medikamenteninteraktionen",
+    "medicalContraindications": "Medizinische Kontraindikationen",
+    "signsOfOveruse": "Anzeichen von Überkonsum"
+  },
+  "news": {
+    "germanLegalization": "Deutsche Cannabis-Legalisierung",
+    "germanLegalizationDesc": "Der deutsche Bundestag hat das Gesetz zur Legalisierung von Cannabis für den persönlichen Gebrauch verabschiedet. Ab dem 1. April 2023 dürfen Erwachsene bis zu 25 Gramm Cannabis in der Öffentlichkeit und bis zu 50 Gramm zu Hause besitzen.",
+    "medicalResearch": "Neue medizinische Forschung",
+    "medicalResearchDesc": "Neue Studien zeigen positive Ergebnisse bei der Verwendung von CBD zur Behandlung von chronischen Schmerzen und Angstzuständen. Die Forschung erweitert unser Verständnis über die therapeutischen Eigenschaften von Cannabis.",
+    "cannabisClubs": "Cannabis Social Clubs starten",
+    "cannabisClubsDesc": "Die ersten Cannabis Social Clubs in Deutschland haben die Genehmigung erhalten und bereiten sich auf den Anbau vor. Diese gemeinnützigen Vereine bieten Mitgliedern eine sichere und legale Quelle für Cannabis.",
+    "newStrains": "Neue Sorten für medizinischen Gebrauch",
+    "newStrainsDesc": "Mehrere neue Cannabis-Sorten mit spezifischen therapeutischen Profilen wurden für die medizinische Verwendung zugelassen. Diese Sorten wurden speziell für die Behandlung bestimmter Symptome entwickelt.",
+    "internationalDevelopments": "Internationale Entwicklungen",
+    "internationalDevelopmentsDesc": "Mehrere europäische Länder beobachten das deutsche Modell der Cannabis-Regulierung genau, da sie ihre eigene Drogenpolitik überarbeiten. Malta und Luxemburg entwickeln ähnliche Modelle.",
+    "cannabisEducation": "Cannabis-Bildungsprogramme",
+    "cannabisEducationDesc": "Neue Bildungsprogramme werden eingeführt, um über verantwortungsvollen Cannabis-Konsum und Risikominimierung aufzuklären. Diese Programme richten sich an Erwachsene aller Altersgruppen."
   }
 }

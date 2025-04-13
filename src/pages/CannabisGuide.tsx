@@ -18,38 +18,6 @@ const CannabisGuide: React.FC = () => {
           {t('navigation.guide')}
         </h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
-            <CardContent className="p-6">
-              <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
-                {t('guide.whatIsCannabis')}
-              </h2>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                {t('guide.cannabisDescription')}
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
-            <CardContent className="p-6">
-              <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
-                {t('guide.differentTypes')}
-              </h2>
-              <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                <li>
-                  <strong>{t('strains.types.indica')}:</strong> {t('guide.indicaDescription')}
-                </li>
-                <li>
-                  <strong>{t('strains.types.sativa')}:</strong> {t('guide.sativaDescription')}
-                </li>
-                <li>
-                  <strong>{t('strains.types.hybrid')}:</strong> {t('guide.hybridDescription')}
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-        
         <Tabs defaultValue="laws" className="w-full">
           <TabsList className="grid grid-cols-4 mb-8">
             <TabsTrigger value="laws">

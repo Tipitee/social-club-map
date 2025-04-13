@@ -102,5 +102,45 @@
       "thcLowHigh": "THC (Low-High)",
       "ratingHighLow": "Rating (High-Low)"
     }
+  },
+  "guide": {
+    "laws": "Laws",
+    "safeUse": "Safe Use",
+    "basics": "Basics",
+    "health": "Health",
+    "lawsAndRegulations": "Laws and Regulations",
+    "possessionLimits": "Possession Limits",
+    "consumptionRegulations": "Consumption Regulations",
+    "drivingRestrictions": "Driving Restrictions",
+    "cannabisSocialClubs": "Cannabis Social Clubs",
+    "safeUsePractices": "Safe Use Practices",
+    "startLow": "Start Low, Go Slow",
+    "knowSource": "Know Your Source",
+    "setAndSetting": "Set and Setting",
+    "stayHydrated": "Stay Hydrated",
+    "cannabisBasics": "Cannabis Basics",
+    "keyCompounds": "Key Compounds",
+    "consumptionMethods": "Consumption Methods",
+    "cannabisTypes": "Cannabis Types",
+    "toleranceAndBreaks": "Tolerance and Breaks",
+    "healthConsiderations": "Health Considerations",
+    "potentialRisks": "Potential Risks",
+    "medicationInteractions": "Medication Interactions",
+    "medicalContraindications": "Medical Contraindications",
+    "signsOfOveruse": "Signs of Overuse"
+  },
+  "news": {
+    "germanLegalization": "German Cannabis Legalization",
+    "germanLegalizationDesc": "The German parliament has passed legislation legalizing cannabis for personal use. As of April 1, 2023, adults can possess up to 25 grams of cannabis in public and up to 50 grams at home.",
+    "medicalResearch": "New Medical Research",
+    "medicalResearchDesc": "Recent studies show promising results using CBD for treating chronic pain and anxiety disorders. The research expands our understanding of the therapeutic properties of cannabis.",
+    "cannabisClubs": "Cannabis Social Clubs Launch",
+    "cannabisClubsDesc": "The first Cannabis Social Clubs in Germany have received approval and are preparing for cultivation. These non-profit associations provide members with a safe and legal source for cannabis.",
+    "newStrains": "New Strains for Medical Use",
+    "newStrainsDesc": "Several new cannabis strains with specific therapeutic profiles have been approved for medical use. These strains were developed specifically to treat certain symptoms.",
+    "internationalDevelopments": "International Developments",
+    "internationalDevelopmentsDesc": "Several European countries are watching the German cannabis regulation model closely as they revise their own drug policies. Malta and Luxembourg are developing similar models.",
+    "cannabisEducation": "Cannabis Education Programs",
+    "cannabisEducationDesc": "New education programs are being introduced to inform about responsible cannabis use and harm reduction. These programs target adults of all age groups."
   }
 }
