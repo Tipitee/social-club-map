@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -285,7 +284,7 @@
 
   /* Consistent home page card gradients for light mode - more harmonious colors */
   .light .home-card-journal {
-    @apply bg-gradient-to-br from-teal-light/30 to-teal-DEFAULT/20 backdrop-blur-sm border-teal-DEFAULT/10;
+    @apply bg-gradient-to-br from-[#4eb7ac]/30 to-[#2a9d90]/20 backdrop-blur-sm border-[#2a9d90]/10;
   }
 
   .light .home-card-strains {
