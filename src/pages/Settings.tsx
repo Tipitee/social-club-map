@@ -1,144 +1,117 @@
-
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import React from "react";
 import Navbar from "@/components/Navbar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { Settings as SettingsIcon, Globe, Info, Moon, Sun, MapPin } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useLanguage } from "@/contexts/LanguageContext";
-import { Switch } from "@/components/ui/switch";
+import { useTranslation } from "react-i18next";
+import { useTheme } from "@/components/theme-provider";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const Settings: React.FC = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
-  const { language } = useLanguage();
+  const { t, i18n } = useTranslation();
+  const { theme, setTheme } = useTheme();
   const { toast } = useToast();
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(document.documentElement.classList.contains('dark'));
-
-  // Update user language preference when it changes
-  useEffect(() => {
-    async function updateUserLanguage() {
-      if (!user) return;
-      
-      try {
-        const { error } = await supabase
-          .from('profiles')
-          .update({ language })
-          .eq('id', user.id);
-          
-        if (error) {
-          console.error('Error updating language preference:', error);
-        }
-      } catch (error) {
-        console.error('Exception when updating language:', error);
-      }
-    }
-    
-    updateUserLanguage();
-  }, [language, user]);
-
-  // Handle theme toggle
-  const toggleTheme = () => {
-    if (document.documentElement.classList.contains('dark')) {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-      setIsDarkMode(false);
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.documentElement.classList.remove('light');
-      document.documentElement.classList.add('dark');
-      setIsDarkMode(true);
-      localStorage.setItem('theme', 'dark');
-    }
+  
+  const changeLanguage = (value: string) => {
+    i18n.changeLanguage(value);
+    localStorage.setItem('language', value);
+    toast({
+      title: t('settings.languageChanged'),
+      description: value === 'en' ? 'Language set to English' : 'Sprache auf Deutsch eingestellt',
+    });
   };
-
-  // Set theme on initial load
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-      setIsDarkMode(false);
-    } else {
-      document.documentElement.classList.remove('light');
-      document.documentElement.classList.add('dark');
-      setIsDarkMode(true);
-    }
-  }, []);
-
+  
   return (
-    <div className="min-h-screen bg-background text-foreground pb-24">
+    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
-      <ScrollArea className="h-[calc(100vh-180px)]">
-        <main className="container px-4 py-8 max-w-4xl mx-auto">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="p-3 rounded-full bg-primary/10 border border-primary/20">
-              <SettingsIcon className="h-7 w-7 text-primary" />
-            </div>
-            <h1 className="text-3xl font-bold">{t('navigation.settings')}</h1>
-          </div>
-
-          <Card className="mb-8 hover:border-primary/50 transition-colors shadow-lg rounded-xl overflow-hidden">
-            <CardHeader className="pb-2 border-b">
-              <CardTitle className="text-xl font-semibold flex items-center gap-3">
-                <Globe className="h-5 w-5 text-primary" />
+      <div className="container px-4 py-6 max-w-7xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
+          {t('settings.title')}
+        </h1>
+        
+        <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
+          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
                 {t('settings.appearance')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="flex justify-between items-center py-3 px-2">
-                <span className="text-lg">{t('settings.language')}</span>
-                <LanguageSwitcher />
-              </div>
+              </h2>
               
-              <div className="flex justify-between items-center py-3 px-2 border-t">
-                <span className="text-lg">{t('settings.theme')}</span>
-                <div className="flex items-center space-x-2">
-                  {isDarkMode ? 
-                    <Moon className="h-5 w-5 text-primary mr-2" /> : 
-                    <Sun className="h-5 w-5 text-primary mr-2" />
-                  }
-                  <Switch 
-                    checked={isDarkMode} 
-                    onCheckedChange={toggleTheme} 
-                    id="theme-mode"
-                  />
-                  <Label htmlFor="theme-mode" className="sr-only">
-                    Toggle Theme
+              <div className="flex justify-between items-center mb-6">
+                <Label htmlFor="dark-mode" className="text-gray-700 dark:text-gray-300">
+                  {t('settings.darkMode')}
+                </Label>
+                <Switch 
+                  id="dark-mode" 
+                  checked={theme === "dark"}
+                  onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+                />
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
+                {t('settings.language')}
+              </h2>
+              
+              <div className="mb-6">
+                <Label htmlFor="language-select" className="block mb-2 text-gray-700 dark:text-gray-300">
+                  {t('language.select')}
+                </Label>
+                <Select value={i18n.language} onValueChange={changeLanguage}>
+                  <SelectTrigger id="language-select">
+                    <SelectValue placeholder={t('language.select')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="en">{t('language.en')}</SelectItem>
+                    <SelectItem value="de">{t('language.de')}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
+                {t('settings.preferences')}
+              </h2>
+              
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <Label htmlFor="notifications" className="text-gray-700 dark:text-gray-300">
+                    {t('settings.enableNotifications')}
                   </Label>
+                  <Switch id="notifications" />
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <Label htmlFor="analytics" className="text-gray-700 dark:text-gray-300">
+                    {t('settings.shareAnalytics')}
+                  </Label>
+                  <Switch id="analytics" defaultChecked />
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <Label htmlFor="newsletter" className="text-gray-700 dark:text-gray-300">
+                    {t('settings.subscribeNewsletter')}
+                  </Label>
+                  <Switch id="newsletter" />
                 </div>
               </div>
             </CardContent>
           </Card>
-
-          <Card className="hover:border-primary/50 transition-colors shadow-lg rounded-xl overflow-hidden">
-            <CardHeader className="pb-2 border-b">
-              <CardTitle className="text-xl font-semibold flex items-center gap-3">
-                <Info className="h-5 w-5 text-primary" />
-                {t('settings.about')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between py-2 px-2">
-                <span>{t('settings.version')}</span>
-                <span className="font-mono">1.0.0</span>
-              </div>
-              
-              <div className="flex items-center mt-2 py-2 px-2">
-                <div className="flex items-center">
-                  <MapPin className="h-4 w-4 text-primary mr-2" />
-                  <p>© 2025 SocialClub Map</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </main>
-      </ScrollArea>
+          
+          <div className="mt-4 text-center">
+            <Button variant="outline" className="w-full md:w-auto">
+              {t('settings.savePreferences')}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

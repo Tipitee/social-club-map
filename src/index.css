@@ -113,12 +113,13 @@
 }
 
 @layer components {
-  .page-container {
-    @apply min-h-screen bg-linen dark:bg-navy-dark text-foreground pb-20;
+  .page-container,
+  .min-h-screen {
+    @apply bg-linen dark:bg-navy-dark;
   }
 
   .filter-button {
-    @apply bg-primary hover:bg-primary/90 text-white;
+    @apply bg-teal-DEFAULT hover:bg-teal-dark text-white;
   }
 
   .gradient-bg {

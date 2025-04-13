@@ -1,20 +1,51 @@
 import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Gavel, Shield, Sprout, ScrollText, AlertTriangle } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Navbar from "@/components/Navbar";
+import { useTranslation } from "react-i18next";
+import { Card, CardContent } from "@/components/ui/card";
 
 const CannabisGuide: React.FC = () => {
+  const { t } = useTranslation();
+  
   return (
-    <div className="page-container">
+    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
-      <main className="container px-4 py-6">
-        <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">Cannabis Guide</h1>
-          <p className="text-muted-foreground">Learn about cannabis use, laws, and best practices</p>
+      <div className="container px-4 py-6 max-w-7xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
+          {t('navigation.guide')}
+        </h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
+                {t('guide.whatIsCannabis')}
+              </h2>
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                {t('guide.cannabisDescription')}
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
+                {t('guide.differentTypes')}
+              </h2>
+              <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                <li>
+                  <strong>{t('strains.types.indica')}:</strong> {t('guide.indicaDescription')}
+                </li>
+                <li>
+                  <strong>{t('strains.types.sativa')}:</strong> {t('guide.sativaDescription')}
+                </li>
+                <li>
+                  <strong>{t('strains.types.hybrid')}:</strong> {t('guide.hybridDescription')}
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
         </div>
-
+        
         <Tabs defaultValue="laws" className="w-full">
           <TabsList className="grid grid-cols-4 mb-8">
             <TabsTrigger value="laws">
@@ -335,7 +366,7 @@ const CannabisGuide: React.FC = () => {
             </Card>
           </TabsContent>
         </Tabs>
-      </main>
+      </div>
     </div>
   );
 };

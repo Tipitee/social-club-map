@@ -40,5 +40,62 @@
     "cbd": "CBD",
     "effects": "Effects",
     "filter": "Filter"
+  },
+  "strains": {
+    "strainsExplorer": "Strains Explorer",
+    "hideFilters": "Hide Filters",
+    "showFilters": "Show Filters",
+    "filters": "Filters",
+    "all": "All",
+    "thcLevel": "THC Level",
+    "errorLoading": "Error Loading Strains",
+    "errorLoadingMore": "Error Loading More",
+    "couldNotLoadAdditional": "Could not load additional strains",
+    "retry": "Retry",
+    "loadingMore": "Loading more strains...",
+    "noStrainsFound": "No Strains Found",
+    "tryAdjustingFilters": "Try adjusting your filters",
+    "searchStrains": "Search strains...",
+    "selectType": "Select Type",
+    "selectEffect": "Select Effect",
+    "selectTerpene": "Select Terpene",
+    "selectSortOrder": "Sort Order",
+    "terpenes": "Terpenes",
+    "types": {
+      "indica": "Indica",
+      "sativa": "Sativa",
+      "hybrid": "Hybrid"
+    },
+    "effects": {
+      "relaxed": "Relaxed",
+      "happy": "Happy",
+      "euphoric": "Euphoric",
+      "uplifted": "Uplifted",
+      "creative": "Creative",
+      "focused": "Focused",
+      "energetic": "Energetic",
+      "hungry": "Hungry",
+      "talkative": "Talkative",
+      "tingly": "Tingly",
+      "pain": "Pain Relief",
+      "sleepy": "Sleepy"
+    },
+    "terpenes": {
+      "myrcene": "Myrcene",
+      "caryophyllene": "Caryophyllene",
+      "limonene": "Limonene",
+      "pinene": "Pinene",
+      "terpinolene": "Terpinolene",
+      "ocimene": "Ocimene",
+      "linalool": "Linalool",
+      "humulene": "Humulene"
+    },
+    "sortOptions": {
+      "nameAZ": "Name (A-Z)",
+      "nameZA": "Name (Z-A)",
+      "thcHighLow": "THC (High-Low)",
+      "thcLowHigh": "THC (Low-High)",
+      "ratingHighLow": "Rating (High-Low)"
+    }
   }
 }

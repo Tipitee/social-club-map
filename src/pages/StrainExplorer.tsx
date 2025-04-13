@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -18,9 +17,7 @@ const LAST_VIEWED_STRAIN_KEY = "last-viewed-strain";
 const LAST_SCROLL_POSITION_KEY = "last-scroll-position";
 
 const StrainExplorer: React.FC = () => {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const [strains, setStrains] = useState<Strain[]>([]);
   const [loading, setLoading] = useState(true);
@@ -278,11 +275,13 @@ const StrainExplorer: React.FC = () => {
           </div>
           <div className="flex items-center gap-2">
             <Button onClick={toggleFilters} variant="default" className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark text-white h-9 px-3">
-              <Filter size={16} /> 
-              {showFilters ? t('strains.hideFilters') : t('strains.filters')}
-              {activeFilterCount > 0 && <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">
+              <Filter size={16} />
+              {showFilters ? t('strains.hideFilters') : t('filters.filter')}
+              {activeFilterCount > 0 && (
+                <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">
                   {activeFilterCount}
-                </Badge>}
+                </Badge>
+              )}
             </Button>
           </div>
         </div>

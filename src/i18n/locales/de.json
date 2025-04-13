@@ -40,5 +40,62 @@
     "cbd": "CBD",
     "effects": "Wirkungen",
     "filter": "Filtern"
+  },
+  "strains": {
+    "strainsExplorer": "Sorten-Explorer",
+    "hideFilters": "Filter ausblenden",
+    "showFilters": "Filter anzeigen",
+    "filters": "Filter",
+    "all": "Alle",
+    "thcLevel": "THC-Gehalt",
+    "errorLoading": "Fehler beim Laden",
+    "errorLoadingMore": "Fehler beim Laden weiterer Sorten",
+    "couldNotLoadAdditional": "Konnte keine weiteren Sorten laden",
+    "retry": "Erneut versuchen",
+    "loadingMore": "Weitere Sorten werden geladen...",
+    "noStrainsFound": "Keine Sorten gefunden",
+    "tryAdjustingFilters": "Versuchen Sie, Ihre Filter anzupassen",
+    "searchStrains": "Sorten durchsuchen...",
+    "selectType": "Typ auswählen",
+    "selectEffect": "Wirkung auswählen",
+    "selectTerpene": "Terpene auswählen",
+    "selectSortOrder": "Sortierreihenfolge",
+    "terpenes": "Terpene",
+    "types": {
+      "indica": "Indica",
+      "sativa": "Sativa",
+      "hybrid": "Hybrid"
+    },
+    "effects": {
+      "relaxed": "Entspannt",
+      "happy": "Glücklich",
+      "euphoric": "Euphorisch",
+      "uplifted": "Angehoben",
+      "creative": "Kreativ",
+      "focused": "Konzentriert",
+      "energetic": "Energetisch",
+      "hungry": "Hungrig",
+      "talkative": "Gesprächig",
+      "tingly": "Kribbelig",
+      "pain": "Schmerzlindernd",
+      "sleepy": "Schläfrig"
+    },
+    "terpenes": {
+      "myrcene": "Myrcen",
+      "caryophyllene": "Caryophyllen",
+      "limonene": "Limonen",
+      "pinene": "Pinen",
+      "terpinolene": "Terpinolen",
+      "ocimene": "Ocimen",
+      "linalool": "Linalool",
+      "humulene": "Humilen"
+    },
+    "sortOptions": {
+      "nameAZ": "Name (A-Z)",
+      "nameZA": "Name (Z-A)",
+      "thcHighLow": "THC (Hoch-Niedrig)",
+      "thcLowHigh": "THC (Niedrig-Hoch)",
+      "ratingHighLow": "Bewertung (Hoch-Niedrig)"
+    }
   }
 }
