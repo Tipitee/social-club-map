@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -152,71 +151,68 @@ const News: React.FC = () => {
             All Updates
           </h2>
           
-          {/* Improved menu styling to match Guide page */}
-          <div className="rounded-lg overflow-hidden shadow-sm mb-6">
-            <div className="overflow-x-auto scrollbar-none">
-              <nav className="flex flex-wrap bg-white dark:bg-navy-DEFAULT border-b border-navy-DEFAULT/20 dark:border-navy-light/20">
-                <button
-                  onClick={() => setActiveTab('all')}
-                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
-                    activeTab === 'all'
-                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
-                  }`}
-                >
-                  All
-                </button>
-                <button
-                  onClick={() => setActiveTab('federal')}
-                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
-                    activeTab === 'federal'
-                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
-                  }`}
-                >
-                  Federal
-                </button>
-                <button
-                  onClick={() => setActiveTab('state')}
-                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
-                    activeTab === 'state'
-                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
-                  }`}
-                >
-                  State
-                </button>
-                <button
-                  onClick={() => setActiveTab('medical')}
-                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
-                    activeTab === 'medical'
-                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
-                  }`}
-                >
-                  Medical
-                </button>
-                <button
-                  onClick={() => setActiveTab('recreational')}
-                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
-                    activeTab === 'recreational'
-                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
-                  }`}
-                >
-                  Recreational
-                </button>
-                <button
-                  onClick={() => setActiveTab('business')}
-                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
-                    activeTab === 'business'
-                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
-                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
-                  }`}
-                >
-                  Business
-                </button>
-              </nav>
+          <div className="rounded-lg overflow-hidden shadow-sm mb-6 bg-white dark:bg-navy-DEFAULT">
+            <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 text-center">
+              <button
+                onClick={() => setActiveTab('all')}
+                className={`px-4 py-3 text-sm font-medium ${
+                  activeTab === 'all'
+                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                }`}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setActiveTab('federal')}
+                className={`px-4 py-3 text-sm font-medium ${
+                  activeTab === 'federal'
+                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                }`}
+              >
+                Federal
+              </button>
+              <button
+                onClick={() => setActiveTab('state')}
+                className={`px-4 py-3 text-sm font-medium ${
+                  activeTab === 'state'
+                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                }`}
+              >
+                State
+              </button>
+              <button
+                onClick={() => setActiveTab('medical')}
+                className={`px-4 py-3 text-sm font-medium ${
+                  activeTab === 'medical'
+                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                }`}
+              >
+                Medical
+              </button>
+              <button
+                onClick={() => setActiveTab('recreational')}
+                className={`px-4 py-3 text-sm font-medium ${
+                  activeTab === 'recreational'
+                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                }`}
+              >
+                Recreational
+              </button>
+              <button
+                onClick={() => setActiveTab('business')}
+                className={`px-4 py-3 text-sm font-medium ${
+                  activeTab === 'business'
+                    ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                    : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                }`}
+              >
+                Business
+              </button>
             </div>
           </div>
             

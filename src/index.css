@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -242,7 +243,9 @@
     @apply w-full p-2 border rounded-md mb-2;
   }
   
-  .light .journal-entry {
+  /* Updated light mode styles for journal auth card */
+  .light .journal-entry, 
+  .light .content-card {
     @apply bg-white border-gray-200;
   }
   
@@ -270,7 +273,8 @@
     @apply bg-gradient-to-br from-sky-600/50 to-blue-800/40 backdrop-blur-sm border-blue-700/30;
   }
 
-  .dark .home-card-guide {
+  /* Swapped guide and settings styles */
+  .dark .home-card-settings {
     @apply bg-gradient-to-br from-fuchsia-600/50 to-purple-800/40 backdrop-blur-sm border-purple-700/30;
   }
 
@@ -278,10 +282,11 @@
     @apply bg-gradient-to-br from-amber-600/50 to-orange-700/40 backdrop-blur-sm border-orange-600/30;
   }
   
-  .dark .home-card-settings {
+  .dark .home-card-guide {
     @apply bg-gradient-to-br from-teal-600/50 to-cyan-800/40 backdrop-blur-sm border-cyan-700/30;
   }
 
+  /* Light mode card styles updated for consistency */
   .light .home-card-journal {
     @apply bg-gradient-to-br from-[#4eb7ac]/30 to-[#2a9d90]/20 backdrop-blur-sm border-[#2a9d90]/10;
   }
@@ -294,7 +299,8 @@
     @apply bg-gradient-to-br from-sand-light/40 to-sand-dark/20 backdrop-blur-sm border-sand-dark/10;
   }
 
-  .light .home-card-guide {
+  /* Swapped guide and settings styles for light mode */
+  .light .home-card-settings {
     @apply bg-gradient-to-br from-[#f7d3a6]/40 to-[#f4a462]/30 backdrop-blur-sm border-[#f4a462]/20;
   }
 
@@ -302,7 +308,7 @@
     @apply bg-gradient-to-br from-[#f39c86]/30 to-[#e76e50]/20 backdrop-blur-sm border-[#e76e50]/10;
   }
 
-  .light .home-card-settings {
+  .light .home-card-guide {
     @apply bg-gradient-to-br from-[#4eb7ac]/30 to-[#2a9d90]/20 backdrop-blur-sm border-[#2a9d90]/10;
   }
 
@@ -310,6 +316,7 @@
     @apply h-12 w-auto;
   }
 
+  /* Unified content card styles for better light mode contrast */
   .content-card {
     @apply bg-white dark:bg-navy-light rounded-xl shadow-lg border border-gray-200 dark:border-navy-300 p-5;
   }
@@ -326,12 +333,13 @@
     @apply w-full bg-white dark:bg-navy-light border border-gray-300 dark:border-navy-400 rounded-md px-3 py-2;
   }
 
+  /* Updated news tabs to match guide menu style */
   .news-tabs-menu {
-    @apply flex flex-wrap bg-white dark:bg-navy-DEFAULT border-b border-navy-DEFAULT/20 dark:border-navy-light/20;
+    @apply grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 text-center bg-white dark:bg-navy-DEFAULT;
   }
   
   .news-tab-button {
-    @apply px-4 py-3 text-sm font-medium flex-shrink-0 text-navy-dark dark:text-gray-300;
+    @apply px-4 py-3 text-sm font-medium text-navy-dark dark:text-gray-300;
   }
   
   .news-tab-button-active {
@@ -340,5 +348,10 @@
   
   .news-tab-button-inactive {
     @apply text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light;
+  }
+
+  /* Common card style for auth containers */
+  .auth-card {
+    @apply bg-white dark:bg-navy-light rounded-xl shadow-lg border border-gray-200 dark:border-navy-300 p-5;
   }
 }
