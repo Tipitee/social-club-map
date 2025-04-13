@@ -9,7 +9,6 @@ import Navbar from "@/components/Navbar";
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const isDarkMode = document.documentElement.classList.contains('dark');
 
   const sections = [
     {
@@ -56,24 +55,8 @@ const Home: React.FC = () => {
     }
   ];
 
-  const getTextClass = () => isDarkMode 
-    ? "text-gray-100" 
-    : "text-navy-dark";
-  
-  const getDescriptionClass = () => isDarkMode 
-    ? "text-gray-300" 
-    : "text-gray-600";
-    
-  const getIconBgClass = () => isDarkMode
-    ? "bg-navy-light/70"
-    : "bg-white/80";
-    
-  const getBackgroundClass = () => isDarkMode
-    ? "bg-navy-dark"
-    : "bg-background";
-
   return (
-    <div className={`min-h-screen pb-20 ${getBackgroundClass()}`}>
+    <div className="min-h-screen pb-20 bg-background">
       <Navbar />
       <div className="container px-4 py-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -84,11 +67,11 @@ const Home: React.FC = () => {
               className="block hover:scale-[1.02] transition-transform duration-200"
             >
               <div className={`rounded-xl shadow-md hover:shadow-lg p-6 h-full ${section.cardClass}`}>
-                <div className={`flex justify-center items-center h-16 w-16 ${getIconBgClass()} rounded-full mb-4 mx-auto shadow-md`}>
+                <div className="flex justify-center items-center h-16 w-16 bg-card/80 rounded-full mb-4 mx-auto shadow-md">
                   <section.icon className="h-8 w-8 text-primary" />
                 </div>
-                <h2 className={`text-xl font-bold ${getTextClass()} text-center mb-2`}>{section.title}</h2>
-                <p className={`${getDescriptionClass()} text-center`}>
+                <h2 className="text-xl font-bold text-foreground text-center mb-2">{section.title}</h2>
+                <p className="text-muted-foreground text-center">
                   {section.description}
                 </p>
               </div>

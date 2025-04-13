@@ -6,18 +6,9 @@ import { useTranslation } from "react-i18next";
 
 const ClubMap: React.FC = () => {
   const { t } = useTranslation();
-  const isDarkMode = document.documentElement.classList.contains('dark');
-  
-  const getBackgroundClass = () => isDarkMode
-    ? "bg-navy-dark"
-    : "bg-background";
-  
-  const getCardClass = () => isDarkMode
-    ? "dark:bg-navy-light dark:border-navy-DEFAULT"
-    : "bg-sand-light/50 border-sand-DEFAULT/30";
   
   return (
-    <div className={`min-h-screen ${getBackgroundClass()}`}>
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container px-4 py-6">
         <h1 className="text-2xl font-bold mb-6 text-foreground">{t('clubs.findLocalClub')}</h1>
@@ -28,7 +19,7 @@ const ClubMap: React.FC = () => {
           </p>
         </div>
         
-        <div className={`w-full h-[70vh] rounded-lg overflow-hidden shadow-lg border border-border mb-6 ${getCardClass()}`}>
+        <div className="w-full h-[70vh] rounded-lg overflow-hidden shadow-lg border border-border bg-card mb-6">
           <iframe 
             src="https://www.google.com/maps/d/u/0/embed?mid=1b3IKZqStnrLLakQHjyJz8Sp_JDZ8vOw&ehbc=2E312F&noprof=1" 
             width="100%" 
@@ -41,7 +32,7 @@ const ClubMap: React.FC = () => {
           />
         </div>
         
-        <Card className={`mt-6 ${getCardClass()}`}>
+        <Card className="mt-6">
           <CardContent className="pt-6">
             <h2 className="text-lg font-semibold mb-2 text-foreground">{t('clubs.findNearYou')}</h2>
             <p className="text-muted-foreground">
