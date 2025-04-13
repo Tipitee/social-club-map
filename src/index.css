@@ -288,7 +288,7 @@
   }
 
   .light .home-card-strains {
-    @apply bg-gradient-to-br from-coral-light/30 to-coral-DEFAULT/20 backdrop-blur-sm border-coral-DEFAULT/10;
+    @apply bg-gradient-to-br from-[#f39c86]/30 to-[#e76e50]/20 backdrop-blur-sm border-[#e76e50]/10;
   }
 
   .light .home-card-clubs {
