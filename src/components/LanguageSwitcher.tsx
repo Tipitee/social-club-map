@@ -15,7 +15,7 @@ import { toast } from '@/hooks/use-toast';
 const LanguageSwitcher: React.FC = () => {
   const { i18n, t } = useTranslation();
   const { language, setLanguage } = useLanguage();
-  const [isChanging, useState] = useState<boolean>(false);
+  const [isChanging, setIsChanging] = useState<boolean>(false);
   const isDarkMode = document.documentElement.classList.contains('dark');
 
   const changeLanguage = (lng: 'en' | 'de') => {
@@ -24,7 +24,7 @@ const LanguageSwitcher: React.FC = () => {
     
     try {
       // Mark as changing to prevent multiple clicks
-      useState(true);
+      setIsChanging(true);
       
       // Update context and i18n instance
       i18n.changeLanguage(lng);
@@ -48,7 +48,7 @@ const LanguageSwitcher: React.FC = () => {
         description: "Failed to change language. Please try again.",
         variant: "destructive",
       });
-      useState(false);
+      setIsChanging(false);
     }
   };
 
