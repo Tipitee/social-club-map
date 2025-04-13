@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -216,7 +217,7 @@ const News: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-24">
+    <div className="min-h-screen bg-linen text-foreground dark:bg-navy-dark pb-24">
       <Navbar />
       <main className="container px-4 py-6 max-w-4xl mx-auto">
         <div className="mb-6">
@@ -228,14 +229,14 @@ const News: React.FC = () => {
           </p>
         </div>
         
-        <div className="mb-6 sticky top-16 z-10 bg-background pt-2 pb-3">
+        <div className="mb-6 sticky top-16 z-10 bg-linen dark:bg-navy-dark pt-2 pb-3">
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder={t('common.search')}
-                className="pl-8"
+                className="pl-8 bg-white dark:bg-navy-light"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -273,7 +274,7 @@ const News: React.FC = () => {
             
             <div className="hidden md:block">
               <Tabs defaultValue="all" value={category} onValueChange={setCategory}>
-                <TabsList>
+                <TabsList className="bg-white dark:bg-navy-light">
                   <TabsTrigger value="all">{t('news.categories.all')}</TabsTrigger>
                   <TabsTrigger value="federal">{t('news.categories.federal')}</TabsTrigger>
                   <TabsTrigger value="state">{t('news.categories.state')}</TabsTrigger>
@@ -298,12 +299,12 @@ const News: React.FC = () => {
             <div className="space-y-4">
               {filteredUpdates.map((update) => (
                 <Collapsible key={update.id} className="w-full">
-                  <Card className="overflow-hidden hover:bg-card/95 transition-colors">
+                  <Card className="overflow-hidden bg-white hover:bg-gray-50 dark:bg-navy-light dark:hover:bg-navy-light/90 transition-colors">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div className="flex">
                           <div className="mr-3 mt-1">
-                            <update.icon className="h-5 w-5 text-muted-foreground" />
+                            <update.icon className="h-5 w-5 text-teal-DEFAULT dark:text-teal-light" />
                           </div>
                           <div>
                             <CardTitle>{update.title}</CardTitle>
@@ -321,7 +322,7 @@ const News: React.FC = () => {
                     <CardContent>
                       <CollapsibleTrigger className="text-left w-full">
                         <p className="text-muted-foreground line-clamp-2">{update.content}</p>
-                        <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300 p-0 mt-1">
+                        <Button variant="ghost" size="sm" className="text-teal-DEFAULT hover:text-teal-dark dark:text-teal-light dark:hover:text-teal-light/90 p-0 mt-1">
                           {t('news.readMore')}
                         </Button>
                       </CollapsibleTrigger>
@@ -333,7 +334,7 @@ const News: React.FC = () => {
                             <h4 className="font-medium text-sm mb-2">{t('news.relatedLinks')}</h4>
                             <ul className="list-disc list-inside space-y-1 pl-2">
                               {update.relatedLinks.map((link, index) => (
-                                <li key={`${update.id}-link-${index}`} className="text-blue-400">
+                                <li key={`${update.id}-link-${index}`} className="text-teal-DEFAULT dark:text-teal-light">
                                   <button 
                                     className="hover:underline inline-flex items-center"
                                     onClick={() => handleClickRelatedLink(link.url)}
@@ -354,7 +355,7 @@ const News: React.FC = () => {
                       </span>
                       <button 
                         onClick={() => handleClickSource(update.url)}
-                        className="text-blue-400 hover:text-blue-300 flex items-center text-sm"
+                        className="text-teal-DEFAULT hover:text-teal-dark dark:text-teal-light dark:hover:text-teal-light/90 flex items-center text-sm"
                       >
                         <ExternalLink className="h-3 w-3 mr-1" />
                         {t('news.visitSource')}
@@ -365,13 +366,13 @@ const News: React.FC = () => {
               ))}
 
               <div className="pt-4 flex justify-center">
-                <Button variant="outline">
+                <Button variant="default" className="bg-teal-DEFAULT hover:bg-teal-dark text-white">
                   {t('news.loadMore')}
                 </Button>
               </div>
             </div>
           ) : (
-            <Card className="text-center p-8">
+            <Card className="text-center p-8 bg-white dark:bg-navy-light">
               <p>{t('news.noUpdates')}</p>
             </Card>
           )}

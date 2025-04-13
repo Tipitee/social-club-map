@@ -101,7 +101,11 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-linen text-foreground;
+  }
+
+  .dark body {
+    @apply bg-navy-dark;
   }
 
   html {
@@ -174,7 +178,7 @@
   
   /* Light mode specific styles */
   .light .strain-card {
-    @apply bg-sand-light border-sand-light;
+    @apply bg-white border-gray-200;
   }
 
   .light .effect-bar,
@@ -189,7 +193,7 @@
 
   /* Dark mode specific styles with improved colors */
   .dark .strain-card {
-    @apply bg-navy-400 border-navy-400;
+    @apply bg-navy-light border-navy-300;
   }
 
   .dark .journal-entry {
@@ -240,7 +244,7 @@
   
   /* Light mode specific */
   .light .journal-entry {
-    @apply bg-sand-light border-sand-light;
+    @apply bg-white border-gray-200;
   }
   
   /* Dark mode specific */
@@ -276,7 +280,7 @@
   }
 
   .dark .home-card-news {
-    @apply bg-gradient-to-br from-amber-500/50 to-orange-700/40 backdrop-blur-sm border-orange-600/30;
+    @apply bg-gradient-to-br from-amber-600/50 to-orange-700/40 backdrop-blur-sm border-orange-600/30;
   }
   
   .dark .home-card-settings {
@@ -301,15 +305,15 @@
   }
 
   .light .home-card-news {
-    @apply bg-gradient-to-br from-ashGray-300/30 to-ashGray-400/20 backdrop-blur-sm border-ashGray-400/10;
+    @apply bg-gradient-to-br from-[#f39c86]/30 to-[#e76e50]/20 backdrop-blur-sm border-[#e76e50]/10;
   }
 
   .light .home-card-settings {
-    @apply bg-gradient-to-br from-[#6a9fb4]/30 to-[#4D8499]/20 backdrop-blur-sm border-[#4D8499]/10;
+    @apply bg-gradient-to-br from-[#4eb7ac]/30 to-[#2a9d90]/20 backdrop-blur-sm border-[#2a9d90]/10;
   }
 
   /* Navbar logo styles for dark mode */
   .dark .navbar-logo {
-    @apply scale-110 bg-blend-overlay;
+    @apply scale-110 bg-blend-overlay brightness-150;
   }
 }

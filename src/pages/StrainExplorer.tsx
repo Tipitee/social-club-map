@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -268,7 +269,7 @@ const StrainExplorer: React.FC = () => {
   const activeFilterCount = [filters.type, filters.effect, filters.terpene, filters.search, filters.thcRange[0] > 0 || filters.thcRange[1] < 30 ? 'thc' : null].filter(Boolean).length;
   const remainingStrains = totalStrains - currentPage * strainsPerPage;
 
-  return <div className="min-h-screen dark:bg-navy-dark bg-sand-light/50 pb-28">
+  return <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
@@ -276,7 +277,7 @@ const StrainExplorer: React.FC = () => {
             <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">{t('strains.strainsExplorer')}</h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button onClick={toggleFilters} variant="outline" className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark border-none h-9 px-3 text-teal-100">
+            <Button onClick={toggleFilters} variant="default" className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark text-white h-9 px-3">
               <Filter size={16} /> 
               {showFilters ? t('strains.hideFilters') : t('strains.filters')}
               {activeFilterCount > 0 && <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">

@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/components/theme-provider";
 import StrainExplorer from "./pages/StrainExplorer";
 import StrainDetail from "./pages/StrainDetail";
 import ClubMap from "./pages/ClubMap";
@@ -27,30 +28,32 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <LanguageProvider>
-          <AuthProvider>
-            <TooltipProvider>
-              <div className="min-h-screen bg-background text-foreground">
-                <main className="pb-20">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/strains" element={<StrainExplorer />} />
-                    <Route path="/strains/:id" element={<StrainDetail />} />
-                    <Route path="/clubs" element={<ClubMap />} />
-                    <Route path="/journal" element={<Journal />} />
-                    <Route path="/news" element={<News />} />
-                    <Route path="/guide" element={<CannabisGuide />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/auth" element={<Auth />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </main>
-                <BottomNav />
-              </div>
-              <Toaster />
-              <Sonner />
-            </TooltipProvider>
-          </AuthProvider>
+          <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+            <AuthProvider>
+              <TooltipProvider>
+                <div className="min-h-screen bg-linen dark:bg-navy-dark text-foreground">
+                  <main className="pb-20">
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/strains" element={<StrainExplorer />} />
+                      <Route path="/strains/:id" element={<StrainDetail />} />
+                      <Route path="/clubs" element={<ClubMap />} />
+                      <Route path="/journal" element={<Journal />} />
+                      <Route path="/news" element={<News />} />
+                      <Route path="/guide" element={<CannabisGuide />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/settings" element={<Settings />} />
+                      <Route path="/auth" element={<Auth />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </main>
+                  <BottomNav />
+                </div>
+                <Toaster />
+                <Sonner />
+              </TooltipProvider>
+            </AuthProvider>
+          </ThemeProvider>
         </LanguageProvider>
       </BrowserRouter>
     </QueryClientProvider>

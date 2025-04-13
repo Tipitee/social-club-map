@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -10,9 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useTheme } from "@/components/theme-provider"
-import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
+} from "@/components/ui/dropdown-menu";
+import { useTheme } from "@/components/theme-provider";
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
 import logo from '../assets/logo.png';
 
 const Navbar: React.FC = () => {
@@ -26,11 +27,10 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div className="bg-background border-b border-border sticky top-0 z-50">
+    <div className="bg-linen border-b border-border sticky top-0 z-50 dark:bg-navy-dark">
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           <img src={logo} alt="Logo" className="h-10 w-auto mr-2 navbar-logo" />
-          {/* <span>{t('app.title')}</span> */}
         </Link>
 
         <div className="flex items-center space-x-4">
