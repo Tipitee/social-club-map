@@ -17,60 +17,45 @@ const Home: React.FC = () => {
       icon: Book,
       title: t('navigation.journal'),
       description: t('journal.trackYourConsumption'),
-      colorDark: "from-emerald-600/50 to-teal-700/40",
-      colorLight: "from-teal-light/40 to-teal-DEFAULT/30"
+      cardClass: "home-card-journal"
     },
     {
       path: "/strains",
       icon: Cannabis,
       title: t('navigation.strains'),
       description: t('strains.exploreDatabase'),
-      colorDark: "from-purple-600/50 to-indigo-700/40",
-      colorLight: "from-coral-light/30 to-coral-DEFAULT/40"
+      cardClass: "home-card-strains"
     },
     {
       path: "/clubs",
       icon: Map,
       title: t('navigation.clubs'),
       description: t('clubs.findLocalClub'),
-      colorDark: "from-blue-600/50 to-sky-700/40",
-      colorLight: "from-sand-light/50 to-sand-dark/30"
+      cardClass: "home-card-clubs"
     },
     {
       path: "/guide",
       icon: BookText,
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
-      colorDark: "from-cyan-500/50 to-blue-600/40", // Updated color for dark mode
-      colorLight: "from-ashGray-300/40 to-ashGray-400/30" // Updated softer color for light mode
+      cardClass: "home-card-guide"
     },
     {
       path: "/news",
       icon: Newspaper,
       title: t('navigation.news'),
       description: t('news.stayInformed'),
-      colorDark: "from-indigo-500/50 to-violet-600/40", // Updated color for dark mode
-      colorLight: "from-cadetGray-300/40 to-cadetGray-400/30" // Updated softer color for light mode
+      cardClass: "home-card-news"
     },
     {
       path: "/settings",
       icon: Settings,
       title: t('navigation.settings'),
       description: t('settings.managePreferences'),
-      colorDark: "from-teal-500/50 to-emerald-600/40", // Updated color for dark mode
-      colorLight: "from-oldLace-300/50 to-oldLace-400/30" // Updated softer color for light mode
+      cardClass: "home-card-settings"
     }
   ];
 
-  const getBgGradient = (index: number) => {
-    const section = sections[index];
-    return isDarkMode ? section.colorDark : section.colorLight;
-  };
-
-  const getCardBorderClass = () => isDarkMode 
-    ? "border-gray-700/40" 
-    : "border-sand-dark/30";
-    
   const getTextClass = () => isDarkMode 
     ? "text-gray-100" 
     : "text-navy-dark";
@@ -80,11 +65,11 @@ const Home: React.FC = () => {
     : "text-gray-600";
     
   const getIconBgClass = () => isDarkMode
-    ? "bg-gray-800/50"
+    ? "bg-navy-light/70"
     : "bg-white/80";
     
   const getBackgroundClass = () => isDarkMode
-    ? "bg-background"
+    ? "bg-navy-dark"
     : "bg-background";
 
   return (
@@ -92,13 +77,13 @@ const Home: React.FC = () => {
       <Navbar />
       <div className="container px-4 py-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sections.map((section, index) => (
+          {sections.map((section) => (
             <Link 
               key={section.path}
               to={section.path} 
               className="block hover:scale-[1.02] transition-transform duration-200"
             >
-              <div className={`bg-gradient-to-br ${getBgGradient(index)} backdrop-blur-sm border ${getCardBorderClass()} rounded-xl shadow-md hover:shadow-lg p-6 h-full`}>
+              <div className={`rounded-xl shadow-md hover:shadow-lg p-6 h-full ${section.cardClass}`}>
                 <div className={`flex justify-center items-center h-16 w-16 ${getIconBgClass()} rounded-full mb-4 mx-auto shadow-md`}>
                   <section.icon className="h-8 w-8 text-primary" />
                 </div>

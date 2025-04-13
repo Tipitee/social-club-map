@@ -52,10 +52,10 @@
 
   .dark {
     /* Improved dark mode colors for better consistency */
-    --background: 215 28% 17%; /* Improved Navy dark */
+    --background: 215 28% 17%; /* Navy dark - consistent with Settings */
     --foreground: 210 40% 98%;
 
-    --card: 215 28% 20%; /* Improved Navy */
+    --card: 215 28% 20%; /* Navy - consistent with Settings */
     --card-foreground: 210 40% 98%;
 
     --popover: 215 28% 17%;
@@ -80,7 +80,7 @@
     --input: 215 28% 25%;
     --ring: 174 58% 45%; /* Brightened Teal */
 
-    --sidebar-background: 215 28% 20%; /* Improved */
+    --sidebar-background: 215 28% 20%; /* Consistent with Settings */
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 174 58% 45%; /* Brightened Teal */
     --sidebar-primary-foreground: 0 0% 100%;
@@ -189,11 +189,11 @@
 
   /* Dark mode specific styles with improved colors */
   .dark .strain-card {
-    @apply bg-gray-800 border-gray-700;
+    @apply bg-navy-light border-navy-DEFAULT;
   }
 
   .dark .journal-entry {
-    @apply bg-gray-800 border-gray-700;
+    @apply bg-navy-light border-navy-DEFAULT;
   }
 
   .dark .effect-bar,
@@ -245,7 +245,7 @@
   
   /* Dark mode specific */
   .dark .journal-entry {
-    @apply bg-gray-800 border-gray-700;
+    @apply bg-navy-light border-navy-DEFAULT;
   }
   
   /* Toast notifications - more discreet */
@@ -256,5 +256,55 @@
   /* Linear gradient background */
   .linear-gradient-bg {
     background: linear-gradient(0.25turn, #ffebee, #ffe0b3, #e0f7fa, #4eb7ac, #007a6c);
+  }
+
+  /* Consistent home page card gradients for dark mode */
+  .dark .home-card-journal {
+    @apply bg-gradient-to-br from-emerald-700/50 to-teal-800/40 backdrop-blur-sm border-gray-700/40;
+  }
+
+  .dark .home-card-strains {
+    @apply bg-gradient-to-br from-indigo-700/50 to-blue-800/40 backdrop-blur-sm border-gray-700/40;
+  }
+
+  .dark .home-card-clubs {
+    @apply bg-gradient-to-br from-blue-700/50 to-sky-800/40 backdrop-blur-sm border-gray-700/40;
+  }
+
+  .dark .home-card-guide {
+    @apply bg-gradient-to-br from-purple-700/50 to-violet-800/40 backdrop-blur-sm border-gray-700/40;
+  }
+
+  .dark .home-card-news {
+    @apply bg-gradient-to-br from-amber-700/50 to-orange-800/40 backdrop-blur-sm border-gray-700/40;
+  }
+  
+  .dark .home-card-settings {
+    @apply bg-gradient-to-br from-cyan-700/50 to-teal-800/40 backdrop-blur-sm border-gray-700/40;
+  }
+
+  /* Consistent home page card gradients for light mode */
+  .light .home-card-journal {
+    @apply bg-gradient-to-br from-teal-light/40 to-teal-DEFAULT/30 backdrop-blur-sm border-teal-DEFAULT/20;
+  }
+
+  .light .home-card-strains {
+    @apply bg-gradient-to-br from-coral-light/30 to-coral-DEFAULT/20 backdrop-blur-sm border-coral-DEFAULT/20;
+  }
+
+  .light .home-card-clubs {
+    @apply bg-gradient-to-br from-sand-light/50 to-sand-dark/30 backdrop-blur-sm border-sand-dark/20;
+  }
+
+  .light .home-card-guide {
+    @apply bg-gradient-to-br from-ashGray-300/40 to-ashGray-500/20 backdrop-blur-sm border-ashGray-400/20;
+  }
+
+  .light .home-card-news {
+    @apply bg-gradient-to-br from-oldLace-300/50 to-oldLace-400/30 backdrop-blur-sm border-oldLace-400/20;
+  }
+
+  .light .home-card-settings {
+    @apply bg-gradient-to-br from-cadetGray-300/40 to-cadetGray-500/20 backdrop-blur-sm border-cadetGray-400/20;
   }
 }

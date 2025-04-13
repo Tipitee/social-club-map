@@ -73,10 +73,18 @@ i18n
     }
   });
 
+// Make sure translations are applied immediately on init
+document.addEventListener('DOMContentLoaded', () => {
+  const storedLang = localStorage.getItem('language') || 'en';
+  i18n.changeLanguage(storedLang);
+});
+
 // Debug language loading
 console.log("i18n initialized with language:", i18n.language);
 window.addEventListener('languageChanged', (e: any) => {
   console.log("Language changed event:", e.detail);
+  // Force i18n to reload with the new language
+  i18n.changeLanguage(e.detail.language);
 });
 
 export default i18n;

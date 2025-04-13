@@ -26,23 +26,22 @@ const LanguageSwitcher: React.FC = () => {
       // Mark as changing to prevent multiple clicks
       setIsChanging(true);
       
-      // Update context and i18n instance
+      // Update context and localStorage
       setLanguage(lng);
       
-      // Force reload of translations
-      await i18n.changeLanguage(lng);
-      
-      // Save to localStorage directly as well to ensure persistence
-      localStorage.setItem('language', lng);
-      
-      // Provide feedback to the user
-      toast({
-        title: t('settings.languageChanged'),
-        description: lng === 'en' ? 'Language set to English' : 'Sprache auf Deutsch eingestellt',
-        duration: 3000,
-      });
-      
-      console.log("Language changed to:", lng, "i18n language:", i18n.language);
+      // Force reload of translations with a small delay to ensure context updates first
+      setTimeout(() => {
+        i18n.changeLanguage(lng).then(() => {
+          console.log("Language changed to:", lng, "i18n language is now:", i18n.language);
+          
+          // Provide feedback to the user
+          toast({
+            title: lng === 'en' ? 'Language Changed' : 'Sprache geändert',
+            description: lng === 'en' ? 'Language set to English' : 'Sprache auf Deutsch eingestellt',
+            duration: 3000,
+          });
+        });
+      }, 100);
       
     } catch (error) {
       console.error("Error changing language:", error);
@@ -58,13 +57,13 @@ const LanguageSwitcher: React.FC = () => {
 
   const getDropdownStyles = () => {
     return isDarkMode 
-      ? "bg-gray-800 border-gray-700" 
+      ? "bg-navy-light border-navy-DEFAULT" 
       : "bg-white border-gray-200";
   };
   
   const getButtonStyles = () => {
     return isDarkMode
-      ? "bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+      ? "bg-navy-light border-navy-DEFAULT text-white hover:bg-navy-DEFAULT/80"
       : "bg-white border-gray-200 text-gray-800 hover:bg-gray-100";
   };
 

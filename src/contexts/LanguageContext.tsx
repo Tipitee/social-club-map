@@ -21,7 +21,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   useEffect(() => {
     const handleLanguageChange = async () => {
       if (i18n.language !== language) {
-        console.log("Syncing language from context:", language);
+        console.log("Changing language to:", language);
         await i18n.changeLanguage(language);
       }
     };
@@ -40,6 +40,11 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, [language]);
+
+  // Force language refresh on mount to ensure translations are applied
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, []);
 
   const handleSetLanguage = (newLanguage: Language) => {
     console.log("Setting language in context:", newLanguage);
