@@ -1,7 +1,11 @@
+
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Gavel, Shield, Sprout, AlertTriangle } from "lucide-react";
 
 const CannabisGuide: React.FC = () => {
   const { t } = useTranslation();

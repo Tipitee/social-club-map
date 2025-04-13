@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="bg-linen border-b border-border sticky top-0 z-50 dark:bg-navy-dark">
+    <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           <img 
