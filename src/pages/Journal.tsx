@@ -35,8 +35,6 @@ const Journal: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  
-  const isDarkMode = document.documentElement.classList.contains('dark');
 
   useEffect(() => {
     async function fetchEntries() {
@@ -204,26 +202,6 @@ const Journal: React.FC = () => {
     return true;
   });
 
-  const getBackgroundClass = () => isDarkMode 
-    ? "bg-[#121212] text-white"
-    : "bg-oldLace-500 text-gray-800";
-    
-  const getCardClass = () => isDarkMode
-    ? "bg-gray-800 border-gray-700"
-    : "bg-white border-gray-200";
-    
-  const getCardTextClass = () => isDarkMode
-    ? "text-white"
-    : "text-gray-800";
-    
-  const getSecondaryTextClass = () => isDarkMode
-    ? "text-gray-400"
-    : "text-gray-500";
-    
-  const getFilterButtonClass = () => isDarkMode
-    ? "bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
-    : "bg-teal-100 border-teal-200 text-teal-800 hover:bg-teal-200";
-
   const renderContent = () => {
     if (isLoading) {
       return (
@@ -235,11 +213,11 @@ const Journal: React.FC = () => {
 
     if (!user) {
       return (
-        <Card className={getCardClass()}>
+        <Card>
           <CardContent className="p-8 rounded-lg text-center">
-            <Book size={48} className={`mx-auto mb-4 ${getSecondaryTextClass()}`} />
+            <Book size={48} className="mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-xl font-semibold mb-2">{t('journal.authRequired')}</h3>
-            <p className={`${getSecondaryTextClass()} mb-4`}>
+            <p className="text-muted-foreground mb-4">
               {t('journal.signInToViewEntries')}
             </p>
             <Button 
@@ -255,15 +233,15 @@ const Journal: React.FC = () => {
 
     if (filteredEntries.length === 0) {
       return (
-        <Card className={getCardClass()}>
+        <Card>
           <CardContent className="p-8 rounded-lg text-center">
-            <Book size={48} className={`mx-auto mb-4 ${getSecondaryTextClass()}`} />
+            <Book size={48} className="mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-xl font-semibold mb-2">
               {entries.length > 0 
                 ? t('journal.noEntriesFound')
                 : t('journal.noEntries')}
             </h3>
-            <p className={`${getSecondaryTextClass()} mb-4`}>
+            <p className="text-muted-foreground mb-4">
               {entries.length > 0 
                 ? t('journal.adjustFilters')
                 : t('journal.startTracking')}
@@ -282,7 +260,7 @@ const Journal: React.FC = () => {
 
     return (
       <>
-        <div className={`mb-4 text-sm ${getSecondaryTextClass()}`}>
+        <div className="mb-4 text-sm text-muted-foreground">
           {filteredEntries.length} {filteredEntries.length === 1 ? t('journal.entry') : t('journal.entries')}
         </div>
 
@@ -301,17 +279,17 @@ const Journal: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
+    <div className="min-h-screen bg-background pb-24">
       <Navbar />
       <div className="container px-4 py-6 max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold">{t('navigation.journal')}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground">{t('navigation.journal')}</h1>
           
           <div className="flex gap-2">
             <Button 
               variant="outline" 
               size="icon"
-              className={`${getFilterButtonClass()} h-10 w-10 sm:h-10 sm:w-auto sm:px-4`}
+              className="h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
               onClick={() => setShowFilters(!showFilters)}
             >
               <Filter size={20} className="sm:mr-2" />
@@ -329,24 +307,18 @@ const Journal: React.FC = () => {
         </div>
 
         {showFilters && (
-          <Card className={`mb-6 ${getCardClass()}`}>
+          <Card className="mb-6">
             <CardContent className="p-4">
               <div className="flex flex-wrap gap-5">
                 <div>
-                  <label className={`block text-sm font-medium ${getCardTextClass()} mb-2`}>{t('journal.effectiveness')}</label>
+                  <label className="block text-sm font-medium mb-2">{t('journal.effectiveness')}</label>
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Button 
                         key={star} 
                         variant="outline" 
                         size="sm" 
-                        className={`px-3 py-1 ${
-                          filters.effectiveness === star 
-                            ? "bg-primary text-white border-primary/50" 
-                            : isDarkMode
-                              ? "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border-gray-600"
-                              : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-800 border-gray-200"
-                        }`}
+                        className={`px-3 py-1 ${filters.effectiveness === star ? "bg-primary text-white border-primary/50" : ""}`}
                         onClick={() => handleEffectivenessFilter(star)}
                       >
                         {star}
@@ -357,7 +329,7 @@ const Journal: React.FC = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => setFilters(prev => ({ ...prev, effectiveness: null }))}
-                        className={`ml-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
+                        className="ml-2 text-muted-foreground"
                       >
                         {t('common.clear')}
                       </Button>
@@ -366,26 +338,18 @@ const Journal: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className={`block text-sm font-medium ${getCardTextClass()} mb-2`}>{t('journal.filterByTime')}</label>
+                  <label className="block text-sm font-medium mb-2">{t('journal.filterByTime')}</label>
                   <div className="flex flex-wrap gap-2">
                     <Button 
                       variant="outline" 
-                      size="sm" 
-                      className={isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-                        : "bg-gray-100 border-gray-200 text-gray-800 hover:bg-gray-200"
-                      }
+                      size="sm"
                     >
                       <CalendarDays size={16} className="mr-1" />
                       {t('journal.thisMonth')}
                     </Button>
                     <Button 
                       variant="outline" 
-                      size="sm" 
-                      className={isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-                        : "bg-gray-100 border-gray-200 text-gray-800 hover:bg-gray-200"
-                      }
+                      size="sm"
                     >
                       <Clock size={16} className="mr-1" />
                       {t('journal.lastWeek')}
@@ -394,15 +358,11 @@ const Journal: React.FC = () => {
                 </div>
                 
                 <div className="w-full">
-                  <label className={`block text-sm font-medium ${getCardTextClass()} mb-2`}>{t('journal.search')}</label>
+                  <label className="block text-sm font-medium mb-2">{t('journal.search')}</label>
                   <Input
                     type="search"
                     value={filters.searchText}
                     onChange={(e) => setFilters(prev => ({ ...prev, searchText: e.target.value }))}
-                    className={isDarkMode 
-                      ? "bg-gray-700 border-gray-600 text-white" 
-                      : "bg-white border-gray-200 text-gray-800"
-                    }
                   />
                 </div>
               </div>

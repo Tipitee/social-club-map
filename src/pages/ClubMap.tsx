@@ -36,10 +36,7 @@ const ClubMap: React.FC = () => {
           <CardContent className="pt-6">
             <h2 className="text-lg font-semibold mb-2 text-foreground">{t('clubs.findNearYou')}</h2>
             <p className="text-muted-foreground">
-              Cannabis Social Clubs in Germany are part of the country's new cannabis policy. 
-              These non-profit associations allow members to collectively cultivate and 
-              distribute cannabis for personal use, providing a regulated alternative to 
-              the illicit market.
+              {t('clubs.description')}
             </p>
           </CardContent>
         </Card>

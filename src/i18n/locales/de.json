@@ -18,7 +18,8 @@
     "profile": "Profil",
     "settings": "Einstellungen",
     "signIn": "Anmelden",
-    "updates": "Updates"
+    "updates": "Updates",
+    "news": "Neuigkeiten"
   },
   "app": {
     "navigation": {
@@ -48,7 +49,8 @@
     "lightMode": "Heller Modus",
     "about": "Über",
     "version": "Version",
-    "comingSoon": "Demnächst verfügbar"
+    "comingSoon": "Demnächst verfügbar",
+    "managePreferences": "Einstellungen verwalten"
   },
   "strains": {
     "explorer": "Sortenexplorer",
@@ -100,6 +102,7 @@
     "noDescriptionAvailable": "Noch keine Beschreibung für diese Sorte verfügbar.",
     "effects": "Wirkungen",
     "unknown": "Unbekannt",
+    "exploreDatabase": "Entdecke unsere Sortendatenbank",
     "reviews": {
       "title": "Bewertungen",
       "averageRating": "Durchschnittliche Bewertung",
@@ -157,5 +160,99 @@
     "officialAnnouncement": "Offizielle Ankündigung",
     "pressRelease": "Pressemitteilung",
     "fullDocumentation": "Vollständige Dokumentation"
+  },
+  "news": {
+    "title": "Neuigkeiten",
+    "updates": "Neuigkeiten",
+    "stayInformed": "Bleibe informiert über Neuigkeiten rund um Cannabis in Deutschland",
+    "latestUpdates": "Aktuelle Updates",
+    "resultsFound": "Ergebnisse gefunden",
+    "noUpdates": "Keine Neuigkeiten entsprechend deiner Kriterien gefunden.",
+    "readMore": "Mehr lesen",
+    "loadMore": "Weitere Updates laden",
+    "categories": {
+      "all": "Alle",
+      "federal": "Bundesweit",
+      "state": "Bundesland",
+      "medical": "Medizinisch",
+      "recreational": "Freizeit",
+      "business": "Gewerbe",
+      "filter": "Nach Kategorie filtern",
+      "selectCategory": "Kategorie auswählen"
+    },
+    "postedOn": "Veröffentlicht am",
+    "source": "Quelle",
+    "visitSource": "Quelle besuchen",
+    "relatedLinks": "Verwandte Links"
+  },
+  "clubs": {
+    "title": "Cannabis Social Clubs",
+    "findLocalClub": "Finde lokale Cannabis Clubs",
+    "findNearYou": "Finde Cannabis Social Clubs in deiner Nähe",
+    "searchNearby": "Durchsuche die Karte, um Clubs in deiner Nähe zu entdecken",
+    "description": "Cannabis Social Clubs in Deutschland sind Teil der neuen Cannabis-Politik des Landes. Diese gemeinnützigen Vereine ermöglichen es ihren Mitgliedern, gemeinsam Cannabis für den persönlichen Gebrauch anzubauen und zu verteilen, und bieten so eine regulierte Alternative zum illegalen Markt."
+  },
+  "journal": {
+    "title": "Journal",
+    "trackYourConsumption": "Verfolge deinen Konsum",
+    "newEntry": "Neuer Eintrag",
+    "entries": "Einträge",
+    "entry": "Eintrag",
+    "noEntries": "Keine Einträge gefunden",
+    "noEntriesFound": "Keine Einträge gefunden, die deinen Filtern entsprechen",
+    "adjustFilters": "Versuche deine Filter anzupassen oder erstelle einen neuen Eintrag",
+    "startTracking": "Beginne deine Konsum-Erfahrungen zu dokumentieren",
+    "addNew": "Neuen Eintrag hinzufügen",
+    "addFirst": "Ersten Eintrag erstellen",
+    "filters": "Filter",
+    "effectiveness": "Wirksamkeit",
+    "filterByTime": "Nach Zeitraum filtern",
+    "thisMonth": "Dieser Monat",
+    "lastWeek": "Letzte Woche",
+    "search": "Suchen",
+    "ratingBadge": "Wirksamkeit: {rating}",
+    "authRequired": "Anmeldung erforderlich",
+    "signInToViewEntries": "Bitte melde dich an, um deine Journal-Einträge zu sehen",
+    "signInToSave": "Bitte melde dich an, um Einträge zu speichern",
+    "entryDeleted": "Eintrag gelöscht",
+    "entryDeletedSuccess": "Dein Eintrag wurde erfolgreich gelöscht",
+    "entryAdded": "Eintrag hinzugefügt",
+    "entryAddedSuccess": "Dein Eintrag wurde erfolgreich gespeichert",
+    "error": "Fehler",
+    "errorFetchingEntries": "Fehler beim Laden der Einträge",
+    "errorDeletingEntry": "Fehler beim Löschen des Eintrags",
+    "errorSavingEntry": "Fehler beim Speichern des Eintrags",
+    "editFunctionality": "Bearbeitungsfunktion",
+    "editFormWouldOpen": "Hier würde ein Formular zum Bearbeiten des Eintrags erscheinen"
+  },
+  "guide": {
+    "title": "Cannabis Guide",
+    "learnMore": "Lerne mehr über den verantwortungsvollen Umgang mit Cannabis",
+    "introduction": "Einführung",
+    "responsibleUse": "Verantwortungsvoller Konsum",
+    "legalInformation": "Rechtliche Informationen",
+    "medicalApplications": "Medizinische Anwendungen",
+    "safetyTips": "Sicherheitstipps",
+    "cannabinoids": "Cannabinoide",
+    "terpenes": "Terpene",
+    "consumptionMethods": "Konsummethoden"
+  },
+  "common": {
+    "search": "Suchen",
+    "clear": "Löschen",
+    "apply": "Anwenden",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "loading": "Lädt..."
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "register": "Registrieren",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgotPassword": "Passwort vergessen?"
   }
 }
