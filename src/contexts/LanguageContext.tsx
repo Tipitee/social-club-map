@@ -19,16 +19,32 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   // Effect to sync the i18n instance with our context state
   useEffect(() => {
-    // Set initial language based on localStorage
-    if (i18n.language !== language) {
-      i18n.changeLanguage(language);
-    }
-  }, []);
+    const handleLanguageChange = async () => {
+      if (i18n.language !== language) {
+        console.log("Syncing language from context:", language);
+        await i18n.changeLanguage(language);
+      }
+    };
+    
+    handleLanguageChange();
+  }, [language, i18n]);
+
+  // Effect to sync with localStorage changes (in case of multiple tabs)
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'language' && e.newValue && e.newValue !== language) {
+        setLanguage(e.newValue as Language);
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [language]);
 
   const handleSetLanguage = (newLanguage: Language) => {
+    console.log("Setting language in context:", newLanguage);
     localStorage.setItem('language', newLanguage);
     setLanguage(newLanguage);
-    i18n.changeLanguage(newLanguage);
     
     // Dispatch a custom event for debugging
     window.dispatchEvent(new CustomEvent('languageChanged', { 

@@ -41,24 +41,24 @@ const Home: React.FC = () => {
       icon: BookText,
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
-      colorDark: "from-amber-600/50 to-yellow-700/40",
-      colorLight: "from-amber-light/30 to-amber-DEFAULT/40"
+      colorDark: "from-cyan-500/50 to-blue-600/40", // Updated color for dark mode
+      colorLight: "from-ashGray-300/40 to-ashGray-400/30" // Updated softer color for light mode
     },
     {
       path: "/news",
       icon: Newspaper,
       title: t('navigation.news'),
       description: t('news.stayInformed'),
-      colorDark: "from-cyan-600/50 to-blue-700/40",
-      colorLight: "from-blue-light/40 to-blue-DEFAULT/30"
+      colorDark: "from-indigo-500/50 to-violet-600/40", // Updated color for dark mode
+      colorLight: "from-cadetGray-300/40 to-cadetGray-400/30" // Updated softer color for light mode
     },
     {
       path: "/settings",
       icon: Settings,
       title: t('navigation.settings'),
       description: t('settings.managePreferences'),
-      colorDark: "from-slate-600/50 to-gray-700/40",
-      colorLight: "from-cadetGray-200/50 to-cadetGray-400/30"
+      colorDark: "from-teal-500/50 to-emerald-600/40", // Updated color for dark mode
+      colorLight: "from-oldLace-300/50 to-oldLace-400/30" // Updated softer color for light mode
     }
   ];
 
@@ -84,8 +84,8 @@ const Home: React.FC = () => {
     : "bg-white/80";
     
   const getBackgroundClass = () => isDarkMode
-    ? "bg-gradient-to-b from-[#1a2433] to-[#222e40]"
-    : "bg-gradient-to-b from-oldLace-DEFAULT to-cadetGray-100";
+    ? "bg-background"
+    : "bg-background";
 
   return (
     <div className={`min-h-screen pb-20 ${getBackgroundClass()}`}>
@@ -100,7 +100,7 @@ const Home: React.FC = () => {
             >
               <div className={`bg-gradient-to-br ${getBgGradient(index)} backdrop-blur-sm border ${getCardBorderClass()} rounded-xl shadow-md hover:shadow-lg p-6 h-full`}>
                 <div className={`flex justify-center items-center h-16 w-16 ${getIconBgClass()} rounded-full mb-4 mx-auto shadow-md`}>
-                  <section.icon className="h-8 w-8 text-teal-DEFAULT" />
+                  <section.icon className="h-8 w-8 text-primary" />
                 </div>
                 <h2 className={`text-xl font-bold ${getTextClass()} text-center mb-2`}>{section.title}</h2>
                 <p className={`${getDescriptionClass()} text-center`}>

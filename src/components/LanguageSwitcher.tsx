@@ -18,7 +18,7 @@ const LanguageSwitcher: React.FC = () => {
   const [isChanging, setIsChanging] = useState<boolean>(false);
   const isDarkMode = document.documentElement.classList.contains('dark');
 
-  const changeLanguage = (lng: 'en' | 'de') => {
+  const changeLanguage = async (lng: 'en' | 'de') => {
     // Skip if the language is already selected or a change is in progress
     if (language === lng || isChanging) return;
     
@@ -28,7 +28,9 @@ const LanguageSwitcher: React.FC = () => {
       
       // Update context and i18n instance
       setLanguage(lng);
-      i18n.changeLanguage(lng);
+      
+      // Force reload of translations
+      await i18n.changeLanguage(lng);
       
       // Save to localStorage directly as well to ensure persistence
       localStorage.setItem('language', lng);
@@ -39,6 +41,8 @@ const LanguageSwitcher: React.FC = () => {
         description: lng === 'en' ? 'Language set to English' : 'Sprache auf Deutsch eingestellt',
         duration: 3000,
       });
+      
+      console.log("Language changed to:", lng, "i18n language:", i18n.language);
       
     } catch (error) {
       console.error("Error changing language:", error);
@@ -82,14 +86,14 @@ const LanguageSwitcher: React.FC = () => {
           className={`flex items-center justify-between ${language === 'en' ? 'bg-primary/20 text-primary' : 'text-foreground hover:bg-accent/50'}`}
           onClick={() => changeLanguage('en')}
         >
-          {t('language.english')}
+          English
           {language === 'en' && <Check size={16} className="ml-2" />}
         </DropdownMenuItem>
         <DropdownMenuItem 
           className={`flex items-center justify-between ${language === 'de' ? 'bg-primary/20 text-primary' : 'text-foreground hover:bg-accent/50'}`}
           onClick={() => changeLanguage('de')}
         >
-          {t('language.german')}
+          Deutsch
           {language === 'de' && <Check size={16} className="ml-2" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
