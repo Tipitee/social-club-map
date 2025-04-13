@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowRight, Globe } from "lucide-react";
 
@@ -131,12 +130,12 @@ const News: React.FC = () => {
   
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case "federal": return "bg-blue-600";
-      case "state": return "bg-green-600";
-      case "medical": return "bg-purple-600";
-      case "recreational": return "bg-teal";
-      case "business": return "bg-amber-600";
-      default: return "bg-gray-600";
+      case "federal": return "default";
+      case "state": return "default";
+      case "medical": return "default";
+      case "recreational": return "default";
+      case "business": return "default";
+      default: return "default";
     }
   };
   
@@ -153,126 +152,151 @@ const News: React.FC = () => {
             All Updates
           </h2>
           
-          <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-3 md:grid-cols-6 mb-6 bg-white dark:bg-navy-DEFAULT border border-navy-DEFAULT/20 dark:border-navy-light/20">
-              <TabsTrigger 
-                value="all" 
-                className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white"
-              >
-                All
-              </TabsTrigger>
-              <TabsTrigger 
-                value="federal"
-                className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white"
-              >
-                Federal
-              </TabsTrigger>
-              <TabsTrigger 
-                value="state"
-                className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white"
-              >
-                State
-              </TabsTrigger>
-              <TabsTrigger 
-                value="medical"
-                className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white"
-              >
-                Medical
-              </TabsTrigger>
-              <TabsTrigger 
-                value="recreational"
-                className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white"
-              >
-                Recreational
-              </TabsTrigger>
-              <TabsTrigger 
-                value="business"
-                className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white"
-              >
-                Business
-              </TabsTrigger>
-            </TabsList>
-            
-            <div className="mb-4">
-              <p className="text-navy-dark dark:text-white font-medium">
-                Latest Updates
-              </p>
-              <p className="text-gray-600 dark:text-gray-300">
-                {filteredNews.length} results found
-              </p>
+          {/* Improved menu styling to match Guide page */}
+          <div className="rounded-lg overflow-hidden shadow-sm mb-6">
+            <div className="overflow-x-auto scrollbar-none">
+              <nav className="flex bg-white dark:bg-navy-DEFAULT border-b border-navy-DEFAULT/20 dark:border-navy-light/20">
+                <button
+                  onClick={() => setActiveTab('all')}
+                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
+                    activeTab === 'all'
+                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                  }`}
+                >
+                  All
+                </button>
+                <button
+                  onClick={() => setActiveTab('federal')}
+                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
+                    activeTab === 'federal'
+                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                  }`}
+                >
+                  Federal
+                </button>
+                <button
+                  onClick={() => setActiveTab('state')}
+                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
+                    activeTab === 'state'
+                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                  }`}
+                >
+                  State
+                </button>
+                <button
+                  onClick={() => setActiveTab('medical')}
+                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
+                    activeTab === 'medical'
+                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                  }`}
+                >
+                  Medical
+                </button>
+                <button
+                  onClick={() => setActiveTab('recreational')}
+                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
+                    activeTab === 'recreational'
+                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                  }`}
+                >
+                  Recreational
+                </button>
+                <button
+                  onClick={() => setActiveTab('business')}
+                  className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${
+                    activeTab === 'business'
+                      ? 'border-b-2 border-primary text-primary dark:text-primary-light'
+                      : 'text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light'
+                  }`}
+                >
+                  Business
+                </button>
+              </nav>
             </div>
+          </div>
             
-            <TabsContent value={activeTab} className="mt-0">
-              <div className="space-y-6">
-                {displayedNews.map((item) => (
-                  <Card 
-                    key={item.id} 
-                    className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <CardContent className="p-5">
-                      <div className="flex flex-col md:flex-row md:items-center justify-between mb-3">
-                        <div className="flex items-center mb-2 md:mb-0">
-                          <Calendar size={16} className="mr-1.5 text-gray-500 dark:text-gray-400" />
-                          <span className="text-sm text-gray-600 dark:text-gray-300">
-                            Posted on {item.date}
-                          </span>
-                        </div>
-                        
-                        <Badge className={`${getCategoryColor(item.category)} text-white`}>
-                          {getCategoryLabel(item.category)}
-                        </Badge>
-                      </div>
+          <div className="mb-4">
+            <p className="text-navy-dark dark:text-white font-medium">
+              Latest Updates
+            </p>
+            <p className="text-gray-600 dark:text-gray-300">
+              {filteredNews.length} results found
+            </p>
+          </div>
+          
+          <div className="space-y-6">
+            {displayedNews.map((item) => (
+              <Card 
+                key={item.id} 
+                className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm hover:shadow-md transition-shadow"
+              >
+                <CardContent className="p-5">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between mb-3">
+                    <div className="flex items-center mb-2 md:mb-0">
+                      <Calendar size={16} className="mr-1.5 text-gray-500 dark:text-gray-400" />
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
+                        Posted on {item.date}
+                      </span>
+                    </div>
+                    
+                    <Badge className="self-start md:self-auto" variant={getCategoryColor(item.category)}>
+                      {getCategoryLabel(item.category)}
+                    </Badge>
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold mb-3 text-navy-dark dark:text-white">
+                    {item.title}
+                  </h3>
+                  
+                  <p className="text-navy-dark dark:text-gray-200 mb-4">
+                    {item.summary}
+                  </p>
+                  
+                  <div className="flex flex-col md:flex-row md:items-center justify-between pt-3 border-t border-navy-DEFAULT/20 dark:border-navy-light/20">
+                    <div className="mb-3 md:mb-0">
+                      <Button variant="link" className="px-0 py-0 h-auto text-teal dark:text-teal-light flex items-center">
+                        Read more
+                        <ArrowRight size={16} className="ml-1" />
+                      </Button>
+                    </div>
+                    
+                    <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">
+                        Source: {item.source}
+                      </span>
                       
-                      <h3 className="text-xl font-semibold mb-3 text-navy-dark dark:text-white">
-                        {item.title}
-                      </h3>
-                      
-                      <p className="text-navy-dark dark:text-gray-200 mb-4">
-                        {item.summary}
-                      </p>
-                      
-                      <div className="flex flex-col md:flex-row md:items-center justify-between pt-3 border-t border-navy-DEFAULT/20 dark:border-navy-light/20">
-                        <div className="mb-3 md:mb-0">
-                          <Button variant="link" className="px-0 py-0 h-auto text-teal dark:text-teal-light flex items-center">
-                            Read more
-                            <ArrowRight size={16} className="ml-1" />
-                          </Button>
-                        </div>
-                        
-                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-sm">
-                          <span className="text-gray-600 dark:text-gray-400">
-                            Source: {item.source}
-                          </span>
-                          
-                          <a 
-                            href={item.sourceUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="flex items-center text-teal dark:text-teal-light hover:underline"
-                          >
-                            <Globe size={14} className="mr-1" />
-                            Visit source
-                          </a>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              
-              {hasMore && (
-                <div className="mt-8 text-center">
-                  <Button 
-                    onClick={loadMore}
-                    variant="outline"
-                    className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10"
-                  >
-                    Load More
-                  </Button>
-                </div>
-              )}
-            </TabsContent>
-          </Tabs>
+                      <a 
+                        href={item.sourceUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center text-teal dark:text-teal-light hover:underline"
+                      >
+                        <Globe size={14} className="mr-1" />
+                        Visit source
+                      </a>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          {hasMore && (
+            <div className="mt-8 text-center">
+              <Button 
+                onClick={loadMore}
+                variant="outline"
+                className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10"
+              >
+                Load More
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
