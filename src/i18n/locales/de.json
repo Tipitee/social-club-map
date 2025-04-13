@@ -223,7 +223,38 @@
     "errorDeletingEntry": "Fehler beim Löschen des Eintrags",
     "errorSavingEntry": "Fehler beim Speichern des Eintrags",
     "editFunctionality": "Bearbeitungsfunktion",
-    "editFormWouldOpen": "Hier würde ein Formular zum Bearbeiten des Eintrags erscheinen"
+    "editFormWouldOpen": "Hier würde ein Formular zum Bearbeiten des Eintrags erscheinen",
+    "activities": {
+      "relaxing": "Entspannen",
+      "reading": "Lesen",
+      "music": "Musik",
+      "watching": "Schauen",
+      "social": "Sozial"
+    },
+    "sideEffects": {
+      "dry-mouth": "Trockener Mund",
+      "dry-eyes": "Trockene Augen",
+      "headache": "Kopfschmerzen",
+      "paranoia": "Paranoia",
+      "dizziness": "Schwindel",
+      "anxiety": "Angst"
+    },
+    "dosage": "Dosierung",
+    "mood": "Stimmung",
+    "notes": "Notizen",
+    "activity": "Aktivität",
+    "sideEffects": "Nebenwirkungen",
+    "date": "Datum",
+    "saveEntry": "Eintrag speichern",
+    "showMore": "Mehr anzeigen",
+    "showLess": "Weniger anzeigen",
+    "veryEffective": "Sehr wirksam",
+    "effective": "Wirksam",
+    "moderatelyEffective": "Mäßig wirksam",
+    "noSideEffects": "Keine Nebenwirkungen berichtet",
+    "deleteEntry": "Eintrag löschen",
+    "deleteConfirmation": "Bist du sicher, dass du diesen Eintrag löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "recentEntries": "Neueste Einträge"
   },
   "guide": {
     "title": "Cannabis Guide",
@@ -235,7 +266,15 @@
     "safetyTips": "Sicherheitstipps",
     "cannabinoids": "Cannabinoide",
     "terpenes": "Terpene",
-    "consumptionMethods": "Konsummethoden"
+    "consumptionMethods": "Konsummethoden",
+    "cannabisBasics": "Cannabis-Grundlagen",
+    "consumptionMethods": "Konsummethoden",
+    "healthEffects": "Gesundheitsauswirkungen",
+    "legalInformation": "Rechtliche Informationen",
+    "frequentlyAskedQuestions": "Häufig gestellte Fragen",
+    "researchFindings": "Forschungsergebnisse",
+    "news": "Neuigkeiten und Updates",
+    "regulations": "Vorschriften"
   },
   "common": {
     "search": "Suchen",
@@ -245,7 +284,19 @@
     "cancel": "Abbrechen",
     "delete": "Löschen",
     "edit": "Bearbeiten",
-    "loading": "Lädt..."
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "saving": "Speichern...",
+    "update": "Aktualisieren",
+    "create": "Erstellen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "clear": "Löschen",
+    "confirm": "Bestätigen",
+    "submit": "Absenden"
   },
   "auth": {
     "signIn": "Anmelden",
@@ -253,6 +304,26 @@
     "register": "Registrieren",
     "email": "E-Mail",
     "password": "Passwort",
-    "forgotPassword": "Passwort vergessen?"
+    "forgotPassword": "Passwort vergessen?",
+    "confirmPassword": "Passwort bestätigen",
+    "resetPassword": "Passwort zurücksetzen",
+    "backToLogin": "Zurück zur Anmeldung",
+    "invalidEmail": "Ungültige E-Mail-Adresse",
+    "passwordRequired": "Passwort ist erforderlich",
+    "passwordMismatch": "Passwörter stimmen nicht überein",
+    "loginError": "Anmeldung fehlgeschlagen",
+    "registerError": "Registrierung fehlgeschlagen",
+    "resetError": "Passwort-Zurücksetzung fehlgeschlagen",
+    "resetSuccess": "E-Mail zur Passwort-Zurücksetzung gesendet",
+    "logoutSuccess": "Du wurdest erfolgreich abgemeldet",
+    "verifyEmail": "Bitte bestätige deine E-Mail-Adresse"
+  },
+  "errors": {
+    "offline": "Du bist offline",
+    "checkConnection": "Bitte überprüfe deine Internetverbindung",
+    "somethingWentWrong": "Etwas ist schief gelaufen",
+    "tryAgain": "Bitte versuche es später erneut",
+    "pageNotFound": "Seite nicht gefunden",
+    "goHome": "Zur Startseite"
   }
 }

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -188,7 +189,7 @@
 
   /* Dark mode specific styles with improved colors */
   .dark .strain-card {
-    @apply bg-navy-light border-navy-300;
+    @apply bg-navy-400 border-navy-400;
   }
 
   .dark .journal-entry {
@@ -275,14 +276,14 @@
   }
 
   .dark .home-card-news {
-    @apply bg-gradient-to-br from-orange-600/50 to-amber-800/40 backdrop-blur-sm border-amber-700/30;
+    @apply bg-gradient-to-br from-amber-500/50 to-orange-700/40 backdrop-blur-sm border-orange-600/30;
   }
   
   .dark .home-card-settings {
     @apply bg-gradient-to-br from-teal-600/50 to-cyan-800/40 backdrop-blur-sm border-cyan-700/30;
   }
 
-  /* Consistent home page card gradients for light mode - more harmonious colors */
+  /* Consistent home page card gradients for light mode - more joyful colors */
   .light .home-card-journal {
     @apply bg-gradient-to-br from-[#4eb7ac]/30 to-[#2a9d90]/20 backdrop-blur-sm border-[#2a9d90]/10;
   }
@@ -296,7 +297,7 @@
   }
 
   .light .home-card-guide {
-    @apply bg-gradient-to-br from-cadetGray-300/30 to-cadetGray-400/20 backdrop-blur-sm border-cadetGray-400/10;
+    @apply bg-gradient-to-br from-[#f7d3a6]/40 to-[#f4a462]/30 backdrop-blur-sm border-[#f4a462]/20;
   }
 
   .light .home-card-news {
@@ -304,6 +305,11 @@
   }
 
   .light .home-card-settings {
-    @apply bg-gradient-to-br from-airForceBlue-300/30 to-airForceBlue-400/20 backdrop-blur-sm border-airForceBlue-400/10;
+    @apply bg-gradient-to-br from-[#6a9fb4]/30 to-[#4D8499]/20 backdrop-blur-sm border-[#4D8499]/10;
+  }
+
+  /* Navbar logo styles for dark mode */
+  .dark .navbar-logo {
+    @apply scale-110 bg-blend-overlay;
   }
 }

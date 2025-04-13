@@ -1,36 +1,104 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-import { User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useTheme } from "@/components/theme-provider"
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import logo from '../assets/logo.png';
 
 const Navbar: React.FC = () => {
-  const { user } = useAuth();
-  const isDarkMode = document.documentElement.classList.contains('dark');
+  const { t, i18n } = useTranslation();
+  const { user, signOut } = useAuth();
+  const { setTheme } = useTheme();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem('language', lng);
+  };
 
   return (
-    <nav className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b border-border/40">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2">
-            <img 
-              src={isDarkMode 
-                ? "/lovable-uploads/7ab5a972-c5dc-4fff-97ee-8c47731f57ef.png" 
-                : "/lovable-uploads/7bfa1a23-8c92-4adb-b85b-63bb2f75ff2c.png"}
-              alt="SocialClub Map Logo"
-              className="h-10 w-auto" 
-            />
-            <span className="font-bold text-xl text-foreground">SocialClub Map</span>
-          </Link>
-          
-          <Link to="/profile" className="ml-auto">
-            <div className="h-9 w-9 bg-primary/20 hover:bg-primary/30 transition-colors rounded-full flex items-center justify-center shadow-sm">
-              <User className="h-5 w-5 text-primary" />
-            </div>
-          </Link>
+    <div className="bg-background border-b border-border sticky top-0 z-50">
+      <div className="container flex items-center justify-between p-4">
+        <Link to="/" className="flex items-center font-bold text-xl">
+          <img src={logo} alt="Logo" className="h-10 w-auto mr-2 navbar-logo" />
+          {/* <span>{t('app.title')}</span> */}
+        </Link>
+
+        <div className="flex items-center space-x-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="text-sm">
+                {t('language.select')}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>
+                {t('settings.language')}
+              </DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => changeLanguage('en')}>
+                {t('language.en')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('de')}>
+                {t('language.de')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" aria-label="Toggle theme">
+                <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>{t('settings.appearance')}</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                {t('settings.lightMode')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                {t('settings.darkMode')}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="text-sm">
+                  {t('navigation.profile')}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>{t('navigation.profile')}</DropdownMenuLabel>
+                <DropdownMenuItem>
+                  <Link to="/profile">{t('navigation.settings')}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => signOut()}>
+                  {t('auth.signOut')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link to="/auth">
+              <Button variant="outline">{t('auth.signIn')}</Button>
+            </Link>
+          )}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
