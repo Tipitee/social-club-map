@@ -325,4 +325,20 @@
   .form-control {
     @apply w-full bg-white dark:bg-navy-light border border-gray-300 dark:border-navy-400 rounded-md px-3 py-2;
   }
+
+  .news-tabs-menu {
+    @apply flex flex-wrap bg-white dark:bg-navy-DEFAULT border-b border-navy-DEFAULT/20 dark:border-navy-light/20;
+  }
+  
+  .news-tab-button {
+    @apply px-4 py-3 text-sm font-medium flex-shrink-0 text-navy-dark dark:text-gray-300;
+  }
+  
+  .news-tab-button-active {
+    @apply border-b-2 border-primary text-primary dark:text-primary-light;
+  }
+  
+  .news-tab-button-inactive {
+    @apply text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light;
+  }
 }

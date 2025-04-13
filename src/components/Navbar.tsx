@@ -21,13 +21,11 @@ const Navbar: React.FC = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
+    <div className="bg-white dark:bg-navy-dark border-b border-border sticky top-0 z-50">
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           <img 
-            src={theme === 'dark' 
-              ? "/lovable-uploads/27f327ef-1fe4-46e4-88ae-7e523c37dee6.png" 
-              : "/lovable-uploads/8aadd7cd-2da7-4b51-833e-73194cbe47ee.png"}
+            src="/lovable-uploads/logolightsocialclubmap.jpg"
             alt="Logo" 
             className="h-10 w-auto mr-2" 
           />
@@ -60,8 +58,8 @@ const Navbar: React.FC = () => {
             </DropdownMenu>
           ) : (
             <Link to="/auth">
-              <Button variant="outline" size="icon" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light">
-                <User className="h-5 w-5 text-navy-dark dark:text-white" />
+              <Button variant="outline" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
+                {t('auth.signIn')}
               </Button>
             </Link>
           )}

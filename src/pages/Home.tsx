@@ -37,7 +37,7 @@ const Home: React.FC = () => {
       icon: BookText,
       title: t('navigation.guide'),
       description: t('guide.learnMore'),
-      cardClass: "home-card-guide"
+      cardClass: "home-card-settings" // Swapped with settings
     },
     {
       path: "/news",
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
       icon: Settings,
       title: t('navigation.settings'),
       description: t('settings.managePreferences'),
-      cardClass: "home-card-settings"
+      cardClass: "home-card-guide" // Swapped with guide
     }
   ];
 

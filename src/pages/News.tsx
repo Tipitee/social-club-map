@@ -128,13 +128,13 @@ const News: React.FC = () => {
     }
   };
   
-  const getCategoryColor = (category: string) => {
+  const getCategoryColor = (category: string): "default" | "secondary" | "destructive" | "outline" | "success" | "warning" | "error" => {
     switch (category) {
       case "federal": return "default";
-      case "state": return "default";
-      case "medical": return "default";
-      case "recreational": return "default";
-      case "business": return "default";
+      case "state": return "secondary";
+      case "medical": return "success";
+      case "recreational": return "warning";
+      case "business": return "outline";
       default: return "default";
     }
   };
@@ -155,7 +155,7 @@ const News: React.FC = () => {
           {/* Improved menu styling to match Guide page */}
           <div className="rounded-lg overflow-hidden shadow-sm mb-6">
             <div className="overflow-x-auto scrollbar-none">
-              <nav className="flex bg-white dark:bg-navy-DEFAULT border-b border-navy-DEFAULT/20 dark:border-navy-light/20">
+              <nav className="flex flex-wrap bg-white dark:bg-navy-DEFAULT border-b border-navy-DEFAULT/20 dark:border-navy-light/20">
                 <button
                   onClick={() => setActiveTab('all')}
                   className={`px-4 py-3 text-sm font-medium flex-shrink-0 ${

@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -8,7 +7,8 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { Gavel, Shield, Sprout, AlertTriangle } from "lucide-react";
 
 const CannabisGuide: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isGerman = i18n.language === 'de';
   
   return (
     <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
@@ -22,54 +22,77 @@ const CannabisGuide: React.FC = () => {
           <TabsList className="grid grid-cols-4 mb-8">
             <TabsTrigger value="laws">
               <Gavel className="h-4 w-4 mr-2" />
-              Laws
+              {isGerman ? "Gesetze" : "Laws"}
             </TabsTrigger>
             <TabsTrigger value="safeUse">
               <Shield className="h-4 w-4 mr-2" />
-              Safe Use
+              {isGerman ? "Sicherer Konsum" : "Safe Use"}
             </TabsTrigger>
             <TabsTrigger value="basics">
               <Sprout className="h-4 w-4 mr-2" />
-              Basics
+              {isGerman ? "Grundlagen" : "Basics"}
             </TabsTrigger>
             <TabsTrigger value="health">
               <AlertTriangle className="h-4 w-4 mr-2" />
-              Health
+              {isGerman ? "Gesundheit" : "Health"}
             </TabsTrigger>
           </TabsList>
           
           {/* Laws & Regulations Content */}
           <TabsContent value="laws" className="space-y-6">
-            <Card className="content-card">
+            <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Gavel className="h-5 w-5 mr-2 text-primary" />
-                  Laws and Regulations
+                  {isGerman ? "Gesetze und Vorschriften" : "Laws and Regulations"}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="multiple" className="content-text">
+                <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="possession">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Possession Limits
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {isGerman ? "Besitzgrenzen" : "Possession Limits"}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>As of April 2023, adults in Germany are permitted to possess up to 25 grams of cannabis for personal use in public spaces and up to 50 grams in private residences. Additionally, adults are allowed to grow up to three cannabis plants at home for personal consumption.</p>
-                      <p className="mt-2">These limits apply to the entire federal territory. Exceeding these limits can result in fines or criminal charges depending on the quantity involved.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Seit April 2023 dürfen Erwachsene in Deutschland bis zu 25 Gramm Cannabis für den persönlichen Gebrauch in öffentlichen Räumen und bis zu 50 Gramm in privaten Wohnungen besitzen. Zusätzlich dürfen Erwachsene bis zu drei Cannabispflanzen zu Hause für den persönlichen Konsum anbauen.</p>
+                          <p className="mt-2">Diese Grenzen gelten für das gesamte Bundesgebiet. Ein Überschreiten dieser Grenzen kann je nach Menge zu Geldstrafen oder strafrechtlichen Konsequenzen führen.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>As of April 2023, adults in Germany are permitted to possess up to 25 grams of cannabis for personal use in public spaces and up to 50 grams in private residences. Additionally, adults are allowed to grow up to three cannabis plants at home for personal consumption.</p>
+                          <p className="mt-2">These limits apply to the entire federal territory. Exceeding these limits can result in fines or criminal charges depending on the quantity involved.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="consumption">
-                    <AccordionTrigger className="text-gray-300 hover:text-white">
-                      Consumption Regulations
+                    <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
+                      {isGerman ? "Konsumvorschriften" : "Consumption Regulations"}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-400">
-                      <p>Cannabis consumption is prohibited in certain public areas, including:</p>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Within 100 meters of schools, children's playgrounds, and sports facilities</li>
-                        <li>In pedestrian zones between 7:00 AM and 8:00 PM</li>
-                        <li>In public parks if children or adolescents are present</li>
-                      </ul>
-                      <p className="mt-2">Violations can result in administrative fines. Always be mindful of your surroundings when consuming cannabis.</p>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300">
+                      {isGerman ? (
+                        <>
+                          <p>Der Cannabiskonsum ist in bestimmten öffentlichen Bereichen verboten, darunter:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Innerhalb von 100 Metern von Schulen, Kinderspielplätzen und Sportanlagen</li>
+                            <li>In Fußgängerzonen zwischen 7:00 und 20:00 Uhr</li>
+                            <li>In öffentlichen Parks, wenn Kinder oder Jugendliche anwesend sind</li>
+                          </ul>
+                          <p className="mt-2">Verstöße können zu Verwaltungsstrafen führen. Achten Sie stets auf Ihre Umgebung, wenn Sie Cannabis konsumieren.</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>Cannabis consumption is prohibited in certain public areas, including:</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Within 100 meters of schools, children's playgrounds, and sports facilities</li>
+                            <li>In pedestrian zones between 7:00 AM and 8:00 PM</li>
+                            <li>In public parks if children or adolescents are present</li>
+                          </ul>
+                          <p className="mt-2">Violations can result in administrative fines. Always be mindful of your surroundings when consuming cannabis.</p>
+                        </>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="driving">
@@ -109,15 +132,15 @@ const CannabisGuide: React.FC = () => {
           
           {/* Safe Use Content */}
           <TabsContent value="safeUse" className="space-y-6">
-            <Card className="content-card">
+            <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Shield className="h-5 w-5 mr-2 text-primary" />
-                  Safe Use Practices
+                  {isGerman ? "Praktiken für sicheren Konsum" : "Safe Use Practices"}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="multiple" className="content-text">
+                <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="startLow">
                     <AccordionTrigger className="text-gray-300 hover:text-white">
                       Start Low, Go Slow
@@ -185,15 +208,15 @@ const CannabisGuide: React.FC = () => {
           
           {/* Basics Content */}
           <TabsContent value="basics" className="space-y-6">
-            <Card className="content-card">
+            <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Sprout className="h-5 w-5 mr-2 text-primary" />
-                  Cannabis Basics
+                  {isGerman ? "Cannabis-Grundlagen" : "Cannabis Basics"}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="multiple" className="content-text">
+                <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="compounds">
                     <AccordionTrigger className="text-gray-300 hover:text-white">
                       Key Compounds
@@ -260,15 +283,15 @@ const CannabisGuide: React.FC = () => {
           
           {/* Health Tab */}
           <TabsContent value="health" className="space-y-6">
-            <Card className="content-card">
+            <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <AlertTriangle className="h-5 w-5 mr-2 text-primary" />
-                  Health Considerations
+                  {isGerman ? "Gesundheitsaspekte" : "Health Considerations"}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="multiple" className="content-text">
+                <Accordion type="multiple" className="text-navy-dark dark:text-white">
                   <AccordionItem value="risks">
                     <AccordionTrigger className="text-gray-300 hover:text-white">
                       Potential Risks
