@@ -125,11 +125,6 @@ const extendedDeTranslations: GermanTranslations = {
       'anxiety': 'Angst'
     }
   },
-  language: {
-    ...(deTranslation as any).language || {},
-    english: 'Englisch',
-    german: 'Deutsch'
-  },
   app: {
     ...(deTranslation as any).app || {},
     title: 'Cannabis Begleiter'
