@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -32,14 +33,14 @@ const Settings: React.FC = () => {
         </h1>
         
         <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
-          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+          <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md">
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
                 {t('settings.appearance')}
               </h2>
               
               <div className="flex justify-between items-center mb-6">
-                <Label htmlFor="dark-mode" className="text-gray-700 dark:text-gray-300">
+                <Label htmlFor="dark-mode" className="text-navy-dark dark:text-gray-300 font-medium">
                   {t('settings.darkMode')}
                 </Label>
                 <Switch 
@@ -51,30 +52,37 @@ const Settings: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+          <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md">
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
                 {t('settings.language')}
               </h2>
               
               <div className="mb-6">
-                <Label htmlFor="language-select" className="block mb-2 text-gray-700 dark:text-gray-300">
+                <Label htmlFor="language-select" className="block mb-2 text-navy-dark dark:text-gray-300 font-medium">
                   {t('language.select')}
                 </Label>
                 <Select value={i18n.language} onValueChange={changeLanguage}>
-                  <SelectTrigger id="language-select">
+                  <SelectTrigger 
+                    id="language-select" 
+                    className="bg-white dark:bg-navy-DEFAULT border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white"
+                  >
                     <SelectValue placeholder={t('language.select')} />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="en">{t('language.en')}</SelectItem>
-                    <SelectItem value="de">{t('language.de')}</SelectItem>
+                  <SelectContent className="bg-white dark:bg-navy-DEFAULT border-navy-DEFAULT dark:border-navy-light">
+                    <SelectItem value="en" className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
+                      {t('language.en')}
+                    </SelectItem>
+                    <SelectItem value="de" className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
+                      {t('language.de')}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </CardContent>
           </Card>
           
-          <Card className="dark:bg-navy-light border-navy-DEFAULT light:bg-sand-light light:border-sand-DEFAULT">
+          <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md">
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
                 {t('settings.preferences')}
@@ -82,21 +90,21 @@ const Settings: React.FC = () => {
               
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <Label htmlFor="notifications" className="text-gray-700 dark:text-gray-300">
+                  <Label htmlFor="notifications" className="text-navy-dark dark:text-gray-300 font-medium">
                     {t('settings.enableNotifications')}
                   </Label>
                   <Switch id="notifications" />
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <Label htmlFor="analytics" className="text-gray-700 dark:text-gray-300">
+                  <Label htmlFor="analytics" className="text-navy-dark dark:text-gray-300 font-medium">
                     {t('settings.shareAnalytics')}
                   </Label>
                   <Switch id="analytics" defaultChecked />
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <Label htmlFor="newsletter" className="text-gray-700 dark:text-gray-300">
+                  <Label htmlFor="newsletter" className="text-navy-dark dark:text-gray-300 font-medium">
                     {t('settings.subscribeNewsletter')}
                   </Label>
                   <Switch id="newsletter" />
@@ -106,7 +114,10 @@ const Settings: React.FC = () => {
           </Card>
           
           <div className="mt-4 text-center">
-            <Button variant="outline" className="w-full md:w-auto">
+            <Button 
+              variant="outline" 
+              className="w-full md:w-auto bg-teal dark:bg-teal-dark hover:bg-teal-dark text-white border-transparent" 
+            >
               {t('settings.savePreferences')}
             </Button>
           </div>

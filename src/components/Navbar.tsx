@@ -37,28 +37,31 @@ const Navbar: React.FC = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-full">
-                  <User className="h-5 w-5" />
+                <Button variant="outline" size="icon" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light">
+                  <User className="h-5 w-5 text-navy-dark dark:text-white" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>{t('navigation.profile')}</DropdownMenuLabel>
-                <DropdownMenuItem>
+              <DropdownMenuContent align="end" className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light">
+                <DropdownMenuLabel className="text-navy-dark dark:text-white">{t('navigation.profile')}</DropdownMenuLabel>
+                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
                   <Link to="/profile">{t('navigation.profile')}</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
                   <Link to="/settings">{t('navigation.settings')}</Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>
+                <DropdownMenuSeparator className="bg-navy-DEFAULT/20 dark:bg-white/20" />
+                <DropdownMenuItem 
+                  onClick={() => signOut()} 
+                  className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10"
+                >
                   {t('auth.signOut')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Link to="/auth">
-              <Button variant="outline" size="icon" className="rounded-full">
-                <User className="h-5 w-5" />
+              <Button variant="outline" size="icon" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light">
+                <User className="h-5 w-5 text-navy-dark dark:text-white" />
               </Button>
             </Link>
           )}
