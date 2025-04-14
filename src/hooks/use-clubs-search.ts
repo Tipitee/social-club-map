@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { supabase } from "@/integrations/supabase/client";
@@ -61,7 +62,7 @@ export function useClubsSearch() {
         throw new Error(fetchError.message);
       }
       
-      // Simplify type handling by creating objects directly with required shape
+      // Use type assertion to handle the database response
       const clubResults: ClubResult[] = (data || []).map(item => ({
         id: item.id || crypto.randomUUID(),
         name: item.name || "Unnamed Club",

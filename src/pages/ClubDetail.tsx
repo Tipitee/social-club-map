@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -74,8 +75,8 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
-          // Completely avoid TypeScript inference by using simple mapping
-          setClub({
+          // Handle type issues by explicitly constructing the ClubResult object
+          const clubData = {
             id: id,
             name: data.name || "Unnamed Club",
             address: data.address || null,
@@ -91,7 +92,9 @@ const ClubDetail: React.FC = () => {
             contact_phone: data.contact_phone || null,
             description: data.description || null,
             additional_info: data.additional_info || null,
-          });
+          };
+          
+          setClub(clubData);
         } else {
           setError("Club not found");
         }
