@@ -30,15 +30,13 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Break up the query execution to avoid deep type instantiation
-    const query = supabase
-      .from('clubs')
-      .select('*')
-      .eq('id', id)
-      .single();
-      
-    // Execute the query without chaining
-    const { data, error } = await query;
+    // Create query but break chaining to avoid TypeScript recursive type issue
+    const baseQuery = supabase.from('clubs');
+    const filteredQuery = baseQuery.select('*').eq('id', id);
+    
+    // Execute the query as a separate step with type assertions
+    const result = await filteredQuery.single();
+    const { data, error } = result;
     
     // Return properly typed response
     return {
