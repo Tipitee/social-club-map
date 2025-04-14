@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -376,5 +375,16 @@
   
   .tab-button-inactive {
     @apply text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari, and Opera */
   }
 }
