@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { supabase } from "@/integrations/supabase/client";
@@ -62,30 +61,25 @@ export function useClubsSearch() {
         throw new Error(fetchError.message);
       }
       
-      // Transform data to match our interface - use direct type casting to avoid deep type instantiation
-      const clubResults: ClubResult[] = (data || []).map(club => {
-        // Cast to any to avoid TypeScript trying to deeply resolve types
-        const clubData: any = club;
-        
-        return {
-          id: clubData.id || crypto.randomUUID(),
-          name: clubData.name || "Unnamed Club",
-          address: clubData.address,
-          city: clubData.city,
-          postal_code: clubData.postal_code,
-          status: (clubData.status as "verified" | "pending" | "unverified") || "unverified",
-          latitude: clubData.latitude,
-          longitude: clubData.longitude,
-          membership_status: Boolean(clubData.membership_status),
-          district: clubData.district,
-          website: clubData.website,
-          contact_email: clubData.contact_email,
-          contact_phone: clubData.contact_phone,
-          description: clubData.description,
-          additional_info: clubData.additional_info,
-          distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
-        };
-      });
+      // Simplify type handling by creating objects directly with required shape
+      const clubResults: ClubResult[] = (data || []).map(item => ({
+        id: item.id || crypto.randomUUID(),
+        name: item.name || "Unnamed Club",
+        address: item.address,
+        city: item.city,
+        postal_code: item.postal_code,
+        status: (item.status as "verified" | "pending" | "unverified") || "unverified",
+        latitude: item.latitude,
+        longitude: item.longitude,
+        membership_status: Boolean(item.membership_status),
+        district: item.district,
+        website: item.website,
+        contact_email: item.contact_email,
+        contact_phone: item.contact_phone,
+        description: item.description,
+        additional_info: item.additional_info,
+        distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
+      }));
       
       setSearchResults(clubResults);
       setHasSearched(true);

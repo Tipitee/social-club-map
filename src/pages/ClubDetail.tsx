@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -75,28 +74,24 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
-          // Explicitly type as any to avoid deep type instantiation
-          const rawClubData = data as Record<string, any>;
-          
-          // Manually create ClubResult object to avoid type issues
-          const clubResult: ClubResult = {
+          // Completely avoid TypeScript inference by using simple mapping
+          setClub({
             id: id,
-            name: rawClubData.name || "Unnamed Club",
-            address: rawClubData.address || null,
-            city: rawClubData.city || null,
-            postal_code: rawClubData.postal_code || null,
-            status: (rawClubData.status as "verified" | "pending" | "unverified") || "unverified",
-            latitude: rawClubData.latitude || null,
-            longitude: rawClubData.longitude || null,
-            membership_status: Boolean(rawClubData.membership_status),
-            district: rawClubData.district || null,
-            website: rawClubData.website || null,
-            contact_email: rawClubData.contact_email || null,
-            contact_phone: rawClubData.contact_phone || null,
-            description: rawClubData.description || null,
-            additional_info: rawClubData.additional_info || null,
-          };
-          setClub(clubResult);
+            name: data.name || "Unnamed Club",
+            address: data.address || null,
+            city: data.city || null,
+            postal_code: data.postal_code || null,
+            status: (data.status as "verified" | "pending" | "unverified") || "unverified",
+            latitude: data.latitude || null,
+            longitude: data.longitude || null,
+            membership_status: Boolean(data.membership_status),
+            district: data.district || null,
+            website: data.website || null,
+            contact_email: data.contact_email || null,
+            contact_phone: data.contact_phone || null,
+            description: data.description || null,
+            additional_info: data.additional_info || null,
+          });
         } else {
           setError("Club not found");
         }
