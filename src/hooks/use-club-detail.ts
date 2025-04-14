@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ClubResult } from "@/hooks/use-clubs-search";
@@ -30,17 +29,19 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Use any type to avoid deep type instantiation
-    const response: any = await supabase
+    // Bypass TypeScript type inference with a generic query
+    const query = supabase
       .from('clubs')
       .select('*')
-      .eq('id', id)
-      .single();
+      .eq('id', id);
+      
+    // Execute query and get result
+    const result = await query.single();
     
-    // Safely construct the return object with proper typing
+    // Construct properly typed response
     return {
-      data: response?.data as RawClubData | null,
-      error: response?.error ? new Error(response.error.message) : null
+      data: result.data as RawClubData | null,
+      error: result.error ? new Error(result.error.message) : null
     };
   } catch (err) {
     // Handle any unexpected errors
