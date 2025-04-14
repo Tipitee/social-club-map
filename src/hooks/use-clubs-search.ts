@@ -7,18 +7,20 @@ import { toast } from "@/hooks/use-toast";
 export interface ClubResult {
   id: string;
   name: string;
-  address: string;
-  city: string;
-  postal_code: string;
+  address: string | null;
+  city: string | null;
+  postal_code: string | null;
   distance?: number;
   status: "verified" | "pending" | "unverified";
   latitude: number | null;
   longitude: number | null;
   membership_status: boolean;
-  district?: string;
-  website?: string;
-  contact_email?: string;
-  contact_phone?: string;
+  district?: string | null;
+  website?: string | null;
+  contact_email?: string | null;
+  contact_phone?: string | null;
+  description?: string | null;
+  additional_info?: string | null;
 }
 
 export function useClubsSearch() {
@@ -62,11 +64,12 @@ export function useClubsSearch() {
       
       // Transform data to match our interface
       const clubResults: ClubResult[] = data?.map(club => ({
+        // Use nullish coalescing to handle potential undefined values
         id: club.id || "",
         name: club.name || "Unnamed Club",
-        address: club.address || "",
-        city: club.city || "",
-        postal_code: club.postal_code || "",
+        address: club.address,
+        city: club.city,
+        postal_code: club.postal_code,
         status: (club.status as "verified" | "pending" | "unverified") || "unverified",
         latitude: club.latitude,
         longitude: club.longitude,
@@ -75,6 +78,8 @@ export function useClubsSearch() {
         website: club.website,
         contact_email: club.contact_email,
         contact_phone: club.contact_phone,
+        description: club.description,
+        additional_info: club.additional_info,
         // For now, we'll add a mock distance based on a random number
         // Later, we can calculate this based on geolocation
         distance: parseFloat((Math.random() * 20 + 1).toFixed(1))

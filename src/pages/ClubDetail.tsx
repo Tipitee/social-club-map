@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { 
   Clock, MapPin, Phone, Globe, Mail, Users, Calendar, 
-  Leaf, Shield, ArrowLeft, Info, Building, Loader2 
+  Leaf, ArrowLeft, Info, Building, Loader2 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -75,11 +74,11 @@ const ClubDetail: React.FC = () => {
 
         if (data) {
           const clubData: ClubResult = {
-            id: data.id,
-            name: data.name,
-            address: data.address || "",
-            city: data.city || "",
-            postal_code: data.postal_code || "",
+            id: data.id || "",
+            name: data.name || "Unnamed Club",
+            address: data.address,
+            city: data.city,
+            postal_code: data.postal_code,
             status: (data.status as "verified" | "pending" | "unverified") || "unverified",
             latitude: data.latitude,
             longitude: data.longitude,
@@ -88,6 +87,8 @@ const ClubDetail: React.FC = () => {
             website: data.website,
             contact_email: data.contact_email,
             contact_phone: data.contact_phone,
+            description: data.description,
+            additional_info: data.additional_info,
           };
           setClub(clubData);
         } else {
@@ -169,17 +170,17 @@ const ClubDetail: React.FC = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">
-                  {club.name}
+                  {club?.name}
                 </h1>
                 <div className="flex items-center mt-1 text-gray-600 dark:text-gray-300">
                   <MapPin size={16} className="mr-1 flex-shrink-0" />
-                  <span>{club.address}</span>
+                  <span>{club?.address}</span>
                 </div>
               </div>
               
               <div className="mt-4 md:mt-0">
-                <Badge variant={club.membership_status ? "success" : "warning"} className="mb-2">
-                  {club.membership_status ? "Accepting Members" : "Waiting List"}
+                <Badge variant={club?.membership_status ? "success" : "warning"} className="mb-2">
+                  {club?.membership_status ? "Accepting Members" : "Waiting List"}
                 </Badge>
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                   <Users size={14} className="mr-1" />
@@ -202,7 +203,7 @@ const ClubDetail: React.FC = () => {
               
               <div className="bg-gray-100 dark:bg-navy-DEFAULT px-3 py-1 rounded-full flex items-center text-xs text-navy-dark dark:text-gray-200">
                 <Building size={12} className="mr-1" />
-                {club.city || "Unknown Location"}
+                {club?.city || "Unknown Location"}
               </div>
             </div>
           </div>
@@ -243,7 +244,7 @@ const ClubDetail: React.FC = () => {
                   <CardContent className="p-6">
                     <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">About</h3>
                     <p className="text-navy-dark dark:text-gray-200 mb-6">
-                      {club.description || "No description available for this club."}
+                      {club?.description || "No description available for this club."}
                     </p>
                     
                     <h4 className="font-semibold mb-2 text-navy-dark dark:text-white">Specialties</h4>
@@ -290,7 +291,7 @@ const ClubDetail: React.FC = () => {
                   </CardContent>
                 </Card>
                 
-                {club.additional_info && (
+                {club?.additional_info && (
                   <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light">
                     <CardContent className="p-6">
                       <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Additional Information</h3>
@@ -307,7 +308,7 @@ const ClubDetail: React.FC = () => {
                     <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Contact</h3>
                     
                     <div className="space-y-3">
-                      {club.contact_phone && (
+                      {club?.contact_phone && (
                         <div className="flex items-start">
                           <Phone size={18} className="mr-3 mt-0.5 text-gray-600 dark:text-gray-400 flex-shrink-0" />
                           <div>
@@ -316,7 +317,7 @@ const ClubDetail: React.FC = () => {
                         </div>
                       )}
                       
-                      {club.contact_email && (
+                      {club?.contact_email && (
                         <div className="flex items-start">
                           <Mail size={18} className="mr-3 mt-0.5 text-gray-600 dark:text-gray-400 flex-shrink-0" />
                           <div>
@@ -327,7 +328,7 @@ const ClubDetail: React.FC = () => {
                         </div>
                       )}
                       
-                      {club.website && (
+                      {club?.website && (
                         <div className="flex items-start">
                           <Globe size={18} className="mr-3 mt-0.5 text-gray-600 dark:text-gray-400 flex-shrink-0" />
                           <div>
@@ -338,7 +339,7 @@ const ClubDetail: React.FC = () => {
                         </div>
                       )}
                       
-                      {!club.contact_phone && !club.contact_email && !club.website && (
+                      {!club?.contact_phone && !club?.contact_email && !club?.website && (
                         <p className="text-gray-500 dark:text-gray-400 italic">No contact information available</p>
                       )}
                     </div>
@@ -368,7 +369,7 @@ const ClubDetail: React.FC = () => {
                   </CardContent>
                 </Card>
                 
-                {club.latitude && club.longitude && (
+                {club?.latitude && club?.longitude && (
                   <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light overflow-hidden">
                     <iframe 
                       src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAv_1hk3mQJ9JWbSyKMM1YYJ1sAUkfgjfk&q=${club.latitude},${club.longitude}`}
