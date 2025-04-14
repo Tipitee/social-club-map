@@ -50,20 +50,20 @@ const ClubDetail: React.FC = () => {
       }
 
       try {
-        // Fetch club data from Supabase
-        const { data, error: fetchError } = await supabase
+        const result = await supabase
           .from('clubs')
           .select('*')
           .eq('id', id)
           .single();
         
+        const fetchError = result.error;
+        const data = result.data as RawClubData | null;
+        
         if (fetchError) {
           throw new Error(fetchError.message);
         }
 
-        // Instead of type assertion, convert the data to our expected type
         if (data) {
-          // Convert to ClubResult with explicit property assignments
           const clubData: ClubResult = {
             id: id,
             name: data.name || "Unnamed Club",
@@ -148,7 +148,6 @@ const ClubDetail: React.FC = () => {
       <Navbar />
       
       <div className="container px-4 py-6 max-w-7xl mx-auto">
-        {/* Back button */}
         <div className="mb-4">
           <Link to="/clubs" className="inline-flex items-center text-teal dark:text-teal-light hover:underline">
             <ArrowLeft size={16} className="mr-1" />
@@ -156,7 +155,6 @@ const ClubDetail: React.FC = () => {
           </Link>
         </div>
         
-        {/* Club header */}
         <ClubHeader 
           club={club} 
           memberCount={mockClubDetails.memberCount}
@@ -164,7 +162,6 @@ const ClubDetail: React.FC = () => {
           foundingDate={mockClubDetails.foundingDate}
         />
         
-        {/* Tabs for different sections */}
         <Tabs defaultValue="info" value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="bg-white dark:bg-navy-DEFAULT border border-navy-DEFAULT/20 dark:border-navy-light/20 mb-6">
             <TabsTrigger 
@@ -190,7 +187,6 @@ const ClubDetail: React.FC = () => {
             </TabsTrigger>
           </TabsList>
           
-          {/* Tab Content */}
           <TabsContent value="info" className="mt-0">
             <ClubTabContent tab="info" club={club} />
           </TabsContent>
