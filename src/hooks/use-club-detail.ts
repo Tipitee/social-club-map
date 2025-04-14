@@ -38,20 +38,23 @@ export function useClubDetail(id: string | undefined) {
       }
 
       try {
-        // Fix the type instantiation issue by explicitly typing the response
-        const { data, error: supabaseError } = await supabase
+        // Use type assertion to avoid excessive type instantiation
+        const response = await supabase
           .from('clubs')
           .select('*')
           .eq('id', id)
           .single();
           
+        const { data, error: supabaseError } = response;
+        
         if (supabaseError) {
           throw new Error(supabaseError.message);
         }
 
         if (data) {
-          // Convert the raw data to our club format using the helper function
-          const mappedClub = mapRawDataToClub(id, data as RawClubData);
+          // Use type assertion to avoid TypeScript inference issues
+          const clubData = data as unknown as RawClubData;
+          const mappedClub = mapRawDataToClub(id, clubData);
           setClub(mappedClub);
         } else {
           setError("Club not found");
