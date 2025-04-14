@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -274,7 +275,7 @@ const StrainExplorer: React.FC = () => {
             <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">{t('strains.strainsExplorer')}</h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button onClick={toggleFilters} variant="default" className="flex items-center gap-2 bg-teal-DEFAULT hover:bg-teal-dark text-white h-9 px-3">
+            <Button onClick={toggleFilters} variant="default" className="flex items-center gap-2 filter-toggle-button h-9 px-3">
               <Filter size={16} />
               {showFilters ? t('strains.hideFilters') : t('strains.showFilters')}
               {activeFilterCount > 0 && (
@@ -292,11 +293,11 @@ const StrainExplorer: React.FC = () => {
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('type')} />
               </Badge>}
             {filters.effect && <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
-                {t('strains.filters.effect')}: {filters.effect}
+                {t('strains.filters.effects')}: {filters.effect}
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('effect')} />
               </Badge>}
             {filters.terpene && <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">
-                {t('strains.filters.terpene')}: {filters.terpene}
+                {t('strains.terpenes')}: {filters.terpene}
                 <X size={14} className="cursor-pointer ml-1" onClick={() => clearFilter('terpene')} />
               </Badge>}
             {filters.search && <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 text-sm dark:bg-navy-DEFAULT bg-sand-DEFAULT/30">

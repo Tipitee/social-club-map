@@ -155,7 +155,7 @@ const StrainDetail: React.FC = () => {
         <div className="mb-6">
           <h2 className="text-xl font-bold mb-4 flex items-center">
             <Leaf className="mr-2 h-5 w-5 text-primary" />
-            {t('strains.effects')}
+            Effects
           </h2>
           
           <div className={`${getCardBgColor()} rounded-xl ${getCardBorderColor()} border p-4 md:p-6`}>

@@ -76,6 +76,10 @@
     "selectTerpene": "Select Terpene",
     "selectSortOrder": "Sort Order",
     "terpenes": "Terpenes",
+    "effects": "Effects",
+    "unknown": "Unknown",
+    "noData": "No data",
+    "noDescriptionAvailable": "No description available",
     "types": {
       "indica": "Indica",
       "sativa": "Sativa",
