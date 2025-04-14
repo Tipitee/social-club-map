@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ClubResult } from "@/hooks/use-clubs-search";
@@ -29,17 +30,17 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Use a simpler type assertion approach
-    const result = await supabase
+    // Explicitly avoid type inference by first performing the query
+    const response = await supabase
       .from('clubs')
       .select('*')
       .eq('id', id)
       .single();
       
-    // Cast the result after the query is complete
+    // Then manually create the properly typed return object
     return {
-      data: result.data as RawClubData | null,
-      error: result.error as Error | null
+      data: response.data as RawClubData | null,
+      error: response.error as Error | null
     };
   } catch (err) {
     // Handle any unexpected errors
