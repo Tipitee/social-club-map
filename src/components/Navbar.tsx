@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -20,6 +20,24 @@ const Navbar: React.FC = () => {
   const { t } = useTranslation();
   const { user, signOut } = useAuth();
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Use effect to handle component mounting and prevent hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // Return a placeholder with the same dimensions during SSR/mounting
+    return (
+      <div className="bg-white dark:bg-navy-dark border-b border-border sticky top-0 z-50">
+        <div className="container flex items-center justify-between p-4">
+          <div className="h-10 w-32"></div>
+          <div className="flex items-center gap-3"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white dark:bg-navy-dark border-b border-border sticky top-0 z-50">

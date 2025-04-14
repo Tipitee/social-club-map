@@ -1,390 +1,283 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Book, Plus, Filter, CalendarDays, Clock, Loader2 } from "lucide-react";
-import JournalEntryComponent from "@/components/JournalEntry";
-import { JournalEntry } from "@/types/journal";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
-import NewJournalEntry from "@/components/NewJournalEntry";
-import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { CalendarIcon, PlusCircle, Edit, Trash2 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { format } from 'date-fns';
 
-type FilterState = {
-  effectiveness: number | null;
-  dateRange: { start: Date | null; end: Date | null };
-  searchText: string;
-};
+interface JournalEntry {
+  id: string;
+  date: string;
+  title: string;
+  notes: string;
+  dosage: string;
+}
 
 const Journal: React.FC = () => {
-  const [entries, setEntries] = useState<JournalEntry[]>([]);
-  const [showFilters, setShowFilters] = useState(false);
-  const [showNewEntryDialog, setShowNewEntryDialog] = useState(false);
-  const [filters, setFilters] = useState<FilterState>({
-    effectiveness: null,
-    dateRange: { start: null, end: null },
-    searchText: ""
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  
-  const { toast } = useToast();
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const [newEntry, setNewEntry] = useState({
+    date: format(new Date(), 'yyyy-MM-dd'),
+    title: "",
+    notes: "",
+    dosage: "",
+  });
+  const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
+  const [editedEntry, setEditedEntry] = useState<JournalEntry | null>(null);
 
   useEffect(() => {
-    async function fetchEntries() {
-      if (!user) {
-        setIsLoading(false);
-        return;
-      }
-
-      setIsLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('journal_entries')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
-        
-        if (error) throw error;
-        
-        if (data) {
-          const formattedEntries: JournalEntry[] = data.map(entry => ({
-            id: entry.id,
-            date: entry.date,
-            dosage: entry.dosage,
-            dosageType: entry.dosage_type,
-            effectiveness: entry.effectiveness,
-            mood: entry.mood,
-            activity: entry.activity,
-            sideEffects: entry.side_effects,
-            notes: entry.notes || ''
-          }));
-          setEntries(formattedEntries);
-        }
-      } catch (error: any) {
-        console.error('Error fetching journal entries:', error.message);
-        toast({
-          title: t('journal.error'),
-          description: t('journal.errorFetchingEntries'),
-          variant: "destructive"
-        });
-      } finally {
-        setIsLoading(false);
-      }
+    if (user) {
+      // Mock data loading
+      const mockEntries: JournalEntry[] = [
+        {
+          id: "1",
+          date: "2024-01-20",
+          title: "First Entry",
+          notes: "Felt relaxed and creative.",
+          dosage: "5mg",
+        },
+        {
+          id: "2",
+          date: "2024-01-25",
+          title: "Second Entry",
+          notes: "Good for pain relief.",
+          dosage: "10mg",
+        },
+      ];
+      setEntries(mockEntries);
     }
-    
-    fetchEntries();
-  }, [user, toast, t]);
+  }, [user]);
 
-  const deleteEntry = async (id: string) => {
-    if (!user) return;
-    
-    try {
-      const { error } = await supabase
-        .from('journal_entries')
-        .delete()
-        .eq('id', id)
-        .eq('user_id', user.id);
-      
-      if (error) throw error;
-      
-      setEntries(prevEntries => prevEntries.filter(entry => entry.id !== id));
-      toast({
-        title: t('journal.entryDeleted'),
-        description: t('journal.entryDeletedSuccess'),
-      });
-    } catch (error: any) {
-      toast({
-        title: t('journal.error'),
-        description: t('journal.errorDeletingEntry'),
-        variant: "destructive"
-      });
+  const redirectToAuth = () => {
+    navigate("/auth");
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setNewEntry(prev => ({ ...prev, [name]: value }));
+  };
+
+  const addEntry = () => {
+    const newId = String(Date.now());
+    const entryToAdd = { ...newEntry, id: newId };
+    setEntries(prev => [...prev, entryToAdd]);
+    setNewEntry({ date: format(new Date(), 'yyyy-MM-dd'), title: "", notes: "", dosage: "" });
+  };
+
+  const startEditing = (id: string) => {
+    const entryToEdit = entries.find(entry => entry.id === id);
+    if (entryToEdit) {
+      setEditingEntryId(id);
+      setEditedEntry({ ...entryToEdit });
     }
   };
 
-  const handleEditEntry = (entry: JournalEntry) => {
-    toast({
-      title: t('journal.editFunctionality'),
-      description: t('journal.editFormWouldOpen'),
-    });
-    console.log("Editing entry:", entry);
-  };
-
-  const handleEffectivenessFilter = (rating: number) => {
-    setFilters(prev => ({
-      ...prev,
-      effectiveness: prev.effectiveness === rating ? null : rating
-    }));
-  };
-
-  const handleSaveNewEntry = async (newEntryData: Omit<JournalEntry, "id">) => {
-    if (!user) {
-      toast({
-        title: t('journal.authRequired'),
-        description: t('journal.signInToSave'),
-        variant: "destructive"
-      });
-      navigate('/auth');
-      return;
-    }
-    
-    try {
-      const { data, error } = await supabase
-        .from('journal_entries')
-        .insert({
-          user_id: user.id,
-          date: newEntryData.date,
-          dosage: newEntryData.dosage,
-          dosage_type: newEntryData.dosageType,
-          effectiveness: newEntryData.effectiveness,
-          mood: newEntryData.mood,
-          activity: newEntryData.activity,
-          side_effects: newEntryData.sideEffects,
-          notes: newEntryData.notes
-        })
-        .select('*')
-        .single();
-      
-      if (error) throw error;
-      
-      if (data) {
-        const formattedEntry: JournalEntry = {
-          id: data.id,
-          date: data.date,
-          dosage: data.dosage,
-          dosageType: data.dosage_type,
-          effectiveness: data.effectiveness,
-          mood: data.mood,
-          activity: data.activity,
-          sideEffects: data.side_effects,
-          notes: data.notes || ''
-        };
-        
-        setEntries(prev => [formattedEntry, ...prev]);
-        setShowNewEntryDialog(false);
-        
-        toast({
-          title: t('journal.entryAdded'),
-          description: t('journal.entryAddedSuccess'),
-        });
-      }
-    } catch (error: any) {
-      toast({
-        title: t('journal.error'),
-        description: error.message || t('journal.errorSavingEntry'),
-        variant: "destructive"
-      });
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (editedEntry) {
+      const { name, value } = e.target;
+      setEditedEntry(prev => ({ ...prev, [name]: value }));
     }
   };
 
-  const filteredEntries = entries.filter(entry => {
-    if (filters.effectiveness !== null && entry.effectiveness !== filters.effectiveness) {
-      return false;
-    }
-    
-    if (filters.searchText) {
-      const searchLower = filters.searchText.toLowerCase();
-      const matchesSearch = 
-        entry.mood.toLowerCase().includes(searchLower) ||
-        entry.activity.toLowerCase().includes(searchLower) ||
-        (entry.notes && entry.notes.toLowerCase().includes(searchLower)) ||
-        entry.sideEffects.some(effect => effect.toLowerCase().includes(searchLower));
-      
-      if (!matchesSearch) return false;
-    }
-    
-    return true;
-  });
-
-  const renderContent = () => {
-    if (isLoading) {
-      return (
-        <div className="flex justify-center items-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
+  const saveEntry = () => {
+    if (editedEntry) {
+      setEntries(prev =>
+        prev.map(entry => (entry.id === editedEntry.id ? { ...editedEntry } : entry))
       );
+      setEditingEntryId(null);
+      setEditedEntry(null);
     }
+  };
 
-    if (!user) {
-      return (
-        <Card>
-          <CardContent className="p-8 rounded-lg text-center">
-            <Book size={48} className="mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-xl font-semibold mb-2">{t('journal.authRequired')}</h3>
-            <p className="text-muted-foreground mb-4">
-              {t('journal.signInToViewEntries')}
-            </p>
-            <Button 
-              className="px-4 py-2 bg-primary text-white rounded-md flex items-center gap-2 mx-auto hover:bg-primary/90"
-              onClick={() => navigate('/auth')}
+  const deleteEntry = (id: string) => {
+    setEntries(prev => prev.filter(entry => entry.id !== id));
+    setEditingEntryId(null);
+    setEditedEntry(null);
+  };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-linen dark:bg-navy-dark">
+        <Navbar />
+        <div className="container px-4 py-6 max-w-3xl mx-auto">
+          <div className="auth-required-block">
+            <h3 className="text-xl font-semibold mb-3">{t('auth.signInRequired')}</h3>
+            <p className="mb-4">{t('journal.signInToTrack')}</p>
+            <Button
+              onClick={redirectToAuth}
+              className="bg-teal-DEFAULT hover:bg-teal-dark text-white"
             >
               {t('auth.signIn')}
             </Button>
-          </CardContent>
-        </Card>
-      );
-    }
-
-    if (filteredEntries.length === 0) {
-      return (
-        <Card>
-          <CardContent className="p-8 rounded-lg text-center">
-            <Book size={48} className="mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-xl font-semibold mb-2">
-              {entries.length > 0 
-                ? t('journal.noEntriesFound')
-                : t('journal.noEntries')}
-            </h3>
-            <p className="text-muted-foreground mb-4">
-              {entries.length > 0 
-                ? t('journal.adjustFilters')
-                : t('journal.startTracking')}
-            </p>
-            <Button 
-              className="px-4 py-2 bg-primary text-white rounded-md flex items-center gap-2 mx-auto hover:bg-primary/90"
-              onClick={() => setShowNewEntryDialog(true)}
-            >
-              <Plus size={18} />
-              {entries.length > 0 ? t('journal.addNew') : t('journal.addFirst')}
-            </Button>
-          </CardContent>
-        </Card>
-      );
-    }
-
-    return (
-      <>
-        <div className="mb-4 text-sm text-muted-foreground">
-          {filteredEntries.length} {filteredEntries.length === 1 ? t('journal.entry') : t('journal.entries')}
+          </div>
         </div>
-
-        <div className="space-y-4">
-          {filteredEntries.map(entry => (
-            <JournalEntryComponent 
-              key={entry.id} 
-              entry={entry} 
-              onEdit={handleEditEntry}
-              onDelete={deleteEntry}
-            />
-          ))}
-        </div>
-      </>
+      </div>
     );
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-linen dark:bg-navy-dark">
       <Navbar />
-      <div className="container px-4 py-6 max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground">{t('navigation.journal')}</h1>
-          
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              size="icon"
-              className="h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Filter size={20} className="sm:mr-2" />
-              <span className="hidden sm:inline">{t('journal.filters')}</span>
-            </Button>
-            <Button 
-              className="bg-primary hover:bg-primary/90 text-white h-10 w-10 sm:h-10 sm:w-auto sm:px-4"
-              size="icon"
-              onClick={() => setShowNewEntryDialog(true)}
-            >
-              <Plus size={20} className="sm:mr-2" />
-              <span className="hidden sm:inline">{t('journal.newEntry')}</span>
-            </Button>
-          </div>
-        </div>
+      <div className="container px-4 py-6 max-w-5xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
+          {t('navigation.journal')}
+        </h1>
 
-        {showFilters && (
-          <Card className="mb-6">
-            <CardContent className="p-4">
-              <div className="flex flex-wrap gap-5">
-                <div>
-                  <label className="block text-sm font-medium mb-2">{t('journal.effectiveness')}</label>
-                  <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Button 
-                        key={star} 
-                        variant="outline" 
-                        size="sm" 
-                        className={`px-3 py-1 ${filters.effectiveness === star ? "bg-primary text-white border-primary/50" : ""}`}
-                        onClick={() => handleEffectivenessFilter(star)}
-                      >
-                        {star}
-                      </Button>
-                    ))}
-                    {filters.effectiveness !== null && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setFilters(prev => ({ ...prev, effectiveness: null }))}
-                        className="ml-2 text-muted-foreground"
-                      >
-                        {t('common.clear')}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">{t('journal.filterByTime')}</label>
-                  <div className="flex flex-wrap gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                    >
-                      <CalendarDays size={16} className="mr-1" />
-                      {t('journal.thisMonth')}
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                    >
-                      <Clock size={16} className="mr-1" />
-                      {t('journal.lastWeek')}
-                    </Button>
-                  </div>
-                </div>
-                
-                <div className="w-full">
-                  <label className="block text-sm font-medium mb-2">{t('journal.search')}</label>
-                  <Input
-                    type="search"
-                    value={filters.searchText}
-                    onChange={(e) => setFilters(prev => ({ ...prev, searchText: e.target.value }))}
-                  />
-                </div>
+        <Card className="mb-6">
+          <CardContent className="p-5">
+            <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
+              {t('journal.addEntry')}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="date" className="input-label">
+                  {t('journal.date')}
+                </Label>
+                <Input
+                  type="date"
+                  id="date"
+                  name="date"
+                  value={newEntry.date}
+                  onChange={handleInputChange}
+                  className="input-field form-control"
+                />
               </div>
-            </CardContent>
-          </Card>
-        )}
+              <div>
+                <Label htmlFor="dosage" className="input-label">
+                  {t('journal.dosage')}
+                </Label>
+                <Input
+                  type="text"
+                  id="dosage"
+                  name="dosage"
+                  value={newEntry.dosage}
+                  onChange={handleInputChange}
+                  placeholder={t('journal.enterDosage') as string}
+                  className="input-field form-control"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="title" className="input-label">
+                {t('journal.title')}
+              </Label>
+              <Input
+                type="text"
+                id="title"
+                name="title"
+                value={newEntry.title}
+                onChange={handleInputChange}
+                placeholder={t('journal.enterTitle') as string}
+                className="input-field form-control"
+              />
+            </div>
+            <div>
+              <Label htmlFor="notes" className="input-label">
+                {t('journal.notes')}
+              </Label>
+              <Textarea
+                id="notes"
+                name="notes"
+                value={newEntry.notes}
+                onChange={handleInputChange}
+                placeholder={t('journal.enterNotes') as string}
+                className="input-field form-control"
+              />
+            </div>
+            <Button
+              onClick={addEntry}
+              className="bg-teal-DEFAULT hover:bg-teal-dark text-white mt-4"
+            >
+              {t('journal.addEntry')}
+            </Button>
+          </CardContent>
+        </Card>
 
-        {filters.effectiveness && (
-          <div className="flex gap-2 mb-4">
-            <Badge className="bg-primary text-white px-3 py-1">
-              {t('journal.ratingBadge', { rating: filters.effectiveness })}
-            </Badge>
-          </div>
-        )}
-
-        {renderContent()}
-
-        <NewJournalEntry 
-          isOpen={showNewEntryDialog}
-          onClose={() => setShowNewEntryDialog(false)}
-          onSave={handleSaveNewEntry}
-        />
+        <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
+          {t('journal.existingEntries')}
+        </h2>
+        <div className="space-y-4">
+          {entries.map(entry => (
+            <Card key={entry.id} className="journal-entry">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center">
+                    <CalendarIcon size={16} className="mr-2 text-gray-500 dark:text-gray-400" />
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      {entry.date}
+                    </span>
+                  </div>
+                </div>
+                {editingEntryId === entry.id ? (
+                  <>
+                    <Input
+                      type="text"
+                      name="title"
+                      value={editedEntry?.title || ""}
+                      onChange={handleEditInputChange}
+                      className="input-field form-control mb-2"
+                    />
+                    <Textarea
+                      name="notes"
+                      value={editedEntry?.notes || ""}
+                      onChange={handleEditInputChange}
+                      className="input-field form-control mb-2"
+                    />
+                    <Input
+                      type="text"
+                      name="dosage"
+                      value={editedEntry?.dosage || ""}
+                      onChange={handleEditInputChange}
+                      className="input-field form-control mb-2"
+                    />
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        onClick={saveEntry}
+                        className="bg-teal-DEFAULT hover:bg-teal-dark text-white"
+                      >
+                        {t('journal.save')}
+                      </Button>
+                      <Button
+                        onClick={() => deleteEntry(entry.id)}
+                        variant="destructive"
+                      >
+                        {t('journal.delete')}
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-lg font-semibold text-navy-dark dark:text-white mb-2">
+                      {entry.title}
+                    </h3>
+                    <p className="text-gray-700 dark:text-gray-300 mb-2">
+                      {t('journal.dosage')}: {entry.dosage}
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300 mb-3">
+                      {entry.notes}
+                    </p>
+                    <div className="flex justify-end">
+                      <Button
+                        onClick={() => startEditing(entry.id)}
+                        variant="secondary"
+                      >
+                        {t('journal.edit')}
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

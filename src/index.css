@@ -252,6 +252,19 @@
   .dark .journal-entry {
     @apply bg-navy-light border-navy-300;
   }
+
+  /* Auth required block in journal - changed to pure white in light mode */
+  .auth-required-block {
+    @apply rounded-lg shadow-sm p-6 text-center;
+  }
+
+  .light .auth-required-block {
+    @apply bg-white border border-gray-200;
+  }
+
+  .dark .auth-required-block {
+    @apply bg-navy-light border-navy-300;
+  }
   
   .toast-notification {
     @apply opacity-90 shadow-sm;
@@ -334,25 +347,29 @@
     @apply w-full bg-white dark:bg-navy-light border border-gray-300 dark:border-navy-400 rounded-md px-3 py-2;
   }
 
-  /* Updated news tabs to match guide menu style */
-  .news-tabs-menu {
-    @apply grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 text-center bg-white dark:bg-navy-DEFAULT;
-  }
-  
-  .news-tab-button {
-    @apply px-4 py-3 text-sm font-medium text-navy-dark dark:text-gray-300;
-  }
-  
-  .news-tab-button-active {
-    @apply border-b-2 border-teal dark:border-primary text-teal dark:text-primary-light;
-  }
-  
-  .news-tab-button-inactive {
-    @apply text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-primary-light;
+  /* Dropdown menu styles for better visibility in dark mode */
+  .dark .dropdown-menu {
+    @apply bg-navy-400 border-navy-500 shadow-md;
   }
 
-  /* Common card style for auth containers */
-  .auth-card {
-    @apply bg-white dark:bg-navy-light rounded-xl shadow-lg border border-gray-200 dark:border-navy-300 p-5;
+  .dark .dropdown-menu-item {
+    @apply text-white hover:bg-navy-300;
+  }
+  
+  /* Improved tab menu styles for consistency between Guide and News */
+  .tab-menu {
+    @apply border-b mb-6 flex overflow-x-auto scrollbar-none;
+  }
+  
+  .tab-button {
+    @apply px-3 py-2 text-sm whitespace-nowrap;
+  }
+  
+  .tab-button-active {
+    @apply border-b-2 border-primary font-medium text-primary;
+  }
+  
+  .tab-button-inactive {
+    @apply text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light;
   }
 }

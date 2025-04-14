@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -6,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowRight, Globe } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Mock news data
 const newsItems = [
@@ -175,30 +173,53 @@ const News: React.FC = () => {
             {t('news.allUpdates')}
           </h2>
           
-          <Tabs defaultValue="all" onValueChange={setActiveTab} className="w-full">
-            <div className="border-b mb-6">
-              <TabsList className="bg-transparent h-10 w-full justify-start gap-4 rounded-none p-0">
-                <TabsTrigger value="all" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-3 text-sm font-medium data-[state=active]:shadow-none">
-                  {t('strains.all')}
-                </TabsTrigger>
-                <TabsTrigger value="federal" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-3 text-sm font-medium data-[state=active]:shadow-none">
-                  {t('news.federal')}
-                </TabsTrigger>
-                <TabsTrigger value="state" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-3 text-sm font-medium data-[state=active]:shadow-none">
-                  {t('news.state')}
-                </TabsTrigger>
-                <TabsTrigger value="medical" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-3 text-sm font-medium data-[state=active]:shadow-none">
-                  {t('news.medical')}
-                </TabsTrigger>
-                <TabsTrigger value="recreational" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-3 text-sm font-medium data-[state=active]:shadow-none">
-                  {t('news.recreational')}
-                </TabsTrigger>
-                <TabsTrigger value="business" className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-3 text-sm font-medium data-[state=active]:shadow-none">
-                  {t('news.business')}
-                </TabsTrigger>
-              </TabsList>
+          <div className="border-b mb-6">
+            <div className="flex flex-wrap gap-1 md:gap-4">
+              <Button
+                variant="ghost"
+                className={`px-3 py-2 text-sm ${activeTab === 'all' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
+                onClick={() => setActiveTab('all')}
+              >
+                {t('strains.all')}
+              </Button>
+              <Button
+                variant="ghost"
+                className={`px-3 py-2 text-sm ${activeTab === 'federal' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
+                onClick={() => setActiveTab('federal')}
+              >
+                {t('news.federal')}
+              </Button>
+              <Button
+                variant="ghost"
+                className={`px-3 py-2 text-sm ${activeTab === 'state' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
+                onClick={() => setActiveTab('state')}
+              >
+                {t('news.state')}
+              </Button>
+              <Button
+                variant="ghost"
+                className={`px-3 py-2 text-sm ${activeTab === 'medical' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
+                onClick={() => setActiveTab('medical')}
+              >
+                {t('news.medical')}
+              </Button>
+              <Button
+                variant="ghost"
+                className={`px-3 py-2 text-sm ${activeTab === 'recreational' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
+                onClick={() => setActiveTab('recreational')}
+              >
+                {t('news.recreational')}
+              </Button>
+              <Button
+                variant="ghost"
+                className={`px-3 py-2 text-sm ${activeTab === 'business' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
+                onClick={() => setActiveTab('business')}
+              >
+                {t('news.business')}
+              </Button>
             </div>
-            
+          </div>
+          
           <div className="mb-4">
             <p className="text-navy-dark dark:text-white font-medium">
               {t('news.latestUpdates')}
@@ -276,7 +297,6 @@ const News: React.FC = () => {
               </Button>
             </div>
           )}
-          </Tabs>
         </div>
       </div>
     </div>

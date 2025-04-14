@@ -55,15 +55,16 @@ const LanguageSwitcher: React.FC = () => {
     }
   };
 
+  // Improved styles for better contrast in both light and dark mode
   const getDropdownStyles = () => {
     return isDarkMode 
-      ? "bg-navy-light border-navy-DEFAULT" 
+      ? "bg-navy-400 border-navy-500 shadow-md" 
       : "bg-white border-gray-200";
   };
   
   const getButtonStyles = () => {
     return isDarkMode
-      ? "bg-navy-light border-navy-DEFAULT text-white hover:bg-navy-DEFAULT/80"
+      ? "bg-navy-light border-navy-400 text-white hover:bg-navy-400"
       : "bg-white border-gray-200 text-gray-800 hover:bg-gray-100";
   };
 
@@ -82,14 +83,18 @@ const LanguageSwitcher: React.FC = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className={`w-40 ${getDropdownStyles()}`}>
         <DropdownMenuItem 
-          className={`flex items-center justify-between ${language === 'en' ? 'bg-primary/20 text-primary' : 'text-foreground hover:bg-accent/50'}`}
+          className={`flex items-center justify-between ${language === 'en' 
+            ? 'bg-primary/20 text-primary dark:text-white' 
+            : 'text-foreground dark:text-white hover:bg-accent/50'}`}
           onClick={() => changeLanguage('en')}
         >
           English
           {language === 'en' && <Check size={16} className="ml-2" />}
         </DropdownMenuItem>
         <DropdownMenuItem 
-          className={`flex items-center justify-between ${language === 'de' ? 'bg-primary/20 text-primary' : 'text-foreground hover:bg-accent/50'}`}
+          className={`flex items-center justify-between ${language === 'de' 
+            ? 'bg-primary/20 text-primary dark:text-white' 
+            : 'text-foreground dark:text-white hover:bg-accent/50'}`}
           onClick={() => changeLanguage('de')}
         >
           Deutsch
