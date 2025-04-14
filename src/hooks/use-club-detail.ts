@@ -30,17 +30,17 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Perform the query with explicit 'any' type casting to avoid deep type instantiation
-    const { data, error } = await supabase
+    // Use any type to avoid deep type instantiation
+    const response: any = await supabase
       .from('clubs')
       .select('*')
       .eq('id', id)
-      .single() as { data: any; error: any };
+      .single();
     
-    // Then properly type the return value
+    // Safely construct the return object with proper typing
     return {
-      data: data as RawClubData | null,
-      error: error ? new Error(error.message) : null
+      data: response?.data as RawClubData | null,
+      error: response?.error ? new Error(response.error.message) : null
     };
   } catch (err) {
     // Handle any unexpected errors
