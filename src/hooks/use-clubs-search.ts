@@ -62,14 +62,13 @@ export function useClubsSearch() {
         throw new Error(fetchError.message);
       }
       
-      // Transform data to match our interface
-      const clubResults: ClubResult[] = data?.map(club => {
-        // Use any to avoid deep type instantiation issues
-        const clubData = club as any;
+      // Transform data to match our interface - use direct type casting to avoid deep type instantiation
+      const clubResults: ClubResult[] = (data || []).map(club => {
+        // Cast to any to avoid TypeScript trying to deeply resolve types
+        const clubData: any = club;
         
-        // Create a uniquely identified club entry
         return {
-          id: clubData.id || crypto.randomUUID(), // Use existing ID if available or generate one
+          id: clubData.id || crypto.randomUUID(),
           name: clubData.name || "Unnamed Club",
           address: clubData.address,
           city: clubData.city,
@@ -84,11 +83,9 @@ export function useClubsSearch() {
           contact_phone: clubData.contact_phone,
           description: clubData.description,
           additional_info: clubData.additional_info,
-          // For now, we'll add a mock distance based on a random number
-          // Later, we can calculate this based on geolocation
           distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
         };
-      }) || [];
+      });
       
       setSearchResults(clubResults);
       setHasSearched(true);

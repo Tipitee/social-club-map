@@ -75,26 +75,26 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
-          // Use any to avoid type instantiation issues
-          const clubData = data as any;
+          // Explicitly type as any to avoid deep type instantiation
+          const rawClubData = data as Record<string, any>;
           
-          // Ensure the data conforms to our ClubResult interface
+          // Manually create ClubResult object to avoid type issues
           const clubResult: ClubResult = {
             id: id,
-            name: clubData.name || "Unnamed Club",
-            address: clubData.address || null,
-            city: clubData.city || null,
-            postal_code: clubData.postal_code || null,
-            status: (clubData.status as "verified" | "pending" | "unverified") || "unverified",
-            latitude: clubData.latitude || null,
-            longitude: clubData.longitude || null,
-            membership_status: Boolean(clubData.membership_status),
-            district: clubData.district || null,
-            website: clubData.website || null,
-            contact_email: clubData.contact_email || null,
-            contact_phone: clubData.contact_phone || null,
-            description: clubData.description || null,
-            additional_info: clubData.additional_info || null,
+            name: rawClubData.name || "Unnamed Club",
+            address: rawClubData.address || null,
+            city: rawClubData.city || null,
+            postal_code: rawClubData.postal_code || null,
+            status: (rawClubData.status as "verified" | "pending" | "unverified") || "unverified",
+            latitude: rawClubData.latitude || null,
+            longitude: rawClubData.longitude || null,
+            membership_status: Boolean(rawClubData.membership_status),
+            district: rawClubData.district || null,
+            website: rawClubData.website || null,
+            contact_email: rawClubData.contact_email || null,
+            contact_phone: rawClubData.contact_phone || null,
+            description: rawClubData.description || null,
+            additional_info: rawClubData.additional_info || null,
           };
           setClub(clubResult);
         } else {
