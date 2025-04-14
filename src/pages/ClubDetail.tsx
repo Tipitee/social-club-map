@@ -13,8 +13,7 @@ import ClubHeader from "@/components/club/ClubHeader";
 import ClubTabContent from "@/components/club/ClubTabContent";
 import { mockClubDetails } from "@/components/club/mockData";
 
-// Type for the raw database club data
-type RawClubData = {
+interface RawClubData {
   id?: string;
   name: string;
   address: string | null;
@@ -30,6 +29,26 @@ type RawClubData = {
   contact_phone: string | null;
   description: string | null;
   additional_info: string | null;
+}
+
+const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
+  return {
+    id: id,
+    name: rawData.name || "Unnamed Club",
+    address: rawData.address || null,
+    city: rawData.city || null,
+    postal_code: rawData.postal_code || null,
+    status: (rawData.status as "verified" | "pending" | "unverified") || "unverified",
+    latitude: rawData.latitude || null,
+    longitude: rawData.longitude || null,
+    membership_status: Boolean(rawData.membership_status),
+    district: rawData.district || null,
+    website: rawData.website || null,
+    contact_email: rawData.contact_email || null,
+    contact_phone: rawData.contact_phone || null,
+    description: rawData.description || null,
+    additional_info: rawData.additional_info || null
+  };
 };
 
 const ClubDetail: React.FC = () => {
@@ -50,38 +69,18 @@ const ClubDetail: React.FC = () => {
       }
 
       try {
-        const result = await supabase
+        const { data, error: fetchError } = await supabase
           .from('clubs')
           .select('*')
           .eq('id', id)
-          .single();
-        
-        const fetchError = result.error;
-        const data = result.data as RawClubData | null;
+          .single() as { data: RawClubData | null; error: any };
         
         if (fetchError) {
           throw new Error(fetchError.message);
         }
 
         if (data) {
-          const clubData: ClubResult = {
-            id: id,
-            name: data.name || "Unnamed Club",
-            address: data.address || null,
-            city: data.city || null,
-            postal_code: data.postal_code || null,
-            status: (data.status as "verified" | "pending" | "unverified") || "unverified",
-            latitude: data.latitude || null,
-            longitude: data.longitude || null,
-            membership_status: Boolean(data.membership_status),
-            district: data.district || null,
-            website: data.website || null,
-            contact_email: data.contact_email || null,
-            contact_phone: data.contact_phone || null,
-            description: data.description || null,
-            additional_info: data.additional_info || null
-          };
-          
+          const clubData = mapRawDataToClub(id, data);
           setClub(clubData);
         } else {
           setError("Club not found");
