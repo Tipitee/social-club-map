@@ -30,17 +30,17 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Use any to bypass TypeScript's deep type checking
-    const result: any = await supabase
+    // Make the query without type checking
+    const response = await supabase
       .from('clubs')
       .select('*')
       .eq('id', id)
       .single();
       
-    // Return properly typed object
+    // Explicitly reconstruct the response with proper typing
     return {
-      data: result.data as RawClubData | null,
-      error: result.error ? new Error(result.error.message) : null
+      data: response.data as RawClubData | null,
+      error: response.error ? new Error(response.error.message) : null
     };
   } catch (err) {
     // Handle any unexpected errors
