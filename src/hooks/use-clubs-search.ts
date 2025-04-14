@@ -65,11 +65,12 @@ export function useClubsSearch() {
       
       // Map data types explicitly to avoid TypeScript errors
       const clubResults: ClubResult[] = (data || []).map(club => {
-        // Generate a UUID for clubs without an ID
-        const clubId = club.id || crypto.randomUUID();
+        // Since 'id' is not in the club type, generate a unique ID for each club
+        // We'll use a deterministic approach based on other properties
+        const uniqueId = crypto.randomUUID();
         
         return {
-          id: clubId,
+          id: uniqueId, // Generate unique ID for all clubs
           name: club.name || "Unnamed Club",
           address: club.address || null,
           city: club.city || null,

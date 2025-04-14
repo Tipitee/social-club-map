@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -13,6 +12,24 @@ import { ClubResult } from "@/hooks/use-clubs-search";
 import ClubHeader from "@/components/club/ClubHeader";
 import ClubTabContent from "@/components/club/ClubTabContent";
 import { mockClubDetails } from "@/components/club/mockData";
+
+// Type for the raw database club data
+type RawClubData = {
+  name: string;
+  address: string | null;
+  city: string | null;
+  postal_code: string | null;
+  status: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  membership_status: boolean | null;
+  district: string | null;
+  website: string | null;
+  contact_email: string | null;
+  contact_phone: string | null;
+  description: string | null;
+  additional_info: string | null;
+};
 
 const ClubDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -44,7 +61,7 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
-          // Type-safe construction of ClubResult to fix deep instantiation error
+          // Create club data with explicit typing to avoid deep instantiation
           const clubData: ClubResult = {
             id: id,
             name: data.name || "Unnamed Club",
