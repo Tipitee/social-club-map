@@ -35,7 +35,6 @@ const Journal: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      // Mock data loading
       const mockEntries: JournalEntry[] = [
         {
           id: "1",
@@ -113,7 +112,7 @@ const Journal: React.FC = () => {
             <p className="mb-4">{t('journal.signInToTrack')}</p>
             <Button
               onClick={redirectToAuth}
-              className="bg-teal-DEFAULT hover:bg-teal-dark text-white"
+              className="bg-teal-600 hover:bg-teal-700 text-white"
             >
               {t('auth.signIn')}
             </Button>

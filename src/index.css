@@ -253,7 +253,7 @@
     @apply bg-navy-light border-navy-300;
   }
 
-  /* Auth required block in journal - changed to pure white in light mode */
+  /* Auth required block in journal - pure white in light mode, improved dark mode */
   .auth-required-block {
     @apply rounded-lg shadow-sm p-6 text-center;
   }
@@ -264,6 +264,11 @@
 
   .dark .auth-required-block {
     @apply bg-navy-light border-navy-300;
+  }
+  
+  /* Updated sign in button for Journal page */
+  .auth-required-block .button {
+    @apply bg-teal-600 hover:bg-teal-700 text-white border-transparent;
   }
   
   .toast-notification {
@@ -327,7 +332,7 @@
   }
 
   .navbar-logo {
-    @apply h-12 w-auto;
+    @apply h-8 w-auto;
   }
 
   /* Unified content card styles for better light mode contrast */
@@ -356,17 +361,17 @@
     @apply text-white hover:bg-navy-300;
   }
   
-  /* Improved tab menu styles for consistency between Guide and News */
+  /* Improved tab menu styles - unified for Guide and News */
   .tab-menu {
     @apply border-b mb-6 flex overflow-x-auto scrollbar-none;
   }
   
   .tab-button {
-    @apply px-3 py-2 text-sm whitespace-nowrap;
+    @apply px-3 py-2 text-sm whitespace-nowrap font-medium;
   }
   
   .tab-button-active {
-    @apply border-b-2 border-primary font-medium text-primary;
+    @apply border-b-2 border-primary text-primary;
   }
   
   .tab-button-inactive {

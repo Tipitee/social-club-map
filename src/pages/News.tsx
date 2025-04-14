@@ -173,51 +173,49 @@ const News: React.FC = () => {
             {t('news.allUpdates')}
           </h2>
           
-          <div className="border-b mb-6">
-            <div className="flex flex-wrap gap-1 md:gap-4">
-              <Button
-                variant="ghost"
-                className={`px-3 py-2 text-sm ${activeTab === 'all' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
-                onClick={() => setActiveTab('all')}
-              >
-                {t('strains.all')}
-              </Button>
-              <Button
-                variant="ghost"
-                className={`px-3 py-2 text-sm ${activeTab === 'federal' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
-                onClick={() => setActiveTab('federal')}
-              >
-                {t('news.federal')}
-              </Button>
-              <Button
-                variant="ghost"
-                className={`px-3 py-2 text-sm ${activeTab === 'state' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
-                onClick={() => setActiveTab('state')}
-              >
-                {t('news.state')}
-              </Button>
-              <Button
-                variant="ghost"
-                className={`px-3 py-2 text-sm ${activeTab === 'medical' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
-                onClick={() => setActiveTab('medical')}
-              >
-                {t('news.medical')}
-              </Button>
-              <Button
-                variant="ghost"
-                className={`px-3 py-2 text-sm ${activeTab === 'recreational' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
-                onClick={() => setActiveTab('recreational')}
-              >
-                {t('news.recreational')}
-              </Button>
-              <Button
-                variant="ghost"
-                className={`px-3 py-2 text-sm ${activeTab === 'business' ? 'border-b-2 border-primary font-medium text-primary' : 'text-navy-dark dark:text-gray-300'}`}
-                onClick={() => setActiveTab('business')}
-              >
-                {t('news.business')}
-              </Button>
-            </div>
+          <div className="tab-menu">
+            <Button
+              variant="ghost"
+              className={`tab-button ${activeTab === 'all' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              onClick={() => setActiveTab('all')}
+            >
+              {t('strains.all')}
+            </Button>
+            <Button
+              variant="ghost"
+              className={`tab-button ${activeTab === 'federal' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              onClick={() => setActiveTab('federal')}
+            >
+              {t('news.federal')}
+            </Button>
+            <Button
+              variant="ghost"
+              className={`tab-button ${activeTab === 'state' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              onClick={() => setActiveTab('state')}
+            >
+              {t('news.state')}
+            </Button>
+            <Button
+              variant="ghost"
+              className={`tab-button ${activeTab === 'medical' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              onClick={() => setActiveTab('medical')}
+            >
+              {t('news.medical')}
+            </Button>
+            <Button
+              variant="ghost"
+              className={`tab-button ${activeTab === 'recreational' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              onClick={() => setActiveTab('recreational')}
+            >
+              {t('news.recreational')}
+            </Button>
+            <Button
+              variant="ghost"
+              className={`tab-button ${activeTab === 'business' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              onClick={() => setActiveTab('business')}
+            >
+              {t('news.business')}
+            </Button>
           </div>
           
           <div className="mb-4">

@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
-import { User } from "lucide-react";
+import { User, LogIn } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar: React.FC = () => {
@@ -47,13 +47,13 @@ const Navbar: React.FC = () => {
             <img 
               src="/lovable-uploads/27f327ef-1fe4-46e4-88ae-7e523c37dee6.png" 
               alt="Logo" 
-              className="h-10 w-auto mr-2" 
+              className="h-8 w-auto" 
             />
           ) : (
             <img 
               src="/lovable-uploads/8aadd7cd-2da7-4b51-833e-73194cbe47ee.png"
               alt="Logo" 
-              className="h-10 w-auto mr-2" 
+              className="h-8 w-auto" 
             />
           )}
         </Link>
@@ -68,18 +68,18 @@ const Navbar: React.FC = () => {
                   <User className="h-5 w-5 text-navy-dark dark:text-white" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light">
+              <DropdownMenuContent align="end" className="bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-500">
                 <DropdownMenuLabel className="text-navy-dark dark:text-white">{t('navigation.profile')}</DropdownMenuLabel>
-                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
+                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
                   <Link to="/profile">{t('navigation.profile')}</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
+                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
                   <Link to="/settings">{t('navigation.settings')}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-navy-DEFAULT/20 dark:bg-white/20" />
                 <DropdownMenuItem 
                   onClick={() => signOut()} 
-                  className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10"
+                  className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300"
                 >
                   {t('auth.signOut')}
                 </DropdownMenuItem>
@@ -87,8 +87,8 @@ const Navbar: React.FC = () => {
             </DropdownMenu>
           ) : (
             <Link to="/auth">
-              <Button variant="outline" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
-                {t('auth.signIn')}
+              <Button variant="outline" size="icon" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-gray-100 dark:hover:bg-navy-400">
+                <LogIn className="h-5 w-5" />
               </Button>
             </Link>
           )}

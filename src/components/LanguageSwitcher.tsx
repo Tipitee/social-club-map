@@ -16,7 +16,6 @@ const LanguageSwitcher: React.FC = () => {
   const { i18n, t } = useTranslation();
   const { language, setLanguage } = useLanguage();
   const [isChanging, setIsChanging] = useState<boolean>(false);
-  const isDarkMode = document.documentElement.classList.contains('dark');
 
   const changeLanguage = async (lng: 'en' | 'de') => {
     // Skip if the language is already selected or a change is in progress
@@ -55,37 +54,23 @@ const LanguageSwitcher: React.FC = () => {
     }
   };
 
-  // Improved styles for better contrast in both light and dark mode
-  const getDropdownStyles = () => {
-    return isDarkMode 
-      ? "bg-navy-400 border-navy-500 shadow-md" 
-      : "bg-white border-gray-200";
-  };
-  
-  const getButtonStyles = () => {
-    return isDarkMode
-      ? "bg-navy-light border-navy-400 text-white hover:bg-navy-400"
-      : "bg-white border-gray-200 text-gray-800 hover:bg-gray-100";
-  };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
           variant="outline" 
-          size="sm" 
-          className={`${getButtonStyles()} transition-colors flex items-center gap-2`}
+          size="icon" 
+          className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-gray-100 dark:hover:bg-navy-400 rounded-full"
           disabled={isChanging}
         >
           <Globe size={16} />
-          {language === 'en' ? 'EN' : 'DE'}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className={`w-40 ${getDropdownStyles()}`}>
+      <DropdownMenuContent className="w-40 bg-white dark:bg-navy-400 border-gray-200 dark:border-navy-500 shadow-md">
         <DropdownMenuItem 
           className={`flex items-center justify-between ${language === 'en' 
-            ? 'bg-primary/20 text-primary dark:text-white' 
-            : 'text-foreground dark:text-white hover:bg-accent/50'}`}
+            ? 'bg-primary/20 text-primary dark:bg-primary/40 dark:text-white' 
+            : 'text-foreground dark:text-white hover:bg-accent/50 dark:hover:bg-navy-300'}`}
           onClick={() => changeLanguage('en')}
         >
           English
@@ -93,8 +78,8 @@ const LanguageSwitcher: React.FC = () => {
         </DropdownMenuItem>
         <DropdownMenuItem 
           className={`flex items-center justify-between ${language === 'de' 
-            ? 'bg-primary/20 text-primary dark:text-white' 
-            : 'text-foreground dark:text-white hover:bg-accent/50'}`}
+            ? 'bg-primary/20 text-primary dark:bg-primary/40 dark:text-white' 
+            : 'text-foreground dark:text-white hover:bg-accent/50 dark:hover:bg-navy-300'}`}
           onClick={() => changeLanguage('de')}
         >
           Deutsch
