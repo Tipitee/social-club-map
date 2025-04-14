@@ -9,11 +9,14 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
 
 const Settings: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const changeLanguage = (value: string) => {
     i18n.changeLanguage(value);
@@ -23,14 +26,28 @@ const Settings: React.FC = () => {
       description: value === 'en' ? 'Language set to English' : 'Sprache auf Deutsch eingestellt',
     });
   };
+
+  const goBack = () => {
+    navigate(-1);
+  };
   
   return (
     <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
-        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
-          {t('settings.title')}
-        </h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">
+            {t('settings.title')}
+          </h1>
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={goBack}
+            className="rounded-full bg-white hover:bg-gray-100 dark:bg-navy-400 dark:hover:bg-navy-300 border-navy-DEFAULT dark:border-navy-500"
+          >
+            <X className="h-4 w-4 text-navy-dark dark:text-white" />
+          </Button>
+        </div>
         
         <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
           <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md">
@@ -66,7 +83,7 @@ const Settings: React.FC = () => {
                 <Select value={i18n.language} onValueChange={changeLanguage}>
                   <SelectTrigger 
                     id="language-select" 
-                    className="bg-white dark:bg-navy-DEFAULT border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white"
+                    className="bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-500 text-navy-dark dark:text-white"
                   >
                     <SelectValue placeholder={t('language.select')} />
                   </SelectTrigger>

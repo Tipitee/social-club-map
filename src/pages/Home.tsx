@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Book, Cannabis, Map, Settings, BookText, Newspaper } from "lucide-react";
+import { Book, Cannabis, Map, BookText, Newspaper } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -45,13 +45,6 @@ const Home: React.FC = () => {
       title: t('navigation.news'),
       description: t('news.stayInformed'),
       cardClass: "home-card-news"
-    },
-    {
-      path: "/settings",
-      icon: Settings,
-      title: t('navigation.settings'),
-      description: t('settings.managePreferences'),
-      cardClass: "home-card-settings"
     }
   ];
 
