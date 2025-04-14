@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -74,12 +75,12 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
-          // Use any to avoid the deep type instantiation
+          // Use any to avoid type instantiation issues
           const clubData = data as any;
           
           // Ensure the data conforms to our ClubResult interface
           const clubResult: ClubResult = {
-            id: id, // Use the URL parameter as the ID
+            id: id,
             name: clubData.name || "Unnamed Club",
             address: clubData.address || null,
             city: clubData.city || null,

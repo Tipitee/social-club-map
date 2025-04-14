@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Tables } from "@/integrations/supabase/types";
 
 export interface ClubResult {
   id: string;
@@ -65,12 +64,12 @@ export function useClubsSearch() {
       
       // Transform data to match our interface
       const clubResults: ClubResult[] = data?.map(club => {
-        // Use a simpler approach to type the data
+        // Use any to avoid deep type instantiation issues
         const clubData = club as any;
         
         // Create a uniquely identified club entry
         return {
-          id: crypto.randomUUID(), // Generate a random ID since it doesn't exist in database
+          id: clubData.id || crypto.randomUUID(), // Use existing ID if available or generate one
           name: clubData.name || "Unnamed Club",
           address: clubData.address,
           city: clubData.city,
