@@ -374,7 +374,7 @@
   }
   
   .tab-button-inactive {
-    @apply text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary-light;
+    @apply text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary;
   }
 }
 
