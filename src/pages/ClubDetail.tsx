@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -14,7 +13,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { ClubResult } from "@/hooks/use-clubs-search";
-import { Tables } from "@/integrations/supabase/types";
 
 // Mock data for aspects of clubs we don't yet have in the database
 const mockClubDetails = {
@@ -76,28 +74,28 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
-          // Type cast the raw data first to avoid deep type instantiation
-          const rawClubData = data as Tables["clubs"]["Row"];
+          // Use any to avoid the deep type instantiation
+          const clubData = data as any;
           
           // Ensure the data conforms to our ClubResult interface
-          const clubData: ClubResult = {
+          const clubResult: ClubResult = {
             id: id, // Use the URL parameter as the ID
-            name: rawClubData.name || "Unnamed Club",
-            address: rawClubData.address || null,
-            city: rawClubData.city || null,
-            postal_code: rawClubData.postal_code || null,
-            status: (rawClubData.status as "verified" | "pending" | "unverified") || "unverified",
-            latitude: rawClubData.latitude || null,
-            longitude: rawClubData.longitude || null,
-            membership_status: Boolean(rawClubData.membership_status),
-            district: rawClubData.district || null,
-            website: rawClubData.website || null,
-            contact_email: rawClubData.contact_email || null,
-            contact_phone: rawClubData.contact_phone || null,
-            description: rawClubData.description || null,
-            additional_info: rawClubData.additional_info || null,
+            name: clubData.name || "Unnamed Club",
+            address: clubData.address || null,
+            city: clubData.city || null,
+            postal_code: clubData.postal_code || null,
+            status: (clubData.status as "verified" | "pending" | "unverified") || "unverified",
+            latitude: clubData.latitude || null,
+            longitude: clubData.longitude || null,
+            membership_status: Boolean(clubData.membership_status),
+            district: clubData.district || null,
+            website: clubData.website || null,
+            contact_email: clubData.contact_email || null,
+            contact_phone: clubData.contact_phone || null,
+            description: clubData.description || null,
+            additional_info: clubData.additional_info || null,
           };
-          setClub(clubData);
+          setClub(clubResult);
         } else {
           setError("Club not found");
         }

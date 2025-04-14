@@ -65,26 +65,26 @@ export function useClubsSearch() {
       
       // Transform data to match our interface
       const clubResults: ClubResult[] = data?.map(club => {
-        // Type cast the raw data first to avoid deep type instantiation
-        const rawClubData = club as Tables["clubs"]["Row"];
+        // Use a simpler approach to type the data
+        const clubData = club as any;
         
         // Create a uniquely identified club entry
         return {
           id: crypto.randomUUID(), // Generate a random ID since it doesn't exist in database
-          name: rawClubData.name || "Unnamed Club",
-          address: rawClubData.address,
-          city: rawClubData.city,
-          postal_code: rawClubData.postal_code,
-          status: (rawClubData.status as "verified" | "pending" | "unverified") || "unverified",
-          latitude: rawClubData.latitude,
-          longitude: rawClubData.longitude,
-          membership_status: Boolean(rawClubData.membership_status),
-          district: rawClubData.district,
-          website: rawClubData.website,
-          contact_email: rawClubData.contact_email,
-          contact_phone: rawClubData.contact_phone,
-          description: rawClubData.description,
-          additional_info: rawClubData.additional_info,
+          name: clubData.name || "Unnamed Club",
+          address: clubData.address,
+          city: clubData.city,
+          postal_code: clubData.postal_code,
+          status: (clubData.status as "verified" | "pending" | "unverified") || "unverified",
+          latitude: clubData.latitude,
+          longitude: clubData.longitude,
+          membership_status: Boolean(clubData.membership_status),
+          district: clubData.district,
+          website: clubData.website,
+          contact_email: clubData.contact_email,
+          contact_phone: clubData.contact_phone,
+          description: clubData.description,
+          additional_info: clubData.additional_info,
           // For now, we'll add a mock distance based on a random number
           // Later, we can calculate this based on geolocation
           distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
