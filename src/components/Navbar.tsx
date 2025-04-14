@@ -45,15 +45,15 @@ const Navbar: React.FC = () => {
         <Link to="/" className="flex items-center font-bold text-xl">
           {theme === 'dark' ? (
             <img 
-              src="/lovable-uploads/darklogo.jpg?v=1" 
+              src="https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/logoclub//darklogo.jpg" 
               alt="Logo" 
-              className="navbar-logo" 
+              className="navbar-logo h-10" 
             />
           ) : (
             <img 
-              src="/lovable-uploads/lightlogo.jpg?v=1"
+              src="https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/logoclub//lightlogo.jpg"
               alt="Logo" 
-              className="navbar-logo" 
+              className="navbar-logo h-10" 
             />
           )}
         </Link>
