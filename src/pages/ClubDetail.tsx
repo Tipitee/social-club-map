@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -15,6 +16,7 @@ import { mockClubDetails } from "@/components/club/mockData";
 
 // Type for the raw database club data
 type RawClubData = {
+  id?: string;
   name: string;
   address: string | null;
   city: string | null;
@@ -50,7 +52,7 @@ const ClubDetail: React.FC = () => {
 
       try {
         // Fetch club data from Supabase
-        const { data, error: fetchError } = await supabase
+        const { data: rawData, error: fetchError } = await supabase
           .from('clubs')
           .select('*')
           .eq('id', id)
@@ -59,6 +61,9 @@ const ClubDetail: React.FC = () => {
         if (fetchError) {
           throw new Error(fetchError.message);
         }
+
+        // Type assertion to ensure correct typing
+        const data = rawData as RawClubData | null;
 
         if (data) {
           // Create club data with explicit typing to avoid deep instantiation
