@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { Database } from "@/integrations/supabase/types";
 
 export interface ClubResult {
   id: string;
@@ -62,25 +63,30 @@ export function useClubsSearch() {
         throw new Error(fetchError.message);
       }
       
-      // Use type assertion to handle the database response
-      const clubResults: ClubResult[] = (data || []).map(item => ({
-        id: item.id || crypto.randomUUID(),
-        name: item.name || "Unnamed Club",
-        address: item.address,
-        city: item.city,
-        postal_code: item.postal_code,
-        status: (item.status as "verified" | "pending" | "unverified") || "unverified",
-        latitude: item.latitude,
-        longitude: item.longitude,
-        membership_status: Boolean(item.membership_status),
-        district: item.district,
-        website: item.website,
-        contact_email: item.contact_email,
-        contact_phone: item.contact_phone,
-        description: item.description,
-        additional_info: item.additional_info,
-        distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
-      }));
+      // Map data types explicitly to avoid TypeScript errors
+      const clubResults: ClubResult[] = (data || []).map(club => {
+        // Generate random UUID for clubs that don't have an ID
+        const clubId = typeof club.id === 'string' ? club.id : crypto.randomUUID();
+        
+        return {
+          id: clubId,
+          name: club.name || "Unnamed Club",
+          address: club.address,
+          city: club.city,
+          postal_code: club.postal_code,
+          status: (club.status as "verified" | "pending" | "unverified") || "unverified",
+          latitude: club.latitude,
+          longitude: club.longitude,
+          membership_status: Boolean(club.membership_status),
+          district: club.district,
+          website: club.website,
+          contact_email: club.contact_email,
+          contact_phone: club.contact_phone,
+          description: club.description,
+          additional_info: club.additional_info,
+          distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
+        };
+      });
       
       setSearchResults(clubResults);
       setHasSearched(true);

@@ -75,8 +75,8 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
-          // Handle type issues by explicitly constructing the ClubResult object
-          const clubData = {
+          // Explicitly construct ClubResult to avoid type instantiation issues
+          const clubData: ClubResult = {
             id: id,
             name: data.name || "Unnamed Club",
             address: data.address || null,
@@ -91,7 +91,7 @@ const ClubDetail: React.FC = () => {
             contact_email: data.contact_email || null,
             contact_phone: data.contact_phone || null,
             description: data.description || null,
-            additional_info: data.additional_info || null,
+            additional_info: data.additional_info || null
           };
           
           setClub(clubData);
