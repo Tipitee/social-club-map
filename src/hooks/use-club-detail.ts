@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ClubResult } from "@/hooks/use-clubs-search";
@@ -28,18 +29,26 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  * Fetches a club by its ID from Supabase
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
-  // Completely bypass TypeScript type inference with any
-  const { data, error } = await supabase
-    .from('clubs')
-    .select('*')
-    .eq('id', id)
-    .single() as any;
-  
-  // Return with explicit typing after the query is done
-  return { 
-    data: data as RawClubData | null, 
-    error: error as Error | null 
-  };
+  try {
+    // Execute the query without type inference
+    const result = await supabase
+      .from('clubs')
+      .select('*')
+      .eq('id', id)
+      .single();
+      
+    // Cast the result after the query completes
+    return {
+      data: result.data as RawClubData | null,
+      error: result.error as Error | null
+    };
+  } catch (err) {
+    // Handle any unexpected errors
+    return {
+      data: null,
+      error: err instanceof Error ? err : new Error('Unknown error occurred')
+    };
+  }
 };
 
 export function useClubDetail(id: string | undefined) {
