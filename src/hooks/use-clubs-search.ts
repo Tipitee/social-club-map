@@ -65,25 +65,25 @@ export function useClubsSearch() {
       
       // Map data types explicitly to avoid TypeScript errors
       const clubResults: ClubResult[] = (data || []).map(club => {
-        // Generate random UUID for clubs without an ID
-        const clubId = crypto.randomUUID();
+        // Generate a UUID for clubs without an ID
+        const clubId = club.id || crypto.randomUUID();
         
         return {
           id: clubId,
           name: club.name || "Unnamed Club",
-          address: club.address,
-          city: club.city,
-          postal_code: club.postal_code,
+          address: club.address || null,
+          city: club.city || null,
+          postal_code: club.postal_code || null,
           status: (club.status as "verified" | "pending" | "unverified") || "unverified",
-          latitude: club.latitude,
-          longitude: club.longitude,
+          latitude: club.latitude || null,
+          longitude: club.longitude || null,
           membership_status: Boolean(club.membership_status),
-          district: club.district,
-          website: club.website,
-          contact_email: club.contact_email,
-          contact_phone: club.contact_phone,
-          description: club.description,
-          additional_info: club.additional_info,
+          district: club.district || null,
+          website: club.website || null,
+          contact_email: club.contact_email || null,
+          contact_phone: club.contact_phone || null,
+          description: club.description || null,
+          additional_info: club.additional_info || null,
           distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
         };
       });

@@ -44,7 +44,7 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
-          // Explicitly construct ClubResult to avoid type instantiation issues
+          // Type-safe construction of ClubResult to fix deep instantiation error
           const clubData: ClubResult = {
             id: id,
             name: data.name || "Unnamed Club",
