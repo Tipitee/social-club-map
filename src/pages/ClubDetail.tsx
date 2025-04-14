@@ -76,7 +76,7 @@ const ClubDetail: React.FC = () => {
         if (data) {
           // Ensure the data conforms to our ClubResult interface
           const clubData: ClubResult = {
-            id: data.id?.toString() || id, // Use provided ID if db doesn't have one
+            id: id, // Use the URL parameter as the ID
             name: data.name || "Unnamed Club",
             address: data.address || null,
             city: data.city || null,

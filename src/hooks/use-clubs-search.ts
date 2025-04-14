@@ -63,26 +63,29 @@ export function useClubsSearch() {
       }
       
       // Transform data to match our interface
-      const clubResults: ClubResult[] = data?.map(club => ({
-        id: club.id?.toString() || crypto.randomUUID(), // Generate a random ID if none exists
-        name: club.name || "Unnamed Club",
-        address: club.address,
-        city: club.city,
-        postal_code: club.postal_code,
-        status: (club.status as "verified" | "pending" | "unverified") || "unverified",
-        latitude: club.latitude,
-        longitude: club.longitude,
-        membership_status: Boolean(club.membership_status),
-        district: club.district,
-        website: club.website,
-        contact_email: club.contact_email,
-        contact_phone: club.contact_phone,
-        description: club.description,
-        additional_info: club.additional_info,
-        // For now, we'll add a mock distance based on a random number
-        // Later, we can calculate this based on geolocation
-        distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
-      })) || [];
+      const clubResults: ClubResult[] = data?.map(club => {
+        // Create a uniquely identified club entry
+        return {
+          id: crypto.randomUUID(), // Generate a random ID since it doesn't exist in database
+          name: club.name || "Unnamed Club",
+          address: club.address,
+          city: club.city,
+          postal_code: club.postal_code,
+          status: (club.status as "verified" | "pending" | "unverified") || "unverified",
+          latitude: club.latitude,
+          longitude: club.longitude,
+          membership_status: Boolean(club.membership_status),
+          district: club.district,
+          website: club.website,
+          contact_email: club.contact_email,
+          contact_phone: club.contact_phone,
+          description: club.description,
+          additional_info: club.additional_info,
+          // For now, we'll add a mock distance based on a random number
+          // Later, we can calculate this based on geolocation
+          distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
+        };
+      }) || [];
       
       setSearchResults(clubResults);
       setHasSearched(true);
