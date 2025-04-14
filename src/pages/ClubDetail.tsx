@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -52,7 +51,7 @@ const ClubDetail: React.FC = () => {
 
       try {
         // Fetch club data from Supabase
-        const { data: rawData, error: fetchError } = await supabase
+        const { data, error: fetchError } = await supabase
           .from('clubs')
           .select('*')
           .eq('id', id)
@@ -62,11 +61,9 @@ const ClubDetail: React.FC = () => {
           throw new Error(fetchError.message);
         }
 
-        // Type assertion to ensure correct typing
-        const data = rawData as RawClubData | null;
-
+        // Instead of type assertion, convert the data to our expected type
         if (data) {
-          // Create club data with explicit typing to avoid deep instantiation
+          // Convert to ClubResult with explicit property assignments
           const clubData: ClubResult = {
             id: id,
             name: data.name || "Unnamed Club",
