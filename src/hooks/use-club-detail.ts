@@ -38,22 +38,20 @@ export function useClubDetail(id: string | undefined) {
       }
 
       try {
-        // Use type assertion to avoid excessive type instantiation
-        const response = await supabase
+        // Skip type inference by using any type temporarily
+        const { data, error: supabaseError } = await supabase
           .from('clubs')
           .select('*')
           .eq('id', id)
-          .single();
+          .single() as { data: any; error: any };
           
-        const { data, error: supabaseError } = response;
-        
         if (supabaseError) {
           throw new Error(supabaseError.message);
         }
 
         if (data) {
-          // Use type assertion to avoid TypeScript inference issues
-          const clubData = data as unknown as RawClubData;
+          // Explicitly cast data to RawClubData to avoid deep type instantiation
+          const clubData = data as RawClubData;
           const mappedClub = mapRawDataToClub(id, clubData);
           setClub(mappedClub);
         } else {
