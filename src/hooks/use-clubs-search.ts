@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { Tables } from "@/integrations/supabase/types";
 
 export interface ClubResult {
   id: string;
@@ -64,23 +65,26 @@ export function useClubsSearch() {
       
       // Transform data to match our interface
       const clubResults: ClubResult[] = data?.map(club => {
+        // Type cast the raw data first to avoid deep type instantiation
+        const rawClubData = club as Tables["clubs"]["Row"];
+        
         // Create a uniquely identified club entry
         return {
           id: crypto.randomUUID(), // Generate a random ID since it doesn't exist in database
-          name: club.name || "Unnamed Club",
-          address: club.address,
-          city: club.city,
-          postal_code: club.postal_code,
-          status: (club.status as "verified" | "pending" | "unverified") || "unverified",
-          latitude: club.latitude,
-          longitude: club.longitude,
-          membership_status: Boolean(club.membership_status),
-          district: club.district,
-          website: club.website,
-          contact_email: club.contact_email,
-          contact_phone: club.contact_phone,
-          description: club.description,
-          additional_info: club.additional_info,
+          name: rawClubData.name || "Unnamed Club",
+          address: rawClubData.address,
+          city: rawClubData.city,
+          postal_code: rawClubData.postal_code,
+          status: (rawClubData.status as "verified" | "pending" | "unverified") || "unverified",
+          latitude: rawClubData.latitude,
+          longitude: rawClubData.longitude,
+          membership_status: Boolean(rawClubData.membership_status),
+          district: rawClubData.district,
+          website: rawClubData.website,
+          contact_email: rawClubData.contact_email,
+          contact_phone: rawClubData.contact_phone,
+          description: rawClubData.description,
+          additional_info: rawClubData.additional_info,
           // For now, we'll add a mock distance based on a random number
           // Later, we can calculate this based on geolocation
           distance: parseFloat((Math.random() * 20 + 1).toFixed(1))

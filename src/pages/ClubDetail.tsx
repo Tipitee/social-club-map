@@ -14,6 +14,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { ClubResult } from "@/hooks/use-clubs-search";
+import { Tables } from "@/integrations/supabase/types";
 
 // Mock data for aspects of clubs we don't yet have in the database
 const mockClubDetails = {
@@ -63,6 +64,7 @@ const ClubDetail: React.FC = () => {
       }
 
       try {
+        // Fetch club data from Supabase
         const { data, error: fetchError } = await supabase
           .from('clubs')
           .select('*')
@@ -74,23 +76,26 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
+          // Type cast the raw data first to avoid deep type instantiation
+          const rawClubData = data as Tables["clubs"]["Row"];
+          
           // Ensure the data conforms to our ClubResult interface
           const clubData: ClubResult = {
             id: id, // Use the URL parameter as the ID
-            name: data.name || "Unnamed Club",
-            address: data.address || null,
-            city: data.city || null,
-            postal_code: data.postal_code || null,
-            status: (data.status as "verified" | "pending" | "unverified") || "unverified",
-            latitude: data.latitude || null,
-            longitude: data.longitude || null,
-            membership_status: Boolean(data.membership_status),
-            district: data.district || null,
-            website: data.website || null,
-            contact_email: data.contact_email || null,
-            contact_phone: data.contact_phone || null,
-            description: data.description || null,
-            additional_info: data.additional_info || null,
+            name: rawClubData.name || "Unnamed Club",
+            address: rawClubData.address || null,
+            city: rawClubData.city || null,
+            postal_code: rawClubData.postal_code || null,
+            status: (rawClubData.status as "verified" | "pending" | "unverified") || "unverified",
+            latitude: rawClubData.latitude || null,
+            longitude: rawClubData.longitude || null,
+            membership_status: Boolean(rawClubData.membership_status),
+            district: rawClubData.district || null,
+            website: rawClubData.website || null,
+            contact_email: rawClubData.contact_email || null,
+            contact_phone: rawClubData.contact_phone || null,
+            description: rawClubData.description || null,
+            additional_info: rawClubData.additional_info || null,
           };
           setClub(clubData);
         } else {
