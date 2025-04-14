@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -73,22 +74,23 @@ const ClubDetail: React.FC = () => {
         }
 
         if (data) {
+          // Ensure the data conforms to our ClubResult interface
           const clubData: ClubResult = {
-            id: data.id || "",
+            id: data.id?.toString() || id, // Use provided ID if db doesn't have one
             name: data.name || "Unnamed Club",
-            address: data.address,
-            city: data.city,
-            postal_code: data.postal_code,
+            address: data.address || null,
+            city: data.city || null,
+            postal_code: data.postal_code || null,
             status: (data.status as "verified" | "pending" | "unverified") || "unverified",
-            latitude: data.latitude,
-            longitude: data.longitude,
+            latitude: data.latitude || null,
+            longitude: data.longitude || null,
             membership_status: Boolean(data.membership_status),
-            district: data.district,
-            website: data.website,
-            contact_email: data.contact_email,
-            contact_phone: data.contact_phone,
-            description: data.description,
-            additional_info: data.additional_info,
+            district: data.district || null,
+            website: data.website || null,
+            contact_email: data.contact_email || null,
+            contact_phone: data.contact_phone || null,
+            description: data.description || null,
+            additional_info: data.additional_info || null,
           };
           setClub(clubData);
         } else {

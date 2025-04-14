@@ -64,8 +64,7 @@ export function useClubsSearch() {
       
       // Transform data to match our interface
       const clubResults: ClubResult[] = data?.map(club => ({
-        // Use nullish coalescing to handle potential undefined values
-        id: club.id || "",
+        id: club.id?.toString() || crypto.randomUUID(), // Generate a random ID if none exists
         name: club.name || "Unnamed Club",
         address: club.address,
         city: club.city,
