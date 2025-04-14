@@ -9,6 +9,60 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      clubs: {
+        Row: {
+          additional_info: string | null
+          address: string | null
+          city: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string | null
+          description: string | null
+          district: string | null
+          latitude: number | null
+          longitude: number | null
+          membership_status: boolean | null
+          name: string
+          postal_code: string | null
+          status: string | null
+          website: string | null
+        }
+        Insert: {
+          additional_info?: string | null
+          address?: string | null
+          city?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          description?: string | null
+          district?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          membership_status?: boolean | null
+          name: string
+          postal_code?: string | null
+          status?: string | null
+          website?: string | null
+        }
+        Update: {
+          additional_info?: string | null
+          address?: string | null
+          city?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          description?: string | null
+          district?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          membership_status?: boolean | null
+          name?: string
+          postal_code?: string | null
+          status?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       journal_entries: {
         Row: {
           activity: string
