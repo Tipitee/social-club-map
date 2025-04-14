@@ -30,17 +30,17 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Avoid type inference by using a more direct approach
-    const { data, error } = await supabase
+    // Cast to any to avoid TypeScript's complex type inference
+    const response: any = await supabase
       .from('clubs')
       .select('*')
       .eq('id', id)
       .single();
-      
-    // Return properly typed response
+    
+    // After the query completes, cast back to our expected types
     return {
-      data: data as RawClubData | null,
-      error: error as Error | null
+      data: response.data as RawClubData | null,
+      error: response.error as Error | null
     };
   } catch (err) {
     // Handle any unexpected errors
