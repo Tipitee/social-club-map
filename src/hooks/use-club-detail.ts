@@ -38,7 +38,7 @@ export function useClubDetail(id: string | undefined) {
       }
 
       try {
-        // Use explicit type for the response to avoid deep type instantiation
+        // Avoid deep type instantiation by using a more direct approach
         const { data, error: supabaseError } = await supabase
           .from('clubs')
           .select('*')
@@ -49,10 +49,9 @@ export function useClubDetail(id: string | undefined) {
           throw new Error(supabaseError.message);
         }
 
-        // Explicitly type the data
-        const clubData = data as RawClubData | null;
-        
-        if (clubData) {
+        if (data) {
+          // Explicitly cast the data to our known type to avoid TypeScript inference issues
+          const clubData = data as unknown as RawClubData;
           const mappedClub = mapRawDataToClub(id, clubData);
           setClub(mappedClub);
         } else {
