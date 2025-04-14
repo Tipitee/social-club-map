@@ -130,7 +130,7 @@ const ClubMap: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-dark dark:text-gray-400" size={18} />
                 <Input
                   placeholder={t('clubs.enterCityPostal')}
-                  className="pl-10 bg-white dark:bg-navy-DEFAULT border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white"
+                  className="pl-10 bg-white dark:bg-teal-dark/20 border-navy-DEFAULT dark:border-teal-dark/30 text-navy-dark dark:text-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}

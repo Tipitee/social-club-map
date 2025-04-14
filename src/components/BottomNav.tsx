@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, Cannabis, MapPin, Settings, BookText, Newspaper } from "lucide-react";
+import { Home, BookOpen, Cannabis, MapPin, BookText, Newspaper } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const BottomNav: React.FC = () => {
@@ -20,7 +20,6 @@ const BottomNav: React.FC = () => {
     { path: "/clubs", label: t('navigation.clubs'), icon: MapPin },
     { path: "/guide", label: t('navigation.guide'), icon: BookText },
     { path: "/news", label: t('navigation.news'), icon: Newspaper },
-    { path: "/settings", label: t('navigation.settings'), icon: Settings },
   ];
 
   const getNavBackgroundClass = () => isDarkMode 

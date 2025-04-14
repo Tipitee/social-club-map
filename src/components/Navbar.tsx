@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
-import { User, LogIn } from "lucide-react";
+import { User, LogIn, Settings } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar: React.FC = () => {
@@ -45,13 +45,13 @@ const Navbar: React.FC = () => {
         <Link to="/" className="flex items-center font-bold text-xl">
           {theme === 'dark' ? (
             <img 
-              src="https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/logoclub//darklogo.jpg" 
+              src="https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/logoclub//darklogo.png" 
               alt="Logo" 
               className="navbar-logo h-10" 
             />
           ) : (
             <img 
-              src="https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/logoclub//lightlogo.jpg"
+              src="https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/logoclub//lightlogo.png"
               alt="Logo" 
               className="navbar-logo h-10" 
             />
@@ -60,6 +60,12 @@ const Navbar: React.FC = () => {
 
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
+          
+          <Link to="/settings">
+            <Button variant="outline" size="icon" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light">
+              <Settings className="h-5 w-5 text-navy-dark dark:text-white" />
+            </Button>
+          </Link>
           
           {user ? (
             <DropdownMenu>

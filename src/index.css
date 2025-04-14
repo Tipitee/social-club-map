@@ -356,25 +356,25 @@
     @apply bg-navy-400 border-navy-500 shadow-md;
   }
 
-  .dark .dropdown-menu-item {
+  .dark .dropdown-item {
     @apply text-white hover:bg-navy-300;
   }
   
   /* Improved tab menu styles - unified for Guide and News */
   .tab-menu {
-    @apply border-b mb-6 flex overflow-x-auto scrollbar-none;
+    @apply border-b border-gray-200 dark:border-navy-400 mb-4 flex overflow-x-auto scrollbar-none gap-1;
   }
   
   .tab-button {
-    @apply px-3 py-2 text-sm whitespace-nowrap font-medium;
+    @apply px-2.5 py-1.5 text-xs whitespace-nowrap font-medium rounded-t transition-colors;
   }
   
   .tab-button-active {
-    @apply border-b-2 border-primary text-primary;
+    @apply border-b-2 border-teal text-teal dark:text-teal-light bg-teal-DEFAULT/5 dark:bg-teal-dark/10;
   }
   
   .tab-button-inactive {
-    @apply text-navy-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary;
+    @apply text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light hover:bg-teal-DEFAULT/5 dark:hover:bg-teal-dark/10;
   }
 }
 
