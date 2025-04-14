@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { StrainFilters as StrainFiltersType } from "@/types/strain";
 import { Filter } from "lucide-react";
+import { useDebounce } from "@/hooks/use-debounce";
 
 interface StrainFiltersProps {
   filters: StrainFiltersType;
@@ -26,11 +27,25 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
 }) => {
   const { t } = useTranslation();
   const [localFilters, setLocalFilters] = useState<StrainFiltersType>(filters);
+  const debouncedSearchTerm = useDebounce(localFilters.search, 500);
 
   const handleChange = (key: keyof StrainFiltersType, value: any) => {
     const newFilters = { ...localFilters, [key]: value };
     setLocalFilters(newFilters);
+    
+    // If search field is changed, don't apply filters immediately
+    // The debounce effect below will handle that
+    if (key !== 'search') {
+      onFilterChange(newFilters);
+    }
   };
+
+  // Use effect to auto-apply search filters after debouncing
+  useEffect(() => {
+    if (debouncedSearchTerm !== filters.search) {
+      onFilterChange({ ...localFilters, search: debouncedSearchTerm });
+    }
+  }, [debouncedSearchTerm, filters.search, localFilters, onFilterChange]);
 
   const applyFilters = () => {
     onFilterChange(localFilters);
@@ -118,7 +133,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         </div>
 
         <div>
-          <Label htmlFor="terpene" className="mb-2 block">{t('strains.terpenes')}</Label>
+          <Label htmlFor="terpene" className="mb-2 block">Terpenes</Label>
           <Select
             value={localFilters.terpene || 'all'}
             onValueChange={(value) => handleChange('terpene', value === 'all' ? null : value)}
@@ -179,7 +194,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
 
         <Button 
           onClick={applyFilters} 
-          className="w-full bg-teal-DEFAULT hover:bg-teal-dark text-white"
+          className="w-full bg-teal-DEFAULT hover:bg-teal-dark text-white dark:bg-teal-dark dark:hover:bg-teal-DEFAULT"
         >
           <Filter size={16} className="mr-2" />
           {t('filters.apply')}

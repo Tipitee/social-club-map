@@ -169,11 +169,7 @@ const News: React.FC = () => {
         </h1>
         
         <div className="mb-8">
-          <h2 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">
-            {t('news.allUpdates')}
-          </h2>
-          
-          <div className="tab-menu">
+          <div className="tab-menu mb-6 flex flex-wrap">
             <Button
               variant="ghost"
               className={`tab-button ${activeTab === 'all' ? 'tab-button-active' : 'tab-button-inactive'}`}
@@ -219,9 +215,6 @@ const News: React.FC = () => {
           </div>
           
           <div className="mb-4">
-            <p className="text-navy-dark dark:text-white font-medium">
-              {t('news.latestUpdates')}
-            </p>
             <p className="text-gray-600 dark:text-gray-300">
               {filteredNews.length} {t('news.results')}
             </p>
