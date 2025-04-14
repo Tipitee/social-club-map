@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ClubResult } from "@/hooks/use-clubs-search";
 import { RawClubData } from "@/types/club";
+import { SupabaseResponse } from "@/types/supabase";
 
 const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
   return {
@@ -24,6 +25,24 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
   };
 };
 
+/**
+ * Fetches a club by its ID from Supabase
+ */
+const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
+  // Use explicit any type to avoid type inference issues
+  const response = await supabase
+    .from('clubs')
+    .select('*')
+    .eq('id', id)
+    .single();
+  
+  // Return with simplified typing
+  return { 
+    data: response.data as RawClubData, 
+    error: response.error 
+  };
+};
+
 export function useClubDetail(id: string | undefined) {
   const [club, setClub] = useState<ClubResult | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,21 +57,14 @@ export function useClubDetail(id: string | undefined) {
       }
 
       try {
-        // Skip type inference by using any type temporarily
-        const { data, error: supabaseError } = await supabase
-          .from('clubs')
-          .select('*')
-          .eq('id', id)
-          .single() as { data: any; error: any };
+        const { data, error: supabaseError } = await fetchClubById(id);
           
         if (supabaseError) {
           throw new Error(supabaseError.message);
         }
 
         if (data) {
-          // Explicitly cast data to RawClubData to avoid deep type instantiation
-          const clubData = data as RawClubData;
-          const mappedClub = mapRawDataToClub(id, clubData);
+          const mappedClub = mapRawDataToClub(id, data);
           setClub(mappedClub);
         } else {
           setError("Club not found");
