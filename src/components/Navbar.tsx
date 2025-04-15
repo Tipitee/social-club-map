@@ -58,13 +58,7 @@ const Navbar: React.FC = () => {
           )}
         </Link>
 
-        <div className="flex items-center gap-3">
-          <Link to="/settings">
-            <Button variant="outline" size="icon" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light">
-              <Settings className="h-5 w-5 text-navy-dark dark:text-white" />
-            </Button>
-          </Link>
-          
+        <div className="flex items-center">
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -75,7 +69,10 @@ const Navbar: React.FC = () => {
               <DropdownMenuContent align="end" className="bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-500">
                 <DropdownMenuLabel className="text-navy-dark dark:text-white">{t('navigation.profile')}</DropdownMenuLabel>
                 <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
-                  <Link to="/profile">{t('navigation.settings')}</Link>
+                  <Link to="/profile">{t('navigation.profile')}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
+                  <Link to="/settings">{t('navigation.settings')}</Link>
                 </DropdownMenuItem>
                 {isAdmin && (
                   <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">

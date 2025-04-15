@@ -113,6 +113,12 @@
       "ratingHighLow": "Bewertung (Hoch-Niedrig)"
     }
   },
+  "home": {
+    "trackConsumption": "Verfolgen Sie Ihren Verbrauch",
+    "exploreDatabase": "Datenbank erforschen",
+    "learnMore": "Mehr erfahren",
+    "stayInformed": "Neuigkeiten"
+  },
   "guide": {
     "laws": "Gesetze",
     "safeUse": "Sicherer Konsum",

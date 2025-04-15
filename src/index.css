@@ -405,6 +405,17 @@
   .dark option {
     @apply bg-navy-300 text-white;
   }
+
+  /* Fix for Apply Filter button contrast */
+  .dark [data-radix-select-item][data-highlighted] {
+    @apply bg-teal-DEFAULT/20 text-white;
+  }
+
+  /* Removing yellow highlighting in Settings language selector */
+  .dark [data-state=checked],
+  .dark [data-state=active] {
+    @apply bg-teal-dark text-white;
+  }
 }
 
 @layer utilities {

@@ -133,7 +133,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         </div>
 
         <div>
-          <Label htmlFor="terpene" className="mb-2 block">Terpenes</Label>
+          <Label htmlFor="terpene" className="mb-2 block">{t('strains.terpenes')}</Label>
           <Select
             value={localFilters.terpene || 'all'}
             onValueChange={(value) => handleChange('terpene', value === 'all' ? null : value)}
@@ -195,7 +195,7 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
         <Button 
           onClick={applyFilters} 
           variant="filter"
-          className="w-full bg-navy-DEFAULT text-white hover:bg-navy-dark border border-navy-light"
+          className="w-full bg-teal-DEFAULT text-white hover:bg-teal-dark border border-teal-light dark:bg-navy-DEFAULT dark:hover:bg-navy-400 dark:border-navy-300"
         >
           <Filter size={16} className="mr-2" />
           {t('filters.apply')}

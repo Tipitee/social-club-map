@@ -117,6 +117,12 @@
       "ratingHighLow": "Rating (High-Low)"
     }
   },
+  "home": {
+    "trackConsumption": "Track your Consumption",
+    "exploreDatabase": "Explore Database",
+    "learnMore": "Learn More",
+    "stayInformed": "Stay informed"
+  },
   "guide": {
     "laws": "Laws",
     "safeUse": "Safe Use",

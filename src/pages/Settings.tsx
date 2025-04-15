@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
@@ -16,16 +15,12 @@ import BottomNav from "@/components/BottomNav";
 const Settings: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
-  const { toast } = useToast();
   const navigate = useNavigate();
   
   const changeLanguage = (value: string) => {
     i18n.changeLanguage(value);
     localStorage.setItem('language', value);
-    toast({
-      title: t('settings.languageChanged'),
-      description: value === 'en' ? 'Language set to English' : 'Sprache auf Deutsch eingestellt',
-    });
+    // Removed toast notification as requested
   };
 
   const goBack = () => {
