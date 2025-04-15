@@ -30,8 +30,8 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Break the chain and use explicit typing to avoid deep type instantiation
-    const query = supabase.from('clubs').select('*').eq('id', id);
+    // Bypass TypeScript's deep type checking by using any for the intermediate query
+    const query: any = supabase.from('clubs').select('*').eq('id', id);
     const result = await query.single();
     
     // Explicitly construct the return object with proper typing
