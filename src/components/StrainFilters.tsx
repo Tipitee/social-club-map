@@ -194,7 +194,8 @@ const StrainFilters: React.FC<StrainFiltersProps> = ({
 
         <Button 
           onClick={applyFilters} 
-          className="w-full bg-teal-DEFAULT hover:bg-teal-dark text-white dark:bg-teal-dark dark:hover:bg-teal-DEFAULT"
+          variant="filter"
+          className="w-full"
         >
           <Filter size={16} className="mr-2" />
           {t('filters.apply')}

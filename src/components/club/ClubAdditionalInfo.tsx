@@ -13,7 +13,7 @@ const ClubAdditionalInfo: React.FC<ClubAdditionalInfoProps> = ({ club }) => {
   }
   
   return (
-    <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light">
+    <Card className="border-navy-DEFAULT/30 dark:border-navy-light/50 bg-white dark:bg-navy-400 shadow-md">
       <CardContent className="p-6">
         <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Additional Information</h3>
         <p className="text-navy-dark dark:text-gray-200">{club.additional_info}</p>

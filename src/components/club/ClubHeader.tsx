@@ -18,7 +18,7 @@ const ClubHeader: React.FC<ClubHeaderProps> = ({
   foundingDate 
 }) => {
   return (
-    <div className="bg-white dark:bg-navy-light rounded-lg shadow-md overflow-hidden mb-6">
+    <div className="bg-white dark:bg-navy-400 rounded-lg shadow-md overflow-hidden mb-6 border border-navy-DEFAULT/20 dark:border-navy-light/30">
       <div className="p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
           <div>
@@ -26,7 +26,7 @@ const ClubHeader: React.FC<ClubHeaderProps> = ({
               {club?.name}
             </h1>
             <div className="flex items-center mt-1 text-gray-600 dark:text-gray-300">
-              <MapPin size={16} className="mr-1 flex-shrink-0" />
+              <MapPin size={16} className="mr-1 flex-shrink-0 text-teal dark:text-teal-light" />
               <span>{club?.address}</span>
             </div>
           </div>
@@ -36,7 +36,7 @@ const ClubHeader: React.FC<ClubHeaderProps> = ({
               {club?.membership_status ? "Accepting Members" : "Waiting List"}
             </Badge>
             <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-              <Users size={14} className="mr-1" />
+              <Users size={14} className="mr-1 text-teal dark:text-teal-light" />
               <span>{memberCount} members</span>
             </div>
           </div>
@@ -44,18 +44,18 @@ const ClubHeader: React.FC<ClubHeaderProps> = ({
         
         {/* Quick info pills */}
         <div className="flex flex-wrap gap-3 mt-4">
-          <div className="bg-gray-100 dark:bg-navy-DEFAULT px-3 py-1 rounded-full flex items-center text-xs text-navy-dark dark:text-gray-200">
-            <Clock size={12} className="mr-1" />
+          <div className="bg-gray-100 dark:bg-navy-300 px-3 py-1 rounded-full flex items-center text-xs text-navy-dark dark:text-white">
+            <Clock size={12} className="mr-1 text-teal dark:text-teal-light" />
             Open today: {openingHours[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1].hours}
           </div>
           
-          <div className="bg-gray-100 dark:bg-navy-DEFAULT px-3 py-1 rounded-full flex items-center text-xs text-navy-dark dark:text-gray-200">
-            <Calendar size={12} className="mr-1" />
+          <div className="bg-gray-100 dark:bg-navy-300 px-3 py-1 rounded-full flex items-center text-xs text-navy-dark dark:text-white">
+            <Calendar size={12} className="mr-1 text-teal dark:text-teal-light" />
             Founded: {foundingDate}
           </div>
           
-          <div className="bg-gray-100 dark:bg-navy-DEFAULT px-3 py-1 rounded-full flex items-center text-xs text-navy-dark dark:text-gray-200">
-            <Building size={12} className="mr-1" />
+          <div className="bg-gray-100 dark:bg-navy-300 px-3 py-1 rounded-full flex items-center text-xs text-navy-dark dark:text-white">
+            <Building size={12} className="mr-1 text-teal dark:text-teal-light" />
             {club?.city || "Unknown Location"}
           </div>
         </div>

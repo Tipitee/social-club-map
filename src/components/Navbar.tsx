@@ -21,6 +21,7 @@ const Navbar: React.FC = () => {
   const { user, signOut } = useAuth();
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const isAdmin = user?.email === 'tomalours@gmail.com';
 
   // Use effect to handle component mounting and prevent hydration issues
   useEffect(() => {
@@ -77,17 +78,16 @@ const Navbar: React.FC = () => {
               <DropdownMenuContent align="end" className="bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-500">
                 <DropdownMenuLabel className="text-navy-dark dark:text-white">{t('navigation.profile')}</DropdownMenuLabel>
                 <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
-                  <Link to="/profile">{t('navigation.profile')}</Link>
+                  <Link to="/profile">{t('navigation.settings')}</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
-                  <Link to="/settings">{t('navigation.settings')}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
-                  <Link to="/admin-tools" className="flex items-center gap-2">
-                    <Shield className="h-4 w-4" />
-                    Admin Tools
-                  </Link>
-                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
+                    <Link to="/admin-tools" className="flex items-center gap-2">
+                      <Shield className="h-4 w-4" />
+                      Admin Tools
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator className="bg-navy-DEFAULT/20 dark:bg-white/20" />
                 <DropdownMenuItem 
                   onClick={() => signOut()} 

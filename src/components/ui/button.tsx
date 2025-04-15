@@ -21,6 +21,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         teal: "bg-teal-DEFAULT text-white hover:bg-teal-dark",
         white: "bg-white text-teal-DEFAULT border border-teal-DEFAULT/30 hover:bg-gray-100",
+        filter: "bg-navy-DEFAULT text-white hover:bg-navy-dark border border-navy-light",
       },
       size: {
         default: "h-10 px-4 py-2",
