@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CalendarIcon, PlusCircle, Edit, Trash2 } from "lucide-react";
+import { CalendarIcon, PlusCircle, Edit, Trash2, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -93,6 +93,11 @@ const Journal: React.FC = () => {
     }
   };
 
+  const cancelEditing = () => {
+    setEditingEntryId(null);
+    setEditedEntry(null);
+  };
+
   const deleteEntry = (id: string) => {
     setEntries(prev => prev.filter(entry => entry.id !== id));
     setEditingEntryId(null);
@@ -129,7 +134,7 @@ const Journal: React.FC = () => {
           </h1>
           <Button
             onClick={() => setShowNewEntryModal(true)}
-            className="bg-teal-DEFAULT hover:bg-teal-dark text-white"
+            className="bg-white dark:bg-navy-light hover:bg-gray-100 dark:hover:bg-navy-400 text-teal-DEFAULT border border-teal-DEFAULT/30 shadow-sm"
           >
             <PlusCircle size={18} className="mr-1" />
             {t('journal.addEntry')}
@@ -214,14 +219,23 @@ const Journal: React.FC = () => {
                     </div>
                     <div className="flex justify-end gap-2">
                       <Button
+                        onClick={cancelEditing}
+                        variant="outline"
+                        className="border-gray-300 dark:border-gray-600 bg-white dark:bg-navy-400 text-navy-dark dark:text-white"
+                      >
+                        <X size={16} className="mr-1" />
+                        {t('common.cancel')}
+                      </Button>
+                      <Button
                         onClick={saveEntry}
-                        className="bg-teal-DEFAULT hover:bg-teal-dark text-white"
+                        className="bg-white dark:bg-navy-400 hover:bg-gray-100 dark:hover:bg-navy-300 text-teal-DEFAULT border border-teal-DEFAULT/30 shadow-sm"
                       >
                         {t('journal.save')}
                       </Button>
                       <Button
                         onClick={() => deleteEntry(entry.id)}
                         variant="destructive"
+                        className="bg-destructive hover:bg-destructive/90"
                       >
                         {t('journal.delete')}
                       </Button>

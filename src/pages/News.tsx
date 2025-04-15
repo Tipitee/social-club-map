@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -169,7 +170,7 @@ const News: React.FC = () => {
         </h1>
         
         <div className="mb-8">
-          <div className="tab-menu mb-6 flex flex-wrap">
+          <div className="tab-menu mb-6 flex flex-wrap justify-center">
             <Button
               variant="ghost"
               className={`tab-button ${activeTab === 'all' ? 'tab-button-active' : 'tab-button-inactive'}`}

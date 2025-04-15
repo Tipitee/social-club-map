@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
   if (!mounted) {
     // Return a placeholder with the same dimensions during SSR/mounting
     return (
-      <div className="bg-white dark:bg-navy-dark border-b border-border sticky top-0 z-50">
+      <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
         <div className="container flex items-center justify-between p-4">
           <div className="h-10 w-32"></div>
           <div className="flex items-center gap-3"></div>
@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-navy-dark border-b border-border sticky top-0 z-50">
+    <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           {theme === 'dark' ? (

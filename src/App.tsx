@@ -7,23 +7,42 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/components/theme-provider";
-import StrainExplorer from "./pages/StrainExplorer";
-import StrainDetail from "./pages/StrainDetail";
-import ClubMap from "./pages/ClubMap";
-import ClubDetail from "./pages/ClubDetail";
-import NotFound from "./pages/NotFound";
-import Journal from "./pages/Journal";
-import Home from "./pages/Home";
-import Settings from "./pages/Settings";
-import Profile from "./pages/Profile";
-import Auth from "./pages/Auth";
-import News from "./pages/News";
-import CannabisGuide from "./pages/CannabisGuide";
-import AdminTools from "./pages/AdminTools";
-import BottomNav from "./components/BottomNav";
-import "./i18n";
+import { Suspense, lazy } from "react";
 
-const queryClient = new QueryClient();
+// Eager loading critical routes
+import StrainExplorer from "./pages/StrainExplorer";
+import Home from "./pages/Home";
+import Auth from "./pages/Auth";
+
+// Lazy load non-critical routes for performance optimization
+const StrainDetail = lazy(() => import("./pages/StrainDetail"));
+const ClubMap = lazy(() => import("./pages/ClubMap"));
+const ClubDetail = lazy(() => import("./pages/ClubDetail"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Journal = lazy(() => import("./pages/Journal"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Profile = lazy(() => import("./pages/Profile"));
+const News = lazy(() => import("./pages/News"));
+const CannabisGuide = lazy(() => import("./pages/CannabisGuide"));
+const AdminTools = lazy(() => import("./pages/AdminTools"));
+
+// Loading fallback component
+const PageLoading = () => (
+  <div className="min-h-screen bg-linen dark:bg-navy-dark flex items-center justify-center">
+    <div className="animate-spin h-10 w-10 border-4 border-teal rounded-full border-t-transparent"></div>
+  </div>
+);
+
+// Configure React Query client with optimized settings for production
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 const App = () => {
   return (
@@ -38,21 +57,90 @@ const App = () => {
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
-                      <Route path="/strains/:id" element={<StrainDetail />} />
-                      <Route path="/clubs" element={<ClubMap />} />
-                      <Route path="/clubs/:id" element={<ClubDetail />} />
-                      <Route path="/journal" element={<Journal />} />
-                      <Route path="/news" element={<News />} />
-                      <Route path="/guide" element={<CannabisGuide />} />
-                      <Route path="/profile" element={<Profile />} />
-                      <Route path="/settings" element={<Settings />} />
+                      <Route 
+                        path="/strains/:id" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <StrainDetail />
+                          </Suspense>
+                        } 
+                      />
+                      <Route 
+                        path="/clubs" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <ClubMap />
+                          </Suspense>
+                        } 
+                      />
+                      <Route 
+                        path="/clubs/:id" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <ClubDetail />
+                          </Suspense>
+                        } 
+                      />
+                      <Route 
+                        path="/journal" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <Journal />
+                          </Suspense>
+                        } 
+                      />
+                      <Route 
+                        path="/news" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <News />
+                          </Suspense>
+                        } 
+                      />
+                      <Route 
+                        path="/guide" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <CannabisGuide />
+                          </Suspense>
+                        } 
+                      />
+                      <Route 
+                        path="/profile" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <Profile />
+                          </Suspense>
+                        } 
+                      />
+                      <Route 
+                        path="/settings" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <Settings />
+                          </Suspense>
+                        } 
+                      />
                       <Route path="/auth" element={<Auth />} />
-                      <Route path="/admin-tools" element={<AdminTools />} />
+                      <Route 
+                        path="/admin-tools" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <AdminTools />
+                          </Suspense>
+                        } 
+                      />
                       <Route path="/admin" element={<Navigate to="/admin-tools" replace />} />
-                      <Route path="*" element={<NotFound />} />
+                      <Route 
+                        path="*" 
+                        element={
+                          <Suspense fallback={<PageLoading />}>
+                            <NotFound />
+                          </Suspense>
+                        } 
+                      />
                     </Routes>
                   </main>
-                  <BottomNav />
                 </div>
                 <Toaster />
                 <Sonner />
