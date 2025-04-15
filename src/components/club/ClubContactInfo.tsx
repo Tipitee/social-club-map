@@ -2,7 +2,7 @@
 import React from "react";
 import { Phone, Mail, Globe } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ClubResult } from "@/hooks/use-clubs-search";
+import { ClubResult } from "@/types/club";
 
 interface ClubContactInfoProps {
   club: ClubResult;

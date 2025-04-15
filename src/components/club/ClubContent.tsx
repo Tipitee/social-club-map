@@ -5,7 +5,7 @@ import { ArrowLeft, Info, Leaf, Calendar } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ClubHeader from "@/components/club/ClubHeader";
 import ClubTabContent from "@/components/club/ClubTabContent";
-import { ClubResult } from "@/hooks/use-clubs-search";
+import { ClubResult } from "@/types/club";
 import { mockClubDetails } from "@/components/club/mockData";
 
 interface ClubContentProps {

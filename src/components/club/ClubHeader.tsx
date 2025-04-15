@@ -2,7 +2,7 @@
 import React from "react";
 import { MapPin, Users, Clock, Calendar, Building } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { ClubResult } from "@/hooks/use-clubs-search";
+import { ClubResult } from "@/types/club";
 
 interface ClubHeaderProps {
   club: ClubResult;

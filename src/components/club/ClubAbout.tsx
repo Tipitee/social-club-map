@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ClubResult } from "@/hooks/use-clubs-search";
+import { ClubResult } from "@/types/club";
 
 interface ClubAboutProps {
   club: ClubResult;

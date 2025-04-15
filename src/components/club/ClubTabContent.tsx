@@ -1,4 +1,3 @@
-
 import React from "react";
 import ClubAbout from "./ClubAbout";
 import ClubMembership from "./ClubMembership";
@@ -9,7 +8,7 @@ import ClubMap from "./ClubMap";
 import ClubStrains from "./ClubStrains";
 import ClubEvents from "./ClubEvents";
 import { mockClubDetails } from "./mockData";
-import { ClubResult } from "@/hooks/use-clubs-search";
+import { ClubResult } from "@/types/club";
 
 interface ClubTabContentProps {
   tab: string;
