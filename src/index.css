@@ -380,7 +380,7 @@
 
   /* Show Filter button in light mode */
   .light .show-filters-button {
-    @apply bg-navy-light text-white hover:bg-navy-DEFAULT;
+    @apply bg-navy-light text-white hover:bg-navy-dark;
   }
 
   /* UI improvements for club details in dark mode */
