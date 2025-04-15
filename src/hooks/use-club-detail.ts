@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ClubResult } from "@/hooks/use-clubs-search";
@@ -30,13 +29,12 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Create query but break chaining to avoid TypeScript recursive type issue
-    const baseQuery = supabase.from('clubs');
-    const filteredQuery = baseQuery.select('*').eq('id', id);
-    
-    // Execute the query as a separate step with type assertions
-    const result = await filteredQuery.single();
-    const { data, error } = result;
+    // Use type assertion to bypass TypeScript's deep type checking
+    const { data, error } = await (supabase
+      .from('clubs')
+      .select('*')
+      .eq('id', id)
+      .single() as any);
     
     // Return properly typed response
     return {
