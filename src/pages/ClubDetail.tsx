@@ -35,11 +35,23 @@ const ClubDetail: React.FC = () => {
   }, [club, loading, error, toast]);
   
   if (loading) {
-    return <ClubLoading />;
+    return (
+      <div className="min-h-screen bg-linen dark:bg-navy-dark">
+        <Navbar />
+        <ClubLoading />
+        <BottomNav />
+      </div>
+    );
   }
 
   if (error || !club) {
-    return <ClubError error={error} />;
+    return (
+      <div className="min-h-screen bg-linen dark:bg-navy-dark">
+        <Navbar />
+        <ClubError error={error} />
+        <BottomNav />
+      </div>
+    );
   }
   
   return (

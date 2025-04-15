@@ -76,7 +76,7 @@ const ClubMap: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-dark dark:text-gray-400" size={18} />
                 <Input
                   placeholder={t('clubs.enterCityPostal')}
-                  className="pl-10 bg-white dark:bg-teal-dark/20 border-navy-DEFAULT dark:border-teal-dark/30 text-navy-dark dark:text-white"
+                  className="pl-10 bg-white dark:bg-navy-300 border-navy-DEFAULT dark:border-navy-400 text-navy-dark dark:text-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -115,7 +115,7 @@ const ClubMap: React.FC = () => {
                     {searchResults.map((club) => (
                       <div 
                         key={club.id}
-                        className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-DEFAULT shadow-md"
+                        className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-400 shadow-md"
                       >
                         <div className="flex items-start gap-3">
                           <div className="mt-1">

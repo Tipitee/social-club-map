@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -348,7 +349,7 @@
   }
 
   .form-control {
-    @apply w-full bg-white dark:bg-navy-light border border-gray-300 dark:border-navy-400 rounded-md px-3 py-2;
+    @apply w-full bg-white dark:bg-navy-300 border border-gray-300 dark:border-navy-400 rounded-md px-3 py-2 text-navy-dark dark:text-white;
   }
 
   /* Dropdown menu styles for better visibility in dark mode */
@@ -360,19 +361,9 @@
     @apply text-white hover:bg-navy-300;
   }
   
-  /* Updated language select menu background for dark mode */
-  .dark .select-content {
-    @apply bg-teal-dark border-teal-700;
-  }
-  
-  /* Updated filter button style for better contrast */
-  .filter-toggle-button {
-    @apply bg-teal hover:bg-teal-dark dark:bg-teal-dark dark:hover:bg-teal text-white;
-  }
-  
-  /* Improved tab menu styles - unified for Guide and News */
+  /* Update News tab menu to match Guide style */
   .tab-menu {
-    @apply border-b border-gray-200 dark:border-navy-400 mb-4 flex overflow-x-auto scrollbar-none gap-1;
+    @apply border-b border-gray-200 dark:border-navy-400 mb-4 flex overflow-x-auto scrollbar-none gap-1 justify-center;
   }
   
   .tab-button {
@@ -385,6 +376,34 @@
   
   .tab-button-inactive {
     @apply text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light hover:bg-teal-light/5 dark:hover:bg-teal-dark/10;
+  }
+
+  /* Show Filter button in light mode */
+  .light .show-filters-button {
+    @apply bg-navy-light text-white hover:bg-navy-DEFAULT;
+  }
+
+  /* UI improvements for club details in dark mode */
+  .dark .club-detail-card {
+    @apply bg-navy-400 border-navy-light/50 shadow-lg;
+  }
+  
+  .dark .club-info-text {
+    @apply text-white;
+  }
+  
+  .dark .club-badge {
+    @apply bg-navy-300 text-white border-navy-light;
+  }
+  
+  /* Improve select dropdown in dark mode */
+  .dark select,
+  .dark .select-input {
+    @apply bg-navy-300 text-white border-navy-400;
+  }
+  
+  .dark option {
+    @apply bg-navy-300 text-white;
   }
 }
 
