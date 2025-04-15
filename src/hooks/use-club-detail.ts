@@ -5,9 +5,9 @@ import { ClubResult } from "@/hooks/use-clubs-search";
 import { RawClubData } from "@/types/club";
 import { SupabaseResponse } from "@/types/supabase";
 
-const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
+const mapRawDataToClub = (name: string, rawData: RawClubData): ClubResult => {
   return {
-    id: id,
+    id: name, // Using name as ID since there's no explicit id column
     name: rawData.name || "Unnamed Club",
     address: rawData.address || null,
     city: rawData.city || null,
@@ -27,19 +27,35 @@ const mapRawDataToClub = (id: string, rawData: RawClubData): ClubResult => {
 
 /**
  * Fetches a club by its ID from Supabase
+ * Note: In our database, clubs don't have an 'id' column, so we use 'name' to identify them
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
-    // Completely bypass TypeScript's type checking for the entire Supabase query
-    const response = await (supabase as any).from('clubs').select('*').eq('id', id).single();
+    // First try to find the club by name (which is what we're using as ID)
+    const response = await supabase.from('clubs').select('*').eq('name', id).single();
     
-    // Explicitly construct the return object with proper typing
+    // If no results or error, try more flexible search using ilike
+    if (response.error || !response.data) {
+      const fallbackResponse = await supabase
+        .from('clubs')
+        .select('*')
+        .ilike('name', `%${id}%`)
+        .single();
+      
+      return {
+        data: fallbackResponse.data as RawClubData | null,
+        error: fallbackResponse.error ? new Error(fallbackResponse.error.message) : null
+      };
+    }
+    
+    // Return the found club data
     return {
       data: response.data as RawClubData | null,
       error: response.error ? new Error(response.error.message) : null
     };
   } catch (err) {
     // Handle any unexpected errors
+    console.error("Error in fetchClubById:", err);
     return {
       data: null,
       error: err instanceof Error ? err : new Error('Unknown error occurred')
@@ -61,6 +77,7 @@ export function useClubDetail(id: string | undefined) {
       }
 
       try {
+        console.log("Fetching club with ID:", id);
         const { data, error: supabaseError } = await fetchClubById(id);
           
         if (supabaseError) {
@@ -68,7 +85,7 @@ export function useClubDetail(id: string | undefined) {
         }
 
         if (data) {
-          const mappedClub = mapRawDataToClub(id, data);
+          const mappedClub = mapRawDataToClub(data.name, data);
           setClub(mappedClub);
         } else {
           setError("Club not found");

@@ -114,7 +114,7 @@ const ClubMap: React.FC = () => {
                   <div className="space-y-4 mt-4">
                     {searchResults.map((club) => (
                       <div 
-                        key={club.id}
+                        key={club.name} // Use name as key since it's unique
                         className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-400 shadow-md"
                       >
                         <div className="flex items-start gap-3">
@@ -153,7 +153,7 @@ const ClubMap: React.FC = () => {
                               {club.distance && `${club.distance.toFixed(1)} ${t('clubs.awayKm')}`}
                             </div>
                           </div>
-                          <Link to={`/clubs/${club.id}`}>
+                          <Link to={`/clubs/${encodeURIComponent(club.name)}`}>
                             <Button 
                               variant="outline" 
                               size="sm"

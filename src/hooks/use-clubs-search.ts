@@ -25,7 +25,7 @@ export interface ClubResult {
 
 // Raw data type from database
 interface RawClubData {
-  id: string;
+  id?: string;
   name: string;
   address: string | null;
   city: string | null;
@@ -70,40 +70,35 @@ export function useClubsSearch() {
       // Sanitize and prepare the search query
       const sanitizedQuery = location.trim().toLowerCase();
       
-      // Create a narrower search focused primarily on city match first
-      let query = supabase.from('clubs').select('*');
+      // Create a more comprehensive search to find matches across multiple fields
+      let { data: searchResults, error: searchError } = await supabase
+        .from('clubs')
+        .select('*')
+        .or(`name.ilike.%${sanitizedQuery}%,city.ilike.%${sanitizedQuery}%,postal_code.ilike.%${sanitizedQuery}%,district.ilike.%${sanitizedQuery}%`);
       
-      // First try exact city match
-      if (sanitizedQuery) {
-        query = query.eq('city', sanitizedQuery);
+      if (searchError) {
+        throw new Error(searchError.message);
       }
       
-      let { data: exactMatches, error: exactMatchError } = await query as { data: RawClubData[] | null; error: any };
-      
-      // If no exact matches, try case-insensitive partial matches
-      if (!exactMatches || exactMatches.length === 0) {
-        query = supabase.from('clubs').select('*')
-          .or(
-            `city.ilike.%${sanitizedQuery}%,` + 
-            `district.ilike.%${sanitizedQuery}%,` +
-            `postal_code.ilike.%${sanitizedQuery}%`
-          );
-          
-        let { data: partialMatches, error: partialMatchError } = await query as { data: RawClubData[] | null; error: any };
+      // If there are no exact matches, try with partial matches for addresses
+      if (!searchResults || searchResults.length === 0) {
+        console.log("[DEBUG] No matches found, trying with broader search");
+        let { data: broadResults, error: broadSearchError } = await supabase
+          .from('clubs')
+          .select('*')
+          .or(`address.ilike.%${sanitizedQuery}%`);
         
-        if (partialMatchError) {
-          throw new Error(partialMatchError.message);
+        if (broadSearchError) {
+          throw new Error(broadSearchError.message);
         }
         
-        exactMatches = partialMatches;
-      } else if (exactMatchError) {
-        throw new Error(exactMatchError.message);
+        searchResults = broadResults;
       }
       
-      console.log("[DEBUG] Club search results count:", exactMatches?.length);
+      console.log("[DEBUG] Club search results count:", searchResults?.length);
       
       // Map data with proper type handling
-      const clubResults: ClubResult[] = (exactMatches || []).map(club => {
+      const clubResults: ClubResult[] = (searchResults || []).map(club => {
         // Calculate a more accurate distance if possible
         let distance: number | undefined;
         
@@ -114,7 +109,7 @@ export function useClubsSearch() {
         }
         
         return {
-          id: club.id || crypto.randomUUID(), // Use actual ID if available, fallback to UUID
+          id: club.name, // Use club name as ID since there's no explicit ID column
           name: club.name || "Unnamed Club",
           address: club.address || null,
           city: club.city || null,
