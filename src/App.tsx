@@ -47,7 +47,8 @@ const App = () => {
                       <Route path="/profile" element={<Profile />} />
                       <Route path="/settings" element={<Settings />} />
                       <Route path="/auth" element={<Auth />} />
-                      <Route path="/admin" element={<AdminTools />} />
+                      <Route path="/admin-tools" element={<AdminTools />} />
+                      <Route path="/admin" element={<Navigate to="/admin-tools" replace />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>

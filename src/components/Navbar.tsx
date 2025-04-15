@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
-import { User, LogIn, Settings } from "lucide-react";
+import { User, LogIn, Settings, Shield } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar: React.FC = () => {
@@ -81,6 +81,12 @@ const Navbar: React.FC = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
                   <Link to="/settings">{t('navigation.settings')}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
+                  <Link to="/admin-tools" className="flex items-center gap-2">
+                    <Shield className="h-4 w-4" />
+                    Admin Tools
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-navy-DEFAULT/20 dark:bg-white/20" />
                 <DropdownMenuItem 
