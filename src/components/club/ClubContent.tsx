@@ -1,12 +1,14 @@
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Info, Leaf, Calendar } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Info, Leaf, Calendar, AlertTriangle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import ClubHeader from "@/components/club/ClubHeader";
 import ClubTabContent from "@/components/club/ClubTabContent";
 import { ClubResult } from "@/types/club";
 import { mockClubDetails } from "@/components/club/mockData";
+import { Button } from "@/components/ui/button";
 
 interface ClubContentProps {
   club: ClubResult;
@@ -14,15 +16,37 @@ interface ClubContentProps {
 
 const ClubContent: React.FC<ClubContentProps> = ({ club }) => {
   const [activeTab, setActiveTab] = useState("info");
+  const navigate = useNavigate();
   
+  const handleBackClick = () => {
+    navigate(-1); // Go back to the previous page instead of always to clubs
+  };
+
   return (
     <div className="container px-4 py-6 max-w-7xl mx-auto">
       <div className="mb-4">
-        <Link to="/clubs" className="inline-flex items-center text-teal dark:text-teal-light hover:underline font-medium">
+        <Button 
+          variant="ghost" 
+          className="inline-flex items-center text-teal dark:text-teal-light hover:underline font-medium"
+          onClick={handleBackClick}
+        >
           <ArrowLeft size={16} className="mr-1" />
-          Back to Club Map
-        </Link>
+          Back to Search Results
+        </Button>
       </div>
+      
+      {club.status !== "verified" && (
+        <Alert variant="warning" className="mb-4 bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700">
+          <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
+          <AlertTitle className="text-amber-800 dark:text-amber-400 font-medium">Unverified Listing</AlertTitle>
+          <AlertDescription className="text-amber-700 dark:text-amber-300">
+            This club has not verified their information yet. Details may not be accurate.
+            <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto">
+              Are you the owner? Claim and verify this listing.
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
       
       <ClubHeader 
         club={club} 

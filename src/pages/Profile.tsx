@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Camera, Edit, User, Save, Loader2, LogOut } from "lucide-react";
+import { Camera, Edit, User, Save, Loader2, LogOut, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,36 +11,32 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
+
 type Profile = {
   id: string;
   username: string | null;
   avatar_url: string | null;
   language: string | null;
 };
+
 const Profile: React.FC = () => {
-  const {
-    user,
-    signOut
-  } = useAuth();
+  const { user, signOut } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
-  const {
-    t,
-    i18n
-  } = useTranslation();
+  const { toast } = useToast();
+  const { t, i18n } = useTranslation();
   const isDarkMode = document.documentElement.classList.contains('dark');
+
   useEffect(() => {
     if (!user) {
       navigate('/auth');
       return;
     }
+
     async function fetchProfile() {
       setLoading(true);
       try {
@@ -52,7 +48,6 @@ const Profile: React.FC = () => {
         setProfile(data);
         setUsername(data?.username || user.email?.split('@')[0] || '');
 
-        // Update language based on profile if it exists
         if (data?.language && i18n.language !== data.language) {
           i18n.changeLanguage(data.language);
         }
@@ -70,6 +65,7 @@ const Profile: React.FC = () => {
     }
     fetchProfile();
   }, [user, navigate, toast, t, i18n]);
+
   const updateProfile = async () => {
     if (!user) return;
     setUpdating(true);
@@ -88,7 +84,6 @@ const Profile: React.FC = () => {
       });
       setEditMode(false);
 
-      // Refresh profile data
       const {
         data
       } = await supabase.from('profiles').select('id, username, avatar_url, language').eq('id', user.id).single();
@@ -104,6 +99,7 @@ const Profile: React.FC = () => {
       setUpdating(false);
     }
   };
+
   const handleLanguageChange = async (lang: string) => {
     if (!user) return;
     try {
@@ -121,7 +117,6 @@ const Profile: React.FC = () => {
         duration: 2000
       });
 
-      // Refresh profile data
       const {
         data
       } = await supabase.from('profiles').select('id, username, avatar_url, language').eq('id', user.id).single();
@@ -136,7 +131,6 @@ const Profile: React.FC = () => {
     }
   };
 
-  // Theme toggling functionality
   const toggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark';
     if (newTheme === 'light') {
@@ -148,23 +142,32 @@ const Profile: React.FC = () => {
     }
     localStorage.setItem('theme', newTheme);
 
-    // Force re-render
     setProfile(prev => prev ? {
       ...prev
     } : null);
   };
+
   const getBackgroundClass = () => isDarkMode ? "bg-[#121212] text-white" : "bg-oldLace-500 text-gray-800";
   const getCardClass = () => isDarkMode ? "border-primary/20 shadow-xl bg-gray-800" : "border-cadetGray-300/20 shadow-lg bg-white";
+
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   if (loading) {
-    return <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
+    return (
+      <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
         <Navbar />
         <div className="container px-4 py-8 flex justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
-      </div>;
+      </div>
+    );
   }
+
   if (!user) {
-    return <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
+    return (
+      <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
         <Navbar />
         <div className="container px-4 py-8 max-w-md mx-auto">
           <Card className={getCardClass()}>
@@ -182,11 +185,24 @@ const Profile: React.FC = () => {
             </CardContent>
           </Card>
         </div>
-      </div>;
+      </div>
+    );
   }
-  return <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
+
+  return (
+    <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
       <Navbar />
-      <div className="container px-4 py-8 max-w-xl mx-auto">
+      <div className="container px-4 py-8 max-w-xl mx-auto relative">
+        <Button 
+          onClick={handleClose}
+          variant="ghost" 
+          size="icon" 
+          className="absolute top-0 right-0 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
+          aria-label="Close profile"
+        >
+          <X className="h-5 w-5" />
+        </Button>
+        
         <h1 className="text-2xl font-bold mb-8 text-center">{t('profile.myProfile')}</h1>
         
         <Card className={`${getCardClass()} backdrop-blur mb-8`}>
@@ -251,7 +267,6 @@ const Profile: React.FC = () => {
           </CardContent>
         </Card>
         
-        {/* Appearance settings */}
         <Card className={`${getCardClass()} backdrop-blur mb-8`}>
           <CardContent className="pt-6 bg-teal-DEFAULT">
             <h3 className="text-lg font-semibold mb-4">{t('settings.appearance')}</h3>
@@ -292,6 +307,8 @@ const Profile: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Profile;
