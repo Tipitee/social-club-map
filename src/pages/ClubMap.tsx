@@ -10,6 +10,7 @@ import { Search, MapPin, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useClubsSearch } from "@/hooks/use-clubs-search";
 import { testSupabaseConnection } from "@/integrations/supabase/client";
+import BottomNav from "@/components/BottomNav";
 
 const ClubMap: React.FC = () => {
   const { t } = useTranslation();
@@ -114,52 +115,54 @@ const ClubMap: React.FC = () => {
                     {searchResults.map((club) => (
                       <div 
                         key={club.id}
-                        className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-DEFAULT flex items-start gap-3"
+                        className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-DEFAULT shadow-md"
                       >
-                        <div className="mt-1">
-                          <MapPin 
-                            size={20} 
-                            className={
-                              club.status === "verified" 
-                                ? "text-teal" 
-                                : club.status === "pending" 
-                                ? "text-amber-500" 
-                                : "text-gray-400"
-                            } 
-                          />
-                        </div>
-                        <div className="flex-grow">
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-semibold text-navy-dark dark:text-white">{club.name}</h4>
-                            {club.status === "verified" && (
-                              <span className="px-2 py-0.5 text-xs bg-teal/20 text-teal-dark dark:text-teal-light rounded-full">
-                                {t('clubs.verified')}
-                              </span>
-                            )}
-                            {!club.membership_status && (
-                              <Badge variant="outline" className="bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-300">
-                                {t('clubs.waitlist')}
-                              </Badge>
-                            )}
+                        <div className="flex items-start gap-3">
+                          <div className="mt-1">
+                            <MapPin 
+                              size={20} 
+                              className={
+                                club.status === "verified" 
+                                  ? "text-teal" 
+                                  : club.status === "pending" 
+                                  ? "text-amber-500" 
+                                  : "text-gray-400"
+                              } 
+                            />
                           </div>
-                          <p className="text-sm text-navy-dark dark:text-gray-300">{club.address}</p>
-                          <p className="text-sm text-navy-dark dark:text-gray-300">
-                            {club.city && `${club.city}`}
-                            {club.postal_code && `, ${club.postal_code}`}
-                          </p>
-                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            {club.distance && `${club.distance.toFixed(1)} ${t('clubs.awayKm')}`}
+                          <div className="flex-grow">
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-semibold text-navy-dark dark:text-white">{club.name}</h4>
+                              {club.status === "verified" && (
+                                <span className="px-2 py-0.5 text-xs bg-teal/20 text-teal-dark dark:text-teal-light rounded-full">
+                                  {t('clubs.verified')}
+                                </span>
+                              )}
+                              {!club.membership_status && (
+                                <Badge variant="outline" className="bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-300">
+                                  {t('clubs.waitlist')}
+                                </Badge>
+                              )}
+                            </div>
+                            <p className="text-sm text-navy-dark dark:text-gray-300">{club.address}</p>
+                            <p className="text-sm text-navy-dark dark:text-gray-300">
+                              {club.city && `${club.city}`}
+                              {club.postal_code && `, ${club.postal_code}`}
+                            </p>
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              {club.distance && `${club.distance.toFixed(1)} ${t('clubs.awayKm')}`}
+                            </div>
                           </div>
+                          <Link to={`/clubs/${club.id}`}>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
+                            >
+                              {t('clubs.details')}
+                            </Button>
+                          </Link>
                         </div>
-                        <Link to={`/clubs/${club.id}`}>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
-                          >
-                            {t('clubs.details')}
-                          </Button>
-                        </Link>
                       </div>
                     ))}
                   </div>
@@ -169,6 +172,7 @@ const ClubMap: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+      <BottomNav />
     </div>
   );
 };

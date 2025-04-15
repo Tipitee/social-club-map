@@ -7,6 +7,7 @@ import ClubLoading from "@/components/club/ClubLoading";
 import ClubError from "@/components/club/ClubError";
 import ClubContent from "@/components/club/ClubContent";
 import { useToast } from "@/hooks/use-toast";
+import BottomNav from "@/components/BottomNav";
 
 const ClubDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,6 +46,7 @@ const ClubDetail: React.FC = () => {
     <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
       <ClubContent club={club} />
+      <BottomNav />
     </div>
   );
 };

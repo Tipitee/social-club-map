@@ -22,7 +22,7 @@ const ClubAbout: React.FC<ClubAboutProps> = ({ club, specialties, facilities }) 
         <h4 className="font-semibold mb-2 text-navy-dark dark:text-white">Specialties</h4>
         <div className="flex flex-wrap gap-2 mb-6">
           {specialties.map((specialty, index) => (
-            <Badge key={index} variant="outline" className="bg-gray-50 dark:bg-navy-300 border-navy-DEFAULT/30 dark:border-navy-light/50">
+            <Badge key={index} variant="outline" className="bg-gray-50 dark:bg-navy-300 border-navy-DEFAULT/30 dark:border-navy-light/50 text-navy-dark dark:text-white">
               {specialty}
             </Badge>
           ))}
@@ -31,7 +31,7 @@ const ClubAbout: React.FC<ClubAboutProps> = ({ club, specialties, facilities }) 
         <h4 className="font-semibold mb-2 text-navy-dark dark:text-white">Facilities</h4>
         <div className="flex flex-wrap gap-2">
           {facilities.map((facility, index) => (
-            <Badge key={index} variant="outline" className="bg-gray-50 dark:bg-navy-300 border-navy-DEFAULT/30 dark:border-navy-light/50">
+            <Badge key={index} variant="outline" className="bg-gray-50 dark:bg-navy-300 border-navy-DEFAULT/30 dark:border-navy-light/50 text-navy-dark dark:text-white">
               {facility}
             </Badge>
           ))}
