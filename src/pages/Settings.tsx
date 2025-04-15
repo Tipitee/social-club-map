@@ -83,10 +83,10 @@ const Settings: React.FC = () => {
                     <SelectValue placeholder={t('language.select')} />
                   </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-500">
-                    <SelectItem value="en" className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-teal/10">
+                    <SelectItem value="en" className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-teal/10 data-[state=checked]:bg-teal dark:data-[state=checked]:bg-teal">
                       {t('language.en')}
                     </SelectItem>
-                    <SelectItem value="de" className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-teal/10">
+                    <SelectItem value="de" className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-teal/10 data-[state=checked]:bg-teal dark:data-[state=checked]:bg-teal">
                       {t('language.de')}
                     </SelectItem>
                   </SelectContent>

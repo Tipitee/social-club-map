@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowRight, Globe } from "lucide-react";
+import BottomNav from "@/components/BottomNav";
 
 // Mock news data
 const newsItems = [
@@ -170,45 +171,69 @@ const News: React.FC = () => {
         </h1>
         
         <div className="mb-8">
-          <div className="tab-menu mb-6 flex flex-wrap justify-center">
+          <div className="flex space-x-1 overflow-x-auto pb-2 mb-6 border-b border-gray-200 dark:border-navy-400">
             <Button
               variant="ghost"
-              className={`tab-button ${activeTab === 'all' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+                activeTab === 'all'
+                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
+                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+              }`}
               onClick={() => setActiveTab('all')}
             >
               {t('strains.all')}
             </Button>
             <Button
               variant="ghost"
-              className={`tab-button ${activeTab === 'federal' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+                activeTab === 'federal'
+                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
+                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+              }`}
               onClick={() => setActiveTab('federal')}
             >
               {t('news.federal')}
             </Button>
             <Button
               variant="ghost"
-              className={`tab-button ${activeTab === 'state' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+                activeTab === 'state'
+                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
+                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+              }`}
               onClick={() => setActiveTab('state')}
             >
               {t('news.state')}
             </Button>
             <Button
               variant="ghost"
-              className={`tab-button ${activeTab === 'medical' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+                activeTab === 'medical'
+                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
+                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+              }`}
               onClick={() => setActiveTab('medical')}
             >
               {t('news.medical')}
             </Button>
             <Button
               variant="ghost"
-              className={`tab-button ${activeTab === 'recreational' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+                activeTab === 'recreational'
+                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
+                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+              }`}
               onClick={() => setActiveTab('recreational')}
             >
               {t('news.recreational')}
             </Button>
             <Button
               variant="ghost"
-              className={`tab-button ${activeTab === 'business' ? 'tab-button-active' : 'tab-button-inactive'}`}
+              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+                activeTab === 'business'
+                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
+                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+              }`}
               onClick={() => setActiveTab('business')}
             >
               {t('news.business')}
@@ -291,6 +316,7 @@ const News: React.FC = () => {
           )}
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 };

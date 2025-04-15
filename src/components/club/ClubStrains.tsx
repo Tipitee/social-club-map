@@ -24,17 +24,17 @@ const ClubStrains: React.FC<ClubStrainsProps> = ({ strains }) => {
           {strains.map((strain, index) => (
             <div 
               key={index} 
-              className="border border-gray-200 dark:border-navy-400 rounded-lg p-4 bg-gray-50 dark:bg-navy-300"
+              className="border border-gray-200 dark:border-navy-500 rounded-lg p-4 bg-gray-50 dark:bg-navy-400"
             >
               <h4 className="font-bold text-navy-dark dark:text-white">{strain.name}</h4>
               <div className="flex flex-wrap gap-2 mt-2">
-                <Badge variant="outline" className="bg-gray-100 dark:bg-navy-400 text-navy-dark dark:text-white border-gray-300 dark:border-navy-500">
+                <Badge variant="outline" className="bg-gray-100 dark:bg-navy-300 text-navy-dark dark:text-white border-gray-300 dark:border-navy-500">
                   {strain.type}
                 </Badge>
-                <Badge variant="outline" className="bg-gray-100 dark:bg-navy-400 text-navy-dark dark:text-white border-gray-300 dark:border-navy-500">
+                <Badge variant="outline" className="bg-gray-100 dark:bg-navy-300 text-navy-dark dark:text-white border-gray-300 dark:border-navy-500">
                   THC: {strain.thc}
                 </Badge>
-                <Badge variant="outline" className="bg-gray-100 dark:bg-navy-400 text-navy-dark dark:text-white border-gray-300 dark:border-navy-500">
+                <Badge variant="outline" className="bg-gray-100 dark:bg-navy-300 text-navy-dark dark:text-white border-gray-300 dark:border-navy-500">
                   CBD: {strain.cbd}
                 </Badge>
               </div>
