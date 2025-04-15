@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -408,7 +407,7 @@
 
   /* Fix for Apply Filter button contrast */
   .dark [data-radix-select-item][data-highlighted] {
-    @apply bg-teal-DEFAULT/20 text-white;
+    @apply bg-navy-300 text-white;
   }
 
   /* Removing yellow highlighting in Settings language selector */
