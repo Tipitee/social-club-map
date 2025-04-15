@@ -3,78 +3,93 @@ import { useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { ClubResult, RawClubData } from "@/types/club";
 
-export interface ClubResult {
-  id: string;
-  name: string;
-  address: string | null;
-  city: string | null;
-  postal_code: string | null;
-  distance?: number;
-  status: "verified" | "pending" | "unverified";
-  latitude: number | null;
-  longitude: number | null;
-  membership_status: boolean;
-  district?: string | null;
-  website?: string | null;
-  contact_email?: string | null;
-  contact_phone?: string | null;
-  description?: string | null;
-  additional_info?: string | null;
+// German city data with related terms and neighboring relationships
+interface CityMapping {
+  aliases: string[];  // Alternative names and postal codes
+  neighbors: string[]; // Names of neighboring cities
+  radius: number;     // Approximate search radius in km
 }
 
-// Raw data type from database
-interface RawClubData {
-  id?: string;
-  name: string;
-  address: string | null;
-  city: string | null;
-  postal_code: string | null;
-  status: string | null;
-  latitude: number | null;
-  longitude: number | null;
-  membership_status: boolean | null;
-  district: string | null;
-  website: string | null;
-  contact_email: string | null;
-  contact_phone: string | null;
-  description: string | null;
-  additional_info: string | null;
-}
-
-// Simple structure to hold city information for distance calculation
-interface CityInfo {
-  name: string;
-  postal_code: string;
-  // Approximate coordinates for city center or postal code area
-  latitude: number;
-  longitude: number;
-}
-
-// Placeholder for common German cities and their postal code ranges
-// This allows for finding clubs in nearby cities
-const GERMAN_CITIES: Record<string, string[]> = {
-  "köln": ["cologne", "koeln", "köln", "50667", "50668", "50670", "50672", "50674", "50676", "50677", "50678", "50679"],
-  "bonn": ["bonn", "53111", "53113", "53115"],
-  "berlin": ["berlin", "10115", "10117", "10119"],
-  "münchen": ["munich", "muenchen", "münchen", "80331", "80333", "80335"],
-  "frankfurt": ["frankfurt", "60306", "60308", "60310", "60311", "60313"],
-  "hamburg": ["hamburg", "20095", "20097", "20099"],
-  "düsseldorf": ["duesseldorf", "düsseldorf", "40210", "40211", "40213"],
-  "brühl": ["bruehl", "brühl", "50321"], // Near Cologne
-  "leverkusen": ["leverkusen", "51373", "51375"], // Near Cologne
-  "bergisch gladbach": ["bergisch gladbach", "51429", "51465"] // Near Cologne
+// Enhanced mapping of German cities with their relationships
+const GERMAN_CITIES: Record<string, CityMapping> = {
+  "köln": {
+    aliases: ["cologne", "koeln", "köln", "50667", "50668", "50670", "50672", "50674", "50676", "50677", "50678", "50679"],
+    neighbors: ["brühl", "leverkusen", "bergisch gladbach", "troisdorf", "dormagen", "pulheim", "hürth", "frechen"],
+    radius: 30
+  },
+  "brühl": {
+    aliases: ["bruehl", "brühl", "50321"],
+    neighbors: ["köln", "hürth", "wesseling", "bornheim"],
+    radius: 15
+  },
+  "berlin": {
+    aliases: ["berlin", "10115", "10117", "10119", "10178", "10179"],
+    neighbors: ["potsdam", "bernau", "hennigsdorf", "falkensee"],
+    radius: 40
+  },
+  "potsdam": {
+    aliases: ["potsdam", "14467", "14469", "14471", "14473"],
+    neighbors: ["berlin", "werder", "teltow", "kleinmachnow"],
+    radius: 20
+  },
+  "münchen": {
+    aliases: ["munich", "muenchen", "münchen", "80331", "80333", "80335"],
+    neighbors: ["fürstenfeldbruck", "dachau", "freising", "erding"],
+    radius: 35
+  },
+  "frankfurt": {
+    aliases: ["frankfurt", "60306", "60308", "60310", "60311", "60313"],
+    neighbors: ["offenbach", "eschborn", "bad homburg", "hanau"],
+    radius: 30
+  },
+  "hamburg": {
+    aliases: ["hamburg", "20095", "20097", "20099"],
+    neighbors: ["pinneberg", "norderstedt", "ahrensburg", "reinbek"],
+    radius: 40
+  },
+  "düsseldorf": {
+    aliases: ["duesseldorf", "düsseldorf", "40210", "40211", "40213"],
+    neighbors: ["neuss", "meerbusch", "ratingen", "hilden", "erkrath"],
+    radius: 25
+  },
+  "bonn": {
+    aliases: ["bonn", "53111", "53113", "53115"],
+    neighbors: ["sankt augustin", "troisdorf", "königswinter", "bornheim"],
+    radius: 20
+  },
+  "leverkusen": {
+    aliases: ["leverkusen", "51373", "51375", "51377"],
+    neighbors: ["köln", "monheim", "langenfeld", "bergisch gladbach"],
+    radius: 15
+  },
+  "bergisch gladbach": {
+    aliases: ["bergisch gladbach", "51429", "51465", "51469"],
+    neighbors: ["köln", "overath", "odenthal", "leverkusen"],
+    radius: 15
+  }
 };
 
-// Define neighboring cities for more accurate nearby searches
-const NEIGHBORING_CITIES: Record<string, string[]> = {
-  "köln": ["brühl", "leverkusen", "bergisch gladbach", "troisdorf", "dormagen", "pulheim"],
-  "brühl": ["köln", "hürth", "wesseling", "bornheim"],
-  "leverkusen": ["köln", "monheim", "langenfeld"],
-  "bergisch gladbach": ["köln", "overath", "odenthal"],
-  "bonn": ["sankt augustin", "troisdorf", "königswinter", "bornheim"],
-  "düsseldorf": ["neuss", "meerbusch", "ratingen", "hilden"]
+// Build a reverse lookup for faster city identification
+const buildReverseLookup = () => {
+  const lookup: Record<string, string> = {};
+  
+  for (const [cityName, data] of Object.entries(GERMAN_CITIES)) {
+    // Add the main city name
+    lookup[cityName.toLowerCase()] = cityName;
+    
+    // Add all aliases
+    for (const alias of data.aliases) {
+      lookup[alias.toLowerCase()] = cityName;
+    }
+  }
+  
+  return lookup;
 };
+
+// Create the reverse lookup table for faster matching
+const CITY_LOOKUP = buildReverseLookup();
 
 export function useClubsSearch() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -85,38 +100,55 @@ export function useClubsSearch() {
   
   const debouncedQuery = useDebounce(searchQuery, 500);
   
-  // Helper function to get related search terms for a city
-  const getRelatedSearchTerms = (query: string): string[] => {
+  // Find main city name based on input query
+  const findMainCity = (query: string): string | null => {
+    const normalized = query.toLowerCase().trim();
+    
+    // Direct match in our lookup table
+    if (CITY_LOOKUP[normalized]) {
+      return CITY_LOOKUP[normalized];
+    }
+    
+    // Try partial matches for postal codes or city names
+    for (const [inputTerm, cityName] of Object.entries(CITY_LOOKUP)) {
+      // Check if query is a partial postal code or contained in city name
+      if (
+        (inputTerm.match(/^\d/) && normalized.startsWith(inputTerm.substring(0, 2))) || 
+        inputTerm.includes(normalized)
+      ) {
+        return cityName;
+      }
+    }
+    
+    return null;
+  };
+  
+  // Get expanded search terms for a query, including neighboring cities
+  const getExpandedSearchTerms = (query: string): string[] => {
     const normalizedQuery = query.toLowerCase().trim();
+    const searchTerms = new Set<string>([normalizedQuery]);
     
-    // Check if the query matches any postal code
-    for (const [cityName, terms] of Object.entries(GERMAN_CITIES)) {
-      if (terms.some(term => normalizedQuery === term || normalizedQuery.startsWith(term))) {
-        return [cityName, ...terms];
+    // Try to find the main city from the query
+    const mainCity = findMainCity(normalizedQuery);
+    
+    if (mainCity) {
+      // Add the main city and its aliases
+      searchTerms.add(mainCity);
+      GERMAN_CITIES[mainCity].aliases.forEach(term => searchTerms.add(term));
+      
+      // Add neighboring cities and their aliases
+      for (const neighbor of GERMAN_CITIES[mainCity].neighbors) {
+        if (GERMAN_CITIES[neighbor]) {
+          searchTerms.add(neighbor);
+          GERMAN_CITIES[neighbor].aliases.forEach(term => searchTerms.add(term));
+        }
       }
+      
+      console.log(`[DEBUG] Expanded ${normalizedQuery} to main city: ${mainCity}`);
     }
     
-    // Check if query matches a city name
-    for (const [cityName, terms] of Object.entries(GERMAN_CITIES)) {
-      if (cityName.includes(normalizedQuery) || terms.some(term => term.includes(normalizedQuery))) {
-        return [cityName, ...terms];
-      }
-    }
-    
-    // Find neighboring cities if it's an exact city match
-    for (const [cityName, neighbors] of Object.entries(NEIGHBORING_CITIES)) {
-      if (cityName === normalizedQuery) {
-        const relatedTerms = [cityName];
-        neighbors.forEach(neighbor => {
-          const neighborTerms = GERMAN_CITIES[neighbor] || [neighbor];
-          relatedTerms.push(...neighborTerms);
-        });
-        return relatedTerms;
-      }
-    }
-    
-    // No matches, just return original query
-    return [normalizedQuery];
+    // Convert Set back to array and return
+    return Array.from(searchTerms);
   };
 
   const searchClubs = async (location: string) => {
@@ -135,15 +167,20 @@ export function useClubsSearch() {
     try {
       console.log("[DEBUG] Searching for clubs with query:", location);
       
-      // Get related search terms for more comprehensive results
-      const searchTerms = getRelatedSearchTerms(location.trim().toLowerCase());
+      // Get expanded search terms for more comprehensive results
+      const searchTerms = getExpandedSearchTerms(location.trim().toLowerCase());
       console.log("[DEBUG] Expanded search terms:", searchTerms);
+      
+      // Identify main city for distance calculations
+      const mainCity = findMainCity(location.trim().toLowerCase());
+      const searchRadius = mainCity ? GERMAN_CITIES[mainCity].radius : 20; // Default radius
       
       // Build the query to search across city, postal code, and district
       let query = supabase.from('clubs').select('*');
       
       // Create an array of filter conditions
       const filters = searchTerms.map(term => {
+        // For each search term, look for it in city, postal_code and district
         return `city.ilike.%${term}%,postal_code.ilike.%${term}%,district.ilike.%${term}%`;
       });
       
@@ -159,23 +196,32 @@ export function useClubsSearch() {
       
       console.log("[DEBUG] Club search results count:", searchResults?.length);
       
-      // Calculate distance approximation based on whether query was postal code or city name
+      // Calculate distance approximation based on city relationships
       const clubResults: ClubResult[] = (searchResults || []).map(club => {
-        // Calculate a more meaningful distance if possible
+        // Calculate a more meaningful distance based on city relationships
         let distance: number | undefined;
         
-        // For now, calculate distance based on relevance to the search query
-        // In a real implementation, this would use coordinates and haversine formula
+        // Exact match for user's search query
         if (club.city?.toLowerCase() === location.trim().toLowerCase()) {
-          distance = Math.random() * 5; // Within the city
-        } else if (club.postal_code?.startsWith(location.trim().substring(0, 2))) {
-          distance = 5 + Math.random() * 10; // Nearby postal area
-        } else {
-          distance = 15 + Math.random() * 20; // Further away
+          distance = 0 + Math.random() * 5; // Within the city (0-5km)
+        } 
+        // Club is in the main city that was identified
+        else if (mainCity && club.city?.toLowerCase() === mainCity.toLowerCase()) {
+          distance = 5 + Math.random() * 10; // Within the main city area (5-15km)
+        } 
+        // Club is in a neighboring city
+        else if (mainCity && GERMAN_CITIES[mainCity].neighbors.some(
+          neighbor => club.city?.toLowerCase() === neighbor.toLowerCase()
+        )) {
+          distance = 10 + Math.random() * 15; // In a neighboring city (10-25km) 
+        }
+        // Everything else (wider search area)
+        else {
+          distance = 20 + Math.random() * searchRadius; // Further away
         }
         
         return {
-          id: club.name, // Use club name as ID since there's no explicit ID column
+          id: club.name || crypto.randomUUID(), // Use club name as ID or generate one
           name: club.name || "Unnamed Club",
           address: club.address || null,
           city: club.city || null,

@@ -1,8 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { ClubResult } from "@/hooks/use-clubs-search";
-import { RawClubData } from "@/types/club";
+import { ClubResult, RawClubData } from "@/types/club";
 import { SupabaseResponse } from "@/types/supabase";
 
 const mapRawDataToClub = (name: string, rawData: RawClubData): ClubResult => {

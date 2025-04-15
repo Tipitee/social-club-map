@@ -17,6 +17,25 @@ export interface RawClubData {
   additional_info: string | null;
 }
 
+export interface ClubResult {
+  id: string;
+  name: string;
+  address: string | null;
+  city: string | null;
+  postal_code: string | null;
+  distance?: number;
+  status: "verified" | "pending" | "unverified";
+  latitude: number | null;
+  longitude: number | null;
+  membership_status: boolean;
+  district?: string | null;
+  website?: string | null;
+  contact_email?: string | null;
+  contact_phone?: string | null;
+  description?: string | null;
+  additional_info?: string | null;
+}
+
 export interface ClubDetailData {
   openingHours: { day: string; hours: string }[];
   memberCount: number;
