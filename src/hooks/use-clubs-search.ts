@@ -104,6 +104,9 @@ export function useClubsSearch() {
   const findMainCity = (query: string): string | null => {
     const normalized = query.toLowerCase().trim();
     
+    // Empty query check
+    if (!normalized) return null;
+    
     // Direct match in our lookup table
     if (CITY_LOOKUP[normalized]) {
       return CITY_LOOKUP[normalized];
@@ -111,11 +114,13 @@ export function useClubsSearch() {
     
     // Try partial matches for postal codes or city names
     for (const [inputTerm, cityName] of Object.entries(CITY_LOOKUP)) {
-      // Check if query is a partial postal code or contained in city name
-      if (
-        (inputTerm.match(/^\d/) && normalized.startsWith(inputTerm.substring(0, 2))) || 
-        inputTerm.includes(normalized)
-      ) {
+      // Check if query is a partial postal code
+      if (inputTerm.match(/^\d/) && normalized.startsWith(inputTerm.substring(0, 2))) {
+        return cityName;
+      }
+      
+      // Check if query is contained in a city name or alias
+      if (inputTerm.includes(normalized)) {
         return cityName;
       }
     }
@@ -126,6 +131,10 @@ export function useClubsSearch() {
   // Get expanded search terms for a query, including neighboring cities
   const getExpandedSearchTerms = (query: string): string[] => {
     const normalizedQuery = query.toLowerCase().trim();
+    
+    // Empty query check
+    if (!normalizedQuery) return [];
+    
     const searchTerms = new Set<string>([normalizedQuery]);
     
     // Try to find the main city from the query
@@ -171,6 +180,15 @@ export function useClubsSearch() {
       const searchTerms = getExpandedSearchTerms(location.trim().toLowerCase());
       console.log("[DEBUG] Expanded search terms:", searchTerms);
       
+      // If no search terms found, show a message
+      if (searchTerms.length === 0) {
+        setSearchResults([]);
+        setHasSearched(true);
+        setError("No matching locations found. Please try another city.");
+        setLoading(false);
+        return;
+      }
+      
       // Identify main city for distance calculations
       const mainCity = findMainCity(location.trim().toLowerCase());
       const searchRadius = mainCity ? GERMAN_CITIES[mainCity].radius : 20; // Default radius
@@ -178,14 +196,17 @@ export function useClubsSearch() {
       // Build the query to search across city, postal code, and district
       let query = supabase.from('clubs').select('*');
       
-      // Create an array of filter conditions
-      const filters = searchTerms.map(term => {
-        // For each search term, look for it in city, postal_code and district
-        return `city.ilike.%${term}%,postal_code.ilike.%${term}%,district.ilike.%${term}%`;
+      // Create an array of filter conditions for better OR query construction
+      let filterString = '';
+      
+      searchTerms.forEach((term, index) => {
+        if (index > 0) filterString += ',';
+        filterString += `city.ilike.%${term}%,postal_code.ilike.%${term}%,district.ilike.%${term}%`;
       });
       
-      // Combine all filters with OR
-      query = query.or(filters.join(','));
+      if (filterString) {
+        query = query.or(filterString);
+      }
       
       // Execute the query
       const { data: searchResults, error: searchError } = await query;
@@ -248,34 +269,8 @@ export function useClubsSearch() {
         return 0;
       });
       
-      // Log the search details for debugging
-      console.log("[DEBUG] Search query:", location);
-      console.log("[DEBUG] Search results:", clubResults.length);
-      if (clubResults.length > 0) {
-        console.log("[DEBUG] First result:", {
-          name: clubResults[0].name,
-          city: clubResults[0].city,
-          postal_code: clubResults[0].postal_code,
-          distance: clubResults[0].distance
-        });
-      }
-      
       setSearchResults(clubResults);
       setHasSearched(true);
-      
-      if (clubResults.length === 0) {
-        toast({
-          title: "No Results",
-          description: `No clubs found matching "${location}"`,
-          variant: "default"
-        });
-      } else {
-        toast({
-          title: "Search Complete",
-          description: `Found ${clubResults.length} clubs matching "${location}"`,
-          variant: "default"
-        });
-      }
       
     } catch (err) {
       const message = err instanceof Error ? err.message : "Error searching for clubs";

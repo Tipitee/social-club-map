@@ -73,7 +73,7 @@ const ClubMap: React.FC = () => {
             
             <div className="flex flex-col md:flex-row gap-3 mb-6">
               <div className="flex-grow relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-dark dark:text-gray-400" size={18} />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-dark dark:text-gray-300" size={18} />
                 <Input
                   placeholder={t('clubs.enterCityPostal')}
                   className="pl-10 bg-white dark:bg-navy-300 border-navy-DEFAULT dark:border-navy-400 text-navy-dark dark:text-white"

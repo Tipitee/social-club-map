@@ -20,7 +20,6 @@ const Settings: React.FC = () => {
   const changeLanguage = (value: string) => {
     i18n.changeLanguage(value);
     localStorage.setItem('language', value);
-    // Removed toast notification as requested
   };
 
   const goBack = () => {
@@ -83,7 +82,7 @@ const Settings: React.FC = () => {
                   >
                     <SelectValue placeholder={t('language.select')} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-500">
                     <SelectItem value="en" className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-teal/10">
                       {t('language.en')}
                     </SelectItem>
