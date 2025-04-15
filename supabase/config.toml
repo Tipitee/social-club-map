@@ -1,1 +1,5 @@
+
 project_id = "zvcqcgihydjscvrltkvz"
+
+[functions.geocode-clubs]
+verify_jwt = false

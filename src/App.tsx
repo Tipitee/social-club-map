@@ -19,6 +19,7 @@ import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import News from "./pages/News";
 import CannabisGuide from "./pages/CannabisGuide";
+import AdminTools from "./pages/AdminTools";
 import BottomNav from "./components/BottomNav";
 import "./i18n";
 
@@ -46,6 +47,7 @@ const App = () => {
                       <Route path="/profile" element={<Profile />} />
                       <Route path="/settings" element={<Settings />} />
                       <Route path="/auth" element={<Auth />} />
+                      <Route path="/admin" element={<AdminTools />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>

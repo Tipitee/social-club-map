@@ -65,16 +65,27 @@ export function useClubsSearch() {
     setError(null);
     
     try {
-      console.log("[DEBUG] Searching for clubs near:", location);
+      console.log("[DEBUG] Searching for clubs with query:", location);
       
-      // Explicitly type the response to avoid deep type instantiation
+      // Sanitize and prepare the search query
+      const sanitizedQuery = location.trim().toLowerCase();
+      
+      // Create a more comprehensive search query using ILIKE
+      // This allows for partial matches on multiple fields
       const { data, error: fetchError } = await supabase
         .from('clubs')
         .select('*')
-        .or(`city.ilike.%${location}%, postal_code.ilike.%${location}%, district.ilike.%${location}%`)
+        .or(
+          `name.ilike.%${sanitizedQuery}%,` +
+          `city.ilike.%${sanitizedQuery}%,` +
+          `postal_code.ilike.%${sanitizedQuery}%,` +
+          `district.ilike.%${sanitizedQuery}%,` +
+          `description.ilike.%${sanitizedQuery}%,` +
+          `address.ilike.%${sanitizedQuery}%`
+        )
         .order('name') as { data: RawClubData[] | null; error: any };
       
-      console.log("[DEBUG] Club search results:", data);
+      console.log("[DEBUG] Club search results count:", data?.length);
       
       if (fetchError) {
         console.error("[DEBUG] Club search error:", fetchError);
@@ -83,6 +94,15 @@ export function useClubsSearch() {
       
       // Map data with proper type handling
       const clubResults: ClubResult[] = (data || []).map(club => {
+        // Calculate a more accurate distance if possible
+        let distance: number | undefined;
+        
+        if (club.latitude && club.longitude) {
+          // For now, use a random distance as placeholder
+          // In a real implementation, this would use the user's location if available
+          distance = parseFloat((Math.random() * 20 + 1).toFixed(1));
+        }
+        
         return {
           id: club.id || crypto.randomUUID(), // Use actual ID if available, fallback to UUID
           name: club.name || "Unnamed Club",
@@ -99,17 +119,37 @@ export function useClubsSearch() {
           contact_phone: club.contact_phone || null,
           description: club.description || null,
           additional_info: club.additional_info || null,
-          distance: parseFloat((Math.random() * 20 + 1).toFixed(1))
+          distance: distance
         };
       });
+      
+      // Log the search details for debugging
+      console.log("[DEBUG] Search query:", sanitizedQuery);
+      console.log("[DEBUG] Search results:", clubResults.length);
+      if (clubResults.length > 0) {
+        console.log("[DEBUG] First result:", {
+          name: clubResults[0].name,
+          city: clubResults[0].city,
+          postal_code: clubResults[0].postal_code
+        });
+      }
       
       setSearchResults(clubResults);
       setHasSearched(true);
       
-      toast({
-        title: "Search Complete",
-        description: `Found ${clubResults.length} clubs near "${location}"`
-      });
+      if (clubResults.length === 0) {
+        toast({
+          title: "No Results",
+          description: `No clubs found matching "${location}"`,
+          variant: "default"
+        });
+      } else {
+        toast({
+          title: "Search Complete",
+          description: `Found ${clubResults.length} clubs matching "${location}"`,
+          variant: "default"
+        });
+      }
       
     } catch (err) {
       const message = err instanceof Error ? err.message : "Error searching for clubs";
