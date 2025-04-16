@@ -157,12 +157,9 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
     }
   }, [club, allClubs, navigate]);
 
-  if (!club && (!allClubs || allClubs.length === 0)) {
-    return null;
-  }
-
+  // Return proper component with required height
   return (
-    <div className="w-full h-[300px] rounded-lg overflow-hidden shadow-lg border border-navy-DEFAULT dark:border-navy-light">
+    <div className="w-full h-full rounded-lg overflow-hidden shadow-lg border border-navy-DEFAULT dark:border-navy-light">
       <div ref={mapContainer} className="w-full h-full" />
     </div>
   );

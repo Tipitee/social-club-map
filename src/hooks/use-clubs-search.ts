@@ -112,12 +112,20 @@ export function useClubsSearch() {
       return CITY_LOOKUP[normalized];
     }
     
-    // Try partial matches for postal codes or city names
-    for (const [inputTerm, cityName] of Object.entries(CITY_LOOKUP)) {
-      // Check if query is a partial postal code
-      if (inputTerm.match(/^\d/) && normalized.startsWith(inputTerm.substring(0, 2))) {
-        return cityName;
+    // Check if the query is a postal code
+    if (/^\d+$/.test(normalized)) {
+      // Search through all aliases to find matching postal codes
+      for (const [cityName, data] of Object.entries(GERMAN_CITIES)) {
+        if (data.aliases.some(alias => alias === normalized || alias.startsWith(normalized))) {
+          return cityName;
+        }
       }
+    }
+    
+    // Try partial matches for city names
+    for (const [inputTerm, cityName] of Object.entries(CITY_LOOKUP)) {
+      // Skip postal codes for partial matching to avoid false positives
+      if (/^\d+$/.test(inputTerm)) continue;
       
       // Check if query is contained in a city name or alias
       if (inputTerm.includes(normalized) || normalized.includes(inputTerm)) {
@@ -196,12 +204,17 @@ export function useClubsSearch() {
       // Build the query to search across city, postal code, and district
       let query = supabase.from('clubs').select('*');
       
-      // Fixed: Create proper query conditions to ensure search results match the user's query
-      if (mainCity) {
-        // First try to get clubs directly matching the city or its aliases
+      // Handle postal code search differently
+      const isPostalCode = /^\d+$/.test(location.trim());
+      
+      if (isPostalCode) {
+        // If it's a postal code, search directly by postal code first
+        query = query.ilike('postal_code', `${location.trim()}%`);
+      } else if (mainCity) {
+        // If we identified a city, search for it and its neighbors
         query = query.ilike('city', `%${mainCity}%`);
       } else {
-        // If no specific city identified, use the original search terms
+        // Fallback to general search
         query = query.ilike('city', `%${location.trim()}%`);
       }
       

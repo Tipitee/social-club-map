@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Info, Leaf, Calendar, AlertTriangle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
@@ -18,12 +17,13 @@ interface ClubContentProps {
 const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) => {
   const [activeTab, setActiveTab] = useState("info");
   const navigate = useNavigate();
+  const location = useLocation();
   
   const handleBackClick = () => {
-    if (fromSearch) {
-      navigate(-1); // Goes back to the previous page (search results)
+    if (fromSearch || location.state?.fromSearch) {
+      navigate(-1);
     } else {
-      navigate("/clubs"); // Redirects to the clubs page
+      navigate("/clubs");
     }
   };
 

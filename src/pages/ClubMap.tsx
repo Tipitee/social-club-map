@@ -1,6 +1,6 @@
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,18 +12,57 @@ import { useClubsSearch } from "@/hooks/use-clubs-search";
 import { testSupabaseConnection } from "@/integrations/supabase/client";
 import BottomNav from "@/components/BottomNav";
 import ClubMap from "@/components/club/ClubMap";
+import { ClubResult } from "@/types/club";
+
+// Key for storing search results in session storage
+const SEARCH_RESULTS_STORAGE_KEY = "club-search-results";
+const SEARCH_QUERY_STORAGE_KEY = "club-search-query";
 
 const ClubMapPage: React.FC = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     searchQuery,
     setSearchQuery,
     searchResults,
+    setSearchResults,
     loading,
     error,
     hasSearched,
+    setHasSearched,
     searchClubs
   } = useClubsSearch();
+  
+  // Effect to restore search state from session storage when returning to this page
+  useEffect(() => {
+    const storedQuery = sessionStorage.getItem(SEARCH_QUERY_STORAGE_KEY);
+    const storedResults = sessionStorage.getItem(SEARCH_RESULTS_STORAGE_KEY);
+    
+    if (storedQuery) {
+      setSearchQuery(storedQuery);
+      
+      if (storedResults) {
+        try {
+          const parsedResults = JSON.parse(storedResults) as ClubResult[];
+          setSearchResults(parsedResults);
+          setHasSearched(true);
+        } catch (err) {
+          console.error("Error parsing stored search results:", err);
+          // Clear the invalid stored data
+          sessionStorage.removeItem(SEARCH_RESULTS_STORAGE_KEY);
+        }
+      }
+    }
+  }, []);
+  
+  // Effect to save search results to session storage
+  useEffect(() => {
+    if (hasSearched && searchResults.length > 0) {
+      sessionStorage.setItem(SEARCH_RESULTS_STORAGE_KEY, JSON.stringify(searchResults));
+      sessionStorage.setItem(SEARCH_QUERY_STORAGE_KEY, searchQuery);
+    }
+  }, [searchResults, searchQuery, hasSearched]);
   
   // Test Supabase connection on component mount
   React.useEffect(() => {
@@ -37,6 +76,13 @@ const ClubMapPage: React.FC = () => {
   
   const handleSearch = () => {
     searchClubs(searchQuery);
+  };
+  
+  const handleClubClick = (clubId: string) => {
+    // Navigate to club detail with state indicating we came from search
+    navigate(`/clubs/${encodeURIComponent(clubId)}`, { 
+      state: { fromSearch: true }
+    });
   };
   
   return (
@@ -107,7 +153,8 @@ const ClubMapPage: React.FC = () => {
                     {searchResults.map((club) => (
                       <div 
                         key={club.id} 
-                        className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-300 shadow-md hover:bg-gray-50 dark:hover:bg-navy-400 transition-colors"
+                        className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-300 shadow-md hover:bg-gray-50 dark:hover:bg-navy-400 transition-colors cursor-pointer"
+                        onClick={() => handleClubClick(club.name)}
                       >
                         <div className="flex items-start gap-3">
                           <div className="mt-1">
@@ -140,15 +187,17 @@ const ClubMapPage: React.FC = () => {
                               {club.distance && `${club.distance.toFixed(1)} ${t('clubs.awayKm')}`}
                             </div>
                           </div>
-                          <Link to={`/clubs/${encodeURIComponent(club.name)}`} state={{ fromSearch: true }}>
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
-                            >
-                              {t('clubs.details')}
-                            </Button>
-                          </Link>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleClubClick(club.name);
+                            }}
+                          >
+                            {t('clubs.details')}
+                          </Button>
                         </div>
                       </div>
                     ))}

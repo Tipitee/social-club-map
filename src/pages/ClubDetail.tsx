@@ -1,6 +1,5 @@
-
-import React from "react";
-import { useParams, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { useClubDetail } from "@/hooks/use-club-detail";
 import ClubLoading from "@/components/club/ClubLoading";
@@ -11,8 +10,15 @@ import BottomNav from "@/components/BottomNav";
 const ClubDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
+  const navigate = useNavigate();
   const fromSearch = Boolean(location.state?.fromSearch);
   const { club, loading, error } = useClubDetail(id);
+  
+  useEffect(() => {
+    if (!location.state) {
+      sessionStorage.setItem('direct-club-access', 'true');
+    }
+  }, [location.state]);
   
   if (loading) {
     return (
