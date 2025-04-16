@@ -345,6 +345,7 @@ export function useClubsSearch() {
       
       // Check if input is a postal code
       const isPostalCode = /^\d+$/.test(location.trim());
+      console.log("[DEBUG] Is postal code search:", isPostalCode);
       
       // Try to identify main city from search input
       const mainCity = findMainCity(location.trim().toLowerCase());

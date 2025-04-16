@@ -58,7 +58,7 @@ const ClubDetail: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-20">
+    <div className="min-h-screen bg-linen/60 dark:bg-navy-dark pb-20">
       <Navbar />
       <ClubContent club={club} fromSearch={fromSearch} />
       <BottomNav />

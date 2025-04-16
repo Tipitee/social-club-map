@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Book, Cannabis, Map, BookText, Newspaper, Settings as SettingsIcon } from "lucide-react";
+import { Book, Cannabis, Map, BookText, Newspaper, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
     },
     {
       path: "/settings",
-      icon: SettingsIcon,
+      icon: Settings,
       title: t('navigation.settings'),
       description: t('settings.preferences'),
       cardClass: "home-card-settings"

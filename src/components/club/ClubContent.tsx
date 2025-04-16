@@ -31,7 +31,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
   };
 
   return (
-    <div className="container px-4 py-6 max-w-7xl mx-auto bg-linen/50 dark:bg-navy-dark/50 rounded-lg shadow-sm">
+    <div className="container px-4 py-6 max-w-7xl mx-auto bg-white/80 dark:bg-navy-400/60 rounded-lg shadow-sm">
       <div className="mb-4">
         <Button 
           variant="ghost" 

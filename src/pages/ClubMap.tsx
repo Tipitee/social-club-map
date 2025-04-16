@@ -86,7 +86,7 @@ const ClubMapPage: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
+    <div className="min-h-screen bg-linen/70 dark:bg-navy-dark pb-28">
       <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
@@ -99,11 +99,11 @@ const ClubMapPage: React.FC = () => {
           </p>
         </div>
         
-        <div className="w-full h-[50vh] rounded-lg overflow-hidden shadow-lg border border-navy-DEFAULT dark:border-navy-light bg-card mb-6">
+        <div className="w-full h-[50vh] rounded-lg overflow-hidden shadow-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-300 mb-6">
           <ClubMap allClubs={searchResults.length > 0 ? searchResults : undefined} />
         </div>
         
-        <Card className="mt-8 border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-md">
+        <Card className="mt-8 border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-light shadow-md">
           <CardContent className="p-6">
             <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
               {t('clubs.searchNearby')}
@@ -114,7 +114,7 @@ const ClubMapPage: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-dark dark:text-gray-300" size={18} />
                 <Input
                   placeholder={t('clubs.enterCityPostal')}
-                  className="pl-10 bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-400 text-navy-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-300"
+                  className="pl-10 bg-white dark:bg-navy-400 border-navy-DEFAULT/30 dark:border-navy-400 text-navy-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-300"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -190,7 +190,7 @@ const ClubMapPage: React.FC = () => {
                           <Button 
                             variant="outline" 
                             size="sm"
-                            className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
+                            className="border-navy-DEFAULT/50 dark:border-navy-light/50 text-navy-dark dark:text-white hover:bg-navy-dark/10 dark:hover:bg-white/10"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleClubClick(club.name);
