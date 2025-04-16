@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
 import { User, LogIn, Settings, Shield } from "lucide-react";
-import LanguageSwitcher from "./LanguageSwitcher";
 import LogoDark from "@/assets/logo-dark.png";
 import LogoLight from "@/assets/logo-light.png";
 
@@ -61,10 +60,6 @@ const Navbar: React.FC = () => {
         </Link>
 
         <div className="flex items-center gap-2">
-          <div className="mr-2">
-            <LanguageSwitcher />
-          </div>
-          
           <Link to="/settings">
             <Button 
               variant="outline" 
