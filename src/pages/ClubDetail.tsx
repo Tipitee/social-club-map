@@ -11,7 +11,7 @@ import BottomNav from "@/components/BottomNav";
 const ClubDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
-  const fromSearch = location.state?.fromSearch || false;
+  const fromSearch = Boolean(location.state?.fromSearch);
   const { club, loading, error } = useClubDetail(id);
   
   if (loading) {

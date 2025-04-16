@@ -43,7 +43,9 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
           <ClubOpeningHours hours={mockClubDetails.openingHours} />
           
           {club.latitude && club.longitude && (
-            <ClubMap club={club} />
+            <div className="mb-6">
+              <ClubMap club={club} />
+            </div>
           )}
         </div>
       </div>

@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Info, Leaf, Calendar, AlertTriangle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
@@ -23,7 +23,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
     if (fromSearch) {
       navigate(-1); // Goes back to the previous page (search results)
     } else {
-      navigate(-1); // Falls back to browser history navigation
+      navigate("/clubs"); // Redirects to the clubs page
     }
   };
 
@@ -44,10 +44,12 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
         <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
         <AlertTitle className="text-amber-800 dark:text-amber-400 font-medium">Unverified Listing</AlertTitle>
         <AlertDescription className="text-amber-700 dark:text-amber-300">
-          <span className="block">This information is not verified, details may not be accurate.</span>
-          <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto mt-1 inline-flex">
-            Suggest modifications or contact us to get verified.
-          </Button>
+          <div className="flex flex-col">
+            <span>This information is not verified, details may not be accurate.</span>
+            <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto mt-1 text-left w-fit">
+              Suggest modifications or contact us to get verified.
+            </Button>
+          </div>
         </AlertDescription>
       </Alert>
       

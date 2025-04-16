@@ -119,6 +119,7 @@
   margin-top: 5px;
   font-weight: 500;
   text-decoration: none;
+  color: #2a9d90 !important;
 }
 
 .maplibregl-popup .view-club-details:hover {
@@ -131,4 +132,10 @@
 
 .club-marker {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Fix alert box link text wrap */
+.ui-alert-description .ui-button-link {
+  width: fit-content;
+  text-align: left;
 }
