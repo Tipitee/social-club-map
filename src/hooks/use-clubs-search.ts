@@ -300,9 +300,11 @@ export function useClubsSearch() {
     searchQuery,
     setSearchQuery,
     searchResults,
+    setSearchResults,  // Export this function
     loading,
     error,
     hasSearched,
+    setHasSearched,    // Export this function
     searchClubs
   };
 }
