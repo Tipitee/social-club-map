@@ -11,8 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { useClubsSearch } from "@/hooks/use-clubs-search";
 import { testSupabaseConnection } from "@/integrations/supabase/client";
 import BottomNav from "@/components/BottomNav";
+import ClubMap from "@/components/club/ClubMap";
 
-const ClubMap: React.FC = () => {
+const ClubMapPage: React.FC = () => {
   const { t } = useTranslation();
   const {
     searchQuery,
@@ -53,16 +54,7 @@ const ClubMap: React.FC = () => {
         </div>
         
         <div className="w-full h-[50vh] rounded-lg overflow-hidden shadow-lg border border-navy-DEFAULT dark:border-navy-light bg-card mb-6">
-          <iframe 
-            src="https://www.google.com/maps/d/u/0/embed?mid=1b3IKZqStnrLLakQHjyJz8Sp_JDZ8vOw&ehbc=2E312F&noprof=1" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen={true} 
-            loading="lazy"
-            title="Cannabis Clubs in Germany"
-            className="w-full h-full" 
-          />
+          <ClubMap allClubs={searchResults.length > 0 ? searchResults : undefined} />
         </div>
         
         <Card className="mt-8 border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-md">
@@ -172,4 +164,4 @@ const ClubMap: React.FC = () => {
   );
 };
 
-export default ClubMap;
+export default ClubMapPage;

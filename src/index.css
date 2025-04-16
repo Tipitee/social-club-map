@@ -1,429 +1,134 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+ 
 @layer base {
   :root {
-    /* Light mode (using the new color palette) */
-    --background: 36 77% 95%; /* Linen */
-    --foreground: 240 10% 3.9%;
+    --background: 0 0% 98%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 36 67% 94%; /* Based on Old lace */
-    --card-foreground: 240 10% 3.9%;
-
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-
-    --primary: 174 58% 39%; /* Teal */
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 174 59% 39%;
     --primary-foreground: 210 40% 98%;
-
-    --secondary: 27 89% 67%; /* Sand dark */
+ 
+    --secondary: 29 88% 67%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 162 23% 77%; /* Ash gray */
-    --muted-foreground: 240 3.8% 46.1%;
-
-    --accent: 36 87% 81%; /* Sand light */
-    --accent-foreground: 240 5.9% 10%;
-
-    --destructive: 12 70% 61%; /* Coral */
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 199 22% 84%; /* Cadet gray lighter */
-    --input: 199 22% 84%;
-    --ring: 174 58% 39%; /* Teal */
-
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
     --radius: 0.5rem;
 
-    --sidebar-background: 36 77% 95%; /* Linen */
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 174 58% 39%; /* Teal */
-    --sidebar-primary-foreground: 36 77% 95%; /* Linen */
-    --sidebar-accent: 162 23% 95%; /* Ash Gray lighter */
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 199 22% 84%; /* Cadet gray lighter */
-    --sidebar-ring: 174 58% 39%; /* Teal */
-
-    --indica: 271 75% 55%;
-    --sativa: 38 100% 63%;
-    --hybrid: 142 76% 60%;
+    /* Custom theme variables */
+    --teal: 174 59% 39%;
+    --teal-light: 174 38% 51%;
+    --teal-dark: 174 85% 23%;
+    
+    --sand: 29 88% 67%;
+    --sand-light: 33 70% 81%;
+    --sand-dark: 29 88% 67%;
+    
+    --coral: 14 71% 61%;
+    --coral-light: 17 74% 74%;
+    --coral-dark: 14 61% 48%;
+    
+    --linen: 34 67% 95%;
+    
+    --navy-DEFAULT: 196 41% 17%;
+    --navy-light: 196 33% 32%;
+    --navy-dark: 197 43% 18%;
+    
+    --navy-300: 196 29% 31%;
+    --navy-400: 196 28% 25%;
+    
+    --cadetGray-50: 200 13% 95%;
+    --cadetGray-100: 200 14% 92%;
+    --cadetGray-200: 200 14% 80%;
+    --cadetGray-300: 200 14% 68%;
   }
-
+ 
   .dark {
-    /* Improved dark mode colors for better consistency */
-    --background: 215 28% 17%; /* Navy dark - consistent with Settings */
+    --background: 197 43% 18%;
     --foreground: 210 40% 98%;
-
-    --card: 215 28% 20%; /* Navy - consistent with Settings */
+ 
+    --card: 196 33% 32%;
     --card-foreground: 210 40% 98%;
-
-    --popover: 215 28% 17%;
+ 
+    --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
-    --primary: 174 58% 45%; /* Brightened Teal */
+ 
+    --primary: 174 59% 39%;
     --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 27 89% 67%; /* Sand dark */
+ 
+    --secondary: 29 88% 67%;
     --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 22%; /* Lightened */
-    --muted-foreground: 215 20.2% 75%; /* Brightened */
-
-    --accent: 36 87% 81%; /* Sand light */
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
-    --destructive: 12 70% 61%; /* Coral */
+ 
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 215 28% 25%; /* Improved */
-    --input: 215 28% 25%;
-    --ring: 174 58% 45%; /* Brightened Teal */
-
-    --sidebar-background: 215 28% 20%; /* Consistent with Settings */
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 174 58% 45%; /* Brightened Teal */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 28% 25%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 215 28% 25%;
-    --sidebar-ring: 174 58% 45%;
-
-    --indica: 271 75% 60%; /* Brightened */
-    --sativa: 38 100% 68%; /* Brightened */
-    --hybrid: 142 76% 65%; /* Brightened */
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
-
+ 
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-linen text-foreground;
-  }
-
-  .dark body {
-    @apply bg-navy-dark;
-  }
-
-  html {
-    @apply antialiased;
+    @apply bg-background text-foreground;
   }
 }
 
-@layer components {
-  .page-container,
-  .min-h-screen {
-    @apply bg-linen dark:bg-navy-dark;
-  }
-
-  .filter-button {
-    @apply bg-teal-DEFAULT hover:bg-teal-dark text-white;
-  }
-
-  .gradient-bg {
-    @apply bg-gradient-smooth;
-  }
-
-  .effect-bar {
-    @apply w-full h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden relative mb-1;
-  }
-  
-  .effect-indicator {
-    @apply h-full absolute left-0 top-0 transition-all duration-300;
-  }
-
-  .thc-bar {
-    @apply w-full h-3 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden relative;
-  }
-  
-  .thc-indicator {
-    @apply h-full absolute left-0 top-0 bg-teal-DEFAULT transition-all duration-300;
-  }
-
-  .strain-card {
-    @apply rounded-xl shadow-lg overflow-hidden border transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
-  }
-
-  .strain-image-container {
-    @apply relative h-48 overflow-hidden;
-  }
-  
-  .strain-type-badge {
-    @apply absolute top-3 right-3 px-3 py-1 text-xs font-semibold rounded-full shadow-md;
-  }
-  
-  .type-indicator-Indica {
-    @apply bg-indica text-white;
-  }
-  
-  .type-indicator-Sativa {
-    @apply bg-sativa text-white;
-  }
-  
-  .type-indicator-Hybrid {
-    @apply bg-hybrid text-white;
-  }
-
-  .strain-content {
-    @apply p-5;
-  }
-
-  .strain-effects {
-    @apply mt-3 space-y-2;
-  }
-
-  .strain-title {
-    @apply font-bold text-lg mb-2;
-  }
-  
-  .effect-block {
-    @apply p-2 rounded-lg border transition-all;
-  }
-
-  .light .strain-card {
-    @apply bg-white border-gray-200;
-  }
-
-  .light .effect-bar,
-  .light .thc-bar {
-    @apply bg-cadetGray-200;
-  }
-  
-  .light input::placeholder,
-  .light textarea::placeholder {
-    @apply text-gray-500/70;
-  }
-
-  .dark .strain-card {
-    @apply bg-navy-light border-navy-300;
-  }
-
-  .dark .journal-entry {
-    @apply bg-navy-light border-navy-300;
-  }
-
-  .dark .effect-bar,
-  .dark .thc-bar {
-    @apply bg-gray-700;
-  }
-  
-  .dark input::placeholder,
-  .dark textarea::placeholder {
-    @apply text-gray-300/70;
-  }
-  
-  .journal-entry {
-    @apply border bg-white dark:bg-navy-light;
-  }
-  
-  .journal-text {
-    @apply text-gray-900 dark:text-gray-100;
-  }
-  
-  .journal-label {
-    @apply text-gray-700 dark:text-gray-300 font-medium;
-  }
-  
-  .search-input::placeholder {
-    @apply opacity-70;
-  }
-  
-  .input-label {
-    @apply text-gray-700 dark:text-gray-300 font-medium mb-1;
-  }
-  
-  .input-field {
-    @apply rounded-md px-3 py-2;
-  }
-
-  .dosage-input {
-    @apply w-full p-2 border rounded-md mb-2;
-  }
-  
-  /* Updated light mode styles for journal auth card */
-  .light .journal-entry, 
-  .light .content-card {
-    @apply bg-white border-gray-200;
-  }
-  
-  .dark .journal-entry {
-    @apply bg-navy-light border-navy-300;
-  }
-
-  /* Auth required block in journal - pure white in light mode, improved dark mode */
-  .auth-required-block {
-    @apply rounded-lg shadow-sm p-6 text-center;
-  }
-
-  .light .auth-required-block {
-    @apply bg-white border border-gray-200;
-  }
-
-  .dark .auth-required-block {
-    @apply bg-navy-light border-navy-300;
-  }
-  
-  /* Updated sign in button for Journal page */
-  .auth-required-block .button {
-    @apply bg-teal-600 hover:bg-teal-700 text-white border-transparent;
-  }
-  
-  .toast-notification {
-    @apply opacity-90 shadow-sm;
-  }
-  
-  .linear-gradient-bg {
-    background: linear-gradient(0.25turn, #ffebee, #ffe0b3, #e0f7fa, #4eb7ac, #007a6c);
-  }
-
-  /* Updated gradient styles for dark mode cards */
-  .dark .home-card-journal {
-    @apply bg-gradient-to-br from-teal-600/50 to-emerald-800/40 backdrop-blur-sm border-emerald-700/30;
-  }
-
-  .dark .home-card-strains {
-    @apply bg-gradient-to-br from-purple-600/50 to-indigo-800/40 backdrop-blur-sm border-indigo-700/30;
-  }
-
-  .dark .home-card-clubs {
-    @apply bg-gradient-to-br from-sky-600/50 to-blue-800/40 backdrop-blur-sm border-blue-700/30;
-  }
-
-  /* Updated settings and news styles to match */
-  .dark .home-card-settings {
-    @apply bg-gradient-to-br from-fuchsia-600/50 to-purple-800/40 backdrop-blur-sm border-purple-700/30;
-  }
-
-  .dark .home-card-news {
-    @apply bg-gradient-to-br from-fuchsia-600/50 to-purple-800/40 backdrop-blur-sm border-purple-700/30;
-  }
-  
-  .dark .home-card-guide {
-    @apply bg-gradient-to-br from-teal-600/50 to-cyan-800/40 backdrop-blur-sm border-cyan-700/30;
-  }
-
-  /* Light mode card styles updated for consistency */
-  .light .home-card-journal {
-    @apply bg-gradient-to-br from-[#4eb7ac]/30 to-[#2a9d90]/20 backdrop-blur-sm border-[#2a9d90]/10;
-  }
-
-  .light .home-card-strains {
-    @apply bg-gradient-to-br from-[#f39c86]/30 to-[#e76e50]/20 backdrop-blur-sm border-[#e76e50]/10;
-  }
-
-  .light .home-card-clubs {
-    @apply bg-gradient-to-br from-sand-light/40 to-sand-dark/20 backdrop-blur-sm border-sand-dark/10;
-  }
-
-  /* Swapped guide and settings styles for light mode */
-  .light .home-card-settings {
-    @apply bg-gradient-to-br from-[#f7d3a6]/40 to-[#f4a462]/30 backdrop-blur-sm border-[#f4a462]/20;
-  }
-
-  .light .home-card-news {
-    @apply bg-gradient-to-br from-[#f39c86]/30 to-[#e76e50]/20 backdrop-blur-sm border-[#e76e50]/10;
-  }
-
-  .light .home-card-guide {
-    @apply bg-gradient-to-br from-[#4eb7ac]/30 to-[#2a9d90]/20 backdrop-blur-sm border-[#2a9d90]/10;
-  }
-
-  .navbar-logo {
-    @apply h-8 w-auto;
-  }
-
-  /* Unified content card styles for better light mode contrast */
-  .content-card {
-    @apply bg-white dark:bg-navy-light rounded-xl shadow-lg border border-gray-200 dark:border-navy-300 p-5;
-  }
-
-  .content-text {
-    @apply text-gray-800 dark:text-gray-100;
-  }
-
-  .content-heading {
-    @apply text-xl font-semibold mb-3;
-  }
-
-  .form-control {
-    @apply w-full bg-white dark:bg-navy-300 border border-gray-300 dark:border-navy-400 rounded-md px-3 py-2 text-navy-dark dark:text-white;
-  }
-
-  /* Dropdown menu styles for better visibility in dark mode */
-  .dark .dropdown-menu {
-    @apply bg-navy-400 border-navy-500 shadow-md;
-  }
-
-  .dark .dropdown-item {
-    @apply text-white hover:bg-navy-300;
-  }
-  
-  /* Update News tab menu to match Guide style */
-  .tab-menu {
-    @apply border-b border-gray-200 dark:border-navy-400 mb-4 flex overflow-x-auto scrollbar-none gap-1 justify-center;
-  }
-  
-  .tab-button {
-    @apply px-2.5 py-1.5 text-xs whitespace-nowrap font-medium rounded-t transition-colors;
-  }
-  
-  .tab-button-active {
-    @apply border-b-2 border-teal text-teal dark:text-teal-light bg-teal-light/5 dark:bg-teal-dark/10;
-  }
-  
-  .tab-button-inactive {
-    @apply text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light hover:bg-teal-light/5 dark:hover:bg-teal-dark/10;
-  }
-
-  /* Show Filter button in light mode */
-  .light .show-filters-button {
-    @apply bg-navy-light text-white hover:bg-navy-dark;
-  }
-
-  /* UI improvements for club details in dark mode */
-  .dark .club-detail-card {
-    @apply bg-navy-400 border-navy-light/50 shadow-lg;
-  }
-  
-  .dark .club-info-text {
-    @apply text-white;
-  }
-  
-  .dark .club-badge {
-    @apply bg-navy-300 text-white border-navy-light;
-  }
-  
-  /* Improve select dropdown in dark mode */
-  .dark select,
-  .dark .select-input {
-    @apply bg-navy-300 text-white border-navy-400;
-  }
-  
-  .dark option {
-    @apply bg-navy-300 text-white;
-  }
-
-  /* Fix for Apply Filter button contrast */
-  .dark [data-radix-select-item][data-highlighted] {
-    @apply bg-navy-300 text-white;
-  }
-
-  /* Removing yellow highlighting in Settings language selector */
-  .dark [data-state=checked],
-  .dark [data-state=active] {
-    @apply bg-teal-dark text-white;
-  }
+/* MapLibre styles */
+.maplibregl-popup {
+  max-width: 250px !important;
 }
 
-@layer utilities {
-  .scrollbar-none {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;     /* Firefox */
-  }
+.maplibregl-popup-content {
+  padding: 10px 15px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1) !important;
+  font-family: inherit !important;
+}
 
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;             /* Chrome, Safari, and Opera */
-  }
+.maplibregl-popup .view-club-details {
+  margin-top: 5px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.maplibregl-popup .view-club-details:hover {
+  text-decoration: underline;
+}
+
+.maplibregl-marker {
+  cursor: pointer;
+}
+
+.club-marker {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }

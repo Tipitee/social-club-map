@@ -1,3 +1,4 @@
+
 import React from "react";
 import ClubAbout from "./ClubAbout";
 import ClubMembership from "./ClubMembership";
@@ -41,7 +42,9 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
           
           <ClubOpeningHours hours={mockClubDetails.openingHours} />
           
-          <ClubMap club={club} />
+          {club.latitude && club.longitude && (
+            <ClubMap club={club} />
+          )}
         </div>
       </div>
     );
