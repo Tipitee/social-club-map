@@ -10,7 +10,7 @@ interface ClubMembershipProps {
 
 const ClubMembership: React.FC<ClubMembershipProps> = ({ membershipFee, waitTime }) => {
   return (
-    <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light">
+    <Card className="border-navy-DEFAULT dark:border-navy-light bg-linen dark:bg-navy-light">
       <CardContent className="p-6">
         <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Membership Information</h3>
         
@@ -27,7 +27,7 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({ membershipFee, waitTime
           
           <div className="pt-4">
             <Button 
-              className="w-full sm:w-auto bg-teal hover:bg-teal-dark text-white font-medium px-4 py-2 h-auto membership-request-button"
+              className="w-full bg-teal hover:bg-teal-dark text-white font-medium py-3 h-auto"
             >
               Request Membership Information
             </Button>

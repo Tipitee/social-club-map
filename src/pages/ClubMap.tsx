@@ -122,7 +122,7 @@ const ClubMapPage: React.FC = () => {
           <ClubMap allClubs={searchResults.length > 0 ? searchResults : undefined} />
         </div>
         
-        <Card className="mt-8 border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white dark:bg-navy-light shadow-md">
+        <Card className="mt-8 border-navy-DEFAULT/30 dark:border-navy-light/30 bg-cadetGray-100 dark:bg-navy-DEFAULT shadow-md">
           <CardContent className="p-6">
             <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
               {t('clubs.searchNearby')}
@@ -133,7 +133,7 @@ const ClubMapPage: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-dark dark:text-gray-300" size={18} />
                 <Input
                   placeholder={t('clubs.enterCityPostal')}
-                  className="pl-10 bg-white dark:bg-navy-400 border-navy-DEFAULT/30 dark:border-navy-400 text-navy-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-300"
+                  className="pl-10 bg-white dark:bg-navy-300 border-navy-DEFAULT/30 dark:border-navy-light/30 text-navy-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-300"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}

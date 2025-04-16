@@ -21,7 +21,7 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - About & Details */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+          <div className="bg-linen dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300">
             <ClubAbout 
               club={club} 
               specialties={mockClubDetails.specialties}
@@ -29,25 +29,25 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
             />
           </div>
           
-          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+          <div className="bg-linen dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300">
             <ClubMembership 
               membershipFee={mockClubDetails.membershipFee}
               waitTime={mockClubDetails.membershipWaitTime}
             />
           </div>
           
-          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+          <div className="bg-linen dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300">
             <ClubAdditionalInfo club={club} />
           </div>
         </div>
         
         {/* Right column - Contact & Hours */}
         <div className="space-y-6">
-          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+          <div className="bg-linen dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300">
             <ClubContactInfo club={club} />
           </div>
           
-          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+          <div className="bg-linen dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300">
             <ClubOpeningHours hours={mockClubDetails.openingHours} />
           </div>
         </div>

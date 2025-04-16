@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
 import { User, LogIn, Settings, Shield } from "lucide-react";
+import LanguageSwitcher from "./LanguageSwitcher";
+import LogoDark from "@/assets/logo-dark.png";
+import LogoLight from "@/assets/logo-light.png";
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
@@ -44,13 +47,13 @@ const Navbar: React.FC = () => {
         <Link to="/" className="flex items-center font-bold text-xl">
           {theme === 'dark' ? (
             <img 
-              src="https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/logoclub//darklogo.png" 
+              src={LogoDark} 
               alt="Logo" 
               className="navbar-logo h-10" 
             />
           ) : (
             <img 
-              src="https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/logoclub//lightlogo.png"
+              src={LogoLight}
               alt="Logo" 
               className="navbar-logo h-10" 
             />
@@ -58,6 +61,10 @@ const Navbar: React.FC = () => {
         </Link>
 
         <div className="flex items-center gap-2">
+          <div className="mr-2">
+            <LanguageSwitcher />
+          </div>
+          
           <Link to="/settings">
             <Button 
               variant="outline" 

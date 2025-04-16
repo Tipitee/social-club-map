@@ -178,13 +178,13 @@ main {
 .dark input[type="search"],
 .dark select {
   background-color: hsl(196 29% 31%) !important; 
-  color: white !important;
+  color: rgb(240, 240, 240) !important;
   border-color: hsl(196 33% 38%) !important;
 }
 
 /* Make text in inputs more visible in dark mode */
 .dark ::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Fix button text and padding for membership button */
@@ -200,7 +200,23 @@ main {
 
 /* Guide menu navigation trigger buttons - smaller padding for better fit */
 .navigation-menu-trigger {
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
-  font-size: 0.875rem !important;
+  padding-left: 0.25rem !important;
+  padding-right: 0.25rem !important;
+  font-size: 0.75rem !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Language switcher positioning */
+.language-switcher {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Club detail cards */
+.dark .club-detail-card {
+  background-color: hsl(196 41% 22%) !important;
+  border-color: hsl(196 33% 38%) !important;
 }

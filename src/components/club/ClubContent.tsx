@@ -31,7 +31,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
   };
 
   return (
-    <div className="container px-4 py-6 max-w-7xl mx-auto bg-white dark:bg-navy-400 rounded-lg shadow-sm">
+    <div className="container px-4 py-6 max-w-7xl mx-auto bg-cadetGray-100 dark:bg-navy-300 rounded-lg shadow-md">
       <div className="mb-4">
         <Button 
           variant="ghost" 
@@ -78,7 +78,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
       />
       
       <Tabs defaultValue="info" value={activeTab} onValueChange={setActiveTab} className="mb-6">
-        <TabsList className="bg-white dark:bg-navy-400 border border-navy-DEFAULT/20 dark:border-navy-light/20 mb-6 shadow-sm">
+        <TabsList className="bg-linen dark:bg-navy-400 border border-navy-DEFAULT/20 dark:border-navy-light/20 mb-6 shadow-sm">
           <TabsTrigger 
             value="info" 
             className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white font-medium"
@@ -102,15 +102,15 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="info" className="mt-0 bg-white dark:bg-navy-400 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300">
+        <TabsContent value="info" className="mt-0 bg-white dark:bg-navy-DEFAULT rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300">
           <ClubTabContent tab="info" club={club} />
         </TabsContent>
         
-        <TabsContent value="strains" className="mt-0 bg-white dark:bg-navy-400 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300">
+        <TabsContent value="strains" className="mt-0 bg-white dark:bg-navy-DEFAULT rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300">
           <ClubTabContent tab="strains" club={club} />
         </TabsContent>
         
-        <TabsContent value="events" className="mt-0 bg-white dark:bg-navy-400 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300">
+        <TabsContent value="events" className="mt-0 bg-white dark:bg-navy-DEFAULT rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300">
           <ClubTabContent tab="events" club={club} />
         </TabsContent>
       </Tabs>
