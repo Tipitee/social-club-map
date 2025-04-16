@@ -120,7 +120,7 @@ export function useClubsSearch() {
       }
       
       // Check if query is contained in a city name or alias
-      if (inputTerm.includes(normalized)) {
+      if (inputTerm.includes(normalized) || normalized.includes(inputTerm)) {
         return cityName;
       }
     }
@@ -196,16 +196,13 @@ export function useClubsSearch() {
       // Build the query to search across city, postal code, and district
       let query = supabase.from('clubs').select('*');
       
-      // Create an array of filter conditions for better OR query construction
-      let filterString = '';
-      
-      searchTerms.forEach((term, index) => {
-        if (index > 0) filterString += ',';
-        filterString += `city.ilike.%${term}%,postal_code.ilike.%${term}%,district.ilike.%${term}%`;
-      });
-      
-      if (filterString) {
-        query = query.or(filterString);
+      // Fixed: Create proper query conditions to ensure search results match the user's query
+      if (mainCity) {
+        // First try to get clubs directly matching the city or its aliases
+        query = query.ilike('city', `%${mainCity}%`);
+      } else {
+        // If no specific city identified, use the original search terms
+        query = query.ilike('city', `%${location.trim()}%`);
       }
       
       // Execute the query
