@@ -22,32 +22,37 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - About & Details */}
         <div className="lg:col-span-2 space-y-6">
-          <ClubAbout 
-            club={club} 
-            specialties={mockClubDetails.specialties}
-            facilities={mockClubDetails.facilities}
-          />
+          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+            <ClubAbout 
+              club={club} 
+              specialties={mockClubDetails.specialties}
+              facilities={mockClubDetails.facilities}
+            />
+          </div>
           
-          <ClubMembership 
-            membershipFee={mockClubDetails.membershipFee}
-            waitTime={mockClubDetails.membershipWaitTime}
-          />
+          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+            <ClubMembership 
+              membershipFee={mockClubDetails.membershipFee}
+              waitTime={mockClubDetails.membershipWaitTime}
+            />
+          </div>
           
-          <ClubAdditionalInfo club={club} />
+          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+            <ClubAdditionalInfo club={club} />
+          </div>
         </div>
         
         {/* Right column - Contact & Hours */}
         <div className="space-y-6">
-          <ClubContactInfo club={club} />
+          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+            <ClubContactInfo club={club} />
+          </div>
           
-          <ClubOpeningHours hours={mockClubDetails.openingHours} />
+          <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
+            <ClubOpeningHours hours={mockClubDetails.openingHours} />
+          </div>
           
-          {club.latitude && club.longitude && (
-            <div className="mb-6">
-              <h3 className="font-medium mb-2 text-navy-dark dark:text-white">Location</h3>
-              <ClubMap club={club} />
-            </div>
-          )}
+          {/* Map is now shown on the club detail page header or removed completely */}
         </div>
       </div>
     );

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Info, Leaf, Calendar, AlertTriangle } from "lucide-react";
@@ -58,6 +59,16 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
           </AlertDescription>
         </Alert>
       )}
+      
+      {/* Always show a warning about exact location data protection */}
+      <Alert className="mb-4 bg-teal-50 dark:bg-teal-900/20 border-teal-300 dark:border-teal-800">
+        <Info className="h-4 w-4 text-teal dark:text-teal-light" />
+        <AlertTitle className="text-navy-dark dark:text-white font-medium">Privacy Information</AlertTitle>
+        <AlertDescription className="text-navy-dark/80 dark:text-gray-300">
+          For privacy and security reasons, exact club addresses may not be displayed. 
+          Please contact the club directly for precise location details.
+        </AlertDescription>
+      </Alert>
       
       <ClubHeader 
         club={club} 

@@ -25,6 +25,18 @@ const ClubDetail: React.FC = () => {
     console.log("Club detail - ID:", id);
   }, [location.state, id, fromSearch]);
   
+  // If user tries to access by direct URL and club is not found
+  useEffect(() => {
+    if (error && !location.state) {
+      // Add a small delay to allow the error to be displayed before navigating away
+      const timer = setTimeout(() => {
+        navigate('/clubs', { replace: true });
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [error, location.state, navigate]);
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-linen dark:bg-navy-dark">
