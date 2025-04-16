@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -32,7 +31,7 @@ const Settings: React.FC = () => {
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">
-            {t('settings.title')}
+            {t('settings.settings')}
           </h1>
           <Button 
             variant="outline" 

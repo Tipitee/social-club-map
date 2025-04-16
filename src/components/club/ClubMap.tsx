@@ -18,6 +18,9 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
   useEffect(() => {
     if (!mapContainer.current) return;
     
+    // MapTiler API key - using a free public style
+    const mapStyle = "https://api.maptiler.com/maps/streets/style.json?key=D1cGA4XR6YXzR8UBnFvP";
+    
     // If this is a single club detail view and we have coordinates
     if (club && club.latitude && club.longitude) {
       const initMap = () => {
@@ -26,7 +29,7 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
         // Initialize map centered on the club
         map.current = new maplibregl.Map({
           container: mapContainer.current!,
-          style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+          style: mapStyle,
           center: [club.longitude, club.latitude],
           zoom: 13
         });
@@ -63,16 +66,17 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
         // Find the bounds of all clubs with coordinates
         const validClubs = allClubs.filter(c => c.latitude && c.longitude);
         
-        if (validClubs.length === 0) return;
-        
-        // Default center if no clubs have coordinates
-        let center: [number, number] = [10.45, 51.16]; // Center of Germany
+        if (validClubs.length === 0) {
+          // Default center if no clubs have coordinates - show Germany
+          initializeDefaultMap();
+          return;
+        }
         
         // Initialize map
         map.current = new maplibregl.Map({
           container: mapContainer.current!,
-          style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
-          center: center,
+          style: mapStyle,
+          center: [10.45, 51.16], // Center of Germany
           zoom: 5
         });
         
@@ -150,10 +154,29 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
         }
       };
     }
-    
-    // Fallback for when we have no coordinates
+    // Fallback for when we have no coordinates - show default map of Germany
     else {
-      return () => {};
+      initializeDefaultMap();
+      
+      return () => {
+        if (map.current) {
+          map.current.remove();
+          map.current = null;
+        }
+      };
+    }
+    
+    // Helper function to initialize default map of Germany
+    function initializeDefaultMap() {
+      map.current = new maplibregl.Map({
+        container: mapContainer.current!,
+        style: mapStyle,
+        center: [10.45, 51.16], // Center of Germany
+        zoom: 5
+      });
+      
+      // Add controls
+      map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
     }
   }, [club, allClubs, navigate]);
 
