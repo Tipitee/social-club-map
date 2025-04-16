@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -6,6 +5,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Gavel, Shield, Sprout, AlertTriangle } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
+import BottomNav from "@/components/BottomNav";
 
 const CannabisGuide: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -19,27 +28,78 @@ const CannabisGuide: React.FC = () => {
           {t('navigation.guide')}
         </h1>
         
+        <div className="flex justify-center mb-6">
+          <NavigationMenu>
+            <NavigationMenuList className="bg-white dark:bg-navy-light shadow-sm rounded-md border border-gray-200 dark:border-navy-DEFAULT/30">
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white">{t('guide.laws')}</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4">
+                    <ListItem title={t('guide.possessionLimits')} href="#laws-possession">
+                      {t('guide.lawsIntro')}
+                    </ListItem>
+                    <ListItem title={t('guide.consumptionRegulations')} href="#laws-consumption">
+                      {t('guide.consumptionIntro')}
+                    </ListItem>
+                    <ListItem title={t('guide.drivingRestrictions')} href="#laws-driving">
+                      {t('guide.drivingIntro')}
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white">{t('guide.safeUse')}</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4">
+                    <ListItem title={t('guide.startLow')} href="#safe-start">
+                      {t('guide.safetyTips')}
+                    </ListItem>
+                    <ListItem title={t('guide.knowSource')} href="#safe-source">
+                      {t('guide.sourceImportance')}
+                    </ListItem>
+                    <ListItem title={t('guide.setAndSetting')} href="#safe-mindset">
+                      {t('guide.environmentMatters')}
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white">{t('guide.basics')}</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4">
+                    <ListItem title={t('guide.compounds')} href="#basics-compounds">
+                      {t('guide.cannabinoidsInfo')}
+                    </ListItem>
+                    <ListItem title={t('guide.methods')} href="#basics-methods">
+                      {t('guide.consumptionMethods')}
+                    </ListItem>
+                    <ListItem title={t('guide.types')} href="#basics-types">
+                      {t('guide.strainTypes')}
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white">{t('guide.health')}</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4">
+                    <ListItem title={t('guide.risks')} href="#health-risks">
+                      {t('guide.riskAwareness')}
+                    </ListItem>
+                    <ListItem title={t('guide.interactions')} href="#health-interactions">
+                      {t('guide.medicationInteractions')}
+                    </ListItem>
+                    <ListItem title={t('guide.conditions')} href="#health-conditions">
+                      {t('guide.preExistingConditions')}
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+        
         <Tabs defaultValue="laws" className="w-full">
-          <TabsList className="grid grid-cols-4 mb-8">
-            <TabsTrigger value="laws">
-              <Gavel className="h-4 w-4 mr-2" />
-              {t('guide.laws')}
-            </TabsTrigger>
-            <TabsTrigger value="safeUse">
-              <Shield className="h-4 w-4 mr-2" />
-              {t('guide.safeUse')}
-            </TabsTrigger>
-            <TabsTrigger value="basics">
-              <Sprout className="h-4 w-4 mr-2" />
-              {t('guide.basics')}
-            </TabsTrigger>
-            <TabsTrigger value="health">
-              <AlertTriangle className="h-4 w-4 mr-2" />
-              {t('guide.health')}
-            </TabsTrigger>
-          </TabsList>
-          
-          {/* Laws & Regulations Content */}
           <TabsContent value="laws" className="space-y-6">
             <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm">
               <CardHeader>
@@ -50,7 +110,7 @@ const CannabisGuide: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
-                  <AccordionItem value="possession">
+                  <AccordionItem value="possession" id="laws-possession">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.possessionLimits')}
                     </AccordionTrigger>
@@ -68,7 +128,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="consumption">
+                  <AccordionItem value="consumption" id="laws-consumption">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.consumptionRegulations')}
                     </AccordionTrigger>
@@ -96,7 +156,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="driving">
+                  <AccordionItem value="driving" id="laws-driving">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.drivingRestrictions')}
                     </AccordionTrigger>
@@ -161,7 +221,6 @@ const CannabisGuide: React.FC = () => {
             </Card>
           </TabsContent>
           
-          {/* Safe Use Content */}
           <TabsContent value="safeUse" className="space-y-6">
             <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm">
               <CardHeader>
@@ -172,7 +231,7 @@ const CannabisGuide: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
-                  <AccordionItem value="startLow">
+                  <AccordionItem value="startLow" id="safe-start">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.startLow')}
                     </AccordionTrigger>
@@ -202,7 +261,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="knowSource">
+                  <AccordionItem value="knowSource" id="safe-source">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.knowSource')}
                     </AccordionTrigger>
@@ -232,7 +291,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="mindset">
+                  <AccordionItem value="mindset" id="safe-mindset">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.setAndSetting')}
                     </AccordionTrigger>
@@ -262,7 +321,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="hydration">
+                  <AccordionItem value="hydration" id="safe-hydration">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.stayHydrated')}
                     </AccordionTrigger>
@@ -297,7 +356,6 @@ const CannabisGuide: React.FC = () => {
             </Card>
           </TabsContent>
           
-          {/* Basics Content */}
           <TabsContent value="basics" className="space-y-6">
             <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm">
               <CardHeader>
@@ -308,7 +366,7 @@ const CannabisGuide: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
-                  <AccordionItem value="compounds">
+                  <AccordionItem value="compounds" id="basics-compounds">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.compounds')}
                     </AccordionTrigger>
@@ -338,7 +396,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="methods">
+                  <AccordionItem value="methods" id="basics-methods">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.methods')}
                     </AccordionTrigger>
@@ -368,7 +426,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="types">
+                  <AccordionItem value="types" id="basics-types">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.types')}
                     </AccordionTrigger>
@@ -396,7 +454,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="tolerance">
+                  <AccordionItem value="tolerance" id="basics-tolerance">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.tolerance')}
                     </AccordionTrigger>
@@ -431,7 +489,6 @@ const CannabisGuide: React.FC = () => {
             </Card>
           </TabsContent>
           
-          {/* Health Tab */}
           <TabsContent value="health" className="space-y-6">
             <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light shadow-sm">
               <CardHeader>
@@ -442,7 +499,7 @@ const CannabisGuide: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <Accordion type="multiple" className="text-navy-dark dark:text-white">
-                  <AccordionItem value="risks">
+                  <AccordionItem value="risks" id="health-risks">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.risks')}
                     </AccordionTrigger>
@@ -474,7 +531,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="interactions">
+                  <AccordionItem value="interactions" id="health-interactions">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.interactions')}
                     </AccordionTrigger>
@@ -506,7 +563,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="conditions">
+                  <AccordionItem value="conditions" id="health-conditions">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.conditions')}
                     </AccordionTrigger>
@@ -538,7 +595,7 @@ const CannabisGuide: React.FC = () => {
                       )}
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="overuse">
+                  <AccordionItem value="overuse" id="health-overuse">
                     <AccordionTrigger className="hover:text-primary dark:hover:text-primary-light">
                       {t('guide.overuse')}
                     </AccordionTrigger>
@@ -576,8 +633,36 @@ const CannabisGuide: React.FC = () => {
           </TabsContent>
         </Tabs>
       </div>
+      <BottomNav />
     </div>
   );
 };
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, href, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          href={href}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none text-navy-dark dark:text-white">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-gray-500 dark:text-gray-400">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";
 
 export default CannabisGuide;
