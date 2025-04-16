@@ -13,6 +13,7 @@ import { testSupabaseConnection } from "@/integrations/supabase/client";
 import BottomNav from "@/components/BottomNav";
 import ClubMap from "@/components/club/ClubMap";
 import { ClubResult } from "@/types/club";
+import { toast } from "@/hooks/use-toast";
 
 // Key for storing search results in session storage
 const SEARCH_RESULTS_STORAGE_KEY = "club-search-results";
@@ -75,6 +76,24 @@ const ClubMapPage: React.FC = () => {
   }, []);
   
   const handleSearch = () => {
+    if (!searchQuery.trim()) {
+      toast({
+        title: "Search Error",
+        description: "Please enter a location or postal code to search",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Check if input is a postal code (German postal codes are 5 digits)
+    const isPostalCode = /^\d{1,5}$/.test(searchQuery.trim());
+    
+    if (isPostalCode) {
+      console.log("[DEBUG] Searching with postal code:", searchQuery);
+    } else {
+      console.log("[DEBUG] Searching with city name:", searchQuery);
+    }
+    
     searchClubs(searchQuery);
   };
   
@@ -86,7 +105,7 @@ const ClubMapPage: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-linen/70 dark:bg-navy-dark pb-28">
+    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">

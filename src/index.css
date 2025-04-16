@@ -193,4 +193,14 @@ main {
   white-space: normal !important;
   height: auto !important;
   line-height: 1.5 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  text-align: center !important;
+}
+
+/* Guide menu navigation trigger buttons - smaller padding for better fit */
+.navigation-menu-trigger {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+  font-size: 0.875rem !important;
 }

@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -30,9 +31,9 @@ const CannabisGuide: React.FC = () => {
         
         <div className="flex justify-center mb-6">
           <NavigationMenu>
-            <NavigationMenuList className="bg-transparent flex flex-wrap justify-center gap-2">
+            <NavigationMenuList className="bg-transparent flex flex-wrap justify-center gap-1">
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm text-sm px-3 py-1.5 h-auto">
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm text-sm px-2 py-1 h-auto">
                   {t('guide.laws')}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -50,7 +51,7 @@ const CannabisGuide: React.FC = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm text-sm px-3 py-1.5 h-auto">
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm text-sm px-2 py-1 h-auto">
                   {t('guide.safeUse')}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -68,7 +69,7 @@ const CannabisGuide: React.FC = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm text-sm px-3 py-1.5 h-auto">
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm text-sm px-2 py-1 h-auto">
                   {t('guide.basics')}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -86,7 +87,7 @@ const CannabisGuide: React.FC = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm text-sm px-3 py-1.5 h-auto">
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm text-sm px-2 py-1 h-auto">
                   {t('guide.health')}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>

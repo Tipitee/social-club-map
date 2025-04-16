@@ -31,7 +31,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
   };
 
   return (
-    <div className="container px-4 py-6 max-w-7xl mx-auto bg-white/80 dark:bg-navy-400/60 rounded-lg shadow-sm">
+    <div className="container px-4 py-6 max-w-7xl mx-auto bg-white dark:bg-navy-400 rounded-lg shadow-sm">
       <div className="mb-4">
         <Button 
           variant="ghost" 
@@ -78,7 +78,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
       />
       
       <Tabs defaultValue="info" value={activeTab} onValueChange={setActiveTab} className="mb-6">
-        <TabsList className="bg-white/90 dark:bg-navy-400 border border-navy-DEFAULT/20 dark:border-navy-light/20 mb-6 shadow-sm">
+        <TabsList className="bg-white dark:bg-navy-400 border border-navy-DEFAULT/20 dark:border-navy-light/20 mb-6 shadow-sm">
           <TabsTrigger 
             value="info" 
             className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white font-medium"
