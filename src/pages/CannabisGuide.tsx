@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -30,9 +31,9 @@ const CannabisGuide: React.FC = () => {
         
         <div className="flex justify-center mb-6">
           <NavigationMenu>
-            <NavigationMenuList className="bg-white dark:bg-navy-light shadow-sm rounded-md border border-gray-200 dark:border-navy-DEFAULT/30">
+            <NavigationMenuList className="bg-transparent">
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-navy-dark dark:text-white">{t('guide.laws')}</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm">{t('guide.laws')}</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4">
                     <ListItem title={t('guide.possessionLimits')} href="#laws-possession">
@@ -48,7 +49,7 @@ const CannabisGuide: React.FC = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-navy-dark dark:text-white">{t('guide.safeUse')}</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm">{t('guide.safeUse')}</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4">
                     <ListItem title={t('guide.startLow')} href="#safe-start">
@@ -64,7 +65,7 @@ const CannabisGuide: React.FC = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-navy-dark dark:text-white">{t('guide.basics')}</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm">{t('guide.basics')}</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4">
                     <ListItem title={t('guide.compounds')} href="#basics-compounds">
@@ -80,7 +81,7 @@ const CannabisGuide: React.FC = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-navy-dark dark:text-white">{t('guide.health')}</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-navy-dark dark:text-white bg-white dark:bg-navy-light border border-gray-200 dark:border-navy-DEFAULT/30 rounded-md shadow-sm">{t('guide.health')}</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4">
                     <ListItem title={t('guide.risks')} href="#health-risks">

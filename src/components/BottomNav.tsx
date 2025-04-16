@@ -47,7 +47,6 @@ const BottomNav: React.FC = () => {
           </Link>
         ))}
       </div>
-      {/* Add a safe area for iOS devices */}
       <div className={`h-safe-bottom ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-t-0`}></div>
     </div>
   );

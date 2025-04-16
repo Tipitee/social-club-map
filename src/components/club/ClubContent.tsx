@@ -44,8 +44,8 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
         <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
         <AlertTitle className="text-amber-800 dark:text-amber-400 font-medium">Unverified Listing</AlertTitle>
         <AlertDescription className="text-amber-700 dark:text-amber-300">
-          This information is not verified, details may not be accurate.{" "}
-          <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto inline">
+          <span className="block">This information is not verified, details may not be accurate.</span>
+          <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto mt-1 inline-flex">
             Suggest modifications or contact us to get verified.
           </Button>
         </AlertDescription>

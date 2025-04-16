@@ -133,11 +133,6 @@ const ClubMap: React.FC = () => {
                           <div className="flex-grow">
                             <div className="flex items-center gap-2">
                               <h4 className="font-semibold text-navy-dark dark:text-white">{club.name}</h4>
-                              {club.status === "verified" && (
-                                <span className="px-2 py-0.5 text-xs bg-teal/20 text-teal-dark dark:text-teal-light rounded-full">
-                                  {t('clubs.verified')}
-                                </span>
-                              )}
                               {!club.membership_status && (
                                 <Badge variant="outline" className="bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-300">
                                   {t('clubs.waitlist')}

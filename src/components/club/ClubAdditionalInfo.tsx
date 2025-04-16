@@ -58,10 +58,10 @@ const ClubAdditionalInfo: React.FC<ClubAdditionalInfoProps> = ({ club }) => {
               href={club.website.startsWith('http') ? club.website : `https://${club.website}`} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-teal hover:underline inline-flex items-center"
+              className="text-teal hover:underline inline-flex items-center break-all"
             >
               {club.website}
-              <ExternalLink size={14} className="ml-1" />
+              <ExternalLink size={14} className="ml-1 flex-shrink-0" />
             </a>
           </div>
         )}
