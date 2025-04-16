@@ -97,7 +97,7 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
           
           // Create marker
           const marker = new maplibregl.Marker(el)
-            .setLngLat([club.longitude, club.longitude])
+            .setLngLat([club.longitude, club.latitude])
             .addTo(map.current!);
           
           // Add popup
