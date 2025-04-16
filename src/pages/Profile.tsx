@@ -11,6 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
+import BottomNav from "@/components/BottomNav";
 
 type Profile = {
   id: string;
@@ -156,21 +157,22 @@ const Profile: React.FC = () => {
 
   if (loading) {
     return (
-      <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
+      <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
         <Navbar />
         <div className="container px-4 py-8 flex justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
+        <BottomNav />
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
+      <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
         <Navbar />
         <div className="container px-4 py-8 max-w-md mx-auto">
-          <Card className={getCardClass()}>
+          <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md">
             <CardContent className="pt-6 text-center">
               <div className="flex justify-center">
                 <div className="h-24 w-24 bg-primary/10 rounded-full flex items-center justify-center mb-4">
@@ -178,24 +180,25 @@ const Profile: React.FC = () => {
                 </div>
               </div>
               <h2 className="text-xl font-bold mb-2">Not Signed In</h2>
-              <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mb-4`}>Sign in to access your profile</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-4">Sign in to access your profile</p>
               <Button onClick={() => navigate('/auth')} className="bg-primary hover:bg-primary/90 text-white">
                 Sign In
               </Button>
             </CardContent>
           </Card>
         </div>
+        <BottomNav />
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen ${getBackgroundClass()} pb-24`}>
+    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
       <div className="container px-4 py-8 max-w-xl mx-auto relative">
         <Button 
           onClick={handleClose}
-          variant="ghost" 
+          variant="outline" 
           size="icon" 
           className="absolute top-0 right-0 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
           aria-label="Close profile"
@@ -203,9 +206,7 @@ const Profile: React.FC = () => {
           <X className="h-5 w-5" />
         </Button>
         
-        <h1 className="text-2xl font-bold mb-8 text-center">{t('profile.myProfile')}</h1>
-        
-        <Card className={`${getCardClass()} backdrop-blur mb-8`}>
+        <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md backdrop-blur mb-8">
           <CardContent className="pt-6">
             <div className="flex flex-col items-center mb-6">
               <div className="relative mb-4">
@@ -226,59 +227,67 @@ const Profile: React.FC = () => {
               </div>
             </div>
 
-            {editMode ? <div className="space-y-4">
+            {editMode ? (
+              <div className="space-y-4">
                 <div>
-                  <Label htmlFor="username" className={isDarkMode ? "text-gray-200" : "text-gray-700"}>
+                  <Label htmlFor="username" className="text-gray-700 dark:text-gray-200">
                     {t('profile.usernameLabel')}
                   </Label>
-                  <Input id="username" value={username} onChange={e => setUsername(e.target.value)} className={isDarkMode ? "bg-gray-700/60 border-gray-600 text-white" : "bg-gray-50 border-gray-200 text-gray-900"} placeholder={t('profile.enterUsername')} autoFocus />
+                  <Input id="username" value={username} onChange={e => setUsername(e.target.value)} className="bg-gray-50 dark:bg-navy-400 border-gray-200 dark:border-navy-500 text-gray-900 dark:text-white" placeholder={t('profile.enterUsername')} autoFocus />
                 </div>
                 
                 <div>
-                  <Label htmlFor="email" className={isDarkMode ? "text-gray-200" : "text-gray-700"}>
+                  <Label htmlFor="email" className="text-gray-700 dark:text-gray-200">
                     Email
                   </Label>
-                  <Input id="email" value={user.email || ""} readOnly className={isDarkMode ? "bg-gray-700/60 border-gray-600 text-gray-400" : "bg-gray-50 border-gray-200 text-gray-500"} />
+                  <Input id="email" value={user.email || ""} readOnly className="bg-gray-50 dark:bg-navy-400 border-gray-200 dark:border-navy-500 text-gray-500 dark:text-gray-400" />
                 </div>
                 
                 <div className="flex justify-center gap-4 mt-4">
                   <Button variant="outline" onClick={() => {
-                setEditMode(false);
-                setUsername(profile?.username || user.email?.split('@')[0] || '');
-              }} className={isDarkMode ? "border-gray-600 hover:bg-gray-700/80 text-gray-200" : "border-gray-200 hover:bg-gray-100 text-gray-800"}>
+                    setEditMode(false);
+                    setUsername(profile?.username || user.email?.split('@')[0] || '');
+                  }} className="border-gray-200 dark:border-navy-500 hover:bg-gray-100 dark:hover:bg-navy-400 text-gray-800 dark:text-gray-200">
                     {t('profile.cancel')}
                   </Button>
                   <Button onClick={updateProfile} disabled={updating} className="bg-primary hover:bg-primary/90 text-white">
-                    {updating ? <>
+                    {updating ? (
+                      <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         {t('profile.saving')}
-                      </> : <>
+                      </>
+                    ) : (
+                      <>
                         <Save className="mr-2 h-4 w-4" />
                         {t('profile.saveProfile')}
-                      </>}
+                      </>
+                    )}
                   </Button>
                 </div>
-              </div> : <div className="flex justify-center">
+              </div>
+            ) : (
+              <div className="flex justify-center">
                 <Button onClick={() => setEditMode(true)} className="mt-4 bg-primary hover:bg-primary/90 text-white" variant="default">
                   <Edit className="mr-2 h-4 w-4" />
                   {t('profile.editProfile')}
                 </Button>
-              </div>}
+              </div>
+            )}
           </CardContent>
         </Card>
         
-        <Card className={`${getCardClass()} backdrop-blur mb-8`}>
-          <CardContent className="pt-6 bg-teal-DEFAULT">
+        <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md backdrop-blur mb-8">
+          <CardContent className="pt-6">
             <h3 className="text-lg font-semibold mb-4">{t('settings.appearance')}</h3>
             
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span>{t('settings.language')}</span>
                 <div className="flex gap-3">
-                  <Button variant={profile?.language === 'en' ? 'default' : 'outline'} onClick={() => handleLanguageChange('en')} className={profile?.language === 'en' ? 'bg-primary hover:bg-primary/90 text-white' : isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-700 text-gray-200' : 'bg-white border-gray-200 hover:bg-gray-100 text-gray-800'} size="sm">
+                  <Button variant={profile?.language === 'en' ? 'default' : 'outline'} onClick={() => handleLanguageChange('en')} className={profile?.language === 'en' ? 'bg-primary hover:bg-primary/90 text-white' : 'bg-white dark:bg-navy-400 border-gray-200 dark:border-navy-500 hover:bg-gray-100 dark:hover:bg-navy-300 text-gray-800 dark:text-gray-200'} size="sm">
                     English
                   </Button>
-                  <Button variant={profile?.language === 'de' ? 'default' : 'outline'} onClick={() => handleLanguageChange('de')} className={profile?.language === 'de' ? 'bg-primary hover:bg-primary/90 text-white' : isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-700 text-gray-200' : 'bg-white border-gray-200 hover:bg-gray-100 text-gray-800'} size="sm">
+                  <Button variant={profile?.language === 'de' ? 'default' : 'outline'} onClick={() => handleLanguageChange('de')} className={profile?.language === 'de' ? 'bg-primary hover:bg-primary/90 text-white' : 'bg-white dark:bg-navy-400 border-gray-200 dark:border-navy-500 hover:bg-gray-100 dark:hover:bg-navy-300 text-gray-800 dark:text-gray-200'} size="sm">
                     Deutsch
                   </Button>
                 </div>
@@ -286,7 +295,7 @@ const Profile: React.FC = () => {
               
               <div className="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-gray-700">
                 <span>{t('settings.theme')}</span>
-                <Button variant="outline" onClick={toggleTheme} className={isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-700 text-gray-200' : 'bg-white border-gray-200 hover:bg-gray-100 text-gray-800'} size="sm">
+                <Button variant="outline" onClick={toggleTheme} className="bg-white dark:bg-navy-400 border-gray-200 dark:border-navy-500 hover:bg-gray-100 dark:hover:bg-navy-300 text-gray-800 dark:text-gray-200" size="sm">
                   {isDarkMode ? t('settings.lightMode') : t('settings.darkMode')}
                 </Button>
               </div>
@@ -294,7 +303,7 @@ const Profile: React.FC = () => {
           </CardContent>
         </Card>
         
-        <Card className={`${getCardClass()} backdrop-blur`}>
+        <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md backdrop-blur">
           <CardContent className="pt-6">
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">{t('profile.accountActions')}</h3>
@@ -307,6 +316,7 @@ const Profile: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+      <BottomNav />
     </div>
   );
 };

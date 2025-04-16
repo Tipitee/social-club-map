@@ -115,7 +115,7 @@ const ClubMap: React.FC = () => {
                     {searchResults.map((club) => (
                       <div 
                         key={club.id} 
-                        className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-gray-50 dark:bg-navy-300 shadow-md"
+                        className="p-4 rounded-lg border border-navy-DEFAULT/30 dark:border-navy-light/30 bg-white/80 dark:bg-navy-400/90 shadow-md hover:bg-gray-50 dark:hover:bg-navy-300 transition-colors"
                       >
                         <div className="flex items-start gap-3">
                           <div className="mt-1">

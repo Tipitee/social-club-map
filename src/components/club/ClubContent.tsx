@@ -40,18 +40,16 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
         </Button>
       </div>
       
-      {club.status !== "verified" && (
-        <Alert variant="warning" className="mb-4 bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700">
-          <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
-          <AlertTitle className="text-amber-800 dark:text-amber-400 font-medium">Unverified Listing</AlertTitle>
-          <AlertDescription className="text-amber-700 dark:text-amber-300">
-            This club has not verified their information yet. Details may not be accurate.
-            <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto">
-              Suggest modifications or contact us to get verified.
-            </Button>
-          </AlertDescription>
-        </Alert>
-      )}
+      <Alert variant="warning" className="mb-4 bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700">
+        <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
+        <AlertTitle className="text-amber-800 dark:text-amber-400 font-medium">Unverified Listing</AlertTitle>
+        <AlertDescription className="text-amber-700 dark:text-amber-300">
+          This club has not verified their information yet. Details may not be accurate.
+          <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto">
+            Suggest modifications or contact us to get verified.
+          </Button>
+        </AlertDescription>
+      </Alert>
       
       <ClubHeader 
         club={club} 
