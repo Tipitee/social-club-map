@@ -5,7 +5,6 @@ import ClubMembership from "./ClubMembership";
 import ClubAdditionalInfo from "./ClubAdditionalInfo";
 import ClubContactInfo from "./ClubContactInfo";
 import ClubOpeningHours from "./ClubOpeningHours";
-import ClubMap from "./ClubMap";
 import ClubStrains from "./ClubStrains";
 import ClubEvents from "./ClubEvents";
 import { mockClubDetails } from "./mockData";
@@ -51,8 +50,6 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
           <div className="bg-white dark:bg-navy-light rounded-lg p-5 shadow-sm border border-gray-100 dark:border-navy-300">
             <ClubOpeningHours hours={mockClubDetails.openingHours} />
           </div>
-          
-          {/* Map is now shown on the club detail page header or removed completely */}
         </div>
       </div>
     );

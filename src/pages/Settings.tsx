@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -37,7 +38,7 @@ const Settings: React.FC = () => {
             variant="outline" 
             size="icon" 
             onClick={goBack}
-            className="rounded-full bg-white hover:bg-gray-100 dark:bg-navy-400 dark:hover:bg-navy-300 border-navy-DEFAULT dark:border-navy-500"
+            className="rounded-full bg-white dark:bg-navy-400 hover:bg-gray-100 dark:hover:bg-navy-300 border-navy-DEFAULT dark:border-navy-500"
           >
             <X className="h-4 w-4 text-navy-dark dark:text-white" />
           </Button>

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { supabase } from "@/integrations/supabase/client";
@@ -349,15 +350,6 @@ export function useClubsSearch() {
       const mainCity = findMainCity(location.trim().toLowerCase());
       console.log("[DEBUG] Identified main city:", mainCity);
       
-      // If we couldn't identify a city, show error for non-postal code searches
-      if (!mainCity && !isPostalCode) {
-        setSearchResults([]);
-        setHasSearched(true);
-        setError("No matching locations found. Please try another city or postal code.");
-        setLoading(false);
-        return;
-      }
-      
       // Set appropriate search radius based on the city or default to 30km
       const searchRadius = mainCity && GERMAN_CITIES[mainCity] 
         ? GERMAN_CITIES[mainCity].radius 
@@ -382,6 +374,15 @@ export function useClubsSearch() {
             break;
           }
         }
+      }
+      
+      // If we still haven't found any cities, show a helpful error
+      if (!mainCity && !isPostalCode && searchCities.length === 0) {
+        setSearchResults([]);
+        setHasSearched(true);
+        setError(`No matching locations found for "${location}". Please try another city or postal code.`);
+        setLoading(false);
+        return;
       }
       
       // Build the query
@@ -426,7 +427,7 @@ export function useClubsSearch() {
       if (!searchResults || searchResults.length === 0) {
         setSearchResults([]);
         setHasSearched(true);
-        setError("No clubs found in this area.");
+        setError(`No clubs found in ${location}. Try searching for a nearby city.`);
         setLoading(false);
         return;
       }
