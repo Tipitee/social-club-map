@@ -46,9 +46,11 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
         <AlertDescription className="text-amber-700 dark:text-amber-300">
           <div className="flex flex-col">
             <span>This information is not verified, details may not be accurate.</span>
-            <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto mt-1 text-left w-fit">
-              Suggest modifications or contact us to get verified.
-            </Button>
+            <div className="mt-1">
+              <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto text-left w-auto">
+                Suggest modifications or contact us to get verified.
+              </Button>
+            </div>
           </div>
         </AlertDescription>
       </Alert>

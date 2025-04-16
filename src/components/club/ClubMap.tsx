@@ -124,7 +124,7 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
             elements[i].addEventListener('click', (event) => {
               const clubId = (event.target as HTMLElement).getAttribute('data-club-id');
               if (clubId) {
-                navigate(`/clubs/${clubId}`);
+                navigate(`/clubs/${clubId}`, { state: { fromSearch: true } });
               }
             });
           }

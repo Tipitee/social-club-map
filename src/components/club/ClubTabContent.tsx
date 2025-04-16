@@ -44,6 +44,7 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
           
           {club.latitude && club.longitude && (
             <div className="mb-6">
+              <h3 className="font-medium mb-2 text-navy-dark dark:text-white">Location</h3>
               <ClubMap club={club} />
             </div>
           )}
