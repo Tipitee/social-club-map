@@ -13,7 +13,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
+import ListItem from "@/components/guide/ListItem";
 import BottomNav from "@/components/BottomNav";
 
 const CannabisGuide: React.FC = () => {
@@ -637,32 +637,5 @@ const CannabisGuide: React.FC = () => {
     </div>
   );
 };
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, href, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          href={href}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none text-navy-dark dark:text-white">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-gray-500 dark:text-gray-400">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";
 
 export default CannabisGuide;
