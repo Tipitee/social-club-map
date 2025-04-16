@@ -21,7 +21,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
   
   const handleBackClick = () => {
     if (fromSearch) {
-      navigate('/clubs'); // Goes back to the clubs search page
+      navigate(-1); // Goes back to the previous page (search results)
     } else {
       navigate(-1); // Falls back to browser history navigation
     }
@@ -36,7 +36,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
           onClick={handleBackClick}
         >
           <ArrowLeft size={16} className="mr-1" />
-          Back to Search Results
+          Back
         </Button>
       </div>
       
@@ -47,7 +47,7 @@ const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) =
           <AlertDescription className="text-amber-700 dark:text-amber-300">
             This club has not verified their information yet. Details may not be accurate.
             <Button variant="link" className="text-teal dark:text-teal-light p-0 h-auto">
-              Are you the owner? Claim and verify this listing.
+              Suggest modifications or contact us to get verified.
             </Button>
           </AlertDescription>
         </Alert>
