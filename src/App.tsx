@@ -8,6 +8,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Suspense, lazy } from "react";
+import BottomNav from "@/components/BottomNav";
 
 // Eager loading critical routes
 import StrainExplorer from "./pages/StrainExplorer";
@@ -53,7 +54,7 @@ const App = () => {
             <AuthProvider>
               <TooltipProvider>
                 <div className="min-h-screen bg-linen dark:bg-navy-dark text-foreground">
-                  <main className="pb-20">
+                  <main className="pb-16">
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
@@ -141,6 +142,11 @@ const App = () => {
                       />
                     </Routes>
                   </main>
+                  {/* Bottom Navigation Bar - visible on all pages except Auth */}
+                  <Routes>
+                    <Route path="/auth" element={null} />
+                    <Route path="*" element={<BottomNav />} />
+                  </Routes>
                 </div>
                 <Toaster />
                 <Sonner />

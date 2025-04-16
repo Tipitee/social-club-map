@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -102,6 +103,11 @@
   }
 }
 
+/* Search bar styling */
+.club-search-input {
+  @apply bg-white dark:bg-navy-300 border-border;
+}
+
 /* MapLibre styles */
 .maplibregl-popup {
   max-width: 250px !important;
@@ -158,4 +164,25 @@
 .maplibregl-canvas {
   width: 100% !important;
   height: 100% !important;
+}
+
+/* Ensure bottom nav is always visible */
+main {
+  padding-bottom: 5rem !important;
+}
+
+/* Fix search bar in dark mode */
+.dark input[type="text"], 
+.dark input[type="number"], 
+.dark input[type="email"], 
+.dark input[type="search"],
+.dark select {
+  background-color: hsl(196 29% 31%) !important; 
+  color: white !important;
+  border-color: hsl(196 33% 38%) !important;
+}
+
+/* Make text in inputs more visible in dark mode */
+.dark ::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
