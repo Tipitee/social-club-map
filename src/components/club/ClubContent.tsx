@@ -12,14 +12,19 @@ import { Button } from "@/components/ui/button";
 
 interface ClubContentProps {
   club: ClubResult;
+  fromSearch?: boolean;
 }
 
-const ClubContent: React.FC<ClubContentProps> = ({ club }) => {
+const ClubContent: React.FC<ClubContentProps> = ({ club, fromSearch = false }) => {
   const [activeTab, setActiveTab] = useState("info");
   const navigate = useNavigate();
   
   const handleBackClick = () => {
-    navigate(-1); // Go back to the previous page instead of always to clubs
+    if (fromSearch) {
+      navigate('/clubs'); // Goes back to the clubs search page
+    } else {
+      navigate(-1); // Falls back to browser history navigation
+    }
   };
 
   return (

@@ -76,7 +76,7 @@ const ClubMap: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-dark dark:text-gray-300" size={18} />
                 <Input
                   placeholder={t('clubs.enterCityPostal')}
-                  className="pl-10 bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-400 text-navy-dark dark:text-white"
+                  className="pl-10 bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-400 text-navy-dark dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-300"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -153,7 +153,7 @@ const ClubMap: React.FC = () => {
                               {club.distance && `${club.distance.toFixed(1)} ${t('clubs.awayKm')}`}
                             </div>
                           </div>
-                          <Link to={`/clubs/${encodeURIComponent(club.name)}`}>
+                          <Link to={`/clubs/${encodeURIComponent(club.name)}`} state={{ fromSearch: true }}>
                             <Button 
                               variant="outline" 
                               size="sm"

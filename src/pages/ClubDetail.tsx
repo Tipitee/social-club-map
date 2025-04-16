@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { useClubDetail } from "@/hooks/use-club-detail";
 import ClubLoading from "@/components/club/ClubLoading";
@@ -10,6 +10,8 @@ import BottomNav from "@/components/BottomNav";
 
 const ClubDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const fromSearch = location.state?.fromSearch || false;
   const { club, loading, error } = useClubDetail(id);
   
   if (loading) {
@@ -35,7 +37,7 @@ const ClubDetail: React.FC = () => {
   return (
     <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
-      <ClubContent club={club} />
+      <ClubContent club={club} fromSearch={fromSearch} />
       <BottomNav />
     </div>
   );

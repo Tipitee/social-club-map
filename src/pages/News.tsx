@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
@@ -171,68 +170,68 @@ const News: React.FC = () => {
         </h1>
         
         <div className="mb-8">
-          <div className="flex space-x-1 overflow-x-auto pb-2 mb-6 border-b border-gray-200 dark:border-navy-400">
+          <div className="flex flex-wrap gap-2 justify-center mb-6">
             <Button
-              variant="ghost"
-              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+              variant={activeTab === 'all' ? "default" : "outline"}
+              className={`rounded-md px-4 py-2 text-sm ${
                 activeTab === 'all'
-                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
-                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+                  ? 'bg-teal text-white dark:bg-teal'
+                  : 'bg-white dark:bg-navy-400 text-navy-dark dark:text-white border-navy-DEFAULT/30 dark:border-navy-light/30'
               }`}
               onClick={() => setActiveTab('all')}
             >
               {t('strains.all')}
             </Button>
             <Button
-              variant="ghost"
-              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+              variant={activeTab === 'federal' ? "default" : "outline"}
+              className={`rounded-md px-4 py-2 text-sm ${
                 activeTab === 'federal'
-                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
-                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+                  ? 'bg-teal text-white dark:bg-teal'
+                  : 'bg-white dark:bg-navy-400 text-navy-dark dark:text-white border-navy-DEFAULT/30 dark:border-navy-light/30'
               }`}
               onClick={() => setActiveTab('federal')}
             >
               {t('news.federal')}
             </Button>
             <Button
-              variant="ghost"
-              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+              variant={activeTab === 'state' ? "default" : "outline"}
+              className={`rounded-md px-4 py-2 text-sm ${
                 activeTab === 'state'
-                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
-                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+                  ? 'bg-teal text-white dark:bg-teal'
+                  : 'bg-white dark:bg-navy-400 text-navy-dark dark:text-white border-navy-DEFAULT/30 dark:border-navy-light/30'
               }`}
               onClick={() => setActiveTab('state')}
             >
               {t('news.state')}
             </Button>
             <Button
-              variant="ghost"
-              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+              variant={activeTab === 'medical' ? "default" : "outline"}
+              className={`rounded-md px-4 py-2 text-sm ${
                 activeTab === 'medical'
-                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
-                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+                  ? 'bg-teal text-white dark:bg-teal'
+                  : 'bg-white dark:bg-navy-400 text-navy-dark dark:text-white border-navy-DEFAULT/30 dark:border-navy-light/30'
               }`}
               onClick={() => setActiveTab('medical')}
             >
               {t('news.medical')}
             </Button>
             <Button
-              variant="ghost"
-              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+              variant={activeTab === 'recreational' ? "default" : "outline"}
+              className={`rounded-md px-4 py-2 text-sm ${
                 activeTab === 'recreational'
-                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
-                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+                  ? 'bg-teal text-white dark:bg-teal'
+                  : 'bg-white dark:bg-navy-400 text-navy-dark dark:text-white border-navy-DEFAULT/30 dark:border-navy-light/30'
               }`}
               onClick={() => setActiveTab('recreational')}
             >
               {t('news.recreational')}
             </Button>
             <Button
-              variant="ghost"
-              className={`whitespace-nowrap px-3 py-1.5 text-sm font-medium ${
+              variant={activeTab === 'business' ? "default" : "outline"}
+              className={`rounded-md px-4 py-2 text-sm ${
                 activeTab === 'business'
-                  ? 'border-b-2 border-teal text-teal dark:text-teal-light'
-                  : 'text-navy-dark dark:text-gray-300 hover:text-teal dark:hover:text-teal-light'
+                  ? 'bg-teal text-white dark:bg-teal'
+                  : 'bg-white dark:bg-navy-400 text-navy-dark dark:text-white border-navy-DEFAULT/30 dark:border-navy-light/30'
               }`}
               onClick={() => setActiveTab('business')}
             >
