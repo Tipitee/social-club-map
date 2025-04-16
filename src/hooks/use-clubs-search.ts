@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { supabase } from "@/integrations/supabase/client";
@@ -167,6 +166,39 @@ const buildReverseLookup = () => {
 // Create the reverse lookup table for faster matching
 const CITY_LOOKUP = buildReverseLookup();
 
+// Build a mapping of postal code prefixes to cities
+const buildPostalPrefixLookup = () => {
+  const prefixLookup: Record<string, string[]> = {};
+  
+  for (const [cityName, data] of Object.entries(GERMAN_CITIES)) {
+    for (const postalCode of data.postalCodes) {
+      const prefix2 = postalCode.substring(0, 2);
+      const prefix3 = postalCode.substring(0, 3);
+      
+      // Add 2-digit prefix
+      if (!prefixLookup[prefix2]) {
+        prefixLookup[prefix2] = [];
+      }
+      if (!prefixLookup[prefix2].includes(cityName)) {
+        prefixLookup[prefix2].push(cityName);
+      }
+      
+      // Add 3-digit prefix
+      if (!prefixLookup[prefix3]) {
+        prefixLookup[prefix3] = [];
+      }
+      if (!prefixLookup[prefix3].includes(cityName)) {
+        prefixLookup[prefix3].push(cityName);
+      }
+    }
+  }
+  
+  return prefixLookup;
+};
+
+// Create postal prefix lookup table
+const POSTAL_PREFIX_LOOKUP = buildPostalPrefixLookup();
+
 export function useClubsSearch() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<ClubResult[]>([]);
@@ -195,16 +227,18 @@ export function useClubsSearch() {
         return POSTAL_CODE_LOOKUP[normalized];
       }
       
-      // Partial postal code match (first 2-3 digits)
-      if (normalized.length >= 2) {
-        const prefix = normalized.substring(0, 2);
-        
-        // Check all postal codes for prefix match
-        for (const [postalCode, cityName] of Object.entries(POSTAL_CODE_LOOKUP)) {
-          if (postalCode.startsWith(prefix)) {
-            return cityName;
-          }
-        }
+      // Match by postal code prefix (2-3 digits)
+      const prefix2 = normalized.substring(0, 2);
+      const prefix3 = normalized.length >= 3 ? normalized.substring(0, 3) : null;
+      
+      // Try 3-digit prefix first (more specific)
+      if (prefix3 && POSTAL_PREFIX_LOOKUP[prefix3]) {
+        return POSTAL_PREFIX_LOOKUP[prefix3][0]; // Return the first matching city
+      }
+      
+      // Try 2-digit prefix
+      if (POSTAL_PREFIX_LOOKUP[prefix2]) {
+        return POSTAL_PREFIX_LOOKUP[prefix2][0]; // Return the first matching city
       }
     }
     
@@ -254,6 +288,22 @@ export function useClubsSearch() {
     return Array.from(searchTerms);
   };
 
+  // Get all cities within a specified radius of the main city
+  const getCitiesInRadius = (mainCity: string, radiusKm: number): string[] => {
+    if (!GERMAN_CITIES[mainCity]) return [mainCity];
+    
+    const cities = [mainCity];
+    
+    // Add neighboring cities
+    for (const neighbor of GERMAN_CITIES[mainCity].neighbors) {
+      if (GERMAN_CITIES[neighbor]) {
+        cities.push(neighbor);
+      }
+    }
+    
+    return cities;
+  };
+
   const searchClubs = async (location: string) => {
     if (!location.trim()) {
       toast({
@@ -272,72 +322,68 @@ export function useClubsSearch() {
       
       // Check if input is a postal code
       const isPostalCode = /^\d+$/.test(location.trim());
-      let mainCity = null;
       
-      if (isPostalCode) {
-        // Try to find the corresponding city for this postal code
-        for (const [city, data] of Object.entries(GERMAN_CITIES)) {
-          if (data.postalCodes.some(code => code.startsWith(location.trim()))) {
-            mainCity = city;
-            console.log(`[DEBUG] Postal code ${location.trim()} matched to city ${city}`);
-            break;
-          }
+      // Try to identify main city from search input
+      const mainCity = findMainCity(location.trim().toLowerCase());
+      console.log("[DEBUG] Identified main city:", mainCity);
+      
+      // Set appropriate search radius
+      const searchRadius = mainCity && GERMAN_CITIES[mainCity] 
+        ? GERMAN_CITIES[mainCity].radius 
+        : 20;
+      
+      // Get all cities to include in search (main city + cities in radius)
+      let searchCities: string[] = mainCity 
+        ? getCitiesInRadius(mainCity, searchRadius)
+        : [];
+      
+      console.log("[DEBUG] Cities included in search:", searchCities);
+      
+      // If we couldn't identify a city but have a postal code
+      if (!mainCity && isPostalCode) {
+        // Try to find cities by postal code prefix
+        const prefix = location.trim().substring(0, Math.min(3, location.trim().length));
+        if (prefix.length >= 2) {
+          const citiesByPrefix = POSTAL_PREFIX_LOOKUP[prefix] || [];
+          searchCities = [...citiesByPrefix];
+          console.log("[DEBUG] Cities found by postal prefix:", citiesByPrefix);
         }
-        
-        // If no direct match, try partial match
-        if (!mainCity && location.trim().length >= 2) {
-          const prefix = location.trim().substring(0, 2);
-          for (const [city, data] of Object.entries(GERMAN_CITIES)) {
-            if (data.postalCodes.some(code => code.startsWith(prefix))) {
-              mainCity = city;
-              console.log(`[DEBUG] Postal code prefix ${prefix} matched to city ${city}`);
-              break;
-            }
-          }
-        }
-      } else {
-        // Try to identify city from name
-        mainCity = findMainCity(location.trim().toLowerCase());
       }
       
-      // Get expanded search terms for more comprehensive results
-      const searchTerms = getExpandedSearchTerms(location.trim().toLowerCase());
-      console.log("[DEBUG] Expanded search terms:", searchTerms);
-      
-      // If no search terms found, show a message
-      if (searchTerms.length === 0 && !mainCity && !isPostalCode) {
+      // If no cities found, show error
+      if (searchCities.length === 0 && !isPostalCode) {
         setSearchResults([]);
         setHasSearched(true);
-        setError("No matching locations found. Please try another city.");
+        setError("No matching locations found. Please try another city or postal code.");
         setLoading(false);
         return;
       }
       
-      // Search radius based on identified city or default
-      const searchRadius = mainCity ? GERMAN_CITIES[mainCity].radius : 20;
-      
-      // Build the query to search across city, postal code, and district
+      // Build the query
       let query = supabase.from('clubs').select('*');
       
+      // For postal code search
       if (isPostalCode) {
-        // If it's a postal code, search more broadly by prefix
-        const postalPrefix = location.trim().substring(0, 2);
-        query = query.ilike('postal_code', `${postalPrefix}%`);
-      } else if (mainCity) {
-        // If we identified a city, search for it and its neighbors
-        const citySearchTerms = [
-          mainCity, 
-          ...GERMAN_CITIES[mainCity].neighbors
-        ];
-        
-        // Build OR query for multiple cities
-        const cityFilters = citySearchTerms.map(city => 
+        // If exact postal code
+        if (location.trim().length === 5) {
+          query = query.eq('postal_code', location.trim());
+        } 
+        // For partial postal code
+        else {
+          const prefix = location.trim().substring(0, Math.min(3, location.trim().length));
+          query = query.ilike('postal_code', `${prefix}%`);
+        }
+      } 
+      // For city-based search
+      else if (searchCities.length > 0) {
+        const cityFilters = searchCities.map(city => 
           `city.ilike.%${city}%`
         ).join(',');
         
         query = query.or(cityFilters);
-      } else {
-        // Fallback to general search
+      } 
+      // Fallback
+      else {
         query = query.ilike('city', `%${location.trim()}%`);
       }
       
@@ -350,45 +396,77 @@ export function useClubsSearch() {
       
       console.log("[DEBUG] Club search results count:", searchResults?.length);
       
-      // Calculate distance approximation based on city relationships
+      if (!searchResults || searchResults.length === 0) {
+        setSearchResults([]);
+        setHasSearched(true);
+        setError("No clubs found in this area.");
+        setLoading(false);
+        return;
+      }
+      
+      // Calculate distance based on city relationships and postal code match quality
       const clubResults: ClubResult[] = (searchResults || []).map(club => {
-        // Calculate a more meaningful distance based on city relationships
         let distance: number | undefined;
+        let cityMatch = false;
+        let postalMatch = false;
         
-        // For postal code search
+        // For postal code search - check exact matches
         if (isPostalCode) {
-          if (club.postal_code && club.postal_code.startsWith(location.trim())) {
-            distance = 0.5 + Math.random() * 2; // Very close (0.5-2.5km)
-          } else if (mainCity && club.city?.toLowerCase() === mainCity.toLowerCase()) {
-            distance = 2 + Math.random() * 5; // Within the city (2-7km)
-          } else {
-            distance = 5 + Math.random() * searchRadius; // Further away
+          // Exact postal code match
+          if (club.postal_code === location.trim()) {
+            distance = 0.5; // Very close
+            postalMatch = true;
+          }
+          // Postal code prefix match
+          else if (club.postal_code && location.trim().length >= 2 && 
+                   club.postal_code.startsWith(location.trim().substring(0, 2))) {
+            distance = 3 + Math.random() * 5; // Within city
+            postalMatch = true;
+          }
+          // City match based on identified postal code
+          else if (mainCity && club.city && club.city.toLowerCase().includes(mainCity.toLowerCase())) {
+            distance = 5 + Math.random() * 10; // Inside the city
+            cityMatch = true;
+          }
+          // Neighboring city
+          else if (mainCity && club.city && 
+                   GERMAN_CITIES[mainCity].neighbors.some(n => 
+                     club.city?.toLowerCase().includes(n.toLowerCase())
+                   )) {
+            distance = 15 + Math.random() * 15; // Neighboring city
+            cityMatch = true;
+          }
+          // Default distance if no better match
+          else {
+            distance = 20 + Math.random() * 20; // Further away
+          }
+        }
+        // For city name search
+        else if (mainCity) {
+          // Direct match to searched city
+          if (club.city && club.city.toLowerCase().includes(mainCity.toLowerCase())) {
+            distance = 0 + Math.random() * 10; // Within the city
+            cityMatch = true;
+          }
+          // Club is in neighboring city
+          else if (club.city && GERMAN_CITIES[mainCity].neighbors.some(
+            neighbor => club.city?.toLowerCase().includes(neighbor.toLowerCase())
+          )) {
+            distance = 10 + Math.random() * 20; // In a neighboring city
+            cityMatch = true;
+          }
+          // Other result
+          else {
+            distance = 30 + Math.random() * 10; // Further away
           }
         } 
-        // For city name search
+        // Default if we couldn't determine relationships
         else {
-          // Exact match for user's search query
-          if (club.city?.toLowerCase() === location.trim().toLowerCase()) {
-            distance = 0 + Math.random() * 5; // Within the city (0-5km)
-          } 
-          // Club is in the main city that was identified
-          else if (mainCity && club.city?.toLowerCase() === mainCity.toLowerCase()) {
-            distance = 5 + Math.random() * 10; // Within the main city area (5-15km)
-          } 
-          // Club is in a neighboring city
-          else if (mainCity && GERMAN_CITIES[mainCity].neighbors.some(
-            neighbor => club.city?.toLowerCase() === neighbor.toLowerCase()
-          )) {
-            distance = 10 + Math.random() * 15; // In a neighboring city (10-25km) 
-          }
-          // Everything else (wider search area)
-          else {
-            distance = 20 + Math.random() * searchRadius; // Further away
-          }
+          distance = 25 + Math.random() * 15;
         }
         
         return {
-          id: club.name || crypto.randomUUID(), // Use club name as ID or generate one
+          id: club.name || crypto.randomUUID(),
           name: club.name || "Unnamed Club",
           address: club.address || null,
           city: club.city || null,
@@ -436,11 +514,11 @@ export function useClubsSearch() {
     searchQuery,
     setSearchQuery,
     searchResults,
-    setSearchResults,  // Export this function
+    setSearchResults,
     loading,
     error,
     hasSearched,
-    setHasSearched,    // Export this function
+    setHasSearched,
     searchClubs
   };
 }

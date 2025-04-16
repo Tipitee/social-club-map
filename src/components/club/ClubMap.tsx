@@ -18,8 +18,8 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
   useEffect(() => {
     if (!mapContainer.current) return;
     
-    // MapTiler API key - using a free public style
-    const mapStyle = "https://api.maptiler.com/maps/streets/style.json?key=D1cGA4XR6YXzR8UBnFvP";
+    // Using a free and reliable MapTiler style that doesn't require an API key
+    const mapStyle = "https://demotiles.maplibre.org/style.json";
     
     // If this is a single club detail view and we have coordinates
     if (club && club.latitude && club.longitude) {
@@ -31,7 +31,7 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
           container: mapContainer.current!,
           style: mapStyle,
           center: [club.longitude, club.latitude],
-          zoom: 13
+          zoom: 15
         });
         
         // Add controls
@@ -42,7 +42,7 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
           .setLngLat([club.longitude, club.latitude])
           .addTo(map.current);
         
-        // Add popup
+        // Add popup with club details
         const popup = new maplibregl.Popup({ offset: 25, closeButton: false })
           .setHTML(`<div class="font-medium">${club.name}</div>${club.address || ''}`);
         
@@ -63,7 +63,7 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
       const initMap = () => {
         if (map.current) return; // Already initialized
         
-        // Find the bounds of all clubs with coordinates
+        // Find the valid clubs with coordinates
         const validClubs = allClubs.filter(c => c.latitude && c.longitude);
         
         if (validClubs.length === 0) {
@@ -90,6 +90,7 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
         validClubs.forEach(club => {
           if (!club.latitude || !club.longitude) return;
           
+          // Create custom marker element
           const el = document.createElement('div');
           el.className = 'club-marker';
           el.style.backgroundColor = '#2a9d90';
@@ -104,12 +105,12 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
             .setLngLat([club.longitude, club.latitude])
             .addTo(map.current!);
           
-          // Add popup
+          // Add popup with club details and navigation link
           const popup = new maplibregl.Popup({ offset: 25, closeButton: false })
             .setHTML(`
               <div class="font-medium">${club.name}</div>
               <div>${club.address || ''}</div>
-              <div class="text-teal text-sm cursor-pointer view-club-details" 
+              <div class="text-teal text-sm cursor-pointer club-link" 
                    data-club-id="${encodeURIComponent(club.name)}">
                 View details
               </div>
@@ -119,19 +120,11 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
           
           // Extend bounds
           bounds.extend([club.longitude, club.latitude]);
-        });
-        
-        // Add click handler for popups
-        map.current.on('click', (e) => {
-          const elements = document.getElementsByClassName('view-club-details');
-          for (let i = 0; i < elements.length; i++) {
-            elements[i].addEventListener('click', (event) => {
-              const clubId = (event.target as HTMLElement).getAttribute('data-club-id');
-              if (clubId) {
-                navigate(`/clubs/${clubId}`, { state: { fromSearch: true } });
-              }
-            });
-          }
+          
+          // Add click handler to marker for navigation
+          marker.getElement().addEventListener('click', () => {
+            navigate(`/clubs/${encodeURIComponent(club.name)}`, { state: { fromSearch: true } });
+          });
         });
         
         // Once map is loaded, fit bounds with padding
@@ -140,6 +133,23 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
             map.current.fitBounds(bounds, {
               padding: 50,
               maxZoom: 12
+            });
+            
+            // Add click handler for popup links
+            map.current.on('click', () => {
+              setTimeout(() => {
+                const links = document.getElementsByClassName('club-link');
+                for (let i = 0; i < links.length; i++) {
+                  links[i].addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const clubId = (event.target as HTMLElement).getAttribute('data-club-id');
+                    if (clubId) {
+                      navigate(`/clubs/${clubId}`, { state: { fromSearch: true } });
+                    }
+                  });
+                }
+              }, 100);
             });
           }
         });

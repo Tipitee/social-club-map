@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -18,7 +19,11 @@ const ClubDetail: React.FC = () => {
     if (!location.state) {
       sessionStorage.setItem('direct-club-access', 'true');
     }
-  }, [location.state]);
+    
+    // Log details about the navigation state
+    console.log("Club detail - From search:", fromSearch);
+    console.log("Club detail - ID:", id);
+  }, [location.state, id, fromSearch]);
   
   if (loading) {
     return (
