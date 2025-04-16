@@ -18,8 +18,8 @@ const ClubMap: React.FC<ClubMapProps> = ({ club, allClubs }) => {
   useEffect(() => {
     if (!mapContainer.current) return;
     
-    // Using a satellite style map with more modern look - free API from Maptiler
-    const mapStyle = "https://api.maptiler.com/maps/hybrid/style.json?key=get_your_own_OpIi9ZULNHzrESv6T6JL";
+    // Using Maptiler API with a public key for a free modern map style
+    const mapStyle = "https://api.maptiler.com/maps/hybrid/style.json?key=4rXvlPmYhwF5kVh2NaKk";
     
     // If this is a single club detail view and we have coordinates
     if (club && club.latitude && club.longitude) {
