@@ -47,6 +47,13 @@ const Home: React.FC = () => {
       title: t('navigation.news'),
       description: t('news.stayInformed'),
       cardClass: "home-card-news"
+    },
+    {
+      path: "/settings",
+      icon: SettingsIcon,
+      title: t('navigation.settings'),
+      description: t('settings.preferences'),
+      cardClass: "home-card-settings"
     }
   ];
 
@@ -54,16 +61,6 @@ const Home: React.FC = () => {
     <div className="min-h-screen pb-20 bg-background">
       <Navbar />
       <div className="container px-4 py-6">
-        {/* Settings button */}
-        <div className="flex justify-end mb-4">
-          <Link to="/settings">
-            <Button variant="ghost" size="sm" className="flex items-center gap-2 bg-white/60 dark:bg-navy-light/60 hover:bg-white/80 dark:hover:bg-navy-light/80">
-              <SettingsIcon size={18} />
-              {t('navigation.settings')}
-            </Button>
-          </Link>
-        </div>
-        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map((section) => (
             <Link 

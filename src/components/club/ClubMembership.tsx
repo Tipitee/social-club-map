@@ -26,7 +26,7 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({ membershipFee, waitTime
           </div>
           
           <div className="pt-4">
-            <Button className="w-full sm:w-auto bg-teal hover:bg-teal/90 text-white">
+            <Button className="w-full sm:w-auto bg-teal hover:bg-teal/90 text-white font-medium">
               Request Membership Information
             </Button>
           </div>
