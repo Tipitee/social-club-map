@@ -31,7 +31,7 @@ const ClubEvents: React.FC<ClubEventsProps> = ({
         <div className="mt-6">
           <Accordion type="single" collapsible>
             <AccordionItem value="events-info">
-              <AccordionTrigger className="text-navy-dark dark:text-white bg-navy-400 hover:bg-navy-300 px-[12px]">
+              <AccordionTrigger className="text-navy-dark dark:text-white px-[12px] bg-navy-400 hover:bg-navy-300">
                 About Club Events
               </AccordionTrigger>
               <AccordionContent className="text-navy-dark dark:text-gray-300">
