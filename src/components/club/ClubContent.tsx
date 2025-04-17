@@ -83,7 +83,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
           <ClubTabContent tab="strains" club={club} />
         </TabsContent>
         
-        <TabsContent value="events" className="mt-0 bg-white dark:bg-navy-DEFAULT rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300">
+        <TabsContent value="events" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-navy-500">
           <ClubTabContent tab="events" club={club} />
         </TabsContent>
       </Tabs>
