@@ -1,23 +1,34 @@
+
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 interface Event {
   name: string;
   date: string;
   description: string;
 }
+
 interface ClubEventsProps {
   events: Event[];
 }
-const ClubEvents: React.FC<ClubEventsProps> = ({
-  events
-}) => {
-  return <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light">
+
+const ClubEvents: React.FC<ClubEventsProps> = ({ events = [] }) => {
+  // Ensure events is always an array even if undefined is passed
+  const safeEvents = Array.isArray(events) ? events : [];
+  
+  return (
+    <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-light">
       <CardContent className="p-6">
         <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Upcoming Events</h3>
         
-        {events && events.length > 0 ? <div className="space-y-4">
-            {events.map((event, index) => <div key={index} className="border-l-4 border-teal pl-4 py-px bg-navy-300 rounded-xl">
+        {safeEvents.length > 0 ? (
+          <div className="space-y-4">
+            {safeEvents.map((event, index) => (
+              <div 
+                key={`${event.name}-${index}`} 
+                className="border-l-4 border-teal pl-4 py-2 bg-navy-300/50 dark:bg-navy-400/50 rounded-xl"
+              >
                 <div className="flex justify-between flex-wrap">
                   <h4 className="font-bold text-navy-dark dark:text-white">{event.name}</h4>
                   <span className="text-sm text-gray-600 dark:text-gray-400">{event.date}</span>
@@ -25,8 +36,12 @@ const ClubEvents: React.FC<ClubEventsProps> = ({
                 <p className="text-gray-700 dark:text-gray-300 mt-1">
                   {event.description}
                 </p>
-              </div>)}
-          </div> : <p className="text-gray-700 dark:text-gray-300">No upcoming events at this time.</p>}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-700 dark:text-gray-300">No upcoming events at this time.</p>
+        )}
         
         <div className="mt-6">
           <Accordion type="single" collapsible>
@@ -46,6 +61,8 @@ const ClubEvents: React.FC<ClubEventsProps> = ({
           </Accordion>
         </div>
       </CardContent>
-    </Card>;
+    </Card>
+  );
 };
+
 export default ClubEvents;

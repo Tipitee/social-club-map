@@ -12,8 +12,12 @@ const ClubDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const navigate = useNavigate();
-  const fromSearch = Boolean(location.state?.fromSearch);
-  const { club, loading, error } = useClubDetail(id);
+  // Safely access state and provide default value
+  const fromSearch = location.state?.fromSearch || false;
+  
+  // Handle the case where id might be undefined
+  const safeId = id || '';
+  const { club, loading, error } = useClubDetail(safeId);
   
   useEffect(() => {
     if (!location.state) {
@@ -22,8 +26,8 @@ const ClubDetail: React.FC = () => {
     
     // Log details about the navigation state
     console.log("Club detail - From search:", fromSearch);
-    console.log("Club detail - ID:", id);
-  }, [location.state, id, fromSearch]);
+    console.log("Club detail - ID:", safeId);
+  }, [location.state, safeId, fromSearch]);
   
   // If user tries to access by direct URL and club is not found
   useEffect(() => {

@@ -30,16 +30,26 @@ const mapRawDataToClub = (name: string, rawData: RawClubData): ClubResult => {
  */
 const fetchClubById = async (id: string): Promise<SupabaseResponse<RawClubData>> => {
   try {
+    if (!id) {
+      return {
+        data: null,
+        error: new Error("No club ID provided")
+      };
+    }
+    
+    console.log("Fetching club data for:", id);
+    
     // First try to find the club by name (which is what we're using as ID)
     const response = await supabase.from('clubs').select('*').eq('name', id).single();
     
     // If no results or error, try more flexible search using ilike
     if (response.error || !response.data) {
+      console.log("Exact match not found, trying fuzzy search");
       const fallbackResponse = await supabase
         .from('clubs')
         .select('*')
         .ilike('name', `%${id}%`)
-        .single();
+        .maybeSingle(); // Using maybeSingle instead of single to avoid errors
       
       return {
         data: fallbackResponse.data as RawClubData | null,
@@ -86,8 +96,9 @@ export function useClubDetail(id: string | undefined) {
         if (data) {
           const mappedClub = mapRawDataToClub(data.name, data);
           setClub(mappedClub);
+          console.log("Club data loaded successfully:", mappedClub.name);
         } else {
-          setError("Club not found");
+          setError(`Club "${id}" not found`);
         }
       } catch (err) {
         console.error("Error fetching club:", err);
