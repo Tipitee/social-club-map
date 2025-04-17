@@ -74,5 +74,54 @@
     "waitTime": "Wartezeit",
     "specialties": "Spezialitäten",
     "facilities": "Einrichtungen"
+  },
+  "journal": {
+    "addEntry": "Eintrag hinzufügen",
+    "existingEntries": "Bestehende Einträge",
+    "effectiveness": "Wirksamkeit",
+    "date": "Datum",
+    "dosage": "Dosierung",
+    "notes": "Notizen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "sideEffects": "Nebenwirkungen",
+    "signInToTrack": "Melden Sie sich an, um Ihren Konsum zu verfolgen",
+    "activities": {
+      "reading": "Lesen",
+      "music": "Musik hören",
+      "socializing": "Geselligkeit",
+      "relaxing": "Entspannen",
+      "creative": "Kreativität",
+      "exercise": "Sport",
+      "meditation": "Meditation",
+      "work": "Arbeit",
+      "sleep": "Schlaf"
+    },
+    "sideEffects": {
+      "dry-mouth": "Mundtrockenheit",
+      "dry-eyes": "Trockene Augen",
+      "dizziness": "Schwindel",
+      "paranoia": "Paranoia",
+      "anxiety": "Angstzustände",
+      "none": "Keine"
+    }
+  },
+  "strains": {
+    "strainNotFound": "Sorte nicht gefunden",
+    "errorLoadingStrain": "Fehler beim Laden der Sorte",
+    "requestedStrainNotFound": "Die angeforderte Sorte konnte nicht gefunden werden",
+    "backToAllStrains": "Zurück zu allen Sorten",
+    "unknown": "Unbekannt",
+    "noData": "Keine Daten",
+    "noDescriptionAvailable": "Keine Beschreibung verfügbar"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "signInRequired": "Anmeldung erforderlich"
+  },
+  "common": {
+    "cancel": "Abbrechen"
   }
 }

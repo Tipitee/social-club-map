@@ -5,37 +5,37 @@
  
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 34 67% 95%; /* Linen color for better contrast than pure white */
+    --foreground: 197 43% 18%; /* Navy dark for better readability */
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 197 43% 18%;
  
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 197 43% 18%;
  
     --primary: 174 59% 39%;
     --primary-foreground: 210 40% 98%;
  
     --secondary: 29 88% 67%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: 196 41% 17%;
  
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 200 14% 92%; /* Cadet Gray 100 for better contrast */
+    --muted-foreground: 196 41% 17%;
  
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 200 13% 95%; /* Cadet Gray 50 for better visibility */
+    --accent-foreground: 196 41% 17%;
  
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 14 71% 61%; /* Coral color */
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 200 14% 80%; /* Cadet Gray 200 for more visible borders */
+    --input: 200 14% 80%;
+    --ring: 196 41% 17%;
  
     --radius: 0.5rem;
 
-    /* Custom theme variables */
+    /* Custom theme variables - keeping all the existing ones */
     --teal: 174 59% 39%;
     --teal-light: 174 38% 51%;
     --teal-dark: 174 85% 23%;
@@ -64,6 +64,7 @@
   }
  
   .dark {
+    /* Keep all existing dark theme variables without changes */
     --background: 197 43% 18%;
     --foreground: 210 40% 98%;
  
@@ -182,9 +183,25 @@ main {
   border-color: hsl(196 33% 38%) !important;
 }
 
-/* Make text in inputs more visible in dark mode */
+/* Light mode input styles with better contrast */
+input[type="text"], 
+input[type="number"], 
+input[type="email"], 
+input[type="search"],
+select {
+  background-color: white !important;
+  color: hsl(197 43% 18%) !important;
+  border-color: hsl(200 14% 80%) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Make text in inputs more visible in dark/light modes */
 .dark ::placeholder {
   color: rgba(255, 255, 255, 0.7) !important;
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.5) !important;
 }
 
 /* Fix button text and padding for membership button */
@@ -219,4 +236,16 @@ main {
 .dark .club-detail-card {
   background-color: hsl(196 41% 22%) !important;
   border-color: hsl(196 33% 38%) !important;
+}
+
+/* Light mode club detail cards with better contrast */
+.club-detail-card {
+  background-color: white !important;
+  border-color: hsl(200 14% 80%) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Auth required block centering for Journal page */
+.auth-required-block {
+  @apply flex flex-col items-center justify-center p-8 rounded-lg border border-gray-200 dark:border-navy-400 bg-white dark:bg-navy-light shadow-sm max-w-md mx-auto text-center;
 }

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -12,8 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
 import { User, LogIn, Settings, Shield } from "lucide-react";
-import LogoDark from "@/assets/logo-dark.png";
-import LogoLight from "@/assets/logo-light.png";
+import { supabase } from "@/integrations/supabase/client";
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
@@ -21,10 +21,36 @@ const Navbar: React.FC = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const isAdmin = user?.email === 'tomalours@gmail.com';
+  const [darkLogo, setDarkLogo] = useState<string | null>(null);
+  const [lightLogo, setLightLogo] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
+    
+    // Fetch logos from Supabase storage
+    const fetchLogos = async () => {
+      try {
+        const { data: darkData } = await supabase
+          .storage
+          .from('logoclub')
+          .getPublicUrl('darklogo.png');
+        
+        const { data: lightData } = await supabase
+          .storage
+          .from('logoclub')
+          .getPublicUrl('lightlogo.png');
+        
+        if (darkData) setDarkLogo(darkData.publicUrl);
+        if (lightData) setLightLogo(lightData.publicUrl);
+      } catch (error) {
+        console.error("Error fetching logos:", error);
+      }
+    };
+    
+    fetchLogos();
   }, []);
+
+  const currentLogo = theme === 'dark' ? darkLogo : lightLogo;
 
   if (!mounted) {
     return (
@@ -41,11 +67,15 @@ const Navbar: React.FC = () => {
     <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
-          <img 
-            src={theme === 'dark' ? LogoDark : LogoLight} 
-            alt="Logo" 
-            className="h-10"
-          />
+          {currentLogo ? (
+            <img 
+              src={currentLogo} 
+              alt="Logo" 
+              className="h-10"
+            />
+          ) : (
+            <div className="h-10 w-32 bg-gray-200 dark:bg-navy-400 rounded animate-pulse"></div>
+          )}
         </Link>
 
         <div className="flex items-center gap-2">
