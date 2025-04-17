@@ -52,7 +52,7 @@ const Home: React.FC = () => {
   }];
   return <div className="min-h-screen pb-20 bg-background">
       <Navbar />
-      <div className="container py-6 px-[44px]">
+      <div className="container py-6 bg-linen-500 px-[50px]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map(section => <Link key={section.path} to={section.path} className="block hover:scale-[1.02] transition-transform duration-200">
               <div className={`rounded-xl shadow-md hover:shadow-lg p-6 h-full ${section.cardClass}`}>
