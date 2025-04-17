@@ -218,7 +218,7 @@ const Journal: React.FC = () => {
                     </p>
                     
                     <div className="flex justify-end">
-                      <Button onClick={() => startEditing(entry.id)} variant="secondary" size="sm" className="text-navy-dark dark:text-white bg-oldLace-500 hover:bg-oldLace-400">
+                      <Button onClick={() => startEditing(entry.id)} variant="secondary" size="sm" className="text-navy-dark dark:text-white bg-navy-800 hover:bg-navy-700">
                         <Edit size={14} className="mr-1" />
                         {t('journal.edit')}
                       </Button>
