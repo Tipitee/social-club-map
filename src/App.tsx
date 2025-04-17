@@ -14,6 +14,7 @@ import BottomNav from "@/components/BottomNav";
 import StrainExplorer from "./pages/StrainExplorer";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
+import News from "./pages/News"; // Directly import News to avoid dynamic import issues
 
 // Lazy load non-critical routes for performance optimization
 const StrainDetail = lazy(() => import("./pages/StrainDetail"));
@@ -23,7 +24,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Journal = lazy(() => import("./pages/Journal"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Profile = lazy(() => import("./pages/Profile"));
-const News = lazy(() => import("./pages/News"));
 const CannabisGuide = lazy(() => import("./pages/CannabisGuide"));
 const AdminTools = lazy(() => import("./pages/AdminTools"));
 
@@ -90,14 +90,8 @@ const App = () => {
                           </Suspense>
                         } 
                       />
-                      <Route 
-                        path="/news" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
-                            <News />
-                          </Suspense>
-                        } 
-                      />
+                      {/* Load the News component directly without lazy loading to fix the import issue */}
+                      <Route path="/news" element={<News />} />
                       <Route 
                         path="/guide" 
                         element={
