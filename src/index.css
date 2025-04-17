@@ -104,6 +104,11 @@
   }
 }
 
+/* Center auth required block on Journal page */
+.auth-required-block {
+  @apply flex flex-col items-center justify-center p-8 rounded-lg border border-gray-200 dark:border-navy-400 bg-white dark:bg-navy-light shadow-sm max-w-md mx-auto text-center;
+}
+
 /* Search bar styling */
 .club-search-input {
   @apply bg-white dark:bg-navy-300 border-border;
@@ -245,7 +250,32 @@ select {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Auth required block centering for Journal page */
-.auth-required-block {
-  @apply flex flex-col items-center justify-center p-8 rounded-lg border border-gray-200 dark:border-navy-400 bg-white dark:bg-navy-light shadow-sm max-w-md mx-auto text-center;
+/* Strain card improvements */
+.strain-card {
+  @apply transition-all duration-200 hover:shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-navy-light/30;
+}
+
+/* Add scale markers for progress bars */
+.progress-scale {
+  @apply flex justify-between text-[9px] text-gray-500 dark:text-gray-400 mt-1;
+}
+
+/* Improve focus for accessibility */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}
+
+/* Add page transitions */
+.page-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Improve navbar logo display */
+.navbar-logo {
+  @apply h-10 object-contain transition-opacity duration-200;
+}
+
+/* Add visual indicator for loading state */
+.loading-indicator {
+  @apply animate-pulse bg-gray-200 dark:bg-navy-400 rounded;
 }

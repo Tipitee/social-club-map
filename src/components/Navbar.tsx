@@ -23,12 +23,14 @@ const Navbar: React.FC = () => {
   const isAdmin = user?.email === 'tomalours@gmail.com';
   const [darkLogo, setDarkLogo] = useState<string | null>(null);
   const [lightLogo, setLightLogo] = useState<string | null>(null);
+  const [logoLoading, setLogoLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
     
     // Fetch logos from Supabase storage
     const fetchLogos = async () => {
+      setLogoLoading(true);
       try {
         const { data: darkData } = await supabase
           .storage
@@ -44,19 +46,22 @@ const Navbar: React.FC = () => {
         if (lightData) setLightLogo(lightData.publicUrl);
       } catch (error) {
         console.error("Error fetching logos:", error);
+      } finally {
+        setLogoLoading(false);
       }
     };
     
     fetchLogos();
   }, []);
 
+  // Determine which logo to display based on theme
   const currentLogo = theme === 'dark' ? darkLogo : lightLogo;
 
   if (!mounted) {
     return (
       <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
         <div className="container flex items-center justify-between p-4">
-          <div className="h-10 w-32"></div>
+          <div className="h-10 w-32 bg-gray-200 dark:bg-navy-400 rounded animate-pulse"></div>
           <div className="flex items-center gap-3"></div>
         </div>
       </div>
@@ -67,14 +72,22 @@ const Navbar: React.FC = () => {
     <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
       <div className="container flex items-center justify-between p-4">
         <Link to="/" className="flex items-center font-bold text-xl">
-          {currentLogo ? (
+          {logoLoading ? (
+            <div className="h-10 w-32 bg-gray-200 dark:bg-navy-400 rounded animate-pulse"></div>
+          ) : currentLogo ? (
             <img 
               src={currentLogo} 
               alt="Logo" 
-              className="h-10"
+              className="navbar-logo max-h-10 w-auto"
+              onError={(e) => {
+                console.error("Logo loading error");
+                e.currentTarget.style.display = 'none';
+              }}
             />
           ) : (
-            <div className="h-10 w-32 bg-gray-200 dark:bg-navy-400 rounded animate-pulse"></div>
+            <div className="text-navy-dark dark:text-white font-bold text-lg">
+              Cannabis Club
+            </div>
           )}
         </Link>
 
