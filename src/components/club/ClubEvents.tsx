@@ -17,7 +17,7 @@ const ClubEvents: React.FC<ClubEventsProps> = ({
         <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Upcoming Events</h3>
         
         {events && events.length > 0 ? <div className="space-y-4">
-            {events.map((event, index) => <div key={index} className="border-l-4 border-teal pl-4 py-px bg-navy-300">
+            {events.map((event, index) => <div key={index} className="border-l-4 border-teal pl-4 py-px bg-navy-300 rounded-xl">
                 <div className="flex justify-between flex-wrap">
                   <h4 className="font-bold text-navy-dark dark:text-white">{event.name}</h4>
                   <span className="text-sm text-gray-600 dark:text-gray-400">{event.date}</span>
