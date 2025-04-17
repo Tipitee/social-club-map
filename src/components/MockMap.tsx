@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 import { toast } from "sonner";
@@ -57,13 +56,13 @@ const MockMap: React.FC = () => {
             <div className="relative">
               <MapPin
                 size={activePin === city.id ? 32 : 28}
-                className={activePin === city.id ? "text-primary" : "text-secondary"}
+                className={activePin === city.id ? "text-teal" : "text-secondary"}
                 strokeWidth={activePin === city.id ? 3 : 2}
               />
               <div
                 className={`absolute whitespace-nowrap px-2 py-1 rounded-md text-xs font-semibold -translate-x-1/2 -translate-y-full left-1/2 top-0 transform ${
                   activePin === city.id
-                    ? "bg-primary text-white"
+                    ? "bg-teal text-white"
                     : "bg-gray-700 text-gray-300"
                 }`}
               >
