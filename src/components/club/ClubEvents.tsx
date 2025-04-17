@@ -35,10 +35,10 @@ const ClubEvents: React.FC<ClubEventsProps> = ({
                 About Club Events
               </AccordionTrigger>
               <AccordionContent className="text-navy-dark dark:text-gray-300">
-                <p className="mb-2">
+                <p className="mb-2 py-[12px] px-[2px]">
                   Our events are open to registered members only and are designed to educate, inform, and build community around responsible cannabis use.
                 </p>
-                <p>
+                <p className="px-[3px]">
                   Event registration is typically required. Please contact the club for more information about attending upcoming events.
                 </p>
               </AccordionContent>
