@@ -60,7 +60,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
       <ClubHeader club={club} memberCount={mockClubDetails.memberCount} openingHours={mockClubDetails.openingHours} foundingDate={mockClubDetails.foundingDate} />
       
       <Tabs defaultValue="info" value={activeTab} onValueChange={setActiveTab} className="mb-6">
-        <TabsList className="bg-linen dark:bg-navy-400 border border-navy-DEFAULT/20 dark:border-navy-light/20 mb-6 shadow-sm mx-0">
+        <TabsList className="bg-linen dark:bg-navy-400 border border-navy-DEFAULT/20 dark:border-navy-light/20 mb-6 shadow-sm px-0 mx-[13px]">
           <TabsTrigger value="info" className="text-navy-dark dark:text-white data-[state=active]:bg-teal data-[state=active]:text-white font-medium">
             <Info size={16} className="mr-2" />
             Information
