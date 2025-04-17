@@ -14,50 +14,47 @@ import { format } from 'date-fns';
 import NewJournalEntry from "@/components/NewJournalEntry";
 import { JournalEntry } from "@/types/journal";
 import { v4 as uuidv4 } from "uuid";
-
 const Journal: React.FC = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
+  const {
+    t
+  } = useTranslation();
+  const {
+    user
+  } = useAuth();
   const navigate = useNavigate();
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
   const [editedEntry, setEditedEntry] = useState<JournalEntry | null>(null);
   const [showNewEntryModal, setShowNewEntryModal] = useState(false);
-
   useEffect(() => {
     if (user) {
-      const mockEntries: JournalEntry[] = [
-        {
-          id: "1",
-          date: "2024-01-20",
-          dosage: "5mg",
-          dosageType: "edible",
-          effectiveness: 4,
-          mood: "relaxed",
-          activity: "reading",
-          sideEffects: ["dry-mouth"],
-          notes: "Felt relaxed and creative."
-        },
-        {
-          id: "2",
-          date: "2024-01-25",
-          dosage: "10mg",
-          dosageType: "joints",
-          effectiveness: 5,
-          mood: "happy",
-          activity: "music",
-          sideEffects: ["dry-eyes"],
-          notes: "Good for pain relief."
-        }
-      ];
+      const mockEntries: JournalEntry[] = [{
+        id: "1",
+        date: "2024-01-20",
+        dosage: "5mg",
+        dosageType: "edible",
+        effectiveness: 4,
+        mood: "relaxed",
+        activity: "reading",
+        sideEffects: ["dry-mouth"],
+        notes: "Felt relaxed and creative."
+      }, {
+        id: "2",
+        date: "2024-01-25",
+        dosage: "10mg",
+        dosageType: "joints",
+        effectiveness: 5,
+        mood: "happy",
+        activity: "music",
+        sideEffects: ["dry-eyes"],
+        notes: "Good for pain relief."
+      }];
       setEntries(mockEntries);
     }
   }, [user]);
-
   const redirectToAuth = () => {
     navigate("/auth");
   };
-
   const handleSaveNew = (entry: Omit<JournalEntry, "id">) => {
     const newEntry = {
       ...entry,
@@ -66,7 +63,6 @@ const Journal: React.FC = () => {
     setEntries(prev => [newEntry, ...prev]);
     setShowNewEntryModal(false);
   };
-
   const startEditing = (id: string) => {
     const entryToEdit = entries.find(entry => entry.id === id);
     if (entryToEdit) {
@@ -76,43 +72,42 @@ const Journal: React.FC = () => {
       });
     }
   };
-
   const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (editedEntry) {
-      const { name, value } = e.target;
+      const {
+        name,
+        value
+      } = e.target;
       setEditedEntry(prev => ({
         ...prev!,
         [name]: value
       }));
     }
   };
-
   const saveEntry = () => {
     if (editedEntry) {
-      setEntries(prev => prev.map(entry => 
-        entry.id === editedEntry.id ? { ...editedEntry } : entry
-      ));
+      setEntries(prev => prev.map(entry => entry.id === editedEntry.id ? {
+        ...editedEntry
+      } : entry));
       setEditingEntryId(null);
       setEditedEntry(null);
     }
   };
-
   const cancelEditing = () => {
     setEditingEntryId(null);
     setEditedEntry(null);
   };
-
   const deleteEntry = (id: string) => {
     setEntries(prev => prev.filter(entry => entry.id !== id));
     setEditingEntryId(null);
     setEditedEntry(null);
   };
-
   if (!user) {
-    return (
-      <div className="min-h-screen bg-linen dark:bg-navy-dark">
+    return <div className="min-h-screen bg-linen dark:bg-navy-dark">
         <Navbar />
-        <div className="container px-4 py-6 flex items-center justify-center" style={{ minHeight: "calc(100vh - 80px)" }}>
+        <div className="container px-4 py-6 flex items-center justify-center" style={{
+        minHeight: "calc(100vh - 80px)"
+      }}>
           <div className="auth-required-block">
             <h3 className="text-xl font-semibold mb-3">{t('auth.signInRequired')}</h3>
             <p className="mb-4">{t('journal.signInToTrack')}</p>
@@ -121,12 +116,9 @@ const Journal: React.FC = () => {
             </Button>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-linen dark:bg-navy-dark">
+  return <div className="min-h-screen bg-linen dark:bg-navy-dark">
       <Navbar />
       <div className="container px-4 py-6 max-w-5xl mx-auto">
         <div className="flex justify-between items-center mb-6">
@@ -145,8 +137,7 @@ const Journal: React.FC = () => {
           {t('journal.existingEntries')}
         </h2>
         <div className="space-y-4">
-          {entries.map(entry => (
-            <Card key={entry.id} className="journal-entry">
+          {entries.map(entry => <Card key={entry.id} className="journal-entry">
               <CardContent className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
@@ -159,8 +150,7 @@ const Journal: React.FC = () => {
                     {t('journal.effectiveness')}: {entry.effectiveness}/5
                   </Badge>
                 </div>
-                {editingEntryId === entry.id ? (
-                  <>
+                {editingEntryId === entry.id ? <>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                       <div>
                         <Label htmlFor="date" className="input-label">
@@ -196,9 +186,7 @@ const Journal: React.FC = () => {
                         {t('journal.delete')}
                       </Button>
                     </div>
-                  </>
-                ) : (
-                  <>
+                  </> : <>
                     <div className="mb-4">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-lg font-semibold text-navy-dark dark:text-white">
@@ -214,40 +202,32 @@ const Journal: React.FC = () => {
                       </p>
                     </div>
                     
-                    {entry.sideEffects && entry.sideEffects.length > 0 && (
-                      <div className="mb-3">
+                    {entry.sideEffects && entry.sideEffects.length > 0 && <div className="mb-3">
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                           {t('journal.sideEffects')}:
                         </p>
                         <div className="flex flex-wrap gap-1">
-                          {entry.sideEffects.map(effect => (
-                            <Badge key={effect} variant="outline" className="bg-gray-100 dark:bg-navy-400 text-xs">
+                          {entry.sideEffects.map(effect => <Badge key={effect} variant="outline" className="bg-gray-100 dark:bg-navy-400 text-xs">
                               {t(`journal.sideEffects.${effect}`)}
-                            </Badge>
-                          ))}
+                            </Badge>)}
                         </div>
-                      </div>
-                    )}
+                      </div>}
                     
                     <p className="text-gray-700 dark:text-gray-300 mb-3 whitespace-pre-line">
                       {entry.notes}
                     </p>
                     
                     <div className="flex justify-end">
-                      <Button onClick={() => startEditing(entry.id)} variant="secondary" size="sm" className="bg-white dark:bg-navy-700 hover:bg-gray-100 dark:hover:bg-navy-600 text-navy-dark dark:text-white">
+                      <Button onClick={() => startEditing(entry.id)} variant="secondary" size="sm" className="text-navy-dark dark:text-white bg-oldLace-500 hover:bg-oldLace-400">
                         <Edit size={14} className="mr-1" />
                         {t('journal.edit')}
                       </Button>
                     </div>
-                  </>
-                )}
+                  </>}
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Journal;
