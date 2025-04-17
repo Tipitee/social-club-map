@@ -101,18 +101,11 @@ const StrainCard: React.FC<StrainCardProps> = ({
                 <span className="font-medium dark:text-gray-200 text-navy-dark">{t('strains.thcLevel')}</span>
                 <span className="font-bold dark:text-gray-100 text-navy-dark">{strain.thc_level}%</span>
               </div>
-              <div className="relative w-full h-2 rounded-full mb-4 bg-gray-200 dark:bg-navy-light/50">
-                <Progress 
-                  className="h-2 rounded-full" 
-                  value={Math.min(100, (strain.thc_level || 0) / 30 * 100)} 
-                  indicatorClassName="bg-primary" 
-                />
-                <div className="absolute top-3 w-full flex justify-between text-[10px] text-navy-dark/60 dark:text-gray-400">
-                  <span>0%</span>
-                  <span>15%</span>
-                  <span>30%</span>
-                </div>
-              </div>
+              <Progress 
+                className="h-2 rounded-full mb-4 bg-gray-200 dark:bg-navy-light/50 effect-bar" 
+                value={Math.min(100, (strain.thc_level || 0) / 30 * 100)} 
+                indicatorClassName="bg-primary" 
+              />
             </>
           ) : (
             <>
@@ -120,14 +113,11 @@ const StrainCard: React.FC<StrainCardProps> = ({
                 <span className="font-medium dark:text-gray-200 text-navy-dark">{t('strains.thcLevel')}</span>
                 <span className="font-bold dark:text-gray-100 text-navy-dark">?</span>
               </div>
-              <div className="relative w-full h-2 rounded-full mb-4 bg-gray-200 dark:bg-navy-light/50">
-                <Progress className="h-2 rounded-full" value={50} indicatorClassName="bg-gray-400/30" />
-                <div className="absolute top-3 w-full flex justify-between text-[10px] text-navy-dark/60 dark:text-gray-400">
-                  <span>0%</span>
-                  <span>15%</span>
-                  <span>30%</span>
-                </div>
-              </div>
+              <Progress 
+                className="h-2 rounded-full mb-4 bg-gray-200 dark:bg-navy-light/50 effect-bar" 
+                value={50} 
+                indicatorClassName="bg-gray-400/30" 
+              />
             </>
           )}
         </div>
@@ -141,18 +131,11 @@ const StrainCard: React.FC<StrainCardProps> = ({
                   {`${effect.intensity}%`}
                 </span>
               </div>
-              <div className="relative w-full">
-                <Progress 
-                  className="h-1.5 rounded-full mb-1 bg-gray-200 dark:bg-navy-light/50" 
-                  value={effect.intensity} 
-                  indicatorClassName={getEffectColor(index)} 
-                />
-                <div className="absolute top-2 w-full flex justify-between text-[9px] text-navy-dark/60 dark:text-gray-400">
-                  <span>0%</span>
-                  <span>50%</span>
-                  <span>100%</span>
-                </div>
-              </div>
+              <Progress 
+                className="h-2 rounded-full mb-2 bg-gray-200 dark:bg-navy-light/50 effect-bar" 
+                value={effect.intensity} 
+                indicatorClassName={getEffectColor(index)} 
+              />
             </div>
           ))}
         </div>

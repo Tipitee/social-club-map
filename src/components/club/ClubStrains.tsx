@@ -31,7 +31,7 @@ const ClubStrains: React.FC<ClubStrainsProps> = ({ strains }) => {
         {strains.map((strain, index) => (
           <div 
             key={index} 
-            className="border border-gray-200 dark:border-navy-300 rounded-lg overflow-hidden shadow-sm bg-white dark:bg-navy-500"
+            className="border border-gray-200 dark:border-navy-300 rounded-lg overflow-hidden shadow-sm bg-white dark:bg-navy-dark"
           >
             <div 
               className={`p-3 text-white font-medium ${

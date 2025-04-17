@@ -42,8 +42,14 @@ const Navbar: React.FC = () => {
           .from('logoclub')
           .getPublicUrl('lightlogo.png');
         
-        if (darkData) setDarkLogo(darkData.publicUrl);
-        if (lightData) setLightLogo(lightData.publicUrl);
+        if (darkData) {
+          console.log("Dark logo URL:", darkData.publicUrl);
+          setDarkLogo(darkData.publicUrl);
+        }
+        if (lightData) {
+          console.log("Light logo URL:", lightData.publicUrl);
+          setLightLogo(lightData.publicUrl);
+        }
       } catch (error) {
         console.error("Error fetching logos:", error);
       } finally {

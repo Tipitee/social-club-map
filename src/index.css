@@ -64,8 +64,8 @@
   }
  
   .dark {
-    /* Keep all existing dark theme variables without changes */
-    --background: 197 43% 18%;
+    /* Dark theme - making background match navbar (navy-dark) */
+    --background: 197 43% 18%; /* navy-dark matches the top bar */
     --foreground: 210 40% 98%;
  
     --card: 196 33% 32%;
@@ -255,11 +255,6 @@ select {
   @apply transition-all duration-200 hover:shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-navy-light/30;
 }
 
-/* Add scale markers for progress bars */
-.progress-scale {
-  @apply flex justify-between text-[9px] text-gray-500 dark:text-gray-400 mt-1;
-}
-
 /* Improve focus for accessibility */
 :focus-visible {
   @apply outline-2 outline-offset-2 outline-primary;
@@ -278,4 +273,20 @@ select {
 /* Add visual indicator for loading state */
 .loading-indicator {
   @apply animate-pulse bg-gray-200 dark:bg-navy-400 rounded;
+}
+
+/* Improve effect bar visibility */
+.effect-bar {
+  height: 4px !important;
+  border-radius: 2px !important;
+  background-color: rgba(128, 128, 128, 0.2) !important;
+}
+
+.effect-bar .ui-progress-indicator {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+
+.dark .effect-bar {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
