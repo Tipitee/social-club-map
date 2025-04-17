@@ -146,7 +146,7 @@ const StrainDetail: React.FC = () => {
           <div className={`${getCardBgColor()} rounded-xl ${getCardBorderColor()} border p-4 md:p-6`}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {displayEffects && displayEffects.length > 0 ? displayEffects.map((effect, index) => <div key={`effect-${index}`} className="effect-block bg-muted/50 border-muted my-0 mx-0 px-[13px] rounded-xl">
-                    <h3 className="text-sm font-semibold mb-1 py-0 px-0 mx-0 my-px">{effect.effect}</h3>
+                    <h3 className="text-sm font-semibold mb-1 py-0 px-0 mx-0 my-[3px]">{effect.effect}</h3>
                     <div className="w-full bg-muted rounded-full h-1.5 mb-1"> {/* Reduced height */}
                       <div className={`h-1.5 rounded-full ${index === 0 ? 'bg-primary' : index === 1 ? 'bg-strain-indica' : 'bg-strain-sativa'}`} style={{
                   width: `${effect.intensity}%`
