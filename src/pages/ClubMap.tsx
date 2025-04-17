@@ -116,7 +116,7 @@ const ClubMapPage: React.FC = () => {
         </div>
         
         <Card className="mt-8 border-navy-DEFAULT/30 dark:border-navy-light/30 bg-cadetGray-100 dark:bg-navy-DEFAULT shadow-md">
-          <CardContent className="p-6 bg-navy-100">
+          <CardContent className="p-6 bg-navy-200">
             <h2 className="text-xl font-semibold mb-4 text-navy-dark dark:text-white">
               {t('clubs.searchNearby')}
             </h2>
