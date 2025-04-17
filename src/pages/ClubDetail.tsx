@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { useClubDetail } from "@/hooks/use-club-detail";
@@ -7,6 +7,10 @@ import ClubLoading from "@/components/club/ClubLoading";
 import ClubError from "@/components/club/ClubError";
 import ClubContent from "@/components/club/ClubContent";
 import BottomNav from "@/components/BottomNav";
+import { Share } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Capacitor } from "@capacitor/core";
+import { toast } from "@/hooks/use-toast";
 
 const ClubDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,10 +18,48 @@ const ClubDetail: React.FC = () => {
   const navigate = useNavigate();
   // Safely access state and provide default value
   const fromSearch = location.state?.fromSearch || false;
+  const [isNative, setIsNative] = useState(false);
+  
+  useEffect(() => {
+    setIsNative(Capacitor.isNativePlatform());
+  }, []);
   
   // Handle the case where id might be undefined
   const safeId = id || '';
   const { club, loading, error } = useClubDetail(safeId);
+  
+  // Share functionality
+  const shareClub = async () => {
+    if (!club) return;
+    
+    const shareData = {
+      title: `Green Bud Guide - ${club.name}`,
+      text: `Check out ${club.name} on Green Bud Guide`,
+      url: window.location.href
+    };
+    
+    if (Capacitor.isNativePlatform()) {
+      // On native platforms, we'd use a plugin for sharing
+      // This is a placeholder for future implementation
+      toast({
+        title: "Share",
+        description: "Sharing functionality will be available in the next update",
+      });
+    } else if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error("Error sharing:", err);
+      }
+    } else {
+      // Fallback for browsers that don't support sharing
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Link Copied",
+        description: "Club link copied to clipboard",
+      });
+    }
+  };
   
   useEffect(() => {
     if (!location.state) {
@@ -64,6 +106,20 @@ const ClubDetail: React.FC = () => {
   return (
     <div className="min-h-screen bg-linen dark:bg-navy-dark pb-20">
       <Navbar />
+      <div className="container px-4 max-w-7xl mx-auto relative">
+        {isNative && (
+          <div className="absolute top-2 right-2 z-10">
+            <Button 
+              onClick={shareClub}
+              size="icon"
+              variant="ghost"
+              className="h-9 w-9 rounded-full bg-white/80 dark:bg-navy-400/80 backdrop-blur-sm shadow-md"
+            >
+              <Share className="h-5 w-5 text-navy-dark dark:text-white" />
+            </Button>
+          </div>
+        )}
+      </div>
       <ClubContent club={club} fromSearch={fromSearch} />
       <BottomNav />
     </div>
