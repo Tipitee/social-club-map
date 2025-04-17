@@ -19,7 +19,7 @@ const ClubEvents: React.FC<ClubEventsProps> = ({
         <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Upcoming Events</h3>
         
         {safeEvents.length > 0 ? <div className="space-y-4">
-            {safeEvents.map((event, index) => <div key={`${event.name}-${index}`} className="border-l-4 border-teal pl-4 py-2 bg-navy-300/50 dark:bg-navy-400/50 rounded-xl">
+            {safeEvents.map((event, index) => <div key={`${event.name}-${index}`} className="border-l-4 border-teal pl-4 py-2 bg-navy-300/50 dark:bg-navy-400/50 rounded-xl px-[8px]">
                 <div className="flex justify-between flex-wrap">
                   <h4 className="font-bold text-navy-dark dark:text-white">{event.name}</h4>
                   <span className="text-sm text-gray-600 dark:text-gray-400">{event.date}</span>
