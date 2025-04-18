@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { fetchStrains } from "@/services/strainService";
 import { Strain, StrainFilters as StrainFiltersType } from "@/types/strain";
@@ -82,10 +81,16 @@ const StrainExplorer: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const {
-          strains: data,
-          total
-        } = await fetchStrains(filters.sort, 1, strainsPerPage, filters.search);
+        const response = await fetchStrains(filters.sort, 1, strainsPerPage, filters.search);
+        if (!response) {
+          throw new Error('Failed to fetch strains data');
+        }
+        const { strains: data, total } = response;
+        
+        if (!data || !Array.isArray(data)) {
+          throw new Error('Invalid strains data received');
+        }
+
         let filteredData = [...data];
         if (filters.type) {
           filteredData = filteredData.filter(strain => strain.type === filters.type);
@@ -118,6 +123,7 @@ const StrainExplorer: React.FC = () => {
         setTotalStrains(total);
         setCurrentPage(1);
       } catch (error) {
+        console.error('Error loading strains:', error);
         const message = error instanceof Error ? error.message : "Unknown error loading strains";
         setError(message);
         toast({

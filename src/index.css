@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,58 +5,41 @@
 @layer base {
   :root {
     /* Light theme (default) */
-    --background: 34 67% 95%; /* Linen color for better contrast than pure white */
-    --foreground: 197 43% 18%; /* Navy dark for better readability */
-
+    --background: 34 67% 95%;
+    --foreground: 197 43% 18%;
     --card: 0 0% 100%;
     --card-foreground: 197 43% 18%;
- 
     --popover: 0 0% 100%;
     --popover-foreground: 197 43% 18%;
- 
     --primary: 174 59% 39%;
     --primary-foreground: 210 40% 98%;
- 
     --secondary: 29 88% 67%;
     --secondary-foreground: 196 41% 17%;
- 
-    --muted: 200 14% 92%; /* Cadet Gray 100 for better contrast */
+    --muted: 200 14% 92%;
     --muted-foreground: 196 41% 17%;
- 
-    --accent: 200 13% 95%; /* Cadet Gray 50 for better visibility */
+    --accent: 200 13% 95%;
     --accent-foreground: 196 41% 17%;
- 
-    --destructive: 14 71% 61%; /* Coral color */
+    --destructive: 14 71% 61%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 200 14% 80%; /* Cadet Gray 200 for more visible borders */
+    --border: 200 14% 80%;
     --input: 200 14% 80%;
     --ring: 196 41% 17%;
- 
     --radius: 0.5rem;
-
-    /* Custom theme variables - keeping all the existing ones */
     --teal: 174 59% 39%;
     --teal-light: 174 38% 51%;
     --teal-dark: 174 85% 23%;
-    
     --sand: 29 88% 67%;
     --sand-light: 33 70% 81%;
     --sand-dark: 29 88% 67%;
-    
     --coral: 14 71% 61%;
     --coral-light: 17 74% 74%;
     --coral-dark: 14 61% 48%;
-    
     --linen: 34 67% 95%;
-    
     --navy-DEFAULT: 196 41% 17%;
     --navy-light: 196 33% 32%;
     --navy-dark: 197 43% 18%;
-    
     --navy-300: 196 29% 31%;
     --navy-400: 196 28% 25%;
-    
     --cadetGray-50: 200 13% 95%;
     --cadetGray-100: 200 14% 92%;
     --cadetGray-200: 200 14% 80%;
@@ -66,30 +48,22 @@
  
   .dark {
     /* Dark theme colors - keeping them as they are */
-    --background: 197 43% 18%; /* navy-dark matches the top bar */
+    --background: 197 43% 18%;
     --foreground: 210 40% 98%;
- 
     --card: 196 33% 32%;
     --card-foreground: 210 40% 98%;
- 
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
- 
     --primary: 174 59% 39%;
     --primary-foreground: 222.2 47.4% 11.2%;
- 
     --secondary: 29 88% 67%;
     --secondary-foreground: 210 40% 98%;
- 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
- 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
- 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
- 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
@@ -105,17 +79,14 @@
   }
 }
 
-/* Center auth required block on Journal page */
 .auth-required-block {
   @apply flex flex-col items-center justify-center p-8 rounded-lg border border-gray-200 dark:border-navy-400 bg-white dark:bg-navy-light shadow-sm max-w-md mx-auto text-center;
 }
 
-/* Search bar styling */
 .club-search-input {
   @apply bg-white dark:bg-navy-300 border-border;
 }
 
-/* MapLibre styles */
 .maplibregl-popup {
   max-width: 250px !important;
 }
@@ -146,7 +117,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Fix alert box link text wrap */
 .ui-alert-description .ui-button-link {
   width: fit-content;
   text-align: left;
@@ -154,7 +124,6 @@
   display: inline-block;
 }
 
-/* Ensure alert text stays in the bounds */
 [role="alert"] .ui-button-link {
   width: auto;
   max-width: 100%;
@@ -162,7 +131,6 @@
   word-wrap: break-word;
 }
 
-/* Make sure the map renders properly */
 .maplibregl-canvas-container {
   width: 100%;
   height: 100%;
@@ -173,12 +141,10 @@
   height: 100% !important;
 }
 
-/* Ensure bottom nav is always visible */
 main {
-  padding-bottom: 5rem !important;
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom)) !important;
 }
 
-/* Fix search bar in dark mode */
 .dark input[type="text"], 
 .dark input[type="number"], 
 .dark input[type="email"], 
@@ -189,7 +155,6 @@ main {
   border-color: hsl(196 33% 38%) !important;
 }
 
-/* Light mode input styles with better contrast */
 input[type="text"], 
 input[type="number"], 
 input[type="email"], 
@@ -201,7 +166,6 @@ select {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Make text in inputs more visible in dark/light modes */
 .dark ::placeholder {
   color: rgba(255, 255, 255, 0.7) !important;
 }
@@ -210,7 +174,6 @@ select {
   color: rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Fix button text and padding for membership button */
 .membership-request-button {
   padding: 0.75rem 1rem !important;
   white-space: normal !important;
@@ -221,7 +184,6 @@ select {
   text-align: center !important;
 }
 
-/* Guide menu navigation trigger buttons - smaller padding for better fit */
 .navigation-menu-trigger {
   padding-left: 0.25rem !important;
   padding-right: 0.25rem !important;
@@ -231,52 +193,43 @@ select {
   text-overflow: ellipsis !important;
 }
 
-/* Language switcher positioning */
 .language-switcher {
   position: relative !important;
   display: inline-flex !important;
   align-items: center !important;
 }
 
-/* Club detail cards */
 .dark .club-detail-card {
   background-color: hsl(196 41% 22%) !important;
   border-color: hsl(196 33% 38%) !important;
 }
 
-/* Light mode club detail cards with better contrast */
 .club-detail-card {
   background-color: white !important;
   border-color: hsl(200 14% 80%) !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Strain card improvements */
 .strain-card {
   @apply transition-all duration-200 hover:shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-navy-light/30;
 }
 
-/* Improve focus for accessibility */
 :focus-visible {
   @apply outline-2 outline-offset-2 outline-primary;
 }
 
-/* Add page transitions */
 .page-transition {
   @apply transition-all duration-300 ease-in-out;
 }
 
-/* Improve navbar logo display */
 .navbar-logo {
   @apply h-10 object-contain transition-opacity duration-200;
 }
 
-/* Add visual indicator for loading state */
 .loading-indicator {
   @apply animate-pulse bg-gray-200 dark:bg-navy-400 rounded;
 }
 
-/* Improve effect bar visibility */
 .effect-bar {
   height: 4px !important;
   border-radius: 2px !important;
@@ -292,19 +245,20 @@ select {
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* iOS Safe Area Utilities */
 .safe-area-top {
   padding-top: env(safe-area-inset-top);
+  min-height: env(safe-area-inset-top);
 }
 
 .safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  min-height: env(safe-area-inset-bottom);
 }
 
-/* Prevent overscroll on iOS */
 html {
   overflow: hidden;
   height: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {

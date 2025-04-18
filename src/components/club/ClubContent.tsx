@@ -8,10 +8,12 @@ import ClubTabContent from "@/components/club/ClubTabContent";
 import { ClubResult } from "@/types/club";
 import { mockClubDetails } from "@/components/club/mockData";
 import { Button } from "@/components/ui/button";
+
 interface ClubContentProps {
   club: ClubResult;
   fromSearch?: boolean;
 }
+
 const ClubContent: React.FC<ClubContentProps> = ({
   club,
   fromSearch = false
@@ -19,6 +21,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
   const [activeTab, setActiveTab] = useState("info");
   const navigate = useNavigate();
   const location = useLocation();
+
   const handleBackClick = () => {
     console.log("Back button clicked - fromSearch:", fromSearch);
     if (fromSearch || location.state?.fromSearch) {
@@ -27,9 +30,11 @@ const ClubContent: React.FC<ClubContentProps> = ({
       navigate("/clubs");
     }
   };
-  return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-navy-200">
+
+  return (
+    <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-white dark:bg-navy-200">
       <div className="mb-4">
-        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center text-teal dark:text-teal-light hover:underline font-medium bg-navy-100">
+        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center text-teal dark:text-teal-light hover:underline font-medium bg-transparent">
           <ArrowLeft size={16} className="mr-1" />
           Back
         </Button>
@@ -50,7 +55,6 @@ const ClubContent: React.FC<ClubContentProps> = ({
           </AlertDescription>
         </Alert>}
       
-      {/* Always show a warning about exact location data protection */}
       <Alert className="mb-4 bg-teal-50 dark:bg-teal-900/20 border-teal-300 dark:border-teal-800">
         <Info className="h-4 w-4 text-teal dark:text-teal-light" />
         <AlertTitle className="text-navy-dark dark:text-white font-medium">Important</AlertTitle>
@@ -75,18 +79,20 @@ const ClubContent: React.FC<ClubContentProps> = ({
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="info" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-navy-200">
+        <TabsContent value="info" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-white dark:bg-navy-200">
           <ClubTabContent tab="info" club={club} />
         </TabsContent>
         
-        <TabsContent value="strains" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-navy-light">
+        <TabsContent value="strains" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-white dark:bg-navy-light">
           <ClubTabContent tab="strains" club={club} />
         </TabsContent>
         
-        <TabsContent value="events" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-navy-500">
+        <TabsContent value="events" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-white dark:bg-navy-500">
           <ClubTabContent tab="events" club={club} />
         </TabsContent>
       </Tabs>
-    </div>;
+    </div>
+  );
 };
+
 export default ClubContent;

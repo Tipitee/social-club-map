@@ -83,11 +83,11 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
-      {/* Safe area at the top for iOS status bar */}
-      <div className={`${topSafeArea} ${isNativePlatform ? 'safe-area-top' : ''}`}></div>
+      {/* iOS Safe Area - Colored background that extends under status bar */}
+      <div className={`${topSafeArea} bg-linen dark:bg-navy-dark ${isNativePlatform ? 'safe-area-top' : ''}`} />
       
       {/* Main navbar content - moved below the safe area */}
-      <div className="container flex items-center justify-between px-4 py-4">
+      <div className="container flex items-center justify-between px-4 py-4 mt-2">
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
             <div className="h-8 w-28 bg-gray-200 dark:bg-navy-400 rounded animate-pulse" />

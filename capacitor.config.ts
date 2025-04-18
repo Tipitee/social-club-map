@@ -1,4 +1,3 @@
-
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -19,15 +18,18 @@ const config: CapacitorConfig = {
     allowsLinkPreview: true,
     scrollEnabled: true,
     // Handle status bar properly
-    statusBarStyle: 'default', // Changed to default for better visibility in light mode
+    statusBarStyle: 'dark',
     // Enable location services
     locationWhenInUsePermission: "We need your location to show you nearby clubs.",
     locationAlwaysPermission: "We need your location to show you nearby clubs even when the app is in background.",
     // Improved UI settings
-    backgroundColor: '#FCF3E8', // Updated to match light theme linen color
+    backgroundColor: '#FCF3E8',
     webViewSuspensionEnabled: true,
-    limitsNavigationsToAppBoundDomains: true, // Added for security
-    overrideUserInterfaceStyle: 'light' // Ensure system respects our theme setting
+    limitsNavigationsToAppBoundDomains: true,
+    overrideUserInterfaceStyle: 'light',
+    // Add safe area settings
+    preferredContentMode: 'mobile',
+    handleApplicationNotifications: true
   },
   // Permissions
   plugins: {
@@ -54,7 +56,7 @@ const config: CapacitorConfig = {
     // Add status bar configuration
     StatusBar: {
       style: "dark",
-      backgroundColor: "#FCF3E8", // Match iOS navbar background
+      backgroundColor: "#FCF3E8",
       overlaysWebView: false
     }
   }
