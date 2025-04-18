@@ -1,4 +1,3 @@
-
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -13,14 +12,19 @@ const config: CapacitorConfig = {
   android: {
     androidxEnabled: true
   },
-  // iOS configuration
+  // Enhanced iOS configuration
   ios: {
     contentInset: 'automatic',
     allowsLinkPreview: true,
     scrollEnabled: true,
+    // Handle status bar properly
+    statusBarStyle: 'dark',
     // Enable location services
     locationWhenInUsePermission: "We need your location to show you nearby clubs.",
-    locationAlwaysPermission: "We need your location to show you nearby clubs even when the app is in background."
+    locationAlwaysPermission: "We need your location to show you nearby clubs even when the app is in background.",
+    // Improved UI settings
+    backgroundColor: '#2A9D90',
+    webViewSuspensionEnabled: true
   },
   // Permissions
   plugins: {

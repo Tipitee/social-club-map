@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -14,6 +13,8 @@ import {
 import { useTheme } from "@/components/theme-provider";
 import { User, LogIn, Settings, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Capacitor } from "@capacitor/core";
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
@@ -24,11 +25,13 @@ const Navbar: React.FC = () => {
   const [darkLogo, setDarkLogo] = useState<string | null>(null);
   const [lightLogo, setLightLogo] = useState<string | null>(null);
   const [logoLoading, setLogoLoading] = useState(true);
+  const isMobile = useIsMobile();
+  const isNativePlatform = Capacitor.isNativePlatform();
+  const isIOS = Capacitor.getPlatform() === 'ios';
 
   useEffect(() => {
     setMounted(true);
     
-    // Fetch logos from Supabase storage
     const fetchLogos = async () => {
       setLogoLoading(true);
       try {
@@ -60,8 +63,9 @@ const Navbar: React.FC = () => {
     fetchLogos();
   }, []);
 
-  // Determine which logo to display based on theme
   const currentLogo = theme === 'dark' ? darkLogo : lightLogo;
+
+  const topPadding = isIOS && isNativePlatform ? 'pt-12' : 'pt-4';
 
   if (!mounted) {
     return (
@@ -75,16 +79,16 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
-      <div className="container flex items-center justify-between p-4">
+    <div className={`bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50 ${isNativePlatform ? 'safe-area-top' : ''}`}>
+      <div className={`container flex items-center justify-between px-4 pb-4 ${topPadding}`}>
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
-            <div className="h-10 w-32 bg-gray-200 dark:bg-navy-400 rounded animate-pulse"></div>
+            <div className="h-8 w-28 bg-gray-200 dark:bg-navy-400 rounded animate-pulse" />
           ) : currentLogo ? (
             <img 
               src={currentLogo} 
               alt="Logo" 
-              className="navbar-logo max-h-10 w-auto"
+              className="navbar-logo max-h-8 w-auto"
               onError={(e) => {
                 console.error("Logo loading error");
                 e.currentTarget.style.display = 'none';
@@ -101,10 +105,10 @@ const Navbar: React.FC = () => {
           <Link to="/settings">
             <Button 
               variant="outline" 
-              size="icon" 
+              size={isMobile ? "sm" : "icon"}
               className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-gray-100 dark:hover:bg-navy-400"
             >
-              <Settings className="h-5 w-5" />
+              <Settings className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
             </Button>
           </Link>
           
@@ -141,8 +145,12 @@ const Navbar: React.FC = () => {
             </DropdownMenu>
           ) : (
             <Link to="/auth">
-              <Button variant="outline" size="icon" className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-gray-100 dark:hover:bg-navy-400">
-                <LogIn className="h-5 w-5" />
+              <Button 
+                variant="outline" 
+                size={isMobile ? "sm" : "icon"}
+                className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-gray-100 dark:hover:bg-navy-400"
+              >
+                <LogIn className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
               </Button>
             </Link>
           )}

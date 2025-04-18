@@ -1,13 +1,17 @@
-
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Home, BookOpen, Cannabis, MapPin, BookText, Newspaper } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Capacitor } from "@capacitor/core";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const isDarkMode = document.documentElement.classList.contains('dark');
+  const isNativePlatform = Capacitor.isNativePlatform();
+  const isIOS = Capacitor.getPlatform() === 'ios';
+  const isMobile = useIsMobile();
   
   const isActive = (path: string) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
@@ -31,8 +35,8 @@ const BottomNav: React.FC = () => {
     : "text-gray-500";
 
   return (
-    <div className={`fixed bottom-0 left-0 right-0 ${getNavBackgroundClass()} border-t z-50 shadow-lg`}>
-      <div className="flex justify-around items-center h-16">
+    <div className={`fixed bottom-0 left-0 right-0 ${getNavBackgroundClass()} border-t z-50 shadow-lg ${isNativePlatform ? 'safe-area-bottom' : ''}`}>
+      <div className="flex justify-around items-center h-14">
         {navItems.map((item) => (
           <Link
             key={item.path}
@@ -42,12 +46,11 @@ const BottomNav: React.FC = () => {
             }`}
             aria-label={item.label}
           >
-            <item.icon size={20} className={isActive(item.path) ? "text-primary" : ""} />
+            <item.icon size={isMobile ? 18 : 20} className={isActive(item.path) ? "text-primary" : ""} />
             <span className="text-[10px] mt-1 truncate px-1 max-w-full">{item.label}</span>
           </Link>
         ))}
       </div>
-      <div className={`h-safe-bottom ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-t-0`}></div>
     </div>
   );
 };
