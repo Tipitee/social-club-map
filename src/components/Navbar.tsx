@@ -82,15 +82,15 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
+    <div className="bg-background border-b border-border sticky top-0 z-50">
       {/* iOS Safe Area - Colored background that extends under status bar */}
-      <div className={`${topSafeArea} bg-linen dark:bg-navy-dark ${isNativePlatform ? 'safe-area-top' : ''}`} />
+      <div className={`${topSafeArea} bg-background ${isNativePlatform ? 'safe-area-top' : ''}`} />
       
-      {/* Main navbar content - moved below the safe area */}
-      <div className="container flex items-center justify-between px-4 py-4 mt-2">
+      {/* Main navbar content - moved below the safe area with additional spacing */}
+      <div className="container flex items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
-            <div className="h-8 w-28 bg-gray-200 dark:bg-navy-400 rounded animate-pulse" />
+            <div className="h-8 w-28 bg-muted animate-pulse" />
           ) : currentLogo ? (
             <img 
               src={currentLogo} 
@@ -102,7 +102,7 @@ const Navbar: React.FC = () => {
               }}
             />
           ) : (
-            <div className="text-navy-dark dark:text-white font-bold text-lg">
+            <div className="text-foreground font-bold text-lg">
               Cannabis Club
             </div>
           )}
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
             <Button 
               variant="outline" 
               size={isMobile ? "sm" : "icon"}
-              className="rounded-full bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-gray-100 dark:hover:bg-navy-400"
+              className="rounded-full bg-background border-border text-foreground hover:bg-muted"
             >
               <Settings className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
             </Button>
