@@ -8,12 +8,10 @@ import ClubTabContent from "@/components/club/ClubTabContent";
 import { ClubResult } from "@/types/club";
 import { mockClubDetails } from "@/components/club/mockData";
 import { Button } from "@/components/ui/button";
-
 interface ClubContentProps {
   club: ClubResult;
   fromSearch?: boolean;
 }
-
 const ClubContent: React.FC<ClubContentProps> = ({
   club,
   fromSearch = false
@@ -21,7 +19,6 @@ const ClubContent: React.FC<ClubContentProps> = ({
   const [activeTab, setActiveTab] = useState("info");
   const navigate = useNavigate();
   const location = useLocation();
-
   const handleBackClick = () => {
     console.log("Back button clicked - fromSearch:", fromSearch);
     if (fromSearch || location.state?.fromSearch) {
@@ -30,11 +27,9 @@ const ClubContent: React.FC<ClubContentProps> = ({
       navigate("/clubs");
     }
   };
-
-  return (
-    <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-white dark:bg-navy-200">
+  return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-linen-500">
       <div className="mb-4">
-        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center text-teal dark:text-teal-light hover:underline font-medium bg-transparent">
+        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center hover:underline font-medium text-sand-light bg-teal-900 hover:bg-teal-800">
           <ArrowLeft size={16} className="mr-1" />
           Back
         </Button>
@@ -79,7 +74,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="info" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-white dark:bg-navy-200">
+        <TabsContent value="info" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-linen-700">
           <ClubTabContent tab="info" club={club} />
         </TabsContent>
         
@@ -91,8 +86,6 @@ const ClubContent: React.FC<ClubContentProps> = ({
           <ClubTabContent tab="events" club={club} />
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
-
 export default ClubContent;

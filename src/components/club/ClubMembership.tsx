@@ -10,7 +10,7 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({
   waitTime
 }) => {
   return <Card className="border-navy-DEFAULT dark:border-navy-light bg-white dark:bg-navy-400 shadow-md">
-      <CardContent className="p-6 bg-navy-400">
+      <CardContent className="p-6 bg-oldLace-500">
         <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Membership Information</h3>
         
         <div className="space-y-4">
@@ -24,8 +24,8 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({
             <p className="text-gray-700 dark:text-gray-300">{waitTime}</p>
           </div>
           
-          <div className="pt-4">
-            <Button className="w-full bg-teal-DEFAULT hover:bg-teal-dark text-white font-medium py-2 h-auto" variant="teal">
+          <div className="pt-4 px-[240px]">
+            <Button variant="teal" className="w-full text-white font-medium py-2 h-auto bg-ashGray-400 hover:bg-ashGray-300 mx-0 px-[4px]">
               Request Membership Information
             </Button>
           </div>

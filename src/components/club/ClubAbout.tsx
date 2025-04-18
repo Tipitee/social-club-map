@@ -13,8 +13,8 @@ const ClubAbout: React.FC<ClubAboutProps> = ({
   facilities
 }) => {
   return <Card className="border-navy-DEFAULT/30 dark:border-navy-light/50 bg-white dark:bg-navy-400 shadow-md">
-      <CardContent className="p-6 bg-navy-400">
-        <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">About</h3>
+      <CardContent className="p-6 bg-linen-500">
+        <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">City</h3>
         <p className="text-navy-dark dark:text-gray-100 mb-6">
           {club?.description || "No description available for this club."}
         </p>

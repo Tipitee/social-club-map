@@ -1,4 +1,3 @@
-
 import React from "react";
 import ClubAbout from "./ClubAbout";
 import ClubMembership from "./ClubMembership";
@@ -9,13 +8,14 @@ import ClubStrains from "./ClubStrains";
 import ClubEvents from "./ClubEvents";
 import { mockClubDetails } from "./mockData";
 import { ClubResult } from "@/types/club";
-
 interface ClubTabContentProps {
   tab: string;
   club: ClubResult;
 }
-
-const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
+const ClubTabContent: React.FC<ClubTabContentProps> = ({
+  tab,
+  club
+}) => {
   // Ensure mockClubDetails has all the required properties before rendering
   const details = mockClubDetails || {
     openingHours: [],
@@ -28,25 +28,16 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
     strains: [],
     events: []
   };
-
   if (tab === "info") {
-    return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    return <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - About & Details */}
         <div className="lg:col-span-2 space-y-6">
           <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-500">
-            <ClubAbout 
-              club={club} 
-              specialties={details.specialties} 
-              facilities={details.facilities} 
-            />
+            <ClubAbout club={club} specialties={details.specialties} facilities={details.facilities} />
           </div>
           
           <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-500">
-            <ClubMembership 
-              membershipFee={details.membershipFee} 
-              waitTime={details.membershipWaitTime} 
-            />
+            <ClubMembership membershipFee={details.membershipFee} waitTime={details.membershipWaitTime} />
           </div>
           
           <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-500">
@@ -64,19 +55,14 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({ tab, club }) => {
             <ClubOpeningHours hours={details.openingHours} />
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
-  
   if (tab === "strains") {
     return <ClubStrains strains={details.strains} />;
   }
-  
   if (tab === "events") {
     return <ClubEvents events={details.events} />;
   }
-  
   return null;
 };
-
 export default ClubTabContent;
