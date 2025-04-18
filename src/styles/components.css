@@ -1,4 +1,6 @@
 
+@tailwind components;
+
 @layer components {
   .auth-required-block {
     @apply flex flex-col items-center justify-center p-8 rounded-lg border border-gray-200 dark:border-navy-400 bg-white dark:bg-navy-light shadow-sm max-w-md mx-auto text-center;

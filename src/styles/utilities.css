@@ -1,4 +1,6 @@
 
+@tailwind utilities;
+
 @layer utilities {
   .safe-area-top {
     padding-top: env(safe-area-inset-top);
