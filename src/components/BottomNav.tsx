@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Home, BookOpen, Cannabis, MapPin, BookText, Newspaper } from "lucide-react";
@@ -8,7 +9,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const BottomNav: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
-  const isDarkMode = document.documentElement.classList.contains('dark');
   const isNativePlatform = Capacitor.isNativePlatform();
   const isIOS = Capacitor.getPlatform() === 'ios';
   const isMobile = useIsMobile();
@@ -26,20 +26,10 @@ const BottomNav: React.FC = () => {
     { path: "/news", label: t('navigation.news'), icon: Newspaper },
   ];
 
-  const getNavBackgroundClass = () => isDarkMode 
-    ? "bg-gray-900 border-gray-800" 
-    : "bg-white border-cadetGray-200";
-
-  const getInactiveTextClass = () => isDarkMode 
-    ? "text-gray-400" 
-    : "text-gray-500";
-
-  // Add padding for iOS home indicator
-  const bottomPadding = isIOS && isNativePlatform ? 'pb-6' : '';
-
   return (
-    <div className={`fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 shadow-lg ${isNativePlatform ? 'safe-area-bottom' : ''}`}>
-      <div className={`flex justify-around items-center h-14 ${isIOS && isNativePlatform ? 'pb-6' : ''}`}>
+    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 shadow-lg">
+      {/* Expanded bottom safe area for iOS */}
+      <div className={`flex justify-around items-center h-14 ${isIOS && isNativePlatform ? 'safe-area-bottom' : ''}`}>
         {navItems.map((item) => (
           <Link
             key={item.path}

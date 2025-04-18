@@ -16,33 +16,33 @@ const ClubAbout: React.FC<ClubAboutProps> = ({
   facilities
 }) => {
   return (
-    <Card className="bg-background border-border shadow-md">
+    <Card className="bg-card border-border shadow-md">
       <CardContent className="p-6">
-        <h3 className="text-xl font-bold mb-4 text-foreground">About</h3>
+        <h3 className="text-xl font-bold mb-4 text-card-foreground">About</h3>
         <p className="text-muted-foreground mb-6">
           {club?.description || "No description available for this club."}
         </p>
         
-        <h4 className="font-semibold mb-2 text-foreground">Specialties</h4>
+        <h4 className="font-semibold mb-2 text-card-foreground">Specialties</h4>
         <div className="flex flex-wrap gap-2 mb-6">
           {specialties.map((specialty, index) => (
             <Badge 
               key={index} 
               variant="outline" 
-              className="bg-background/50 text-foreground border-border"
+              className="bg-background/50 text-card-foreground border-border"
             >
               {specialty}
             </Badge>
           ))}
         </div>
         
-        <h4 className="font-semibold mb-2 text-foreground">Facilities</h4>
+        <h4 className="font-semibold mb-2 text-card-foreground">Facilities</h4>
         <div className="flex flex-wrap gap-2">
           {facilities.map((facility, index) => (
             <Badge 
               key={index} 
               variant="outline" 
-              className="bg-background/50 text-foreground border-border"
+              className="bg-background/50 text-card-foreground border-border"
             >
               {facility}
             </Badge>

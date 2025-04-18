@@ -18,9 +18,9 @@ const ClubOpeningHours: React.FC<ClubOpeningHoursProps> = ({ hours }) => {
   };
 
   return (
-    <Card className="bg-background border-border">
+    <Card className="bg-card border-border">
       <CardContent className="p-6">
-        <h3 className="text-xl font-bold mb-4 text-foreground">Opening Hours</h3>
+        <h3 className="text-xl font-bold mb-4 text-card-foreground">Opening Hours</h3>
         
         <div className="space-y-2">
           {hours.map((item, index) => (
@@ -29,7 +29,7 @@ const ClubOpeningHours: React.FC<ClubOpeningHoursProps> = ({ hours }) => {
               className={`flex justify-between ${
                 index === getCurrentDayIndex() 
                   ? 'font-bold text-primary' 
-                  : 'text-foreground'
+                  : 'text-card-foreground'
               }`}
             >
               <span>{item.day}</span>

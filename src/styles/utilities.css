@@ -17,7 +17,7 @@
   }
 
   .loading-indicator {
-    @apply animate-pulse bg-gray-200 dark:bg-navy-400 rounded;
+    @apply animate-pulse bg-muted rounded;
   }
 
   html {

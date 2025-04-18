@@ -3,15 +3,15 @@
 
 @layer components {
   .auth-required-block {
-    @apply flex flex-col items-center justify-center p-8 rounded-lg border border-gray-200 dark:border-navy-400 bg-white dark:bg-navy-light shadow-sm max-w-md mx-auto text-center;
+    @apply flex flex-col items-center justify-center p-8 rounded-lg border border-border bg-card shadow-sm max-w-md mx-auto text-center;
   }
 
   .club-search-input {
-    @apply bg-white dark:bg-navy-300 border-border;
+    @apply bg-card border-border;
   }
 
   .strain-card {
-    @apply transition-all duration-200 hover:shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-navy-light/30;
+    @apply transition-all duration-200 hover:shadow-lg rounded-lg overflow-hidden border border-border;
   }
 
   .navbar-logo {

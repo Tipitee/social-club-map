@@ -85,7 +85,7 @@ const ClubDetail: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-linen dark:bg-navy-dark">
+      <div className="min-h-screen bg-background">
         <Navbar />
         <ClubLoading />
         <BottomNav />
@@ -95,7 +95,7 @@ const ClubDetail: React.FC = () => {
 
   if (error || !club) {
     return (
-      <div className="min-h-screen bg-linen dark:bg-navy-dark">
+      <div className="min-h-screen bg-background">
         <Navbar />
         <ClubError error={error} />
         <BottomNav />
@@ -104,7 +104,7 @@ const ClubDetail: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-20">
+    <div className="min-h-screen bg-background pb-20">
       <Navbar />
       <div className="container px-4 max-w-7xl mx-auto relative">
         {isNative && (
@@ -113,15 +113,14 @@ const ClubDetail: React.FC = () => {
               onClick={shareClub}
               size="icon"
               variant="ghost"
-              className="h-9 w-9 rounded-full bg-white/80 dark:bg-navy-400/80 backdrop-blur-sm shadow-md"
+              className="h-9 w-9 rounded-full bg-background/80 backdrop-blur-sm shadow-md"
             >
-              <Share className="h-5 w-5 text-navy-dark dark:text-white" />
+              <Share className="h-5 w-5 text-foreground" />
             </Button>
           </div>
         )}
       </div>
       <ClubContent club={club} fromSearch={fromSearch} />
-      <BottomNav />
     </div>
   );
 };

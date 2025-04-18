@@ -11,8 +11,8 @@
     @apply bg-background text-foreground;
   }
   
+  /* Light theme (default) */
   :root {
-    /* Light theme (default) */
     --background: 34 67% 95%;
     --foreground: 197 43% 18%;
     --card: 0 0% 100%;
@@ -33,29 +33,10 @@
     --input: 200 14% 80%;
     --ring: 196 41% 17%;
     --radius: 0.5rem;
-    --teal: 174 59% 39%;
-    --teal-light: 174 38% 51%;
-    --teal-dark: 174 85% 23%;
-    --sand: 29 88% 67%;
-    --sand-light: 33 70% 81%;
-    --sand-dark: 29 88% 67%;
-    --coral: 14 71% 61%;
-    --coral-light: 17 74% 74%;
-    --coral-dark: 14 61% 48%;
-    --linen: 34 67% 95%;
-    --navy-DEFAULT: 196 41% 17%;
-    --navy-light: 196 33% 32%;
-    --navy-dark: 197 43% 18%;
-    --navy-300: 196 29% 31%;
-    --navy-400: 196 28% 25%;
-    --cadetGray-50: 200 13% 95%;
-    --cadetGray-100: 200 14% 92%;
-    --cadetGray-200: 200 14% 80%;
-    --cadetGray-300: 200 14% 68%;
   }
  
+  /* Dark theme colors - completely separate from light theme */
   .dark {
-    /* Dark theme colors */
     --background: 197 43% 18%;
     --foreground: 210 40% 98%;
     --card: 196 33% 32%;
