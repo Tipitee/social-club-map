@@ -1,9 +1,11 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    /* Light theme (default) */
     --background: 34 67% 95%; /* Linen color for better contrast than pure white */
     --foreground: 197 43% 18%; /* Navy dark for better readability */
 
@@ -63,7 +65,7 @@
   }
  
   .dark {
-    /* Dark theme - making background match navbar (navy-dark) */
+    /* Dark theme colors - keeping them as they are */
     --background: 197 43% 18%; /* navy-dark matches the top bar */
     --foreground: 210 40% 98%;
  

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Home, BookOpen, Cannabis, MapPin, BookText, Newspaper } from "lucide-react";
@@ -34,9 +35,12 @@ const BottomNav: React.FC = () => {
     ? "text-gray-400" 
     : "text-gray-500";
 
+  // Add padding for iOS home indicator
+  const bottomPadding = isIOS && isNativePlatform ? 'pb-6' : '';
+
   return (
     <div className={`fixed bottom-0 left-0 right-0 ${getNavBackgroundClass()} border-t z-50 shadow-lg ${isNativePlatform ? 'safe-area-bottom' : ''}`}>
-      <div className="flex justify-around items-center h-14">
+      <div className={`flex justify-around items-center h-14 ${bottomPadding}`}>
         {navItems.map((item) => (
           <Link
             key={item.path}

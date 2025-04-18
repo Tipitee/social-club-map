@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -65,11 +66,13 @@ const Navbar: React.FC = () => {
 
   const currentLogo = theme === 'dark' ? darkLogo : lightLogo;
 
-  const topPadding = isIOS && isNativePlatform ? 'pt-12' : 'pt-4';
+  // Set a safe top padding for iOS status bar - increased to make sure it's below the status bar
+  const topSafeArea = isIOS && isNativePlatform ? 'h-12' : 'h-0';
 
   if (!mounted) {
     return (
       <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
+        <div className={`${topSafeArea}`}></div>
         <div className="container flex items-center justify-between p-4">
           <div className="h-10 w-32 bg-gray-200 dark:bg-navy-400 rounded animate-pulse"></div>
           <div className="flex items-center gap-3"></div>
@@ -79,8 +82,12 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <div className={`bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50 ${isNativePlatform ? 'safe-area-top' : ''}`}>
-      <div className={`container flex items-center justify-between px-4 pb-4 ${topPadding}`}>
+    <div className="bg-linen dark:bg-navy-dark border-b border-border sticky top-0 z-50">
+      {/* Safe area at the top for iOS status bar */}
+      <div className={`${topSafeArea} ${isNativePlatform ? 'safe-area-top' : ''}`}></div>
+      
+      {/* Main navbar content - moved below the safe area */}
+      <div className="container flex items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
             <div className="h-8 w-28 bg-gray-200 dark:bg-navy-400 rounded animate-pulse" />
@@ -119,7 +126,7 @@ const Navbar: React.FC = () => {
                   <User className="h-5 w-5 text-navy-dark dark:text-white" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-500">
+              <DropdownMenuContent align="end" className="bg-white dark:bg-navy-400 border-navy-DEFAULT dark:border-navy-300">
                 <DropdownMenuItem className="text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-navy-300">
                   <Link to="/profile">{t('navigation.profile')}</Link>
                 </DropdownMenuItem>
