@@ -27,7 +27,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
       navigate("/clubs");
     }
   };
-  return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-linen-600">
+  return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-navy-300">
       <div className="mb-4">
         <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center hover:underline font-medium text-sand-light bg-teal-900 hover:bg-teal-800">
           <ArrowLeft size={16} className="mr-1" />
@@ -50,7 +50,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
           </AlertDescription>
         </Alert>}
       
-      <Alert className="mb-4 bg-teal-50 dark:bg-teal-900/20 border-teal-300 dark:border-teal-800">
+      <Alert className="mb-4 border-teal-300 dark:border-teal-800 bg-navy-200">
         <Info className="h-4 w-4 text-teal dark:text-teal-light" />
         <AlertTitle className="text-navy-dark dark:text-white font-medium">Important</AlertTitle>
         <AlertDescription className="text-navy-dark/80 dark:text-gray-300">The informations are provided by users and might not be up to date or correct. If you own the club, contact us to get verified!</AlertDescription>
@@ -74,7 +74,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="info" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-ashGray-500">
+        <TabsContent value="info" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-navy-300">
           <ClubTabContent tab="info" club={club} />
         </TabsContent>
         

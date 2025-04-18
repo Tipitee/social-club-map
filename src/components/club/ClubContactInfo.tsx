@@ -9,7 +9,7 @@ const ClubContactInfo: React.FC<ClubContactInfoProps> = ({
   club
 }) => {
   return <Card className="border-navy-DEFAULT/30 dark:border-navy-light/50 bg-white dark:bg-navy-400 shadow-md">
-      <CardContent className="p-6 bg-linen-500">
+      <CardContent className="p-6 bg-navy-200">
         <h3 className="text-xl font-bold mb-4 text-navy-dark dark:text-white">Contact</h3>
         
         <div className="space-y-3">
