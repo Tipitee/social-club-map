@@ -1,0 +1,33 @@
+
+.dark input[type="text"], 
+.dark input[type="number"], 
+.dark input[type="email"], 
+.dark input[type="search"],
+.dark select {
+  background-color: hsl(196 29% 31%) !important; 
+  color: rgb(240, 240, 240) !important;
+  border-color: hsl(196 33% 38%) !important;
+}
+
+input[type="text"], 
+input[type="number"], 
+input[type="email"], 
+input[type="search"],
+select {
+  background-color: white !important;
+  color: hsl(197 43% 18%) !important;
+  border-color: hsl(200 14% 80%) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.dark ::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}

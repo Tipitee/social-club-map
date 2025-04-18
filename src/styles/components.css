@@ -1,0 +1,58 @@
+
+@layer components {
+  .auth-required-block {
+    @apply flex flex-col items-center justify-center p-8 rounded-lg border border-gray-200 dark:border-navy-400 bg-white dark:bg-navy-light shadow-sm max-w-md mx-auto text-center;
+  }
+
+  .club-search-input {
+    @apply bg-white dark:bg-navy-300 border-border;
+  }
+
+  .strain-card {
+    @apply transition-all duration-200 hover:shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-navy-light/30;
+  }
+
+  .navbar-logo {
+    @apply h-10 object-contain transition-opacity duration-200;
+  }
+
+  .effect-bar {
+    height: 4px !important;
+    border-radius: 2px !important;
+    background-color: rgba(128, 128, 128, 0.2) !important;
+  }
+
+  .effect-bar .ui-progress-indicator {
+    height: 4px !important;
+    border-radius: 2px !important;
+  }
+
+  .dark .effect-bar {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .membership-request-button {
+    padding: 0.75rem 1rem !important;
+    white-space: normal !important;
+    height: auto !important;
+    line-height: 1.5 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: center !important;
+  }
+
+  .navigation-menu-trigger {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+    font-size: 0.75rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .language-switcher {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+}

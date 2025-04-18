@@ -1,0 +1,32 @@
+
+@layer utilities {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+    min-height: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+    min-height: env(safe-area-inset-bottom);
+  }
+
+  .page-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .loading-indicator {
+    @apply animate-pulse bg-gray-200 dark:bg-navy-400 rounded;
+  }
+
+  html {
+    overflow: hidden;
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
