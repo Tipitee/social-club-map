@@ -27,7 +27,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
       navigate("/clubs");
     }
   };
-  return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-linen-500">
+  return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-navy-600">
       <div className="mb-4">
         <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center hover:underline font-medium text-sand-light bg-teal-900 hover:bg-teal-800">
           <ArrowLeft size={16} className="mr-1" />
@@ -74,7 +74,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="info" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-linen-700">
+        <TabsContent value="info" className="mt-0 rounded-lg p-6 shadow-md border border-gray-100 dark:border-navy-300 bg-airForceBlue-800">
           <ClubTabContent tab="info" club={club} />
         </TabsContent>
         
