@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Info, Leaf, Calendar, AlertTriangle } from "lucide-react";
@@ -30,7 +29,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
   };
   return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-background">
       <div className="mb-4">
-        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center font-medium text-foreground bg-navy-800 hover:bg-navy-700">
+        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center font-medium text-foreground bg-navy-light">
           <ArrowLeft size={16} className="mr-1" />
           Back
         </Button>
