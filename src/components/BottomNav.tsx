@@ -26,8 +26,16 @@ const BottomNav: React.FC = () => {
     { path: "/news", label: t('navigation.news'), icon: Newspaper },
   ];
 
+  // Setup bottom padding based on platform
+  const bottomNavStyle = isIOS && isNativePlatform 
+    ? { paddingBottom: "env(safe-area-inset-bottom, 34px)" } 
+    : {};
+
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 shadow-lg">
+    <div 
+      className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 shadow-lg"
+      style={bottomNavStyle}
+    >
       {/* Navigation items */}
       <div className="flex justify-around items-center h-14">
         {navItems.map((item) => (
@@ -44,11 +52,6 @@ const BottomNav: React.FC = () => {
           </Link>
         ))}
       </div>
-      
-      {/* Make sure we have a real height for iOS safe area */}
-      {isIOS && isNativePlatform && (
-        <div className="h-safe-area-bottom bg-background"></div>
-      )}
     </div>
   );
 };

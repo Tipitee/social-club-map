@@ -51,33 +51,29 @@ const App = () => {
   // Set up proper viewport meta for iOS
   useEffect(() => {
     if (Capacitor.getPlatform() === 'ios') {
-      // Remove any existing viewport meta
+      // Update viewport meta tag for iOS
       const existingMeta = document.querySelector('meta[name="viewport"]');
       if (existingMeta) {
         existingMeta.remove();
       }
       
-      // Add the viewport meta with proper safe area settings
+      // Create new viewport meta with safe-area viewport fit
       const meta = document.createElement('meta');
       meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0';
+      meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
       document.head.appendChild(meta);
       
-      // Add iOS specific class
+      // Add specific iOS styling
       document.documentElement.classList.add('ios-device');
+      document.documentElement.setAttribute('data-platform', 'ios');
       
-      console.log("iOS viewport meta and styles applied");
+      console.log("iOS viewport meta configured for safe area");
       
-      // Force the status bar to behave correctly
-      try {
-        if (Capacitor.isNativePlatform()) {
-          document.body.classList.add('ios-native');
-          document.body.style.paddingTop = '0px';
-          document.body.style.marginTop = '0px';
-        }
-      } catch (e) {
-        console.error("Error setting iOS status bar:", e);
-      }
+      // Create CSS variables for iOS safe areas
+      document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
+      document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
+      document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left)');
+      document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right)');
     }
   }, []);
 
@@ -93,7 +89,7 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main>
+                  <main className="pb-16">
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

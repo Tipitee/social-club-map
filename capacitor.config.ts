@@ -13,67 +13,35 @@ const config: CapacitorConfig = {
   android: {
     androidxEnabled: true
   },
-  // Enhanced iOS configuration
+  // Enhanced iOS configuration with proper safe area handling
   ios: {
-    contentInset: 'automatic',
+    contentInset: 'never', // Changed from 'automatic' to ensure exact control
     allowsLinkPreview: true,
     scrollEnabled: true,
     // Handle status bar properly
     statusBarStyle: 'dark',
     statusBarDefaultScrollToTop: true,
-    // Enable location services
-    locationWhenInUsePermission: "We need your location to show you nearby clubs.",
-    locationAlwaysPermission: "We need your location to show you nearby clubs even when the app is in background.",
-    // Improved UI settings
-    backgroundColor: '#FCF3E8',
-    webViewSuspensionEnabled: false,
-    limitsNavigationsToAppBoundDomains: true,
-    // Add safe area settings
+    // Viewport settings for proper rendering
     preferredContentMode: 'mobile',
-    handleApplicationNotifications: true,
-    usesFaceID: true,
-    // iOS UI positioning - important for status bar and notch
-    overrideUserInterfaceStyle: 'light',
-    // Fix status bar height and notch issues
-    marginTop: 0,
-    marginBottom: 0,
-    allowsBackForwardNavigationGestures: false,
-    // Additional settings for iOS devices
-    scheme: 'app',
-    cordovaDeployDisableHostCheck: true
+    // Fix status bar and notch issues
+    marginTop: 0, // Let CSS handle this with env() variables
+    marginBottom: 0, // Let CSS handle this with env() variables
+    // Additional settings
+    webViewSuspensionEnabled: false,
+    hideWebViewBoundaries: true, // Important to hide any unexpected boundaries
+    overrideUserInterfaceStyle: 'light'
   },
-  // Permissions
+  // Plugins
   plugins: {
-    // Camera configuration
-    Camera: {
-      ios: {
-        usageDescription: "We need camera access to let you upload photos"
-      },
-      android: {}
-    },
-    // Geolocation configuration
-    Geolocation: {
-      ios: {
-        usageDescription: "We need your location to show you nearby clubs"
-      },
-      android: {}
-    },
-    // Local notifications configuration
-    LocalNotifications: {
-      smallIcon: "ic_stat_icon_config_sample",
-      iconColor: "#2A9D90",
-      sound: "beep.wav"
-    },
-    // Status bar configuration with proper settings for iOS
+    // Status bar configuration for proper iOS integration
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
-      overlaysWebView: true
+      overlaysWebView: false // Important change
     },
-    // Add specific iOS status bar handling
     SplashScreen: {
-      launchAutoHide: false,
-      androidScaleType: "CENTER_CROP"
+      launchAutoHide: true,
+      showSpinner: false
     }
   }
 };

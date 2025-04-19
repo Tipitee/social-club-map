@@ -9,7 +9,6 @@ import ClubTabContent from "@/components/club/ClubTabContent";
 import { ClubResult } from "@/types/club";
 import { mockClubDetails } from "@/components/club/mockData";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/theme-provider";
 
 interface ClubContentProps {
   club: ClubResult;
@@ -23,7 +22,6 @@ const ClubContent: React.FC<ClubContentProps> = ({
   const [activeTab, setActiveTab] = useState("info");
   const navigate = useNavigate();
   const location = useLocation();
-  const { theme } = useTheme();
 
   const handleBackClick = () => {
     console.log("Back button clicked - fromSearch:", fromSearch);
@@ -41,7 +39,6 @@ const ClubContent: React.FC<ClubContentProps> = ({
           variant="ghost" 
           onClick={handleBackClick} 
           className="inline-flex items-center font-medium bg-[hsl(var(--back-button-bg))] text-[hsl(var(--back-button-text))] hover:bg-[hsl(var(--back-button-hover))]"
-          data-theme={theme}
         >
           <ArrowLeft size={16} className="mr-1" />
           Back

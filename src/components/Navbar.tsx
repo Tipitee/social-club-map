@@ -70,18 +70,16 @@ const Navbar: React.FC = () => {
     return null;
   }
 
+  // Calculate navbar position based on platform 
+  const navbarStyle = isIOS && isNativePlatform 
+    ? { top: 0, paddingTop: "env(safe-area-inset-top, 44px)" }
+    : { top: 0 };
+
   return (
     <>
-      {/* Completely separate spacer for iOS safe area - NOT part of the content */}
-      {isIOS && isNativePlatform && (
-        <div className="h-safe-area-top w-full bg-background fixed top-0 left-0 right-0 z-50"></div>
-      )}
-      
-      {/* Main navbar content - positioned BELOW the safe area with a fixed offset on iOS */}
       <header 
-        className={`bg-background border-b border-border fixed left-0 right-0 z-40 ${
-          isIOS && isNativePlatform ? "top-[44px]" : "top-0"
-        }`}
+        className={`bg-background border-b border-border fixed left-0 right-0 z-40`}
+        style={navbarStyle}
       >
         <div className="container flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center font-bold text-xl">
@@ -161,12 +159,8 @@ const Navbar: React.FC = () => {
         </div>
       </header>
       
-      {/* Add padding to push content below navbar + safe area */}
-      <div 
-        className={`${
-          isIOS && isNativePlatform ? "h-[90px]" : "h-[72px]"
-        }`}
-      ></div>
+      {/* Spacer for fixed header */}
+      <div className="h-[72px]"></div>
     </>
   );
 };

@@ -2,23 +2,21 @@
 @tailwind utilities;
 
 @layer utilities {
-  /* iOS safe area utilities with proper height values and minimums */
+  /* iOS safe area utilities with proper height values */
   .safe-area-top {
-    padding-top: env(safe-area-inset-top, 44px);
+    padding-top: env(safe-area-inset-top);
   }
 
   .h-safe-area-top {
-    height: env(safe-area-inset-top, 44px);
-    min-height: 44px; /* Ensure minimum height even if env() fails */
+    height: env(safe-area-inset-top);
   }
 
   .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom, 34px);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .h-safe-area-bottom {
-    height: env(safe-area-inset-bottom, 34px);
-    min-height: 34px; /* Ensure minimum height even if env() fails */
+    height: env(safe-area-inset-bottom);
   }
 
   .page-transition {
