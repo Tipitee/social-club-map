@@ -29,7 +29,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
   };
   return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-background">
       <div className="mb-4">
-        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center font-medium text-foreground bg-navy-light">
+        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center font-medium text-foreground bg-ashGray-400 hover:bg-ashGray-300">
           <ArrowLeft size={16} className="mr-1" />
           Back
         </Button>
