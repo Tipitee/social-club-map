@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Info, Leaf, Calendar, AlertTriangle } from "lucide-react";
@@ -50,10 +51,10 @@ const ClubContent: React.FC<ClubContentProps> = ({
           </AlertDescription>
         </Alert>}
       
-      <Alert className="mb-4 border-primary/30 bg-ashGray-100">
-        <Info className="h-4 w-4 text-primary" />
-        <AlertTitle className="text-card-foreground font-medium">Important</AlertTitle>
-        <AlertDescription className="text-muted-foreground">
+      <Alert className="mb-4 bg-info-background border-info-border">
+        <Info className="h-4 w-4 text-info-icon" />
+        <AlertTitle className="text-info-title font-medium">Important</AlertTitle>
+        <AlertDescription className="text-info-description">
           The information is provided by users and might not be up to date or correct. 
           If you own the club, contact us to get verified!
         </AlertDescription>

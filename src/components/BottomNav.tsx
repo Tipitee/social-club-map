@@ -28,8 +28,8 @@ const BottomNav: React.FC = () => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 shadow-lg">
-      {/* Expanded bottom safe area for iOS */}
-      <div className={`flex justify-around items-center h-14 ${isIOS && isNativePlatform ? 'safe-area-bottom' : ''}`}>
+      {/* Navigation items */}
+      <div className="flex justify-around items-center h-14">
         {navItems.map((item) => (
           <Link
             key={item.path}
@@ -44,6 +44,9 @@ const BottomNav: React.FC = () => {
           </Link>
         ))}
       </div>
+      
+      {/* Bottom safe area padding for iOS */}
+      {isIOS && isNativePlatform && <div className="h-6 bg-background"></div>}
     </div>
   );
 };

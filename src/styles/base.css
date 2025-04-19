@@ -33,6 +33,21 @@
     --input: 200 14% 80%;
     --ring: 196 41% 17%;
     --radius: 0.5rem;
+    
+    /* Alert specific colors for light theme */
+    --alert-background: 0 0% 100%;
+    --alert-foreground: 197 43% 18%;
+    --alert-border: 200 14% 80%;
+    --alert-title: 197 43% 18%;
+    --alert-description: 196 41% 40%;
+    --alert-icon: 174 59% 39%;
+    
+    /* Info alert specific colors */
+    --info-background: 195 53% 95%;
+    --info-border: 174 59% 39%;
+    --info-title: 197 43% 18%;
+    --info-description: 196 41% 40%;
+    --info-icon: 174 59% 39%;
   }
  
   /* Dark theme colors - completely separate from light theme */
@@ -56,5 +71,20 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    
+    /* Alert specific colors for dark theme */
+    --alert-background: 196 33% 25%;
+    --alert-foreground: 210 40% 98%;
+    --alert-border: 217.2 32.6% 17.5%;
+    --alert-title: 0 0% 100%;
+    --alert-description: 214 32% 91%;
+    --alert-icon: 174 59% 50%;
+    
+    /* Info alert specific colors */
+    --info-background: 196 80% 15%;
+    --info-border: 174 59% 25%;
+    --info-title: 0 0% 100%;
+    --info-description: 214 32% 91%;
+    --info-icon: 174 59% 50%;
   }
 }

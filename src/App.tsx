@@ -7,8 +7,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Suspense, lazy } from "react";
-import BottomNav from "@/components/BottomNav";
+import { Suspense, lazy, useEffect } from "react";
+import { Capacitor } from "@capacitor/core";
 
 // Eager loading critical routes
 import StrainExplorer from "./pages/StrainExplorer";
@@ -26,6 +26,7 @@ const Settings = lazy(() => import("./pages/Settings"));
 const Profile = lazy(() => import("./pages/Profile"));
 const CannabisGuide = lazy(() => import("./pages/CannabisGuide"));
 const AdminTools = lazy(() => import("./pages/AdminTools"));
+const BottomNav = lazy(() => import("./components/BottomNav"));
 
 // Loading fallback component
 const PageLoading = () => (
@@ -46,6 +47,17 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  // Add meta viewport setup for iOS
+  useEffect(() => {
+    if (Capacitor.getPlatform() === 'ios') {
+      const meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover';
+      document.head.appendChild(meta);
+      document.documentElement.classList.add('ios-device');
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -136,10 +148,15 @@ const App = () => {
                       />
                     </Routes>
                   </main>
+                  
                   {/* Bottom Navigation Bar - visible on all pages except Auth */}
                   <Routes>
                     <Route path="/auth" element={null} />
-                    <Route path="*" element={<BottomNav />} />
+                    <Route path="*" element={
+                      <Suspense fallback={null}>
+                        <BottomNav />
+                      </Suspense>
+                    } />
                   </Routes>
                 </div>
                 <Toaster />
