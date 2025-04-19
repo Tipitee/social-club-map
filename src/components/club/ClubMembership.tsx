@@ -1,19 +1,15 @@
-
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
 interface ClubMembershipProps {
   membershipFee: string;
   waitTime: string;
 }
-
 const ClubMembership: React.FC<ClubMembershipProps> = ({
   membershipFee,
   waitTime
 }) => {
-  return (
-    <Card className="bg-card border-border shadow-md">
+  return <Card className="bg-card border-border shadow-md">
       <CardContent className="p-6">
         <h3 className="text-xl font-bold mb-4 text-card-foreground">Membership Information</h3>
         
@@ -28,15 +24,13 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({
             <p className="text-muted-foreground">{waitTime}</p>
           </div>
           
-          <div className="pt-4 px-4 sm:px-12 md:px-24">
-            <Button variant="default" className="w-full text-primary-foreground font-medium h-auto py-3">
+          <div className="pt-4 px-4 sm:px-12 md:px-[230px]">
+            <Button variant="default" className="w-full text-primary-foreground font-medium h-auto py-3 px-0">
               Request Membership Information
             </Button>
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default ClubMembership;
