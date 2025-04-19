@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Info, Leaf, Calendar, AlertTriangle } from "lucide-react";
@@ -8,10 +9,12 @@ import ClubTabContent from "@/components/club/ClubTabContent";
 import { ClubResult } from "@/types/club";
 import { mockClubDetails } from "@/components/club/mockData";
 import { Button } from "@/components/ui/button";
+
 interface ClubContentProps {
   club: ClubResult;
   fromSearch?: boolean;
 }
+
 const ClubContent: React.FC<ClubContentProps> = ({
   club,
   fromSearch = false
@@ -19,6 +22,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
   const [activeTab, setActiveTab] = useState("info");
   const navigate = useNavigate();
   const location = useLocation();
+
   const handleBackClick = () => {
     console.log("Back button clicked - fromSearch:", fromSearch);
     if (fromSearch || location.state?.fromSearch) {
@@ -27,15 +31,22 @@ const ClubContent: React.FC<ClubContentProps> = ({
       navigate("/clubs");
     }
   };
-  return <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-background">
+
+  return (
+    <div className="container px-4 py-6 max-w-7xl mx-auto rounded-lg shadow-md bg-background">
       <div className="mb-4">
-        <Button variant="ghost" onClick={handleBackClick} className="inline-flex items-center font-medium text-foreground bg-ashGray-400 hover:bg-ashGray-300">
+        <Button 
+          variant="ghost" 
+          onClick={handleBackClick} 
+          className="inline-flex items-center font-medium text-[hsl(var(--back-button-text))] bg-[hsl(var(--back-button-bg))] hover:bg-[hsl(var(--back-button-hover))]"
+        >
           <ArrowLeft size={16} className="mr-1" />
           Back
         </Button>
       </div>
       
-      {club.status !== "verified" && <Alert variant="warning" className="mb-4 bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700">
+      {club.status !== "verified" && (
+        <Alert variant="warning" className="mb-4 bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700">
           <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
           <AlertTitle className="text-amber-800 dark:text-amber-400 font-medium">Unverified Listing</AlertTitle>
           <AlertDescription className="text-amber-700 dark:text-amber-300">
@@ -48,7 +59,8 @@ const ClubContent: React.FC<ClubContentProps> = ({
               </div>
             </div>
           </AlertDescription>
-        </Alert>}
+        </Alert>
+      )}
       
       <Alert className="mb-4 bg-info-background border-info-border">
         <Info className="h-4 w-4 text-info-icon" />
@@ -89,6 +101,8 @@ const ClubContent: React.FC<ClubContentProps> = ({
           <ClubTabContent tab="events" club={club} />
         </TabsContent>
       </Tabs>
-    </div>;
+    </div>
+  );
 };
+
 export default ClubContent;

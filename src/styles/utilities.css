@@ -40,7 +40,7 @@
     -webkit-overflow-scrolling: touch;
   }
   
-  /* Theme-specific custom classes */
+  /* Theme-specific custom classes - light mode */
   .bg-info-background {
     background-color: hsl(var(--info-background));
   }

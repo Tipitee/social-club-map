@@ -47,13 +47,22 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  // Add meta viewport setup for iOS
+  // Set up proper viewport meta for iOS
   useEffect(() => {
     if (Capacitor.getPlatform() === 'ios') {
+      // Remove any existing viewport meta
+      const existingMeta = document.querySelector('meta[name="viewport"]');
+      if (existingMeta) {
+        existingMeta.remove();
+      }
+      
+      // Add the viewport meta with safe area settings
       const meta = document.createElement('meta');
       meta.name = 'viewport';
       meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover';
       document.head.appendChild(meta);
+      
+      // Add iOS specific class
       document.documentElement.classList.add('ios-device');
     }
   }, []);

@@ -46,7 +46,7 @@ const BottomNav: React.FC = () => {
       </div>
       
       {/* Bottom safe area padding for iOS */}
-      {isIOS && isNativePlatform && <div className="h-6 bg-background"></div>}
+      {isIOS && isNativePlatform && <div className="h-safe-area-bottom bg-background"></div>}
     </div>
   );
 };
