@@ -46,7 +46,9 @@ const BottomNav: React.FC = () => {
       </div>
       
       {/* Make sure we have a real height for iOS safe area */}
-      {isIOS && isNativePlatform && <div className="h-safe-area-bottom min-h-[34px] bg-background"></div>}
+      {isIOS && isNativePlatform && (
+        <div className="h-safe-area-bottom bg-background"></div>
+      )}
     </div>
   );
 };

@@ -27,6 +27,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const CannabisGuide = lazy(() => import("./pages/CannabisGuide"));
 const AdminTools = lazy(() => import("./pages/AdminTools"));
 const BottomNav = lazy(() => import("./components/BottomNav"));
+const Navbar = lazy(() => import("./components/Navbar"));
 
 // Loading fallback component
 const PageLoading = () => (
@@ -56,10 +57,10 @@ const App = () => {
         existingMeta.remove();
       }
       
-      // Add the viewport meta with safe area settings
+      // Add the viewport meta with proper safe area settings
       const meta = document.createElement('meta');
       meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0';
+      meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0';
       document.head.appendChild(meta);
       
       // Add iOS specific class
@@ -67,10 +68,10 @@ const App = () => {
       
       console.log("iOS viewport meta and styles applied");
       
-      // Force the status bar to be visible
+      // Force the status bar to behave correctly
       try {
         if (Capacitor.isNativePlatform()) {
-          // This is just to trigger the status bar to show correctly
+          document.body.classList.add('ios-native');
           document.body.style.paddingTop = '0px';
           document.body.style.marginTop = '0px';
         }
@@ -88,8 +89,11 @@ const App = () => {
             <AuthProvider>
               <TooltipProvider>
                 <div className="min-h-screen bg-background text-foreground">
-                  <Navbar />
-                  <main className="pt-[4.5rem] pb-16">
+                  <Suspense fallback={null}>
+                    <Navbar />
+                  </Suspense>
+                  
+                  <main>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
@@ -192,8 +196,5 @@ const App = () => {
     </QueryClientProvider>
   );
 };
-
-// Add import for Navbar since we use it directly
-import Navbar from "./components/Navbar";
 
 export default App;

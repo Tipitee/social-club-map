@@ -67,101 +67,107 @@ const Navbar: React.FC = () => {
   const currentLogo = theme === 'dark' ? darkLogo : lightLogo;
 
   if (!mounted) {
-    return (
-      <div className="bg-background border-b border-border fixed top-0 left-0 right-0 z-50">
-        <div className="container flex items-center justify-between p-4">
-          <div className="h-10 w-32 bg-muted rounded animate-pulse"></div>
-          <div className="flex items-center gap-3"></div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <header className="bg-background border-b border-border fixed top-0 left-0 right-0 z-50">
-      {/* iOS safe area spacer - moves actual content below the notch */}
-      {isIOS && isNativePlatform && 
-        <div className="h-safe-area-top w-full bg-background"></div>
-      }
+    <>
+      {/* Completely separate spacer for iOS safe area - NOT part of the content */}
+      {isIOS && isNativePlatform && (
+        <div className="h-safe-area-top w-full bg-background fixed top-0 left-0 right-0 z-50"></div>
+      )}
       
-      {/* Main navbar content - now positioned correctly below the safe area */}
-      <div className="container flex items-center justify-between px-4 py-4">
-        <Link to="/" className="flex items-center font-bold text-xl">
-          {logoLoading ? (
-            <div className="h-8 w-28 bg-muted animate-pulse" />
-          ) : currentLogo ? (
-            <img 
-              src={currentLogo} 
-              alt="Logo" 
-              className="navbar-logo max-h-8 w-auto"
-              onError={(e) => {
-                console.error("Logo loading error");
-                e.currentTarget.style.display = 'none';
-              }}
-            />
-          ) : (
-            <div className="text-foreground font-bold text-lg">
-              Cannabis Club
-            </div>
-          )}
-        </Link>
-
-        <div className="flex items-center gap-2">
-          <Link to="/settings">
-            <Button 
-              variant="outline" 
-              size={isMobile ? "sm" : "icon"}
-              className="rounded-full bg-background border-border text-foreground hover:bg-muted"
-            >
-              <Settings className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
-            </Button>
+      {/* Main navbar content - positioned BELOW the safe area with a fixed offset on iOS */}
+      <header 
+        className={`bg-background border-b border-border fixed left-0 right-0 z-40 ${
+          isIOS && isNativePlatform ? "top-[44px]" : "top-0"
+        }`}
+      >
+        <div className="container flex items-center justify-between px-4 py-4">
+          <Link to="/" className="flex items-center font-bold text-xl">
+            {logoLoading ? (
+              <div className="h-8 w-28 bg-muted animate-pulse" />
+            ) : currentLogo ? (
+              <img 
+                src={currentLogo} 
+                alt="Logo" 
+                className="navbar-logo max-h-8 w-auto"
+                onError={(e) => {
+                  console.error("Logo loading error");
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            ) : (
+              <div className="text-foreground font-bold text-lg">
+                Cannabis Club
+              </div>
+            )}
           </Link>
-          
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-full bg-background border-border">
-                  <User className="h-5 w-5 text-foreground" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-card border-border">
-                <DropdownMenuItem className="text-card-foreground hover:bg-muted">
-                  <Link to="/profile">{t('navigation.profile')}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-card-foreground hover:bg-muted">
-                  <Link to="/settings">{t('navigation.settings')}</Link>
-                </DropdownMenuItem>
-                {isAdmin && (
-                  <DropdownMenuItem className="text-card-foreground hover:bg-muted">
-                    <Link to="/admin-tools" className="flex items-center gap-2">
-                      <Shield className="h-4 w-4" />
-                      Admin Tools
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuSeparator className="bg-border" />
-                <DropdownMenuItem 
-                  onClick={() => signOut()} 
-                  className="text-card-foreground hover:bg-muted"
-                >
-                  {t('auth.signOut')}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Link to="/auth">
+
+          <div className="flex items-center gap-2">
+            <Link to="/settings">
               <Button 
                 variant="outline" 
                 size={isMobile ? "sm" : "icon"}
                 className="rounded-full bg-background border-border text-foreground hover:bg-muted"
               >
-                <LogIn className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
+                <Settings className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
               </Button>
             </Link>
-          )}
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" className="rounded-full bg-background border-border">
+                    <User className="h-5 w-5 text-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-card border-border">
+                  <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                    <Link to="/profile">{t('navigation.profile')}</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                    <Link to="/settings">{t('navigation.settings')}</Link>
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                      <Link to="/admin-tools" className="flex items-center gap-2">
+                        <Shield className="h-4 w-4" />
+                        Admin Tools
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator className="bg-border" />
+                  <DropdownMenuItem 
+                    onClick={() => signOut()} 
+                    className="text-card-foreground hover:bg-muted"
+                  >
+                    {t('auth.signOut')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth">
+                <Button 
+                  variant="outline" 
+                  size={isMobile ? "sm" : "icon"}
+                  className="rounded-full bg-background border-border text-foreground hover:bg-muted"
+                >
+                  <LogIn className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      
+      {/* Add padding to push content below navbar + safe area */}
+      <div 
+        className={`${
+          isIOS && isNativePlatform ? "h-[90px]" : "h-[72px]"
+        }`}
+      ></div>
+    </>
   );
 };
 

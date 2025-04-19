@@ -32,8 +32,15 @@ const config: CapacitorConfig = {
     preferredContentMode: 'mobile',
     handleApplicationNotifications: true,
     usesFaceID: true,
-    // Important: make sure the UI is positioned correctly
-    overrideUserInterfaceStyle: 'light'
+    // iOS UI positioning - important for status bar and notch
+    overrideUserInterfaceStyle: 'light',
+    // Fix status bar height and notch issues
+    marginTop: 0,
+    marginBottom: 0,
+    allowsBackForwardNavigationGestures: false,
+    // Additional settings for iOS devices
+    scheme: 'app',
+    cordovaDeployDisableHostCheck: true
   },
   // Permissions
   plugins: {
@@ -57,11 +64,16 @@ const config: CapacitorConfig = {
       iconColor: "#2A9D90",
       sound: "beep.wav"
     },
-    // Add status bar configuration with proper settings
+    // Status bar configuration with proper settings for iOS
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
       overlaysWebView: true
+    },
+    // Add specific iOS status bar handling
+    SplashScreen: {
+      launchAutoHide: false,
+      androidScaleType: "CENTER_CROP"
     }
   }
 };

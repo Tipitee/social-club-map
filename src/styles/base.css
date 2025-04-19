@@ -31,7 +31,7 @@
     --ring: 196 41% 17%;
     --radius: 0.5rem;
     
-    /* Light theme alert variables */
+    /* Light theme alert variables - completely isolated */
     --alert-background: 0 0% 100%;
     --alert-foreground: 197 43% 18%;
     --alert-border: 200 14% 80%;
@@ -39,14 +39,14 @@
     --alert-description: 196 41% 40%;
     --alert-icon: 174 59% 39%;
     
-    /* Light theme info alert variables */
+    /* Light theme info alert variables - completely isolated */
     --info-background: 195 53% 95%;
     --info-border: 174 59% 39%;
     --info-title: 197 43% 18%;
     --info-description: 196 41% 40%;
     --info-icon: 174 59% 39%;
     
-    /* Light theme back button variables */
+    /* Light theme back button variables - completely isolated */
     --back-button-bg: 152 22% 76%;
     --back-button-hover: 152 15% 68%;
     --back-button-text: 197 43% 18%;
