@@ -1,4 +1,3 @@
-
 import React from "react";
 import ClubAbout from "./ClubAbout";
 import ClubMembership from "./ClubMembership";
@@ -9,19 +8,14 @@ import ClubStrains from "./ClubStrains";
 import ClubEvents from "./ClubEvents";
 import { mockClubDetails } from "./mockData";
 import { ClubResult } from "@/types/club";
-import { useTheme } from "@/components/theme-provider";
-
 interface ClubTabContentProps {
   tab: string;
   club: ClubResult;
 }
-
 const ClubTabContent: React.FC<ClubTabContentProps> = ({
   tab,
   club
 }) => {
-  const { theme } = useTheme();
-  
   // Ensure mockClubDetails has all the required properties before rendering
   const details = mockClubDetails || {
     openingHours: [],
@@ -34,10 +28,8 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({
     strains: [],
     events: []
   };
-  
   if (tab === "info") {
-    return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" data-theme={theme}>
+    return <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - About & Details */}
         <div className="lg:col-span-2 space-y-6">
           <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-500">
@@ -63,19 +55,14 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({
             <ClubOpeningHours hours={details.openingHours} />
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
-  
   if (tab === "strains") {
     return <ClubStrains strains={details.strains} />;
   }
-  
   if (tab === "events") {
     return <ClubEvents events={details.events} />;
   }
-  
   return null;
 };
-
 export default ClubTabContent;
