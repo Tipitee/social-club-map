@@ -82,7 +82,7 @@ const StrainDetail: React.FC = () => {
       <main className="container px-4 py-8 max-w-5xl mx-auto mb-20">
         <div className="mb-6">
           <Link to="/strains">
-            <Button variant="outline" size="sm" className="flex items-center bg-navy-100">
+            <Button variant="outline" size="sm" className="flex items-center bg-ashGray-500 hover:bg-ashGray-400">
               <ChevronLeft className="mr-1 h-4 w-4" />
               {t('strains.backToAllStrains')}
             </Button>
