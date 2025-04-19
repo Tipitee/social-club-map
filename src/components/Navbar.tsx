@@ -69,7 +69,6 @@ const Navbar: React.FC = () => {
   if (!mounted) {
     return (
       <div className="bg-background border-b border-border sticky top-0 z-50">
-        {isIOS && isNativePlatform && <div className="h-safe-area-top w-full bg-background"></div>}
         <div className="container flex items-center justify-between p-4">
           <div className="h-10 w-32 bg-muted rounded animate-pulse"></div>
           <div className="flex items-center gap-3"></div>
@@ -82,7 +81,7 @@ const Navbar: React.FC = () => {
     <header className="bg-background border-b border-border sticky top-0 z-50">
       {/* iOS safe area spacer - only visible on iOS */}
       {isIOS && isNativePlatform && 
-        <div className="w-full h-safe-area-top bg-background"></div>
+        <div className="h-safe-area-top w-full bg-background"></div>
       }
       
       {/* Main navbar content - positioned below the safe area */}

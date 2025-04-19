@@ -1,3 +1,4 @@
+
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -14,22 +15,23 @@ const config: CapacitorConfig = {
   },
   // Enhanced iOS configuration
   ios: {
-    contentInset: 'automatic',
+    contentInset: 'never',
     allowsLinkPreview: true,
     scrollEnabled: true,
     // Handle status bar properly
     statusBarStyle: 'dark',
+    statusBarDefaultScrollToTop: true,
     // Enable location services
     locationWhenInUsePermission: "We need your location to show you nearby clubs.",
     locationAlwaysPermission: "We need your location to show you nearby clubs even when the app is in background.",
     // Improved UI settings
     backgroundColor: '#FCF3E8',
-    webViewSuspensionEnabled: true,
+    webViewSuspensionEnabled: false,
     limitsNavigationsToAppBoundDomains: true,
-    overrideUserInterfaceStyle: 'light',
     // Add safe area settings
     preferredContentMode: 'mobile',
-    handleApplicationNotifications: true
+    handleApplicationNotifications: true,
+    usesFaceID: true
   },
   // Permissions
   plugins: {
@@ -57,7 +59,7 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
-      overlaysWebView: false
+      overlaysWebView: true
     }
   }
 };

@@ -7,11 +7,8 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   
-  /* Light theme (default) */
+  /* Light theme (default) - completely separate CSS variables */
   :root {
     --background: 34 67% 95%;
     --foreground: 197 43% 18%;
@@ -34,7 +31,7 @@
     --ring: 196 41% 17%;
     --radius: 0.5rem;
     
-    /* Alert specific colors for light theme */
+    /* Light theme alert variables */
     --alert-background: 0 0% 100%;
     --alert-foreground: 197 43% 18%;
     --alert-border: 200 14% 80%;
@@ -42,14 +39,14 @@
     --alert-description: 196 41% 40%;
     --alert-icon: 174 59% 39%;
     
-    /* Info alert specific colors for light theme */
+    /* Light theme info alert variables */
     --info-background: 195 53% 95%;
     --info-border: 174 59% 39%;
     --info-title: 197 43% 18%;
     --info-description: 196 41% 40%;
     --info-icon: 174 59% 39%;
     
-    /* Back button for light theme */
+    /* Light theme back button variables */
     --back-button-bg: 152 22% 76%;
     --back-button-hover: 152 15% 68%;
     --back-button-text: 197 43% 18%;
@@ -77,7 +74,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
     
-    /* Alert specific colors for dark theme */
+    /* Dark theme alert variables */
     --alert-background: 196 33% 25%;
     --alert-foreground: 210 40% 98%;
     --alert-border: 217.2 32.6% 17.5%;
@@ -85,14 +82,14 @@
     --alert-description: 214 32% 91%;
     --alert-icon: 174 59% 50%;
     
-    /* Info alert specific colors for dark theme */
+    /* Dark theme info alert variables */
     --info-background: 196 80% 15%;
     --info-border: 174 59% 25%;
     --info-title: 0 0% 100%;
     --info-description: 214 32% 91%;
     --info-icon: 174 59% 50%;
     
-    /* Back button for dark theme */
+    /* Dark theme back button variables */
     --back-button-bg: 196 33% 25%;
     --back-button-hover: 196 33% 20%;
     --back-button-text: 210 40% 98%;

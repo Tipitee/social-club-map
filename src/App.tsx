@@ -30,8 +30,8 @@ const BottomNav = lazy(() => import("./components/BottomNav"));
 
 // Loading fallback component
 const PageLoading = () => (
-  <div className="min-h-screen bg-linen dark:bg-navy-dark flex items-center justify-center">
-    <div className="animate-spin h-10 w-10 border-4 border-teal rounded-full border-t-transparent"></div>
+  <div className="min-h-screen bg-background flex items-center justify-center">
+    <div className="animate-spin h-10 w-10 border-4 border-primary rounded-full border-t-transparent"></div>
   </div>
 );
 
@@ -59,11 +59,17 @@ const App = () => {
       // Add the viewport meta with safe area settings
       const meta = document.createElement('meta');
       meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover';
+      meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no';
       document.head.appendChild(meta);
       
       // Add iOS specific class
       document.documentElement.classList.add('ios-device');
+      
+      // Add status bar styling
+      document.body.style.paddingTop = '0';
+      document.body.style.marginTop = '0';
+      
+      console.log("iOS viewport meta and styles applied");
     }
   }, []);
 
@@ -74,7 +80,7 @@ const App = () => {
           <ThemeProvider defaultTheme="system" storageKey="ui-theme">
             <AuthProvider>
               <TooltipProvider>
-                <div className="min-h-screen bg-linen dark:bg-navy-dark text-foreground">
+                <div className="min-h-screen bg-background text-foreground">
                   <main className="pb-16">
                     <Routes>
                       <Route path="/" element={<Home />} />
