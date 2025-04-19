@@ -74,7 +74,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
     
-    /* Dark theme alert variables */
+    /* Dark theme alert variables - completely separate values */
     --alert-background: 196 33% 25%;
     --alert-foreground: 210 40% 98%;
     --alert-border: 217.2 32.6% 17.5%;
@@ -82,14 +82,14 @@
     --alert-description: 214 32% 91%;
     --alert-icon: 174 59% 50%;
     
-    /* Dark theme info alert variables */
+    /* Dark theme info alert variables - completely separate values */
     --info-background: 196 80% 15%;
     --info-border: 174 59% 25%;
     --info-title: 0 0% 100%;
     --info-description: 214 32% 91%;
     --info-icon: 174 59% 50%;
     
-    /* Dark theme back button variables */
+    /* Dark theme back button variables - completely separate values */
     --back-button-bg: 196 33% 25%;
     --back-button-hover: 196 33% 20%;
     --back-button-text: 210 40% 98%;

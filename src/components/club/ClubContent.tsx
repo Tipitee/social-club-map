@@ -38,7 +38,7 @@ const ClubContent: React.FC<ClubContentProps> = ({
         <Button 
           variant="ghost" 
           onClick={handleBackClick} 
-          className="inline-flex items-center font-medium text-[hsl(var(--back-button-text))] bg-[hsl(var(--back-button-bg))] hover:bg-[hsl(var(--back-button-hover))]"
+          className="inline-flex items-center font-medium bg-[hsl(var(--back-button-bg))] text-[hsl(var(--back-button-text))] hover:bg-[hsl(var(--back-button-hover))]"
         >
           <ArrowLeft size={16} className="mr-1" />
           Back

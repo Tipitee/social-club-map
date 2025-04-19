@@ -59,17 +59,24 @@ const App = () => {
       // Add the viewport meta with safe area settings
       const meta = document.createElement('meta');
       meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no';
+      meta.content = 'width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0';
       document.head.appendChild(meta);
       
       // Add iOS specific class
       document.documentElement.classList.add('ios-device');
       
-      // Add status bar styling
-      document.body.style.paddingTop = '0';
-      document.body.style.marginTop = '0';
-      
       console.log("iOS viewport meta and styles applied");
+      
+      // Force the status bar to be visible
+      try {
+        if (Capacitor.isNativePlatform()) {
+          // This is just to trigger the status bar to show correctly
+          document.body.style.paddingTop = '0px';
+          document.body.style.marginTop = '0px';
+        }
+      } catch (e) {
+        console.error("Error setting iOS status bar:", e);
+      }
     }
   }, []);
 
@@ -81,7 +88,8 @@ const App = () => {
             <AuthProvider>
               <TooltipProvider>
                 <div className="min-h-screen bg-background text-foreground">
-                  <main className="pb-16">
+                  <Navbar />
+                  <main className="pt-[4.5rem] pb-16">
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
@@ -184,5 +192,8 @@ const App = () => {
     </QueryClientProvider>
   );
 };
+
+// Add import for Navbar since we use it directly
+import Navbar from "./components/Navbar";
 
 export default App;

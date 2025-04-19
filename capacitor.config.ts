@@ -15,7 +15,7 @@ const config: CapacitorConfig = {
   },
   // Enhanced iOS configuration
   ios: {
-    contentInset: 'never',
+    contentInset: 'automatic',
     allowsLinkPreview: true,
     scrollEnabled: true,
     // Handle status bar properly
@@ -31,7 +31,9 @@ const config: CapacitorConfig = {
     // Add safe area settings
     preferredContentMode: 'mobile',
     handleApplicationNotifications: true,
-    usesFaceID: true
+    usesFaceID: true,
+    // Important: make sure the UI is positioned correctly
+    overrideUserInterfaceStyle: 'light'
   },
   // Permissions
   plugins: {
@@ -55,7 +57,7 @@ const config: CapacitorConfig = {
       iconColor: "#2A9D90",
       sound: "beep.wav"
     },
-    // Add status bar configuration
+    // Add status bar configuration with proper settings
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
