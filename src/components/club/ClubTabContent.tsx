@@ -36,22 +36,22 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({
             <ClubAbout club={club} specialties={details.specialties} facilities={details.facilities} />
           </div>
           
-          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-ashGray-400">
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-800">
             <ClubMembership membershipFee={details.membershipFee} waitTime={details.membershipWaitTime} />
           </div>
           
-          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-ashGray-400">
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-800">
             <ClubAdditionalInfo club={club} />
           </div>
         </div>
         
         {/* Right column - Contact & Hours */}
         <div className="space-y-6">
-          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-ashGray-400">
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-800">
             <ClubContactInfo club={club} />
           </div>
           
-          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-ashGray-400">
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-800">
             <ClubOpeningHours hours={details.openingHours} />
           </div>
         </div>
