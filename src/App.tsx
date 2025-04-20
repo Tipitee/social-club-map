@@ -77,9 +77,9 @@ const App = () => {
     }
   }, []);
 
-  // Calculate header height based on platform
-  const headerHeight = Capacitor.getPlatform() === 'ios' ? 
-    'env(safe-area-inset-top, 0px) + 72px' : '72px';
+  // Get platform info
+  const isIOS = Capacitor.getPlatform() === 'ios';
+  const isNativePlatform = Capacitor.isNativePlatform();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -89,13 +89,16 @@ const App = () => {
             <AuthProvider>
               <TooltipProvider>
                 <div className="min-h-screen bg-background text-foreground">
-                  <Suspense fallback={null}>
-                    <Navbar />
-                  </Suspense>
+                  {/* Only show Navbar on non-iOS or non-native platforms */}
+                  {!(isIOS && isNativePlatform) && (
+                    <Suspense fallback={null}>
+                      <Navbar />
+                    </Suspense>
+                  )}
                   
+                  {/* Apply different padding based on platform */}
                   <div style={{ 
-                    paddingTop: Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios' ? 
-                      'calc(env(safe-area-inset-top, 0px) + 72px)' : '72px' 
+                    paddingTop: isIOS && isNativePlatform ? 0 : '72px'
                   }}>
                     <Routes>
                       <Route path="/" element={<Home />} />

@@ -26,8 +26,8 @@ const config: CapacitorConfig = {
     contentInset: 'automatic', // Better for scrollable content
     allowsLinkPreview: true,
     scrollEnabled: true,
-    // Handle status bar properly
-    statusBarStyle: 'dark',
+    // Handle status bar properly with black translucent
+    statusBarStyle: 'darkcontent',
     statusBarDefaultScrollToTop: true,
     // Viewport settings for proper rendering
     preferredContentMode: 'mobile',
@@ -44,7 +44,7 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
-      overlaysWebView: false
+      overlaysWebView: true
     },
     SplashScreen: {
       launchAutoHide: true,
@@ -55,7 +55,7 @@ const config: CapacitorConfig = {
   // Extra safety options for iOS
   cordova: {
     preferences: {
-      "StatusBarOverlaysWebView": "false",
+      "StatusBarOverlaysWebView": "true",
       "StatusBarBackgroundColor": "#FCF3E8",
       "StatusBarStyle": "lightcontent",
       "DisallowOverscroll": "true",

@@ -64,6 +64,11 @@ const Navbar: React.FC = () => {
     fetchLogos();
   }, []);
 
+  // Don't render this component on iOS native platform
+  if (isIOS && isNativePlatform) {
+    return null;
+  }
+
   const currentLogo = theme === 'dark' ? darkLogo : lightLogo;
 
   if (!mounted) {
@@ -72,10 +77,6 @@ const Navbar: React.FC = () => {
 
   return (
     <header className="bg-background border-b border-border fixed left-0 right-0 z-40 w-full">
-      {isIOS && isNativePlatform && (
-        <div className="h-safe-area-top bg-background w-full"></div>
-      )}
-      
       <div className="container flex items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (

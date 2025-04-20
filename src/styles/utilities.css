@@ -19,6 +19,10 @@
     height: env(safe-area-inset-bottom, 0px);
   }
 
+  .ios-header-padding {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 3.5rem);
+  }
+
   /* Standard transition and loading classes */
   .page-transition {
     @apply transition-all duration-300 ease-in-out;
@@ -96,4 +100,9 @@
   /* Ensure content respects safe areas */
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* iOS bottom safe area fix */
+.ios-bottom-nav-fix {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 3.5rem);
 }
