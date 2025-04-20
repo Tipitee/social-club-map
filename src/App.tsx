@@ -97,9 +97,7 @@ const App = () => {
                   )}
                   
                   {/* Apply different padding based on platform */}
-                  <div style={{ 
-                    paddingTop: isIOS && isNativePlatform ? 0 : '72px'
-                  }}>
+                  <div className={isIOS && isNativePlatform ? 'ios-content-wrapper pt-14 pb-16' : 'pt-16 pb-16'}>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

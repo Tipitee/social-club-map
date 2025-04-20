@@ -6,18 +6,20 @@ import { Button } from "@/components/ui/button";
 interface ClubMembershipProps {
   membershipFee: string;
   waitTime: string;
+  className?: string;
 }
 
 const ClubMembership: React.FC<ClubMembershipProps> = ({
   membershipFee,
-  waitTime
+  waitTime,
+  className = ""
 }) => {
   return (
-    <Card className="bg-card border-border shadow-md">
-      <CardContent className="p-6 px-[9px]">
+    <Card className={`bg-card border-border shadow-md ${className}`}>
+      <CardContent className="p-6">
         <h3 className="text-xl font-bold mb-4 text-card-foreground">Membership Information</h3>
         
-        <div className="space-y-4 px-[3px]">
+        <div className="space-y-4">
           <div>
             <h4 className="font-semibold text-card-foreground">Fees</h4>
             <p className="text-muted-foreground">{membershipFee}</p>
@@ -31,7 +33,7 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({
           <div className="pt-4 text-center">
             <Button 
               variant="default" 
-              className="w-full md:max-w-sm lg:max-w-md mx-auto text-primary-foreground font-medium h-auto py-3"
+              className="w-full md:max-w-sm lg:max-w-md mx-auto text-primary-foreground font-medium h-auto py-3 membership-request-button"
             >
               Request Membership Information
             </Button>

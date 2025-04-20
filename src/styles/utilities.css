@@ -23,6 +23,12 @@
     padding-top: calc(env(safe-area-inset-top, 0px) + 3.5rem);
   }
 
+  /* iOS content wrapper */
+  .ios-content-wrapper {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 56px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 56px);
+  }
+
   /* Standard transition and loading classes */
   .page-transition {
     @apply transition-all duration-300 ease-in-out;
