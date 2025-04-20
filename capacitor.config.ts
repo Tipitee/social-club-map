@@ -9,30 +9,23 @@ const config: CapacitorConfig = {
     url: 'https://15770c0b-47a8-4101-8256-7925008c6bad.lovableproject.com?forceHideBadge=true',
     cleartext: true
   },
-  // Enhanced Android configuration
+  // Enable AndroidX support
   android: {
-    androidxEnabled: true,
-    backgroundColor: "#FCF3E8",
-    buildOptions: {
-      keystorePath: null,
-      keystorePassword: null,
-      keystoreAlias: null,
-      keystoreAliasPassword: null,
-      releaseType: null
-    }
+    androidxEnabled: true
   },
   // Enhanced iOS configuration with proper safe area handling
   ios: {
-    contentInset: 'automatic', // Better for scrollable content
+    contentInset: 'never', // Changed from 'automatic' to ensure exact control
     allowsLinkPreview: true,
     scrollEnabled: true,
-    // Handle status bar properly with black translucent
-    statusBarStyle: 'darkcontent',
+    // Handle status bar properly
+    statusBarStyle: 'dark',
     statusBarDefaultScrollToTop: true,
     // Viewport settings for proper rendering
     preferredContentMode: 'mobile',
-    backgroundColor: "#FCF3E8",
-    scheme: "Green Bud Guide",
+    // Fix status bar and notch issues
+    marginTop: 0, // Let CSS handle this with env() variables
+    marginBottom: 0, // Let CSS handle this with env() variables
     // Additional settings
     webViewSuspensionEnabled: false,
     hideWebViewBoundaries: true, // Important to hide any unexpected boundaries
@@ -44,25 +37,11 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
-      overlaysWebView: true,
+      overlaysWebView: false // Important change
     },
     SplashScreen: {
       launchAutoHide: true,
-      showSpinner: false,
-      backgroundColor: "#FCF3E8"
-    }
-  },
-  // Extra safety options for iOS
-  cordova: {
-    preferences: {
-      "StatusBarOverlaysWebView": "true",
-      "StatusBarBackgroundColor": "#FCF3E8",
-      "StatusBarStyle": "lightcontent",
-      "DisallowOverscroll": "true",
-      "KeyboardResize": "true",
-      "KeyboardResizeMode": "body",
-      "EnableViewportScale": "true",
-      "ViewportFit": "cover"
+      showSpinner: false
     }
   }
 };

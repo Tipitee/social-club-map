@@ -1,4 +1,3 @@
-
 import React from "react";
 import ClubAbout from "./ClubAbout";
 import ClubMembership from "./ClubMembership";
@@ -33,26 +32,26 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({
     return <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - About & Details */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="rounded-lg p-5 shadow-sm border border-border bg-navy-500">
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-navy-200">
             <ClubAbout club={club} specialties={details.specialties} facilities={details.facilities} />
           </div>
           
-          <div className="rounded-lg p-5 shadow-sm border border-border bg-ashGray">
-            <ClubMembership membershipFee={details.membershipFee} waitTime={details.membershipWaitTime} className="bg-navy-200" />
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-ashGray-400">
+            <ClubMembership membershipFee={details.membershipFee} waitTime={details.membershipWaitTime} />
           </div>
           
-          <div className="rounded-lg p-5 shadow-sm border border-border bg-navy-500">
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-ashGray-400">
             <ClubAdditionalInfo club={club} />
           </div>
         </div>
         
         {/* Right column - Contact & Hours */}
         <div className="space-y-6">
-          <div className="rounded-lg p-5 shadow-sm border border-border bg-navy-500">
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-ashGray-400">
             <ClubContactInfo club={club} />
           </div>
           
-          <div className="rounded-lg p-5 shadow-sm border border-border bg-navy-500">
+          <div className="rounded-lg p-5 shadow-sm border border-gray-200 dark:border-navy-300 bg-ashGray-400">
             <ClubOpeningHours hours={details.openingHours} />
           </div>
         </div>

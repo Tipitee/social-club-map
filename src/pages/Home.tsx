@@ -4,14 +4,13 @@ import { Book, Cannabis, Map, BookText, Newspaper, Settings } from "lucide-react
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
+import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { Capacitor } from "@capacitor/core";
+import BottomNav from "@/components/BottomNav";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const isNativePlatform = Capacitor.isNativePlatform();
-  const isIOS = Capacitor.getPlatform() === 'ios';
   
   const sections = [
     {
@@ -58,12 +57,10 @@ const Home: React.FC = () => {
     }
   ];
 
-  // Calculate top padding for iOS safe area
-  const topPadding = isIOS && isNativePlatform ? 'pt-24' : 'pt-6';
-
   return (
     <div className="min-h-screen pb-20 bg-linen dark:bg-navy-dark">
-      <div className={`container px-4 sm:px-[44px] ${topPadding}`}>
+      <Navbar />
+      <div className="container py-6 px-4 sm:px-[44px]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map(section => (
             <Link 
@@ -86,6 +83,7 @@ const Home: React.FC = () => {
           ))}
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 };

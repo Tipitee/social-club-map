@@ -60,26 +60,22 @@ const App = () => {
       // Create new viewport meta with safe-area viewport fit
       const meta = document.createElement('meta');
       meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no';
+      meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
       document.head.appendChild(meta);
       
       // Add specific iOS styling
       document.documentElement.classList.add('ios-device');
       document.documentElement.setAttribute('data-platform', 'ios');
       
-      // Add iOS status bar color
-      const statusBarMeta = document.createElement('meta');
-      statusBarMeta.name = 'apple-mobile-web-app-status-bar-style';
-      statusBarMeta.content = 'black-translucent';
-      document.head.appendChild(statusBarMeta);
-      
       console.log("iOS viewport meta configured for safe area");
+      
+      // Create CSS variables for iOS safe areas
+      document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
+      document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
+      document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left)');
+      document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right)');
     }
   }, []);
-
-  // Get platform info
-  const isIOS = Capacitor.getPlatform() === 'ios';
-  const isNativePlatform = Capacitor.isNativePlatform();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -89,13 +85,11 @@ const App = () => {
             <AuthProvider>
               <TooltipProvider>
                 <div className="min-h-screen bg-background text-foreground">
-                  {/* Only show Navbar on non-iOS or non-native platforms */}
                   <Suspense fallback={null}>
                     <Navbar />
                   </Suspense>
                   
-                  {/* Apply different padding based on platform */}
-                  <div className={isIOS && isNativePlatform ? 'ios-content-wrapper' : 'pt-16 pb-16'}>
+                  <main className="pb-16">
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
@@ -131,6 +125,7 @@ const App = () => {
                           </Suspense>
                         } 
                       />
+                      {/* Load the News component directly without lazy loading to fix the import issue */}
                       <Route path="/news" element={<News />} />
                       <Route 
                         path="/guide" 
@@ -175,7 +170,7 @@ const App = () => {
                         } 
                       />
                     </Routes>
-                  </div>
+                  </main>
                   
                   {/* Bottom Navigation Bar - visible on all pages except Auth */}
                   <Routes>

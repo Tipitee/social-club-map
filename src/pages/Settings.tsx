@@ -1,5 +1,6 @@
 
 import React from "react";
+import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@/components/theme-provider";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
+import BottomNav from "@/components/BottomNav";
 
 const Settings: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -26,6 +28,7 @@ const Settings: React.FC = () => {
   
   return (
     <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
+      <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">
@@ -133,6 +136,7 @@ const Settings: React.FC = () => {
           </div>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 };

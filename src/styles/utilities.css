@@ -2,34 +2,23 @@
 @tailwind utilities;
 
 @layer utilities {
-  /* iOS safe area utilities with proper env variable usage */
+  /* iOS safe area utilities with proper height values */
   .safe-area-top {
-    padding-top: env(safe-area-inset-top, 0px);
+    padding-top: env(safe-area-inset-top);
   }
 
   .h-safe-area-top {
-    height: env(safe-area-inset-top, 0px);
+    height: env(safe-area-inset-top);
   }
 
   .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .h-safe-area-bottom {
-    height: env(safe-area-inset-bottom, 0px);
+    height: env(safe-area-inset-bottom);
   }
 
-  .ios-header-padding {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 3.5rem);
-  }
-
-  /* iOS content wrapper with correct positioning */
-  .ios-content-wrapper {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 4rem);
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4rem);
-  }
-
-  /* Standard transition and loading classes */
   .page-transition {
     @apply transition-all duration-300 ease-in-out;
   }
@@ -38,7 +27,21 @@
     @apply animate-pulse bg-muted rounded;
   }
 
-  /* Theme-specific custom classes using proper hsl variables */
+  /* Ensure proper scrolling for iOS */
+  html {
+    overflow: hidden;
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Theme-specific custom classes - properly separated for light and dark modes */
   .bg-info-background {
     background-color: hsl(var(--info-background));
   }
@@ -82,41 +85,4 @@
   .text-alert-icon {
     color: hsl(var(--alert-icon));
   }
-  
-  /* Card backgrounds that respect theme mode */
-  .bg-navy-500 {
-    background-color: hsl(var(--navy-card-bg-500));
-  }
-  
-  .bg-navy-200 {
-    background-color: hsl(var(--navy-card-bg-200));
-  }
-  
-  .bg-navy {
-    background-color: hsl(var(--navy-background));
-  }
-  
-  .text-navy {
-    color: hsl(var(--navy-foreground));
-  }
-  
-  .bg-ashGray {
-    background-color: hsl(var(--ashGray-background));
-  }
-  
-  .text-ashGray {
-    color: hsl(var(--ashGray-foreground));
-  }
-}
-
-/* iOS-specific styles */
-.ios-device {
-  /* Ensure content respects safe areas */
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-/* iOS bottom safe area fix */
-.ios-bottom-nav-fix {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 3.5rem);
 }

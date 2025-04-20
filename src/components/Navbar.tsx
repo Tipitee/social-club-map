@@ -64,96 +64,104 @@ const Navbar: React.FC = () => {
     fetchLogos();
   }, []);
 
-  // Don't render this component on iOS native platform
-  if (isIOS && isNativePlatform) {
-    return null;
-  }
-
   const currentLogo = theme === 'dark' ? darkLogo : lightLogo;
 
   if (!mounted) {
     return null;
   }
 
-  return (
-    <header className="bg-background border-b border-border fixed left-0 right-0 z-40 w-full">
-      <div className="container flex items-center justify-between px-4 py-4">
-        <Link to="/" className="flex items-center font-bold text-xl">
-          {logoLoading ? (
-            <div className="h-8 w-28 bg-muted animate-pulse" />
-          ) : currentLogo ? (
-            <img 
-              src={currentLogo} 
-              alt="Logo" 
-              className="navbar-logo max-h-8 w-auto"
-              onError={(e) => {
-                console.error("Logo loading error");
-                e.currentTarget.style.display = 'none';
-              }}
-            />
-          ) : (
-            <div className="text-foreground font-bold text-lg">
-              Cannabis Club
-            </div>
-          )}
-        </Link>
+  // Calculate navbar position based on platform 
+  const navbarStyle = isIOS && isNativePlatform 
+    ? { top: 0, paddingTop: "env(safe-area-inset-top, 44px)" }
+    : { top: 0 };
 
-        <div className="flex items-center gap-2">
-          <Link to="/settings">
-            <Button 
-              variant="outline" 
-              size={isMobile ? "sm" : "icon"}
-              className="rounded-full bg-background border-border text-foreground hover:bg-muted"
-            >
-              <Settings className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
-            </Button>
+  return (
+    <>
+      <header 
+        className={`bg-background border-b border-border fixed left-0 right-0 z-40`}
+        style={navbarStyle}
+      >
+        <div className="container flex items-center justify-between px-4 py-4">
+          <Link to="/" className="flex items-center font-bold text-xl">
+            {logoLoading ? (
+              <div className="h-8 w-28 bg-muted animate-pulse" />
+            ) : currentLogo ? (
+              <img 
+                src={currentLogo} 
+                alt="Logo" 
+                className="navbar-logo max-h-8 w-auto"
+                onError={(e) => {
+                  console.error("Logo loading error");
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            ) : (
+              <div className="text-foreground font-bold text-lg">
+                Cannabis Club
+              </div>
+            )}
           </Link>
-          
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-full bg-background border-border">
-                  <User className="h-5 w-5 text-foreground" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-card border-border">
-                <DropdownMenuItem className="text-card-foreground hover:bg-muted">
-                  <Link to="/profile">{t('navigation.profile')}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-card-foreground hover:bg-muted">
-                  <Link to="/settings">{t('navigation.settings')}</Link>
-                </DropdownMenuItem>
-                {isAdmin && (
-                  <DropdownMenuItem className="text-card-foreground hover:bg-muted">
-                    <Link to="/admin-tools" className="flex items-center gap-2">
-                      <Shield className="h-4 w-4" />
-                      Admin Tools
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuSeparator className="bg-border" />
-                <DropdownMenuItem 
-                  onClick={() => signOut()} 
-                  className="text-card-foreground hover:bg-muted"
-                >
-                  {t('auth.signOut')}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Link to="/auth">
+
+          <div className="flex items-center gap-2">
+            <Link to="/settings">
               <Button 
                 variant="outline" 
                 size={isMobile ? "sm" : "icon"}
                 className="rounded-full bg-background border-border text-foreground hover:bg-muted"
               >
-                <LogIn className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
+                <Settings className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
               </Button>
             </Link>
-          )}
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" className="rounded-full bg-background border-border">
+                    <User className="h-5 w-5 text-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-card border-border">
+                  <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                    <Link to="/profile">{t('navigation.profile')}</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                    <Link to="/settings">{t('navigation.settings')}</Link>
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                      <Link to="/admin-tools" className="flex items-center gap-2">
+                        <Shield className="h-4 w-4" />
+                        Admin Tools
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator className="bg-border" />
+                  <DropdownMenuItem 
+                    onClick={() => signOut()} 
+                    className="text-card-foreground hover:bg-muted"
+                  >
+                    {t('auth.signOut')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth">
+                <Button 
+                  variant="outline" 
+                  size={isMobile ? "sm" : "icon"}
+                  className="rounded-full bg-background border-border text-foreground hover:bg-muted"
+                >
+                  <LogIn className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      
+      {/* Spacer for fixed header */}
+      <div className="h-[72px]"></div>
+    </>
   );
 };
 

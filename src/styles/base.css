@@ -8,9 +8,8 @@
     @apply border-border;
   }
   
-  /* Light theme - completely independent CSS variables */
+  /* Light theme (default) - completely separate CSS variables */
   :root {
-    /* Light theme core UI colors */
     --background: 34 67% 95%;
     --foreground: 197 43% 18%;
     --card: 0 0% 100%;
@@ -51,23 +50,10 @@
     --back-button-bg: 152 22% 76%;
     --back-button-hover: 152 15% 68%;
     --back-button-text: 197 43% 18%;
-    
-    /* Light theme navy colors */
-    --navy-background: 195 53% 95%;
-    --navy-foreground: 197 43% 18%;
-    
-    /* Light theme ash gray colors */
-    --ashGray-background: 0 0% 95%;
-    --ashGray-foreground: 196 41% 17%;
-    
-    /* Light mode navy card colors */
-    --navy-card-bg-500: 195 53% 95%;
-    --navy-card-bg-200: 200 13% 95%;
   }
  
-  /* Dark theme colors - completely independent from light theme */
+  /* Dark theme colors - completely separate from light theme */
   .dark {
-    /* Dark theme core UI colors */
     --background: 197 43% 18%;
     --foreground: 210 40% 98%;
     --card: 196 33% 32%;
@@ -88,7 +74,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
     
-    /* Dark theme alert variables */
+    /* Dark theme alert variables - completely separate */
     --alert-background: 196 33% 25%;
     --alert-foreground: 210 40% 98%;
     --alert-border: 217.2 32.6% 17.5%;
@@ -96,37 +82,16 @@
     --alert-description: 214 32% 91%;
     --alert-icon: 174 59% 50%;
     
-    /* Dark theme info alert variables */
+    /* Dark theme info alert variables - completely separate */
     --info-background: 196 80% 15%;
     --info-border: 174 59% 25%;
     --info-title: 0 0% 100%;
     --info-description: 214 32% 91%;
     --info-icon: 174 59% 50%;
     
-    /* Dark theme back button variables */
+    /* Dark theme back button variables - completely separate */
     --back-button-bg: 196 33% 25%;
     --back-button-hover: 196 33% 20%;
     --back-button-text: 210 40% 98%;
-    
-    /* Dark theme navy colors */
-    --navy-background: 196 33% 20%; 
-    --navy-foreground: 210 40% 98%;
-    
-    /* Dark theme ash gray colors */
-    --ashGray-background: 217.2 32.6% 22.5%;
-    --ashGray-foreground: 215 20.2% 65.1%;
-    
-    /* Dark mode navy card colors - completely independent from light mode */
-    --navy-card-bg-500: 196 33% 20%;
-    --navy-card-bg-200: 196 33% 25%;
   }
-}
-
-/* Include additional theme class support */
-.light-theme {
-  color-scheme: light;
-}
-
-.dark-theme {
-  color-scheme: dark;
 }
