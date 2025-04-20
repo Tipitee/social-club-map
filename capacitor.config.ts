@@ -9,13 +9,21 @@ const config: CapacitorConfig = {
     url: 'https://15770c0b-47a8-4101-8256-7925008c6bad.lovableproject.com?forceHideBadge=true',
     cleartext: true
   },
-  // Enable AndroidX support
+  // Enhanced Android configuration
   android: {
-    androidxEnabled: true
+    androidxEnabled: true,
+    backgroundColor: "#FCF3E8",
+    buildOptions: {
+      keystorePath: null,
+      keystorePassword: null,
+      keystoreAlias: null,
+      keystoreAliasPassword: null,
+      releaseType: null
+    }
   },
   // Enhanced iOS configuration with proper safe area handling
   ios: {
-    contentInset: 'never', // Changed from 'automatic' to ensure exact control
+    contentInset: 'automatic', // Better for scrollable content
     allowsLinkPreview: true,
     scrollEnabled: true,
     // Handle status bar properly
@@ -23,6 +31,8 @@ const config: CapacitorConfig = {
     statusBarDefaultScrollToTop: true,
     // Viewport settings for proper rendering
     preferredContentMode: 'mobile',
+    backgroundColor: "#FCF3E8",
+    scheme: "Green Bud Guide",
     // Additional settings
     webViewSuspensionEnabled: false,
     hideWebViewBoundaries: true, // Important to hide any unexpected boundaries
@@ -34,11 +44,25 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
-      overlaysWebView: true
+      overlaysWebView: false
     },
     SplashScreen: {
       launchAutoHide: true,
-      showSpinner: false
+      showSpinner: false,
+      backgroundColor: "#FCF3E8"
+    }
+  },
+  // Extra safety options for iOS
+  cordova: {
+    preferences: {
+      "StatusBarOverlaysWebView": "false",
+      "StatusBarBackgroundColor": "#FCF3E8",
+      "StatusBarStyle": "lightcontent",
+      "DisallowOverscroll": "true",
+      "KeyboardResize": "true",
+      "KeyboardResizeMode": "body",
+      "EnableViewportScale": "true",
+      "ViewportFit": "cover"
     }
   }
 };

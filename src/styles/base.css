@@ -8,9 +8,9 @@
     @apply border-border;
   }
   
-  /* Light theme (default) - completely separate CSS variables system */
+  /* Light theme - completely independent CSS variables */
   :root {
-    /* Basic UI colors - light theme */
+    /* Light theme core UI colors */
     --background: 34 67% 95%;
     --foreground: 197 43% 18%;
     --card: 0 0% 100%;
@@ -51,9 +51,17 @@
     --back-button-bg: 152 22% 76%;
     --back-button-hover: 152 15% 68%;
     --back-button-text: 197 43% 18%;
+    
+    /* Light theme navy colors */
+    --navy-background: 195 53% 95%;
+    --navy-foreground: 197 43% 18%;
+    
+    /* Light theme ashGray colors */
+    --ashGray-background: 0 0% 95%;
+    --ashGray-foreground: 196 41% 17%;
   }
  
-  /* Dark theme colors - completely separate from light theme */
+  /* Dark theme colors - completely independent from light theme */
   .dark {
     /* Dark theme core UI colors */
     --background: 197 43% 18%;
@@ -76,7 +84,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
     
-    /* Dark theme alert variables - completely separate */
+    /* Dark theme alert variables */
     --alert-background: 196 33% 25%;
     --alert-foreground: 210 40% 98%;
     --alert-border: 217.2 32.6% 17.5%;
@@ -84,38 +92,23 @@
     --alert-description: 214 32% 91%;
     --alert-icon: 174 59% 50%;
     
-    /* Dark theme info alert variables - completely separate */
+    /* Dark theme info alert variables */
     --info-background: 196 80% 15%;
     --info-border: 174 59% 25%;
     --info-title: 0 0% 100%;
     --info-description: 214 32% 91%;
     --info-icon: 174 59% 50%;
     
-    /* Dark theme back button variables - completely separate */
+    /* Dark theme back button variables */
     --back-button-bg: 196 33% 25%;
     --back-button-hover: 196 33% 20%;
     --back-button-text: 210 40% 98%;
-  }
-  
-  /* Additional color scheme variants - preserved separately */
-  /* Navy theme - ashGray class applies to elements */
-  .navy-light {
-    --navy-background: 195 53% 95%;
-    --navy-foreground: 197 43% 18%;
-  }
-  
-  .navy-dark {
+    
+    /* Dark theme navy colors */
     --navy-background: 196 33% 20%; 
     --navy-foreground: 210 40% 98%;
-  }
-  
-  /* AshGray theme */
-  .ashGray-light {
-    --ashGray-background: 0 0% 95%;
-    --ashGray-foreground: 196 41% 17%;
-  }
-  
-  .ashGray-dark {
+    
+    /* Dark theme ashGray colors */
     --ashGray-background: 217.2 32.6% 22.5%;
     --ashGray-foreground: 215 20.2% 65.1%;
   }

@@ -45,8 +45,10 @@ const BottomNav: React.FC = () => {
         ))}
       </div>
       
-      {/* iOS safe area bottom padding - separate div so it doesn't affect layout */}
-      {isIOS && isNativePlatform && <div className="h-safe-area-bottom bg-background border-t border-border"></div>}
+      {/* iOS safe area bottom padding as a separate div */}
+      {isIOS && isNativePlatform && (
+        <div className="h-safe-area-bottom bg-background border-t border-border" style={{ height: 'env(safe-area-inset-bottom, 0px)' }}></div>
+      )}
     </div>
   );
 };

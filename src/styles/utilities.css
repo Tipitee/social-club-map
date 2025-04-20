@@ -4,19 +4,19 @@
 @layer utilities {
   /* iOS safe area utilities with proper env variable usage */
   .safe-area-top {
-    padding-top: env(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   .h-safe-area-top {
-    height: env(safe-area-inset-top);
+    height: env(safe-area-inset-top, 0px);
   }
 
   .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .h-safe-area-bottom {
-    height: env(safe-area-inset-bottom);
+    height: env(safe-area-inset-bottom, 0px);
   }
 
   /* Standard transition and loading classes */
@@ -28,7 +28,7 @@
     @apply animate-pulse bg-muted rounded;
   }
 
-  /* Theme-specific custom classes - properly separated for light and dark modes */
+  /* Theme-specific custom classes using proper hsl variables */
   .bg-info-background {
     background-color: hsl(var(--info-background));
   }
@@ -71,6 +71,23 @@
   
   .text-alert-icon {
     color: hsl(var(--alert-icon));
+  }
+  
+  /* Color utilities that respect theme mode */
+  .bg-navy {
+    background-color: hsl(var(--navy-background));
+  }
+  
+  .text-navy {
+    color: hsl(var(--navy-foreground));
+  }
+  
+  .bg-ashGray {
+    background-color: hsl(var(--ashGray-background));
+  }
+  
+  .text-ashGray {
+    color: hsl(var(--ashGray-foreground));
   }
 }
 

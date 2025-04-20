@@ -12,7 +12,6 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({
   membershipFee,
   waitTime
 }) => {
-  // Use CSS variables from our theme system which are properly isolated
   return (
     <Card className="bg-card border-border shadow-md">
       <CardContent className="p-6">

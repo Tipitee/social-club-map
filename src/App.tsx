@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -76,6 +77,10 @@ const App = () => {
     }
   }, []);
 
+  // Calculate header height based on platform
+  const headerHeight = Capacitor.getPlatform() === 'ios' ? 
+    'env(safe-area-inset-top, 0px) + 72px' : '72px';
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -88,7 +93,10 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main>
+                  <div style={{ 
+                    paddingTop: Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios' ? 
+                      'calc(env(safe-area-inset-top, 0px) + 72px)' : '72px' 
+                  }}>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
@@ -124,7 +132,6 @@ const App = () => {
                           </Suspense>
                         } 
                       />
-                      {/* Load the News component directly without lazy loading to fix the import issue */}
                       <Route path="/news" element={<News />} />
                       <Route 
                         path="/guide" 
@@ -169,7 +176,7 @@ const App = () => {
                         } 
                       />
                     </Routes>
-                  </main>
+                  </div>
                   
                   {/* Bottom Navigation Bar - visible on all pages except Auth */}
                   <Routes>
