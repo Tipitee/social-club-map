@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -70,17 +69,13 @@ const Navbar: React.FC = () => {
     return null;
   }
 
-  // Calculate navbar position based on platform 
-  const navbarStyle = isIOS && isNativePlatform 
-    ? { top: 0, paddingTop: "env(safe-area-inset-top, 44px)" }
-    : { top: 0 };
-
   return (
     <>
-      <header 
-        className={`bg-background border-b border-border fixed left-0 right-0 z-40`}
-        style={navbarStyle}
-      >
+      {isIOS && isNativePlatform && (
+        <div className="h-safe-area-top bg-background w-full"></div>
+      )}
+      
+      <header className="bg-background border-b border-border fixed left-0 right-0 z-40 w-full">
         <div className="container flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center font-bold text-xl">
             {logoLoading ? (
@@ -159,8 +154,7 @@ const Navbar: React.FC = () => {
         </div>
       </header>
       
-      {/* Spacer for fixed header */}
-      <div className="h-[72px]"></div>
+      <div className={`${isIOS && isNativePlatform ? 'h-[calc(72px+env(safe-area-inset-top,0px))]' : 'h-[72px]'}`}></div>
     </>
   );
 };

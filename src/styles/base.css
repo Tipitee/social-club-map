@@ -8,8 +8,9 @@
     @apply border-border;
   }
   
-  /* Light theme (default) - completely separate CSS variables */
+  /* Light theme (default) - completely separate CSS variables system */
   :root {
+    /* Basic UI colors - light theme */
     --background: 34 67% 95%;
     --foreground: 197 43% 18%;
     --card: 0 0% 100%;
@@ -54,6 +55,7 @@
  
   /* Dark theme colors - completely separate from light theme */
   .dark {
+    /* Dark theme core UI colors */
     --background: 197 43% 18%;
     --foreground: 210 40% 98%;
     --card: 196 33% 32%;
@@ -94,4 +96,36 @@
     --back-button-hover: 196 33% 20%;
     --back-button-text: 210 40% 98%;
   }
+  
+  /* Additional color scheme variants - preserved separately */
+  /* Navy theme - ashGray class applies to elements */
+  .navy-light {
+    --navy-background: 195 53% 95%;
+    --navy-foreground: 197 43% 18%;
+  }
+  
+  .navy-dark {
+    --navy-background: 196 33% 20%; 
+    --navy-foreground: 210 40% 98%;
+  }
+  
+  /* AshGray theme */
+  .ashGray-light {
+    --ashGray-background: 0 0% 95%;
+    --ashGray-foreground: 196 41% 17%;
+  }
+  
+  .ashGray-dark {
+    --ashGray-background: 217.2 32.6% 22.5%;
+    --ashGray-foreground: 215 20.2% 65.1%;
+  }
+}
+
+/* Include additional theme class support */
+.light-theme {
+  color-scheme: light;
+}
+
+.dark-theme {
+  color-scheme: dark;
 }

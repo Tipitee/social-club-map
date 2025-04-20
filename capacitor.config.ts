@@ -23,9 +23,6 @@ const config: CapacitorConfig = {
     statusBarDefaultScrollToTop: true,
     // Viewport settings for proper rendering
     preferredContentMode: 'mobile',
-    // Fix status bar and notch issues
-    marginTop: 0, // Let CSS handle this with env() variables
-    marginBottom: 0, // Let CSS handle this with env() variables
     // Additional settings
     webViewSuspensionEnabled: false,
     hideWebViewBoundaries: true, // Important to hide any unexpected boundaries
@@ -37,7 +34,7 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
-      overlaysWebView: false // Important change
+      overlaysWebView: true
     },
     SplashScreen: {
       launchAutoHide: true,

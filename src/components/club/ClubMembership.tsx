@@ -12,6 +12,7 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({
   membershipFee,
   waitTime
 }) => {
+  // Use CSS variables from our theme system which are properly isolated
   return (
     <Card className="bg-card border-border shadow-md">
       <CardContent className="p-6">
@@ -28,8 +29,8 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({
             <p className="text-muted-foreground">{waitTime}</p>
           </div>
           
-          <div className="pt-4 px-4 sm:px-12 md:px-[230px]">
-            <Button variant="default" className="w-full text-primary-foreground font-medium h-auto py-3 px-0">
+          <div className="pt-4">
+            <Button variant="default" className="w-full text-primary-foreground font-medium h-auto py-3">
               Request Membership Information
             </Button>
           </div>

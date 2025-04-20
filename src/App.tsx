@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -60,20 +59,20 @@ const App = () => {
       // Create new viewport meta with safe-area viewport fit
       const meta = document.createElement('meta');
       meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
+      meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no';
       document.head.appendChild(meta);
       
       // Add specific iOS styling
       document.documentElement.classList.add('ios-device');
       document.documentElement.setAttribute('data-platform', 'ios');
       
-      console.log("iOS viewport meta configured for safe area");
+      // Add iOS status bar color
+      const statusBarMeta = document.createElement('meta');
+      statusBarMeta.name = 'apple-mobile-web-app-status-bar-style';
+      statusBarMeta.content = 'black-translucent';
+      document.head.appendChild(statusBarMeta);
       
-      // Create CSS variables for iOS safe areas
-      document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
-      document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
-      document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left)');
-      document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right)');
+      console.log("iOS viewport meta configured for safe area");
     }
   }, []);
 
@@ -89,7 +88,7 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main className="pb-16">
+                  <main>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

@@ -2,7 +2,7 @@
 @tailwind utilities;
 
 @layer utilities {
-  /* iOS safe area utilities with proper height values */
+  /* iOS safe area utilities with proper env variable usage */
   .safe-area-top {
     padding-top: env(safe-area-inset-top);
   }
@@ -19,6 +19,7 @@
     height: env(safe-area-inset-bottom);
   }
 
+  /* Standard transition and loading classes */
   .page-transition {
     @apply transition-all duration-300 ease-in-out;
   }
@@ -27,20 +28,6 @@
     @apply animate-pulse bg-muted rounded;
   }
 
-  /* Ensure proper scrolling for iOS */
-  html {
-    overflow: hidden;
-    height: 100%;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  body {
-    height: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
   /* Theme-specific custom classes - properly separated for light and dark modes */
   .bg-info-background {
     background-color: hsl(var(--info-background));
@@ -85,4 +72,11 @@
   .text-alert-icon {
     color: hsl(var(--alert-icon));
   }
+}
+
+/* iOS-specific styles */
+.ios-device {
+  /* Ensure content respects safe areas */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
