@@ -15,7 +15,7 @@ const ClubMembership: React.FC<ClubMembershipProps> = ({
   className = ""
 }) => {
   return (
-    <Card className={`bg-card border-border shadow-md ${className}`}>
+    <Card className={`bg-transparent border-border shadow-md ${className}`}>
       <CardContent className="p-6">
         <h3 className="text-xl font-bold mb-4 text-card-foreground">Membership Information</h3>
         

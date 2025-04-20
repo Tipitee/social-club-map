@@ -5,10 +5,12 @@ import { Home, BookOpen, Cannabis, MapPin, BookText, Newspaper, Settings, LogIn 
 import { useTranslation } from "react-i18next";
 import { Capacitor } from "@capacitor/core";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/contexts/AuthContext";
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
+  const { user } = useAuth();
   const isNativePlatform = Capacitor.isNativePlatform();
   const isIOS = Capacitor.getPlatform() === 'ios';
   const isMobile = useIsMobile();
@@ -26,7 +28,7 @@ const BottomNav: React.FC = () => {
     { path: "/news", label: t('navigation.news'), icon: Newspaper },
   ];
 
-  // Add iOS header for native iOS devices
+  // Add iOS header for native iOS devices only
   const renderIOSHeader = () => {
     if (isIOS && isNativePlatform) {
       return (
@@ -48,7 +50,13 @@ const BottomNav: React.FC = () => {
               </Link>
               <Link to="/auth">
                 <div className="rounded-full bg-background/80 backdrop-blur-sm w-10 h-10 flex items-center justify-center">
-                  <LogIn className="h-5 w-5 text-foreground" />
+                  {user ? (
+                    <div className="h-5 w-5 rounded-full bg-primary text-white flex items-center justify-center">
+                      {user.email?.charAt(0).toUpperCase() || "U"}
+                    </div>
+                  ) : (
+                    <LogIn className="h-5 w-5 text-foreground" />
+                  )}
                 </div>
               </Link>
             </div>

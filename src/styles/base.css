@@ -56,9 +56,13 @@
     --navy-background: 195 53% 95%;
     --navy-foreground: 197 43% 18%;
     
-    /* Light theme ashGray colors */
+    /* Light theme ash gray colors */
     --ashGray-background: 0 0% 95%;
     --ashGray-foreground: 196 41% 17%;
+    
+    /* Light mode navy card colors */
+    --navy-card-bg-500: 195 53% 95%;
+    --navy-card-bg-200: 200 13% 95%;
   }
  
   /* Dark theme colors - completely independent from light theme */
@@ -108,9 +112,13 @@
     --navy-background: 196 33% 20%; 
     --navy-foreground: 210 40% 98%;
     
-    /* Dark theme ashGray colors */
+    /* Dark theme ash gray colors */
     --ashGray-background: 217.2 32.6% 22.5%;
     --ashGray-foreground: 215 20.2% 65.1%;
+    
+    /* Dark mode navy card colors - completely independent from light mode */
+    --navy-card-bg-500: 196 33% 20%;
+    --navy-card-bg-200: 196 33% 25%;
   }
 }
 

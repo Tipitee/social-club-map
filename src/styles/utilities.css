@@ -23,7 +23,7 @@
     padding-top: calc(env(safe-area-inset-top, 0px) + 3.5rem);
   }
 
-  /* iOS content wrapper */
+  /* iOS content wrapper with correct positioning */
   .ios-content-wrapper {
     padding-top: calc(env(safe-area-inset-top, 0px) + 56px);
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 56px);
@@ -83,7 +83,15 @@
     color: hsl(var(--alert-icon));
   }
   
-  /* Color utilities that respect theme mode */
+  /* Card backgrounds that respect theme mode */
+  .bg-navy-500 {
+    background-color: hsl(var(--navy-card-bg-500));
+  }
+  
+  .bg-navy-200 {
+    background-color: hsl(var(--navy-card-bg-200));
+  }
+  
   .bg-navy {
     background-color: hsl(var(--navy-background));
   }
