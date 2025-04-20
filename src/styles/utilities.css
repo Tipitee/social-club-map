@@ -25,8 +25,8 @@
 
   /* iOS content wrapper with correct positioning */
   .ios-content-wrapper {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 56px);
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 56px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 4rem);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4rem);
   }
 
   /* Standard transition and loading classes */

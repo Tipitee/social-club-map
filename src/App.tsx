@@ -90,14 +90,12 @@ const App = () => {
               <TooltipProvider>
                 <div className="min-h-screen bg-background text-foreground">
                   {/* Only show Navbar on non-iOS or non-native platforms */}
-                  {!(isIOS && isNativePlatform) && (
-                    <Suspense fallback={null}>
-                      <Navbar />
-                    </Suspense>
-                  )}
+                  <Suspense fallback={null}>
+                    <Navbar />
+                  </Suspense>
                   
                   {/* Apply different padding based on platform */}
-                  <div className={isIOS && isNativePlatform ? 'ios-content-wrapper pt-14 pb-16' : 'pt-16 pb-16'}>
+                  <div className={isIOS && isNativePlatform ? 'ios-content-wrapper' : 'pt-16 pb-16'}>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
