@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -71,10 +71,10 @@ const Navbar: React.FC = () => {
   }
 
   // New approach for iOS navigation - apply different styling
-  const getNavbarStyle = () => {
+  const getNavbarStyle = (): CSSProperties => {
     if (isIOS && isNativePlatform) {
       return {
-        position: 'fixed',
+        position: 'fixed' as const,
         top: 0,
         left: 0,
         right: 0,
