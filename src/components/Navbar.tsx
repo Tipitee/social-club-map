@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
     return null;
   }
 
-  // iOS navigation styling
+  // iOS navigation styling with proper typing
   const getNavbarStyle = (): CSSProperties => {
     if (isIOS && isNativePlatform) {
       return {
@@ -79,6 +79,7 @@ const Navbar: React.FC = () => {
         left: 0,
         right: 0,
         zIndex: 40,
+        paddingTop: 'env(safe-area-inset-top, 0px)'
       };
     }
     return {};
@@ -89,7 +90,7 @@ const Navbar: React.FC = () => {
       className="bg-background border-b border-border fixed left-0 right-0 z-40"
       style={getNavbarStyle()}
     >
-      <div className={`container flex items-center justify-between px-4 py-4 ${isIOS && isNativePlatform ? "pt-[env(safe-area-inset-top)]" : ""}`}>
+      <div className="container flex items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
             <div className="h-8 w-28 bg-muted animate-pulse" />
@@ -165,9 +166,6 @@ const Navbar: React.FC = () => {
           )}
         </div>
       </div>
-      
-      {/* Spacer to prevent content from being hidden under the navbar */}
-      <div className="h-[72px]"></div>
     </header>
   );
 };

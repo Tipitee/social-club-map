@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -57,21 +56,20 @@ const App = () => {
         existingMeta.remove();
       }
       
-      // Create new viewport meta with improved safe-area viewport fit
+      // Create new viewport meta with improved iOS viewport fit
       const meta = document.createElement('meta');
       meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no';
+      meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
       document.head.appendChild(meta);
       
-      // Add specific iOS styling
+      // Add iOS styling hooks
       document.documentElement.classList.add('ios-device');
-      document.documentElement.setAttribute('data-platform', 'ios');
       
-      // Add CSS variables for iOS safe areas
-      document.body.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top, 44px)');
-      document.body.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom, 34px)');
-      document.body.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left, 0px)');
-      document.body.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
+      // Add CSS variables for iOS safe areas that will be used throughout the app
+      document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top, 0px)');
+      document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom, 0px)');
+      document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left, 0px)');
+      document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
     }
   }, []);
 
@@ -123,7 +121,6 @@ const App = () => {
                           </Suspense>
                         } 
                       />
-                      {/* Load the News component directly without lazy loading to fix the import issue */}
                       <Route path="/news" element={<News />} />
                       <Route 
                         path="/guide" 

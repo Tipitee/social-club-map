@@ -13,30 +13,30 @@ const config: CapacitorConfig = {
   android: {
     androidxEnabled: true
   },
-  // Improved iOS configuration with proper safe area handling
+  // Improved iOS configuration with proper sizing and safe area handling
   ios: {
-    contentInset: 'never', // Changed to never to prevent double safe areas
+    // Set proper content mode for iOS
+    preferredContentMode: 'mobile',
+    limitsNavigationsToAppBoundDomains: true,
+    
+    // Properly handle content and scrolling
+    contentInset: 'automatic',
     allowsLinkPreview: true,
     scrollEnabled: true,
-    // Handle status bar properly
-    statusBarStyle: 'dark',
-    statusBarDefaultScrollToTop: true,
-    // Viewport settings for proper rendering
-    preferredContentMode: 'mobile',
-    // Fix status bar and notch issues
-    marginTop: 0,
-    marginBottom: 0,
-    // Additional settings
-    webViewSuspensionEnabled: false,
+    
+    // Fix viewport and rendering issues
+    overrideUserInterfaceStyle: 'light',
     hideWebViewBoundaries: true,
-    overrideUserInterfaceStyle: 'light'
+    webViewSuspensionEnabled: false,
+    
+    // Fix status bar and notch issues
+    statusBarStyle: 'dark'
   },
-  // Plugins
+  // Plugins configuration for proper status bar and keyboard handling
   plugins: {
-    // Status bar configuration for proper iOS integration
     StatusBar: {
       style: "dark",
-      overlaysWebView: false, // Changed to false to prevent overlapping with content
+      overlaysWebView: true,
       animated: true
     },
     SplashScreen: {

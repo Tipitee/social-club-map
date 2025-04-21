@@ -29,41 +29,34 @@ const BottomNav: React.FC = () => {
   const getBottomNavStyle = () => {
     if (isIOS && isNativePlatform) {
       return { 
-        paddingBottom: "env(safe-area-inset-bottom, 34px)",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
       };
     }
     return {};
   };
 
   return (
-    <>
-      <div 
-        className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 shadow-lg"
-        style={getBottomNavStyle()}
-      >
-        {/* Navigation items */}
-        <div className="flex justify-around items-center h-14">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex flex-col items-center justify-center w-full h-full ${
-                isActive(item.path) ? "text-primary" : "text-muted-foreground"
-              }`}
-              aria-label={item.label}
-            >
-              <item.icon size={isMobile ? 18 : 20} className={isActive(item.path) ? "text-primary" : ""} />
-              <span className="text-[10px] mt-1 truncate px-1 max-w-full">{item.label}</span>
-            </Link>
-          ))}
-        </div>
+    <div 
+      className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 shadow-lg"
+      style={getBottomNavStyle()}
+    >
+      {/* Navigation items */}
+      <div className="flex justify-around items-center h-14">
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={`flex flex-col items-center justify-center w-full h-full ${
+              isActive(item.path) ? "text-primary" : "text-muted-foreground"
+            }`}
+            aria-label={item.label}
+          >
+            <item.icon size={isMobile ? 18 : 20} className={isActive(item.path) ? "text-primary" : ""} />
+            <span className="text-[10px] mt-1 truncate px-1 max-w-full">{item.label}</span>
+          </Link>
+        ))}
       </div>
-      
-      {/* Add extra padding at the bottom of the page when on iOS */}
-      {isIOS && isNativePlatform && (
-        <div className="ios-bottom-spacer" />
-      )}
-    </>
+    </div>
   );
 };
 
