@@ -15,7 +15,7 @@ const config: CapacitorConfig = {
   },
   // Improved iOS configuration with proper safe area handling
   ios: {
-    contentInset: 'automatic', // Changed to automatic for better handling
+    contentInset: 'never', // Changed to never to prevent double safe areas
     allowsLinkPreview: true,
     scrollEnabled: true,
     // Handle status bar properly
@@ -36,8 +36,7 @@ const config: CapacitorConfig = {
     // Status bar configuration for proper iOS integration
     StatusBar: {
       style: "dark",
-      backgroundColor: "#FCF3E8",
-      overlaysWebView: true, // Changed to true to handle automatically
+      overlaysWebView: false, // Changed to false to prevent overlapping with content
       animated: true
     },
     SplashScreen: {

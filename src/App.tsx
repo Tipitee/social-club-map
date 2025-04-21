@@ -72,10 +72,6 @@ const App = () => {
       document.body.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom, 34px)');
       document.body.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left, 0px)');
       document.body.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
-      
-      // Apply additional styles for iOS
-      document.body.style.setProperty('padding-top', 'env(safe-area-inset-top, 0px)');
-      document.body.style.setProperty('padding-bottom', 'env(safe-area-inset-bottom, 0px)');
     }
   }, []);
 
@@ -91,7 +87,7 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main className={`pb-16 ${Capacitor.getPlatform() === 'ios' ? 'ios-main-content' : ''}`}>
+                  <main>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
