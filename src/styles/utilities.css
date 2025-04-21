@@ -27,6 +27,19 @@
     @apply animate-pulse bg-muted rounded;
   }
 
+  /* iOS-specific layout helper classes */
+  .ios-status-bar-spacer {
+    height: env(safe-area-inset-top, 44px);
+  }
+  
+  .ios-bottom-spacer {
+    height: env(safe-area-inset-bottom, 34px);
+  }
+  
+  .ios-navbar {
+    padding-top: env(safe-area-inset-top, 44px);
+  }
+
   /* Ensure proper scrolling for iOS */
   html {
     overflow: hidden;
@@ -41,7 +54,7 @@
     -webkit-overflow-scrolling: touch;
   }
   
-  /* Theme-specific custom classes - properly separated for light and dark modes */
+  /* Theme-specific custom classes - using the new theme variable system */
   .bg-info-background {
     background-color: hsl(var(--info-background));
   }

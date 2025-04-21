@@ -57,4 +57,17 @@
     display: inline-flex !important;
     align-items: center !important;
   }
+  
+  /* iOS specific styling */
+  .ios-device .navbar-container {
+    padding-top: env(safe-area-inset-top, 44px);
+  }
+  
+  .ios-device .bottom-nav-container {
+    padding-bottom: env(safe-area-inset-bottom, 34px);
+  }
+  
+  .ios-main-content {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
 }

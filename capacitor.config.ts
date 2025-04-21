@@ -9,13 +9,13 @@ const config: CapacitorConfig = {
     url: 'https://15770c0b-47a8-4101-8256-7925008c6bad.lovableproject.com?forceHideBadge=true',
     cleartext: true
   },
-  // Enable AndroidX support
+  // Enhanced Android configuration
   android: {
     androidxEnabled: true
   },
-  // Enhanced iOS configuration with proper safe area handling
+  // Improved iOS configuration with proper safe area handling
   ios: {
-    contentInset: 'never', // Changed from 'automatic' to ensure exact control
+    contentInset: 'automatic', // Changed to automatic for better handling
     allowsLinkPreview: true,
     scrollEnabled: true,
     // Handle status bar properly
@@ -24,11 +24,11 @@ const config: CapacitorConfig = {
     // Viewport settings for proper rendering
     preferredContentMode: 'mobile',
     // Fix status bar and notch issues
-    marginTop: 0, // Let CSS handle this with env() variables
-    marginBottom: 0, // Let CSS handle this with env() variables
+    marginTop: 0,
+    marginBottom: 0,
     // Additional settings
     webViewSuspensionEnabled: false,
-    hideWebViewBoundaries: true, // Important to hide any unexpected boundaries
+    hideWebViewBoundaries: true,
     overrideUserInterfaceStyle: 'light'
   },
   // Plugins
@@ -37,11 +37,19 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: "dark",
       backgroundColor: "#FCF3E8",
-      overlaysWebView: false // Important change
+      overlaysWebView: true, // Changed to true to handle automatically
+      animated: true
     },
     SplashScreen: {
       launchAutoHide: true,
-      showSpinner: false
+      showSpinner: false,
+      androidSplashResourceName: "splash",
+      androidScaleType: "CENTER_CROP"
+    },
+    Keyboard: {
+      resize: "body",
+      style: "dark",
+      resizeOnFullScreen: true
     }
   }
 };

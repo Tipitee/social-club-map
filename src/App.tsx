@@ -57,23 +57,25 @@ const App = () => {
         existingMeta.remove();
       }
       
-      // Create new viewport meta with safe-area viewport fit
+      // Create new viewport meta with improved safe-area viewport fit
       const meta = document.createElement('meta');
       meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no';
+      meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no';
       document.head.appendChild(meta);
       
       // Add specific iOS styling
       document.documentElement.classList.add('ios-device');
       document.documentElement.setAttribute('data-platform', 'ios');
       
-      console.log("iOS viewport meta configured for safe area");
+      // Add CSS variables for iOS safe areas
+      document.body.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top, 44px)');
+      document.body.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom, 34px)');
+      document.body.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left, 0px)');
+      document.body.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
       
-      // Create CSS variables for iOS safe areas
-      document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
-      document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
-      document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left)');
-      document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right)');
+      // Apply additional styles for iOS
+      document.body.style.setProperty('padding-top', 'env(safe-area-inset-top, 0px)');
+      document.body.style.setProperty('padding-bottom', 'env(safe-area-inset-bottom, 0px)');
     }
   }, []);
 
@@ -89,7 +91,7 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main className="pb-16">
+                  <main className={`pb-16 ${Capacitor.getPlatform() === 'ios' ? 'ios-main-content' : ''}`}>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

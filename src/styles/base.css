@@ -8,90 +8,168 @@
     @apply border-border;
   }
   
-  /* Light theme (default) - completely separate CSS variables */
+  /* Light theme (default) with explicit light- prefix for all variables */
   :root {
-    --background: 34 67% 95%;
-    --foreground: 197 43% 18%;
-    --card: 0 0% 100%;
-    --card-foreground: 197 43% 18%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 197 43% 18%;
-    --primary: 174 59% 39%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 29 88% 67%;
-    --secondary-foreground: 196 41% 17%;
-    --muted: 200 14% 92%;
-    --muted-foreground: 196 41% 17%;
-    --accent: 200 13% 95%;
-    --accent-foreground: 196 41% 17%;
-    --destructive: 14 71% 61%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 200 14% 80%;
-    --input: 200 14% 80%;
-    --ring: 196 41% 17%;
-    --radius: 0.5rem;
+    /* Base theme colors */
+    --light-background: 34 67% 95%;
+    --light-foreground: 197 43% 18%;
+    --light-card: 0 0% 100%;
+    --light-card-foreground: 197 43% 18%;
+    --light-popover: 0 0% 100%;
+    --light-popover-foreground: 197 43% 18%;
+    --light-primary: 174 59% 39%;
+    --light-primary-foreground: 210 40% 98%;
+    --light-secondary: 29 88% 67%;
+    --light-secondary-foreground: 196 41% 17%;
+    --light-muted: 200 14% 92%;
+    --light-muted-foreground: 196 41% 17%;
+    --light-accent: 200 13% 95%;
+    --light-accent-foreground: 196 41% 17%;
+    --light-destructive: 14 71% 61%;
+    --light-destructive-foreground: 210 40% 98%;
+    --light-border: 200 14% 80%;
+    --light-input: 200 14% 80%;
+    --light-ring: 196 41% 17%;
     
     /* Light theme alert variables */
-    --alert-background: 0 0% 100%;
-    --alert-foreground: 197 43% 18%;
-    --alert-border: 200 14% 80%;
-    --alert-title: 197 43% 18%;
-    --alert-description: 196 41% 40%;
-    --alert-icon: 174 59% 39%;
+    --light-alert-background: 0 0% 100%;
+    --light-alert-foreground: 197 43% 18%;
+    --light-alert-border: 200 14% 80%;
+    --light-alert-title: 197 43% 18%;
+    --light-alert-description: 196 41% 40%;
+    --light-alert-icon: 174 59% 39%;
     
     /* Light theme info alert variables */
-    --info-background: 195 53% 95%;
-    --info-border: 174 59% 39%;
-    --info-title: 197 43% 18%;
-    --info-description: 196 41% 40%;
-    --info-icon: 174 59% 39%;
+    --light-info-background: 195 53% 95%;
+    --light-info-border: 174 59% 39%;
+    --light-info-title: 197 43% 18%;
+    --light-info-description: 196 41% 40%;
+    --light-info-icon: 174 59% 39%;
     
     /* Light theme back button variables */
-    --back-button-bg: 152 22% 76%;
-    --back-button-hover: 152 15% 68%;
-    --back-button-text: 197 43% 18%;
+    --light-back-button-bg: 152 22% 76%;
+    --light-back-button-hover: 152 15% 68%;
+    --light-back-button-text: 197 43% 18%;
+    
+    /* Set the current theme variables */
+    --background: var(--light-background);
+    --foreground: var(--light-foreground);
+    --card: var(--light-card);
+    --card-foreground: var(--light-card-foreground);
+    --popover: var(--light-popover);
+    --popover-foreground: var(--light-popover-foreground);
+    --primary: var(--light-primary);
+    --primary-foreground: var(--light-primary-foreground);
+    --secondary: var(--light-secondary);
+    --secondary-foreground: var(--light-secondary-foreground);
+    --muted: var(--light-muted);
+    --muted-foreground: var(--light-muted-foreground);
+    --accent: var(--light-accent);
+    --accent-foreground: var(--light-accent-foreground);
+    --destructive: var(--light-destructive);
+    --destructive-foreground: var(--light-destructive-foreground);
+    --border: var(--light-border);
+    --input: var(--light-input);
+    --ring: var(--light-ring);
+    --radius: 0.5rem;
+    
+    --alert-background: var(--light-alert-background);
+    --alert-foreground: var(--light-alert-foreground);
+    --alert-border: var(--light-alert-border);
+    --alert-title: var(--light-alert-title);
+    --alert-description: var(--light-alert-description);
+    --alert-icon: var(--light-alert-icon);
+    
+    --info-background: var(--light-info-background);
+    --info-border: var(--light-info-border);
+    --info-title: var(--light-info-title);
+    --info-description: var(--light-info-description);
+    --info-icon: var(--light-info-icon);
+    
+    --back-button-bg: var(--light-back-button-bg);
+    --back-button-hover: var(--light-back-button-hover);
+    --back-button-text: var(--light-back-button-text);
   }
  
-  /* Dark theme colors - completely separate from light theme */
+  /* Dark theme colors with explicit dark- prefix for all variables */
   .dark {
-    --background: 197 43% 18%;
-    --foreground: 210 40% 98%;
-    --card: 196 33% 32%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 174 59% 39%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 29 88% 67%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    /* Base theme colors */
+    --dark-background: 197 43% 18%;
+    --dark-foreground: 210 40% 98%;
+    --dark-card: 196 33% 32%;
+    --dark-card-foreground: 210 40% 98%;
+    --dark-popover: 222.2 84% 4.9%;
+    --dark-popover-foreground: 210 40% 98%;
+    --dark-primary: 174 59% 39%;
+    --dark-primary-foreground: 222.2 47.4% 11.2%;
+    --dark-secondary: 29 88% 67%;
+    --dark-secondary-foreground: 210 40% 98%;
+    --dark-muted: 217.2 32.6% 17.5%;
+    --dark-muted-foreground: 215 20.2% 65.1%;
+    --dark-accent: 217.2 32.6% 17.5%;
+    --dark-accent-foreground: 210 40% 98%;
+    --dark-destructive: 0 62.8% 30.6%;
+    --dark-destructive-foreground: 210 40% 98%;
+    --dark-border: 217.2 32.6% 17.5%;
+    --dark-input: 217.2 32.6% 17.5%;
+    --dark-ring: 212.7 26.8% 83.9%;
     
-    /* Dark theme alert variables - completely separate */
-    --alert-background: 196 33% 25%;
-    --alert-foreground: 210 40% 98%;
-    --alert-border: 217.2 32.6% 17.5%;
-    --alert-title: 0 0% 100%;
-    --alert-description: 214 32% 91%;
-    --alert-icon: 174 59% 50%;
+    /* Dark theme alert variables */
+    --dark-alert-background: 196 33% 25%;
+    --dark-alert-foreground: 210 40% 98%;
+    --dark-alert-border: 217.2 32.6% 17.5%;
+    --dark-alert-title: 0 0% 100%;
+    --dark-alert-description: 214 32% 91%;
+    --dark-alert-icon: 174 59% 50%;
     
-    /* Dark theme info alert variables - completely separate */
-    --info-background: 196 80% 15%;
-    --info-border: 174 59% 25%;
-    --info-title: 0 0% 100%;
-    --info-description: 214 32% 91%;
-    --info-icon: 174 59% 50%;
+    /* Dark theme info alert variables */
+    --dark-info-background: 196 80% 15%;
+    --dark-info-border: 174 59% 25%;
+    --dark-info-title: 0 0% 100%;
+    --dark-info-description: 214 32% 91%;
+    --dark-info-icon: 174 59% 50%;
     
-    /* Dark theme back button variables - completely separate */
-    --back-button-bg: 196 33% 25%;
-    --back-button-hover: 196 33% 20%;
-    --back-button-text: 210 40% 98%;
+    /* Dark theme back button variables */
+    --dark-back-button-bg: 196 33% 25%;
+    --dark-back-button-hover: 196 33% 20%;
+    --dark-back-button-text: 210 40% 98%;
+    
+    /* Set the current theme variables */
+    --background: var(--dark-background);
+    --foreground: var(--dark-foreground);
+    --card: var(--dark-card);
+    --card-foreground: var(--dark-card-foreground);
+    --popover: var(--dark-popover);
+    --popover-foreground: var(--dark-popover-foreground);
+    --primary: var(--dark-primary);
+    --primary-foreground: var(--dark-primary-foreground);
+    --secondary: var(--dark-secondary);
+    --secondary-foreground: var(--dark-secondary-foreground);
+    --muted: var(--dark-muted);
+    --muted-foreground: var(--dark-muted-foreground);
+    --accent: var(--dark-accent);
+    --accent-foreground: var(--dark-accent-foreground);
+    --destructive: var(--dark-destructive);
+    --destructive-foreground: var(--dark-destructive-foreground);
+    --border: var(--dark-border);
+    --input: var(--dark-input);
+    --ring: var(--dark-ring);
+    
+    --alert-background: var(--dark-alert-background);
+    --alert-foreground: var(--dark-alert-foreground);
+    --alert-border: var(--dark-alert-border);
+    --alert-title: var(--dark-alert-title);
+    --alert-description: var(--dark-alert-description);
+    --alert-icon: var(--dark-alert-icon);
+    
+    --info-background: var(--dark-info-background);
+    --info-border: var(--dark-info-border);
+    --info-title: var(--dark-info-title);
+    --info-description: var(--dark-info-description);
+    --info-icon: var(--dark-info-icon);
+    
+    --back-button-bg: var(--dark-back-button-bg);
+    --back-button-hover: var(--dark-back-button-hover);
+    --back-button-text: var(--dark-back-button-text);
   }
 }

@@ -70,18 +70,32 @@ const Navbar: React.FC = () => {
     return null;
   }
 
-  // Calculate navbar position based on platform 
-  const navbarStyle = isIOS && isNativePlatform 
-    ? { top: 0, paddingTop: "env(safe-area-inset-top, 44px)" }
-    : { top: 0 };
+  // New approach for iOS navigation - apply different styling
+  const getNavbarStyle = () => {
+    if (isIOS && isNativePlatform) {
+      return {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 40,
+      };
+    }
+    return {};
+  };
 
   return (
     <>
+      {/* iOS status bar spacer - only shown on iOS devices */}
+      {isIOS && isNativePlatform && (
+        <div className="ios-status-bar-spacer bg-background" />
+      )}
+      
       <header 
-        className={`bg-background border-b border-border fixed left-0 right-0 z-40`}
-        style={navbarStyle}
+        className="bg-background border-b border-border fixed left-0 right-0 z-40"
+        style={getNavbarStyle()}
       >
-        <div className="container flex items-center justify-between px-4 py-4">
+        <div className={`container flex items-center justify-between px-4 py-4 ${isIOS && isNativePlatform ? "pt-0" : ""}`}>
           <Link to="/" className="flex items-center font-bold text-xl">
             {logoLoading ? (
               <div className="h-8 w-28 bg-muted animate-pulse" />
@@ -159,8 +173,8 @@ const Navbar: React.FC = () => {
         </div>
       </header>
       
-      {/* Spacer for fixed header */}
-      <div className="h-[72px]"></div>
+      {/* Spacer for fixed header - dynamic height based on platform */}
+      <div className={`${isIOS && isNativePlatform ? "h-[116px]" : "h-[72px]"}`}></div>
     </>
   );
 };

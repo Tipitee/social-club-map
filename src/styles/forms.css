@@ -4,9 +4,9 @@
 .dark input[type="email"], 
 .dark input[type="search"],
 .dark select {
-  background-color: hsl(196 29% 31%) !important; 
-  color: rgb(240, 240, 240) !important;
-  border-color: hsl(196 33% 38%) !important;
+  background-color: hsl(var(--dark-card)) !important; 
+  color: hsl(var(--dark-foreground)) !important;
+  border-color: hsl(var(--dark-border)) !important;
 }
 
 input[type="text"], 
@@ -14,9 +14,9 @@ input[type="number"],
 input[type="email"], 
 input[type="search"],
 select {
-  background-color: white !important;
-  color: hsl(197 43% 18%) !important;
-  border-color: hsl(200 14% 80%) !important;
+  background-color: hsl(var(--light-card)) !important;
+  color: hsl(var(--light-foreground)) !important;
+  border-color: hsl(var(--light-border)) !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
 
