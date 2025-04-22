@@ -83,7 +83,14 @@ const Navbar: React.FC = () => {
         height: 'auto'
       };
     }
-    return {};
+    return {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 40,
+      height: 'auto'
+    };
   };
 
   return (

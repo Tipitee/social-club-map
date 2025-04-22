@@ -86,7 +86,7 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main>
+                  <main className="pt-16"> {/* Add consistent top padding for all pages */}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

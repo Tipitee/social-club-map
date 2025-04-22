@@ -1,12 +1,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import Navbar from "@/components/Navbar";
 import { useClubDetail } from "@/hooks/use-club-detail";
 import ClubLoading from "@/components/club/ClubLoading";
 import ClubError from "@/components/club/ClubError";
 import ClubContent from "@/components/club/ClubContent";
-import BottomNav from "@/components/BottomNav";
 import { Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Capacitor } from "@capacitor/core";
@@ -85,27 +83,22 @@ const ClubDetail: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-background pt-16">
-        <Navbar />
+      <div className="min-h-screen bg-background">
         <ClubLoading />
-        <BottomNav />
       </div>
     );
   }
 
   if (error || !club) {
     return (
-      <div className="min-h-screen bg-background pt-16">
-        <Navbar />
+      <div className="min-h-screen bg-background">
         <ClubError error={error} />
-        <BottomNav />
       </div>
     );
   }
   
   return (
-    <div className="min-h-screen bg-background pb-20 pt-16">
-      <Navbar />
+    <div className="min-h-screen bg-background pb-20">
       <div className="container px-4 max-w-7xl mx-auto relative">
         {isNative && (
           <div className="absolute top-2 right-2 z-10">

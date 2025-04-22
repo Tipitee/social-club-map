@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Navbar from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,9 +20,7 @@ const SEARCH_RESULTS_STORAGE_KEY = "club-search-results";
 const SEARCH_QUERY_STORAGE_KEY = "club-search-query";
 
 const ClubMapPage: React.FC = () => {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const {
@@ -111,8 +108,9 @@ const ClubMapPage: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-background text-foreground pb-28 pt-16">
-      <Navbar />
+    <div className="min-h-screen bg-background text-foreground pb-28">
+      {/* Removed duplicate Navbar here as it's already in App.tsx */}
+      
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">
           {t('clubs.findLocalClub')}
@@ -221,7 +219,6 @@ const ClubMapPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-      <BottomNav />
     </div>
   );
 };

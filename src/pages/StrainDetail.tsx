@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -7,25 +8,19 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { fetchStrainById } from "@/services/strainService";
 import StrainReviews from "@/components/StrainReviews";
-import Navbar from "@/components/Navbar";
+
 const StrainDetail: React.FC = () => {
-  const {
-    id
-  } = useParams();
-  const {
-    t
-  } = useTranslation();
+  const { id } = useParams();
+  const { t } = useTranslation();
 
   // Detect theme for styling
   const isDarkMode = document.documentElement.classList.contains('dark');
-  const {
-    data: strain,
-    error,
-    isLoading
-  } = useQuery({
+  
+  const { data: strain, error, isLoading } = useQuery({
     queryKey: ['strain', id],
     queryFn: () => fetchStrainById(id || '')
   });
+
   const getTypeIcon = (type: string) => {
     switch (type) {
       case "Indica":
@@ -37,6 +32,7 @@ const StrainDetail: React.FC = () => {
         return <CircleDashed className="h-5 w-5 text-emerald-500" />;
     }
   };
+
   const getTypeColor = (type: string) => {
     switch (type) {
       case "Indica":
@@ -55,11 +51,13 @@ const StrainDetail: React.FC = () => {
   const getCardBgColor = () => isDarkMode ? "bg-card" : "bg-white";
   const getCardBorderColor = () => isDarkMode ? "border-primary/20" : "border-primary/10";
   const getMutedTextColor = () => isDarkMode ? "text-muted-foreground" : "text-gray-500";
+
   if (isLoading) {
     return <div className={`flex items-center justify-center h-screen ${getBackgroundColor()} ${getTextColor()}`}>
         <div className="h-8 w-8 border-t-2 border-primary rounded-full animate-spin"></div>
       </div>;
   }
+
   if (error || !strain) {
     return <div className={`container px-4 py-6 mb-20 ${getBackgroundColor()} ${getTextColor()}`}>
         <h1 className="text-2xl font-bold mb-4">{t('strains.strainNotFound')}</h1>
@@ -77,8 +75,8 @@ const StrainDetail: React.FC = () => {
   // Get valid effects, filtering out "Unknown" values
   const displayEffects = strain.effects.filter(effect => effect && effect.effect && effect.effect !== "Unknown").sort((a, b) => b.intensity - a.intensity).slice(0, 3); // Only show top 3 effects
 
-  return <div className={`min-h-screen ${getBackgroundColor()} ${getTextColor()} pb-20`}>
-      <Navbar />
+  return (
+    <div className={`min-h-screen ${getBackgroundColor()} ${getTextColor()} pb-20`}>
       <main className="container px-4 py-8 max-w-5xl mx-auto mb-20">
         <div className="mb-6">
           <Link to="/strains">
@@ -183,6 +181,8 @@ const StrainDetail: React.FC = () => {
           <StrainReviews strainId={id || '1'} strainName={strain.name} />
         </div>
       </main>
-    </div>;
+    </div>
+  );
 };
+
 export default StrainDetail;
