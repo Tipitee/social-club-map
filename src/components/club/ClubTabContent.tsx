@@ -1,4 +1,3 @@
-
 import React from "react";
 import ClubAbout from "./ClubAbout";
 import ClubMembership from "./ClubMembership";
@@ -33,7 +32,7 @@ const ClubTabContent: React.FC<ClubTabContentProps> = ({
     return <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - About & Details */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="rounded-lg p-5 shadow-sm border border-border bg-card">
+          <div className="rounded-lg p-5 shadow-sm border border-border bg-ashGray-500">
             <ClubAbout club={club} specialties={details.specialties} facilities={details.facilities} />
           </div>
           
