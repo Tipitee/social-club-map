@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -6,29 +5,23 @@ import NewsCard from "@/components/news/NewsCard";
 import NewsFilters from "@/components/news/NewsFilters";
 import { newsItems } from "@/data/newsData";
 import { Capacitor } from "@capacitor/core";
-
 const News: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const {
+    t,
+    i18n
+  } = useTranslation();
   const [activeTab, setActiveTab] = useState("all");
   const [visibleCount, setVisibleCount] = useState(6);
-  
-  const filteredNews = activeTab === "all" 
-    ? newsItems 
-    : newsItems.filter(item => item.category === activeTab);
-  
+  const filteredNews = activeTab === "all" ? newsItems : newsItems.filter(item => item.category === activeTab);
   const displayedNews = filteredNews.slice(0, visibleCount);
   const hasMore = displayedNews.length < filteredNews.length;
-  
   const isGerman = i18n.language === 'de';
   const isIOS = Capacitor.getPlatform() === 'ios';
   const isNativePlatform = Capacitor.isNativePlatform();
-  
   const loadMore = () => {
     setVisibleCount(prev => prev + 4);
   };
-  
-  return (
-    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 pt-16">
+  return <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 pt-16 py-0">
       <div className={`container px-4 pt-6 pb-6 max-w-7xl mx-auto ${isIOS && isNativePlatform ? 'pt-4' : 'pt-6'}`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
           {t('navigation.news')}
@@ -44,26 +37,16 @@ const News: React.FC = () => {
           </div>
           
           <div className="space-y-6">
-            {displayedNews.map((item) => (
-              <NewsCard key={item.id} item={item} isGerman={isGerman} />
-            ))}
+            {displayedNews.map(item => <NewsCard key={item.id} item={item} isGerman={isGerman} />)}
           </div>
           
-          {hasMore && (
-            <div className="mt-8 text-center">
-              <Button 
-                onClick={loadMore}
-                variant="outline"
-                className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10"
-              >
+          {hasMore && <div className="mt-8 text-center">
+              <Button onClick={loadMore} variant="outline" className="border-navy-DEFAULT dark:border-navy-light text-navy-dark dark:text-white hover:bg-navy-DEFAULT/10 dark:hover:bg-white/10">
                 {t('news.loadMore')}
               </Button>
-            </div>
-          )}
+            </div>}
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default News;
