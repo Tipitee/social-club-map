@@ -70,29 +70,25 @@ const Navbar: React.FC = () => {
     return null;
   }
 
-  // iOS navigation styling with proper typing and fixed positioning
+  // iOS navigation styling with proper typing
   const getNavbarStyle = (): CSSProperties => {
-    const baseStyles: CSSProperties = {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 50,
-      height: 'auto'
-    };
-    
     if (isIOS && isNativePlatform) {
       return {
-        ...baseStyles,
-        paddingTop: 'env(safe-area-inset-top, 0px)'
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 40,
+        paddingTop: 'env(safe-area-inset-top, 0px)',
+        height: 'auto'
       };
     }
-    return baseStyles;
+    return {};
   };
 
   return (
     <header 
-      className="bg-background border-b border-border"
+      className="bg-background border-b border-border fixed left-0 right-0 z-40"
       style={getNavbarStyle()}
     >
       <div className="container flex items-center justify-between px-4 py-3">

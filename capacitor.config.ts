@@ -15,21 +15,21 @@ const config: CapacitorConfig = {
   },
   // Improved iOS configuration with proper sizing and safe area handling
   ios: {
-    // Set proper content mode for iOS with improved viewport sizing
+    // Set proper content mode for iOS
     preferredContentMode: 'mobile',
     limitsNavigationsToAppBoundDomains: true,
     
-    // Properly handle content and scrolling with better defaults
+    // Properly handle content and scrolling
     contentInset: 'automatic',
     allowsLinkPreview: true,
     scrollEnabled: true,
     
-    // Fix viewport and rendering issues by ensuring proper scaling
+    // Fix viewport and rendering issues
     overrideUserInterfaceStyle: 'light',
     hideWebViewBoundaries: true,
     webViewSuspensionEnabled: false,
     
-    // Fix status bar and notch issues with consistent style
+    // Fix status bar and notch issues
     statusBarStyle: "dark"
   },
   // Plugins configuration for proper status bar and keyboard handling

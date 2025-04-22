@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, Edit, User, Save, Loader2, LogOut, X } from "lucide-react";
@@ -158,7 +157,7 @@ const Profile: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 pt-16">
+      <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
         <Navbar />
         <div className="container px-4 py-8 flex justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -170,7 +169,7 @@ const Profile: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 pt-16">
+      <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
         <Navbar />
         <div className="container px-4 py-8 max-w-md mx-auto">
           <Card className="bg-white dark:bg-navy-light border-navy-DEFAULT dark:border-navy-light shadow-md">
@@ -194,7 +193,7 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 pt-16">
+    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
       <div className="container px-4 py-8 max-w-xl mx-auto relative">
         <Button 
