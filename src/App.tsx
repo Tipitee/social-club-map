@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,7 +13,7 @@ import { Capacitor } from "@capacitor/core";
 import StrainExplorer from "./pages/StrainExplorer";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
-import News from "./pages/News"; // Directly import News to avoid dynamic import issues
+import News from "./pages/News"; 
 
 // Lazy load non-critical routes for performance optimization
 const StrainDetail = lazy(() => import("./pages/StrainDetail"));
@@ -31,7 +30,7 @@ const Navbar = lazy(() => import("./components/Navbar"));
 
 // Loading fallback component
 const PageLoading = () => (
-  <div className="min-h-screen bg-background flex items-center justify-center">
+  <div className="min-h-screen bg-background flex items-center justify-center pt-16">
     <div className="animate-spin h-10 w-10 border-4 border-primary rounded-full border-t-transparent"></div>
   </div>
 );
@@ -72,6 +71,23 @@ const App = () => {
       document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left, 0px)');
       document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
     }
+    
+    // Add global styles for all pages to ensure proper padding with fixed navbar
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .shadcn-ui-page-container {
+        padding-top: 4rem; /* 64px for navbar height */
+      }
+      
+      .ios-device .shadcn-ui-page-container {
+        padding-top: calc(4rem + env(safe-area-inset-top, 0px));
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
   }, []);
 
   return (
