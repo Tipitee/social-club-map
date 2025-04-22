@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { Capacitor } from "@capacitor/core";
-
 const Home: React.FC = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
+  const {
+    t
+  } = useTranslation();
+  const {
+    user
+  } = useAuth();
   const isIOS = Capacitor.getPlatform() === 'ios';
   const isNativePlatform = Capacitor.isNativePlatform();
-  
   const sections = [{
     path: "/journal",
     icon: Book,
@@ -48,7 +50,6 @@ const Home: React.FC = () => {
     description: t('settings.preferences'),
     cardClass: "home-card-settings"
   }];
-
   return <div className="min-h-screen pb-20 bg-linen dark:bg-navy-dark pt-16 py-0">
       <div className={`container py-6 px-4 sm:px-[44px] ${isIOS && isNativePlatform ? 'pt-2' : 'pt-2'}`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -69,5 +70,4 @@ const Home: React.FC = () => {
       </div>
     </div>;
 };
-
 export default Home;
