@@ -74,12 +74,13 @@ const Navbar: React.FC = () => {
   const getNavbarStyle = (): CSSProperties => {
     if (isIOS && isNativePlatform) {
       return {
-        position: 'fixed' as const,
+        position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         zIndex: 40,
-        paddingTop: 'env(safe-area-inset-top, 0px)'
+        paddingTop: 'env(safe-area-inset-top, 0px)',
+        height: 'auto'
       };
     }
     return {};
@@ -90,7 +91,7 @@ const Navbar: React.FC = () => {
       className="bg-background border-b border-border fixed left-0 right-0 z-40"
       style={getNavbarStyle()}
     >
-      <div className="container flex items-center justify-between px-4 py-4">
+      <div className="container flex items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
             <div className="h-8 w-28 bg-muted animate-pulse" />

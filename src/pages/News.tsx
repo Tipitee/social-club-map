@@ -1,11 +1,11 @@
 
 import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import NewsCard from "@/components/news/NewsCard";
 import NewsFilters from "@/components/news/NewsFilters";
 import { newsItems } from "@/data/newsData";
+import { Capacitor } from "@capacitor/core";
 
 const News: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -20,6 +20,8 @@ const News: React.FC = () => {
   const hasMore = displayedNews.length < filteredNews.length;
   
   const isGerman = i18n.language === 'de';
+  const isIOS = Capacitor.getPlatform() === 'ios';
+  const isNativePlatform = Capacitor.isNativePlatform();
   
   const loadMore = () => {
     setVisibleCount(prev => prev + 4);
@@ -27,8 +29,7 @@ const News: React.FC = () => {
   
   return (
     <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
-      <Navbar />
-      <div className="container px-4 py-6 max-w-7xl mx-auto">
+      <div className={`container px-4 pt-20 pb-6 max-w-7xl mx-auto ${isIOS && isNativePlatform ? 'pt-24' : 'pt-20'}`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
           {t('navigation.news')}
         </h1>
