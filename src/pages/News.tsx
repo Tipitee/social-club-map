@@ -21,8 +21,8 @@ const News: React.FC = () => {
     setVisibleCount(prev => prev + 4);
   };
 
-  return <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 pt-16 py-0">
-      <div className={`container px-4 pt-2 pb-6 max-w-7xl mx-auto ${isIOS && isNativePlatform ? 'pt-2' : 'pt-2'}`}>
+  return <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 py-0">
+      <div className={`container px-4 pt-0 pb-6 max-w-7xl mx-auto`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
           {t('navigation.news')}
         </h1>
