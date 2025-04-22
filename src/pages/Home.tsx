@@ -59,7 +59,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen pb-20 bg-linen dark:bg-navy-dark pt-16">
-      <div className={`container py-6 px-4 sm:px-[44px] ${isIOS && isNativePlatform ? 'pt-8' : 'pt-4'}`}>
+      <div className={`container py-6 px-4 sm:px-[44px] ${isIOS && isNativePlatform ? 'pt-4' : 'pt-4'}`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map(section => (
             <Link 
