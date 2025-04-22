@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,11 +29,9 @@ const BottomNav = lazy(() => import("./components/BottomNav"));
 const Navbar = lazy(() => import("./components/Navbar"));
 
 // Loading fallback component
-const PageLoading = () => (
-  <div className="min-h-screen bg-background flex items-center justify-center">
+const PageLoading = () => <div className="min-h-screen bg-background flex items-center justify-center">
     <div className="animate-spin h-10 w-10 border-4 border-primary rounded-full border-t-transparent"></div>
-  </div>
-);
+  </div>;
 
 // Configure React Query client with optimized settings for production
 const queryClient = new QueryClient({
@@ -42,11 +39,10 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: 1,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-    },
-  },
+      staleTime: 5 * 60 * 1000 // 5 minutes
+    }
+  }
 });
-
 const App = () => {
   // Set up proper viewport meta for iOS
   useEffect(() => {
@@ -56,16 +52,16 @@ const App = () => {
       if (existingMeta) {
         existingMeta.remove();
       }
-      
+
       // Create new viewport meta with improved iOS viewport fit
       const meta = document.createElement('meta');
       meta.name = 'viewport';
       meta.content = 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
       document.head.appendChild(meta);
-      
+
       // Add iOS styling hooks
       document.documentElement.classList.add('ios-device');
-      
+
       // Add CSS variables for iOS safe areas that will be used throughout the app
       document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top, 0px)');
       document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom, 0px)');
@@ -73,9 +69,7 @@ const App = () => {
       document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
     }
   }, []);
-
-  return (
-    <QueryClientProvider client={queryClient}>
+  return <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <LanguageProvider>
           <ThemeProvider defaultTheme="system" storageKey="ui-theme">
@@ -86,96 +80,49 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main className="pt-16"> {/* Add consistent top padding for all pages */}
+                  <main className="pt-16 py-[81px]"> {/* Add consistent top padding for all pages */}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
-                      <Route 
-                        path="/strains/:id" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                      <Route path="/strains/:id" element={<Suspense fallback={<PageLoading />}>
                             <StrainDetail />
-                          </Suspense>
-                        } 
-                      />
-                      <Route 
-                        path="/clubs" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                          </Suspense>} />
+                      <Route path="/clubs" element={<Suspense fallback={<PageLoading />}>
                             <ClubMap />
-                          </Suspense>
-                        } 
-                      />
-                      <Route 
-                        path="/clubs/:id" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                          </Suspense>} />
+                      <Route path="/clubs/:id" element={<Suspense fallback={<PageLoading />}>
                             <ClubDetail />
-                          </Suspense>
-                        } 
-                      />
-                      <Route 
-                        path="/journal" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                          </Suspense>} />
+                      <Route path="/journal" element={<Suspense fallback={<PageLoading />}>
                             <Journal />
-                          </Suspense>
-                        } 
-                      />
+                          </Suspense>} />
                       <Route path="/news" element={<News />} />
-                      <Route 
-                        path="/guide" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                      <Route path="/guide" element={<Suspense fallback={<PageLoading />}>
                             <CannabisGuide />
-                          </Suspense>
-                        } 
-                      />
-                      <Route 
-                        path="/profile" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                          </Suspense>} />
+                      <Route path="/profile" element={<Suspense fallback={<PageLoading />}>
                             <Profile />
-                          </Suspense>
-                        } 
-                      />
-                      <Route 
-                        path="/settings" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                          </Suspense>} />
+                      <Route path="/settings" element={<Suspense fallback={<PageLoading />}>
                             <Settings />
-                          </Suspense>
-                        } 
-                      />
+                          </Suspense>} />
                       <Route path="/auth" element={<Auth />} />
-                      <Route 
-                        path="/admin-tools" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                      <Route path="/admin-tools" element={<Suspense fallback={<PageLoading />}>
                             <AdminTools />
-                          </Suspense>
-                        } 
-                      />
+                          </Suspense>} />
                       <Route path="/admin" element={<Navigate to="/admin-tools" replace />} />
-                      <Route 
-                        path="*" 
-                        element={
-                          <Suspense fallback={<PageLoading />}>
+                      <Route path="*" element={<Suspense fallback={<PageLoading />}>
                             <NotFound />
-                          </Suspense>
-                        } 
-                      />
+                          </Suspense>} />
                     </Routes>
                   </main>
                   
                   {/* Bottom Navigation Bar - visible on all pages except Auth */}
                   <Routes>
                     <Route path="/auth" element={null} />
-                    <Route path="*" element={
-                      <Suspense fallback={null}>
+                    <Route path="*" element={<Suspense fallback={null}>
                         <BottomNav />
-                      </Suspense>
-                    } />
+                      </Suspense>} />
                   </Routes>
                 </div>
                 <Toaster />
@@ -185,8 +132,6 @@ const App = () => {
           </ThemeProvider>
         </LanguageProvider>
       </BrowserRouter>
-    </QueryClientProvider>
-  );
+    </QueryClientProvider>;
 };
-
 export default App;
