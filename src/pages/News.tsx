@@ -28,8 +28,8 @@ const News: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
-      <div className={`container px-4 pt-20 pb-6 max-w-7xl mx-auto ${isIOS && isNativePlatform ? 'pt-24' : 'pt-20'}`}>
+    <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 pt-16">
+      <div className={`container px-4 pt-6 pb-6 max-w-7xl mx-auto ${isIOS && isNativePlatform ? 'pt-8' : 'pt-6'}`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
           {t('navigation.news')}
         </h1>

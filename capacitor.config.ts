@@ -30,7 +30,7 @@ const config: CapacitorConfig = {
     webViewSuspensionEnabled: false,
     
     // Fix status bar and notch issues
-    statusBarStyle: 'dark'
+    statusBarStyle: "dark"
   },
   // Plugins configuration for proper status bar and keyboard handling
   plugins: {

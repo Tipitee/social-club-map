@@ -111,7 +111,7 @@ const ClubMapPage: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-background text-foreground pb-28">
+    <div className="min-h-screen bg-background text-foreground pb-28 pt-16">
       <Navbar />
       <div className="container px-4 py-6 max-w-7xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">

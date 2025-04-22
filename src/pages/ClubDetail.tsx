@@ -85,7 +85,7 @@ const ClubDetail: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background pt-16">
         <Navbar />
         <ClubLoading />
         <BottomNav />
@@ -95,7 +95,7 @@ const ClubDetail: React.FC = () => {
 
   if (error || !club) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background pt-16">
         <Navbar />
         <ClubError error={error} />
         <BottomNav />
@@ -104,7 +104,7 @@ const ClubDetail: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-20 pt-16">
       <Navbar />
       <div className="container px-4 max-w-7xl mx-auto relative">
         {isNative && (
