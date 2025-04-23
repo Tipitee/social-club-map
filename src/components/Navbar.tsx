@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -72,7 +71,6 @@ const Navbar: React.FC = () => {
     return null;
   }
 
-  // iOS navigation styling with proper typing and fixed height
   const getNavbarStyle = (): CSSProperties => {
     if (isIOS && isNativePlatform) {
       return {
@@ -81,8 +79,8 @@ const Navbar: React.FC = () => {
         left: 0,
         right: 0,
         zIndex: 40,
-        paddingTop: 'env(safe-area-inset-top, 0px)',
-        height: 'calc(64px + env(safe-area-inset-top, 0px))' // Fixed height for iOS
+        paddingTop: 'env(safe-area-inset-top)',
+        height: 'calc(64px + env(safe-area-inset-top))'
       };
     }
     return {
@@ -91,16 +89,15 @@ const Navbar: React.FC = () => {
       left: 0,
       right: 0,
       zIndex: 40,
-      height: '64px' // Fixed height for other platforms
+      height: '64px'
     };
   };
 
-  // Get content style to ensure proper alignment
   const getNavContentStyle = (): CSSProperties => {
     if (isIOS && isNativePlatform) {
       return {
-        paddingTop: 'env(safe-area-inset-top, 0px)',
-        height: '64px', // Fixed height for the actual content
+        paddingTop: 'env(safe-area-inset-top)',
+        height: '64px',
         display: 'flex',
         alignItems: 'center'
       };

@@ -34,16 +34,25 @@ const BottomNav: React.FC = () => {
 
   // Dynamic style calculation for the bottom nav based on platform
   const getBottomNavStyle = () => {
-    // For iOS and native platform, support safe areas
     if (isIOS && isNativePlatform) {
       return {
-        paddingBottom: "env(safe-area-inset-bottom, 0px)",
-        height: "calc(64px + env(safe-area-inset-bottom, 0px))", // Increased height for the nav itself plus safe area padding
-      };
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        height: 'calc(64px + env(safe-area-inset-bottom))',
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50
+      } as React.CSSProperties;
     }
     return {
-      height: "64px" // Increased standard height for non-iOS platforms
-    };
+      height: '64px',
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      zIndex: 50
+    } as React.CSSProperties;
   };
 
   return (

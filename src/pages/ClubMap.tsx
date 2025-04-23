@@ -14,9 +14,9 @@ import { ClubResult } from "@/types/club";
 import { toast } from "@/hooks/use-toast";
 import { Capacitor } from "@capacitor/core";
 
-// Key for storing search results in session storage
 const SEARCH_RESULTS_STORAGE_KEY = "club-search-results";
 const SEARCH_QUERY_STORAGE_KEY = "club-search-query";
+
 const ClubMapPage: React.FC = () => {
   const {
     t
@@ -37,13 +37,11 @@ const ClubMapPage: React.FC = () => {
   const [isNative, setIsNative] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
 
-  // Check if running on native platform and iOS
   useEffect(() => {
     setIsNative(Capacitor.isNativePlatform());
     setIsIOS(Capacitor.getPlatform() === 'ios');
   }, []);
 
-  // Effect to restore search state from session storage when returning to this page
   useEffect(() => {
     const storedQuery = sessionStorage.getItem(SEARCH_QUERY_STORAGE_KEY);
     const storedResults = sessionStorage.getItem(SEARCH_RESULTS_STORAGE_KEY);
@@ -56,14 +54,12 @@ const ClubMapPage: React.FC = () => {
           setHasSearched(true);
         } catch (err) {
           console.error("Error parsing stored search results:", err);
-          // Clear the invalid stored data
           sessionStorage.removeItem(SEARCH_RESULTS_STORAGE_KEY);
         }
       }
     }
   }, []);
 
-  // Effect to save search results to session storage
   useEffect(() => {
     if (hasSearched && searchResults.length > 0) {
       sessionStorage.setItem(SEARCH_RESULTS_STORAGE_KEY, JSON.stringify(searchResults));
@@ -71,7 +67,6 @@ const ClubMapPage: React.FC = () => {
     }
   }, [searchResults, searchQuery, hasSearched]);
 
-  // Test Supabase connection on component mount
   React.useEffect(() => {
     const checkConnection = async () => {
       const connected = await testSupabaseConnection();
@@ -79,6 +74,7 @@ const ClubMapPage: React.FC = () => {
     };
     checkConnection();
   }, []);
+
   const handleSearch = () => {
     if (!searchQuery.trim()) {
       toast({
@@ -89,7 +85,6 @@ const ClubMapPage: React.FC = () => {
       return;
     }
 
-    // Check if input is a postal code (German postal codes are 5 digits)
     const isPostalCode = /^\d{1,5}$/.test(searchQuery.trim());
     if (isPostalCode) {
       console.log("[DEBUG] Searching with postal code:", searchQuery);
@@ -98,8 +93,8 @@ const ClubMapPage: React.FC = () => {
     }
     searchClubs(searchQuery);
   };
+
   const handleClubClick = (clubId: string) => {
-    // Navigate to club detail with state indicating we came from search
     navigate(`/clubs/${encodeURIComponent(clubId)}`, {
       state: {
         fromSearch: true
@@ -107,14 +102,22 @@ const ClubMapPage: React.FC = () => {
     });
   };
 
-  // Calculate padding to avoid overlapping with Navbar
+  const getContainerStyle = () => {
+    if (isIOS && isNative) {
+      return `min-h-[100dvh] bg-background pb-[calc(env(safe-area-inset-bottom)+80px)]`;
+    }
+    return 'min-h-screen bg-background pb-20';
+  };
+
   const getTopPadding = () => {
     if (isIOS && isNative) {
-      return 'pt-24'; // Increased padding for iOS status bar + navbar
+      return 'pt-[calc(env(safe-area-inset-top)+64px)]';
     }
-    return 'pt-16'; // Increased standard padding for other platforms
+    return 'pt-16';
   };
-  return <div className="min-h-screen bg-background text-foreground pb-28">
+
+  return (
+    <div className={getContainerStyle()}>
       <div className={`container px-4 ${getTopPadding()} max-w-7xl mx-auto`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">
           {t('clubs.findLocalClub')}
@@ -187,6 +190,8 @@ const ClubMapPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default ClubMapPage;

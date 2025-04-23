@@ -21,26 +21,25 @@ html:not(.dark) textarea {
   background-color: hsl(var(--light-card)) !important;
   color: hsl(var(--light-foreground)) !important;
   border-color: hsl(var(--light-border)) !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Dark mode placeholder styling - explicit selector */
+/* Dark mode placeholder styling */
 .dark ::placeholder {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: hsl(var(--dark-foreground) / 70%) !important;
 }
 
-/* Light mode placeholder styling - explicit selector */
+/* Light mode placeholder styling */
 html:not(.dark) ::placeholder {
-  color: rgba(0, 0, 0, 0.5) !important;
+  color: hsl(var(--light-foreground) / 50%) !important;
 }
 
-/* Focus styles - theme-specific versions */
+/* Focus styles - theme-specific */
 .dark :focus-visible {
-  @apply outline-2 outline-offset-2;
-  outline-color: hsl(var(--dark-primary));
+  outline: 2px solid hsl(var(--dark-primary));
+  outline-offset: 2px;
 }
 
 html:not(.dark) :focus-visible {
-  @apply outline-2 outline-offset-2;
-  outline-color: hsl(var(--light-primary));
+  outline: 2px solid hsl(var(--light-primary));
+  outline-offset: 2px;
 }

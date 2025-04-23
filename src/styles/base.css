@@ -4,244 +4,47 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  
-  /* Light theme (default) with completely independent variables */
   :root {
-    /* Base theme colors */
+    /* Light theme colors - completely independent */
     --light-background: 34 67% 95%;
     --light-foreground: 197 43% 18%;
     --light-card: 0 0% 100%;
     --light-card-foreground: 197 43% 18%;
-    --light-popover: 0 0% 100%;
-    --light-popover-foreground: 197 43% 18%;
     --light-primary: 174 59% 39%;
-    --light-primary-foreground: 210 40% 98%;
-    --light-secondary: 29 88% 67%;
-    --light-secondary-foreground: 196 41% 17%;
-    --light-muted: 200 14% 92%;
-    --light-muted-foreground: 196 41% 17%;
-    --light-accent: 200 13% 95%;
-    --light-accent-foreground: 196 41% 17%;
-    --light-destructive: 14 71% 61%;
-    --light-destructive-foreground: 210 40% 98%;
     --light-border: 200 14% 80%;
     --light-input: 200 14% 80%;
-    --light-ring: 196 41% 17%;
-    
-    /* Light theme alert variables */
-    --light-alert-background: 0 0% 100%;
-    --light-alert-foreground: 197 43% 18%;
-    --light-alert-border: 200 14% 80%;
-    --light-alert-title: 197 43% 18%;
-    --light-alert-description: 196 41% 40%;
-    --light-alert-icon: 174 59% 39%;
-    
-    /* Light theme info alert variables */
-    --light-info-background: 195 53% 95%;
-    --light-info-border: 174 59% 39%;
-    --light-info-title: 197 43% 18%;
-    --light-info-description: 196 41% 40%;
-    --light-info-icon: 174 59% 39%;
-    
-    /* Light theme back button variables */
-    --light-back-button-bg: 152 22% 76%;
-    --light-back-button-hover: 152 15% 68%;
-    --light-back-button-text: 197 43% 18%;
-    
-    /* Light theme specific colors */
-    --light-linen: 34 67% 95%;
-    --light-navy-dark: 197 43% 18%;
-    --light-navy-light: 196 33% 32%;
-    --light-navy-DEFAULT: 196 41% 40%;
-    --light-navy-400: 196 33% 25%;
-    --light-navy-300: 196 33% 30%;
-    --light-navy-100: 196 33% 35%;
-    --light-navy-800: 196 33% 22%;
-    --light-navy-700: 196 33% 27%;
-    --light-navy-600: 196 33% 29%;
-    --light-teal-DEFAULT: 174 59% 39%;
-    --light-teal-dark: 174 59% 34%;
-    --light-strain-indica: 267 70% 67%;
-    --light-strain-sativa: 45 93% 58%;
-    --light-strain-hybrid: 134 41% 57%;
-    --light-oldLace-500: 39 85% 95%;
-    
-    /* Set the current theme variables for light mode */
-    --background: var(--light-background);
-    --foreground: var(--light-foreground);
-    --card: var(--light-card);
-    --card-foreground: var(--light-card-foreground);
-    --popover: var(--light-popover);
-    --popover-foreground: var(--light-popover-foreground);
-    --primary: var(--light-primary);
-    --primary-foreground: var(--light-primary-foreground);
-    --secondary: var(--light-secondary);
-    --secondary-foreground: var(--light-secondary-foreground);
-    --muted: var(--light-muted);
-    --muted-foreground: var(--light-muted-foreground);
-    --accent: var(--light-accent);
-    --accent-foreground: var(--light-accent-foreground);
-    --destructive: var(--light-destructive);
-    --destructive-foreground: var(--light-destructive-foreground);
-    --border: var(--light-border);
-    --input: var(--light-input);
-    --ring: var(--light-ring);
-    --radius: 0.5rem;
-    
-    --alert-background: var(--light-alert-background);
-    --alert-foreground: var(--light-alert-foreground);
-    --alert-border: var(--light-alert-border);
-    --alert-title: var(--light-alert-title);
-    --alert-description: var(--light-alert-description);
-    --alert-icon: var(--light-alert-icon);
-    
-    --info-background: var(--light-info-background);
-    --info-border: var(--light-info-border);
-    --info-title: var(--light-info-title);
-    --info-description: var(--light-info-description);
-    --info-icon: var(--light-info-icon);
-    
-    --back-button-bg: var(--light-back-button-bg);
-    --back-button-hover: var(--light-back-button-hover);
-    --back-button-text: var(--light-back-button-text);
-    
-    /* Theme-specific colors */
-    --linen: var(--light-linen);
-    --navy-dark: var(--light-navy-dark);
-    --navy-light: var(--light-navy-light);
-    --navy-DEFAULT: var(--light-navy-DEFAULT);
-    --navy-400: var(--light-navy-400);
-    --navy-300: var(--light-navy-300);
-    --navy-100: var(--light-navy-100);
-    --navy-800: var(--light-navy-800);
-    --navy-700: var(--light-navy-700);
-    --navy-600: var(--light-navy-600);
-    --teal-DEFAULT: var(--light-teal-DEFAULT);
-    --teal-dark: var(--light-teal-dark);
-    --strain-indica: var(--light-strain-indica);
-    --strain-sativa: var(--light-strain-sativa);
-    --strain-hybrid: var(--light-strain-hybrid);
-    --oldLace-500: var(--light-oldLace-500);
   }
- 
-  /* Dark theme colors with completely independent variables */
+  
+  /* Dark theme colors - completely independent */
   .dark {
-    /* Base theme colors - completely independent from light theme */
     --dark-background: 197 43% 18%;
     --dark-foreground: 210 40% 98%;
     --dark-card: 196 33% 32%;
     --dark-card-foreground: 210 40% 98%;
-    --dark-popover: 222.2 84% 4.9%;
-    --dark-popover-foreground: 210 40% 98%;
     --dark-primary: 174 59% 39%;
-    --dark-primary-foreground: 222.2 47.4% 11.2%;
-    --dark-secondary: 29 88% 67%;
-    --dark-secondary-foreground: 210 40% 98%;
-    --dark-muted: 217.2 32.6% 17.5%;
-    --dark-muted-foreground: 215 20.2% 65.1%;
-    --dark-accent: 217.2 32.6% 17.5%;
-    --dark-accent-foreground: 210 40% 98%;
-    --dark-destructive: 0 62.8% 30.6%;
-    --dark-destructive-foreground: 210 40% 98%;
     --dark-border: 217.2 32.6% 17.5%;
     --dark-input: 217.2 32.6% 17.5%;
-    --dark-ring: 212.7 26.8% 83.9%;
-    
-    /* Dark theme alert variables */
-    --dark-alert-background: 196 33% 25%;
-    --dark-alert-foreground: 210 40% 98%;
-    --dark-alert-border: 217.2 32.6% 17.5%;
-    --dark-alert-title: 0 0% 100%;
-    --dark-alert-description: 214 32% 91%;
-    --dark-alert-icon: 174 59% 50%;
-    
-    /* Dark theme info alert variables */
-    --dark-info-background: 196 80% 15%;
-    --dark-info-border: 174 59% 25%;
-    --dark-info-title: 0 0% 100%;
-    --dark-info-description: 214 32% 91%;
-    --dark-info-icon: 174 59% 50%;
-    
-    /* Dark theme back button variables */
-    --dark-back-button-bg: 196 33% 25%;
-    --dark-back-button-hover: 196 33% 20%;
-    --dark-back-button-text: 210 40% 98%;
-    
-    /* Dark theme specific colors */
-    --dark-linen: 197 43% 15%;
-    --dark-navy-dark: 197 43% 12%;
-    --dark-navy-light: 197 33% 25%;
-    --dark-navy-DEFAULT: 197 33% 20%;
-    --dark-navy-400: 197 33% 30%;
-    --dark-navy-300: 197 33% 35%;
-    --dark-navy-100: 197 33% 40%;
-    --dark-navy-800: 197 33% 15%;
-    --dark-navy-700: 197 33% 18%;
-    --dark-navy-600: 197 33% 22%;
-    --dark-teal-DEFAULT: 174 59% 39%;
-    --dark-teal-dark: 174 59% 34%;
-    --dark-strain-indica: 267 70% 60%;
-    --dark-strain-sativa: 45 93% 50%;
-    --dark-strain-hybrid: 134 41% 50%;
-    --dark-oldLace-500: 197 33% 20%;
-    
-    /* Set the current theme variables for dark mode */
-    --background: var(--dark-background);
-    --foreground: var(--dark-foreground);
-    --card: var(--dark-card);
-    --card-foreground: var(--dark-card-foreground);
-    --popover: var(--dark-popover);
-    --popover-foreground: var(--dark-popover-foreground);
-    --primary: var(--dark-primary);
-    --primary-foreground: var(--dark-primary-foreground);
-    --secondary: var(--dark-secondary);
-    --secondary-foreground: var(--dark-secondary-foreground);
-    --muted: var(--dark-muted);
-    --muted-foreground: var(--dark-muted-foreground);
-    --accent: var(--dark-accent);
-    --accent-foreground: var(--dark-accent-foreground);
-    --destructive: var(--dark-destructive);
-    --destructive-foreground: var(--dark-destructive-foreground);
-    --border: var(--dark-border);
-    --input: var(--dark-input);
-    --ring: var(--dark-ring);
-    
-    --alert-background: var(--dark-alert-background);
-    --alert-foreground: var(--dark-alert-foreground);
-    --alert-border: var(--dark-alert-border);
-    --alert-title: var(--dark-alert-title);
-    --alert-description: var(--dark-alert-description);
-    --alert-icon: var(--dark-alert-icon);
-    
-    --info-background: var(--dark-info-background);
-    --info-border: var(--dark-info-border);
-    --info-title: var(--dark-info-title);
-    --info-description: var(--dark-info-description);
-    --info-icon: var(--dark-info-icon);
-    
-    --back-button-bg: var(--dark-back-button-bg);
-    --back-button-hover: var(--dark-back-button-hover);
-    --back-button-text: var(--dark-back-button-text);
-    
-    /* Theme-specific colors */
-    --linen: var(--dark-linen);
-    --navy-dark: var(--dark-navy-dark);
-    --navy-light: var(--dark-navy-light);
-    --navy-DEFAULT: var(--dark-navy-DEFAULT);
-    --navy-400: var(--dark-navy-400);
-    --navy-300: var(--dark-navy-300);
-    --navy-100: var(--dark-navy-100);
-    --navy-800: var(--dark-navy-800);
-    --navy-700: var(--dark-navy-700);
-    --navy-600: var(--dark-navy-600);
-    --teal-DEFAULT: var(--dark-teal-DEFAULT);
-    --teal-dark: var(--dark-teal-dark);
-    --strain-indica: var(--dark-strain-indica);
-    --strain-sativa: var(--dark-strain-sativa);
-    --strain-hybrid: var(--dark-strain-hybrid);
-    --oldLace-500: var(--dark-oldLace-500);
+  }
+
+  /* iOS safe area utilities */
+  html {
+    height: 100%;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    height: 100%;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Safe area variables */
+  :root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
   }
 }
