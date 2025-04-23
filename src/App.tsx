@@ -30,9 +30,11 @@ const BottomNav = lazy(() => import("./components/BottomNav"));
 const Navbar = lazy(() => import("./components/Navbar"));
 
 // Loading fallback component
-const PageLoading = () => <div className="min-h-screen bg-background flex items-center justify-center">
+const PageLoading = () => (
+  <div className="min-h-screen bg-background flex items-center justify-center">
     <div className="animate-spin h-10 w-10 border-4 border-primary rounded-full border-t-transparent"></div>
-  </div>;
+  </div>
+);
 
 // Configure React Query client with optimized settings for production
 const queryClient = new QueryClient({
@@ -69,6 +71,18 @@ const App = () => {
       document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom, 0px)');
       document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left, 0px)');
       document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
+      
+      // Fix the iOS status bar appearance
+      const statusBarStyle = document.createElement('meta');
+      statusBarStyle.name = 'apple-mobile-web-app-status-bar-style';
+      statusBarStyle.content = 'black-translucent';
+      document.head.appendChild(statusBarStyle);
+      
+      // Enable fullscreen mode for iOS web app
+      const webAppCapable = document.createElement('meta');
+      webAppCapable.name = 'apple-mobile-web-app-capable';
+      webAppCapable.content = 'yes';
+      document.head.appendChild(webAppCapable);
     }
   }, []);
 
@@ -84,7 +98,7 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main className="pt-16 pb-20"> {/* Adjusted padding-bottom to fix white space */}
+                  <main className="pt-16 pb-20"> 
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Book, Cannabis, Map, BookText, Newspaper, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,9 +9,15 @@ import { Capacitor } from "@capacitor/core";
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const isIOS = Capacitor.getPlatform() === 'ios';
-  const isNativePlatform = Capacitor.isNativePlatform();
+  const [isIOS, setIsIOS] = useState(false);
+  const [isNativePlatform, setIsNativePlatform] = useState(false);
   
+  // Check platform on component mount
+  useEffect(() => {
+    setIsIOS(Capacitor.getPlatform() === 'ios');
+    setIsNativePlatform(Capacitor.isNativePlatform());
+  }, []);
+
   const sections = [
     {
       path: "/journal",
@@ -60,9 +66,9 @@ const Home: React.FC = () => {
   // Calculate top padding based on platform
   const getTopPadding = () => {
     if (isIOS && isNativePlatform) {
-      return 'pt-8'; // Add extra padding for iOS status bar
+      return 'pt-20'; // Significant top padding for iOS status bar + navbar
     }
-    return 'pt-0';
+    return 'pt-6'; // Standard padding for other platforms
   };
 
   return (

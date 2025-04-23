@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Home, BookOpen, Cannabis, MapPin, BookText, Newspaper } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -9,9 +9,15 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const BottomNav: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
-  const isNativePlatform = Capacitor.isNativePlatform();
-  const isIOS = Capacitor.getPlatform() === 'ios';
+  const [isNativePlatform, setIsNativePlatform] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
   const isMobile = useIsMobile();
+  
+  // Update platform state on component mount
+  useEffect(() => {
+    setIsNativePlatform(Capacitor.isNativePlatform());
+    setIsIOS(Capacitor.getPlatform() === 'ios');
+  }, []);
   
   const isActive = (path: string) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
@@ -28,6 +34,7 @@ const BottomNav: React.FC = () => {
 
   // Dynamic style calculation for the bottom nav based on platform
   const getBottomNavStyle = () => {
+    // For iOS and native platform, support safe areas
     if (isIOS && isNativePlatform) {
       return {
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
@@ -44,7 +51,7 @@ const BottomNav: React.FC = () => {
       className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 shadow-lg"
       style={getBottomNavStyle()}
     >
-      {/* Navigation items */}
+      {/* Navigation items container with fixed height */}
       <div className="flex justify-around items-center h-14">
         {navItems.map((item) => (
           <Link

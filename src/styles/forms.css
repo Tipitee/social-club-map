@@ -1,4 +1,5 @@
 
+/* Dark mode form styles - completely independent from light mode */
 .dark input[type="text"], 
 .dark input[type="number"], 
 .dark input[type="email"], 
@@ -9,6 +10,7 @@
   border-color: hsl(var(--dark-border)) !important;
 }
 
+/* Light mode form styles - completely independent from dark mode */
 input[type="text"], 
 input[type="number"], 
 input[type="email"], 
@@ -20,14 +22,17 @@ select {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
 
+/* Dark mode placeholder styling */
 .dark ::placeholder {
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
+/* Light mode placeholder styling */
 ::placeholder {
   color: rgba(0, 0, 0, 0.5) !important;
 }
 
+/* Focus styles - shared but use theme variables */
 :focus-visible {
   @apply outline-2 outline-offset-2 outline-primary;
 }

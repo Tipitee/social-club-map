@@ -25,7 +25,7 @@ const config: CapacitorConfig = {
     scrollEnabled: true,
     
     // Fix viewport and rendering issues
-    overrideUserInterfaceStyle: 'light',
+    overrideUserInterfaceStyle: 'unspecified', // Allow theme to be controlled by app
     hideWebViewBoundaries: true,
     webViewSuspensionEnabled: false,
     
@@ -37,7 +37,7 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: "dark",
       backgroundColor: "#ffffff",
-      overlaysWebView: true,  // Changed to true to use native iOS behavior
+      overlaysWebView: true,
       animated: true
     },
     SplashScreen: {

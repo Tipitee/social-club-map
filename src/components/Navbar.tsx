@@ -27,11 +27,13 @@ const Navbar: React.FC = () => {
   const [lightLogo, setLightLogo] = useState<string | null>(null);
   const [logoLoading, setLogoLoading] = useState(true);
   const isMobile = useIsMobile();
-  const isNativePlatform = Capacitor.isNativePlatform();
-  const isIOS = Capacitor.getPlatform() === 'ios';
+  const [isNativePlatform, setIsNativePlatform] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    setIsNativePlatform(Capacitor.isNativePlatform());
+    setIsIOS(Capacitor.getPlatform() === 'ios');
     
     const fetchLogos = async () => {
       setLogoLoading(true);
