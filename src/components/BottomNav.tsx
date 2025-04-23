@@ -38,11 +38,11 @@ const BottomNav: React.FC = () => {
     if (isIOS && isNativePlatform) {
       return {
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
-        height: "calc(56px + env(safe-area-inset-bottom, 0px))", // 56px for the nav itself plus safe area padding
+        height: "calc(64px + env(safe-area-inset-bottom, 0px))", // Increased height for the nav itself plus safe area padding
       };
     }
     return {
-      height: "56px" // Standard height for non-iOS platforms
+      height: "64px" // Increased standard height for non-iOS platforms
     };
   };
 
@@ -52,7 +52,7 @@ const BottomNav: React.FC = () => {
       style={getBottomNavStyle()}
     >
       {/* Navigation items container with fixed height */}
-      <div className="flex justify-around items-center h-14">
+      <div className="flex justify-around items-center h-16">
         {navItems.map((item) => (
           <Link
             key={item.path}

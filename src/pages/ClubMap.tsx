@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
@@ -110,17 +111,19 @@ const ClubMapPage: React.FC = () => {
   // Calculate padding to avoid overlapping with Navbar
   const getTopPadding = () => {
     if (isIOS && isNative) {
-      return 'pt-20'; // More padding for iOS status bar + navbar
+      return 'pt-24'; // Increased padding for iOS status bar + navbar
     }
-    return 'pt-6'; // Standard padding for other platforms
+    return 'pt-16'; // Increased standard padding for other platforms
   };
-  return <div className="min-h-screen bg-background text-foreground pb-28">
+  
+  return (
+    <div className="min-h-screen bg-background text-foreground pb-28">
       <div className={`container px-4 ${getTopPadding()} max-w-7xl mx-auto`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">
           {t('clubs.findLocalClub')}
         </h1>
         
-        <div className={`w-full ${isNative ? 'h-[60vh]' : 'h-[50vh]'} rounded-lg overflow-hidden shadow-lg border border-border bg-card mb-6 relative`}>
+        <div className={`w-full ${isNative ? 'h-[50vh]' : 'h-[40vh]'} rounded-lg overflow-hidden shadow-lg border border-border bg-card mb-6 relative`}>
           <ClubMap allClubs={searchResults.length > 0 ? searchResults : undefined} />
         </div>
         
@@ -133,7 +136,13 @@ const ClubMapPage: React.FC = () => {
             <div className="flex flex-col md:flex-row gap-3 mb-6">
               <div className="flex-grow relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
-                <Input placeholder={t('clubs.enterCityPostal')} className="pl-10 bg-background border-input text-foreground placeholder:text-muted-foreground" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSearch()} />
+                <Input 
+                  placeholder={t('clubs.enterCityPostal')} 
+                  className="pl-10 border-input placeholder:text-muted-foreground" 
+                  value={searchQuery} 
+                  onChange={e => setSearchQuery(e.target.value)} 
+                  onKeyDown={e => e.key === 'Enter' && handleSearch()} 
+                />
               </div>
               <Button onClick={handleSearch} className="bg-primary text-primary-foreground hover:bg-primary/90" disabled={loading}>
                 {loading ? <Loader2 size={18} className="animate-spin mr-2" /> : null}
@@ -153,7 +162,12 @@ const ClubMapPage: React.FC = () => {
                 {searchResults.length === 0 ? <div className="text-center py-8 text-muted-foreground">
                     {t('clubs.noClubsArea')}
                   </div> : <div className="space-y-4 mt-4">
-                    {searchResults.map(club => <div key={club.id} onClick={() => handleClubClick(club.name)} className="p-4 rounded-lg border border-border shadow-md transition-colors cursor-pointer bg-navy-400">
+                    {searchResults.map(club => (
+                      <div 
+                        key={club.id} 
+                        onClick={() => handleClubClick(club.name)} 
+                        className="p-4 rounded-lg border border-border shadow-md transition-colors cursor-pointer bg-background dark:bg-navy-400"
+                      >
                         <div className="flex items-start gap-3">
                           <div className="mt-1">
                             <MapPin size={20} className={club.status === "verified" ? "text-primary" : club.status === "pending" ? "text-amber-500" : "text-muted-foreground"} />
@@ -181,12 +195,14 @@ const ClubMapPage: React.FC = () => {
                             {t('clubs.details')}
                           </Button>
                         </div>
-                      </div>)}
+                      </div>
+                    ))}
                   </div>}
               </div>}
           </CardContent>
         </Card>
       </div>
-    </div>;
+    </div>
+  );
 };
 export default ClubMapPage;

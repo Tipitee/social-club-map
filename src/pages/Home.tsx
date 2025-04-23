@@ -63,12 +63,12 @@ const Home: React.FC = () => {
     }
   ];
 
-  // Calculate top padding based on platform
+  // Calculate top padding based on platform - increased for iOS
   const getTopPadding = () => {
     if (isIOS && isNativePlatform) {
-      return 'pt-20'; // Significant top padding for iOS status bar + navbar
+      return 'pt-24'; // Significantly increased padding for iOS status bar + navbar
     }
-    return 'pt-6'; // Standard padding for other platforms
+    return 'pt-16'; // Increased padding for other platforms
   };
 
   return (

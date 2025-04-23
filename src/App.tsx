@@ -98,7 +98,7 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main className="pt-16 pb-20"> 
+                  <main className="pb-20"> {/* Removed fixed pt-16 to allow each page to control its own top padding */}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

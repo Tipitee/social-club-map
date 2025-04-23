@@ -4,35 +4,43 @@
 .dark input[type="number"], 
 .dark input[type="email"], 
 .dark input[type="search"],
-.dark select {
+.dark select,
+.dark textarea {
   background-color: hsl(var(--dark-card)) !important; 
   color: hsl(var(--dark-foreground)) !important;
   border-color: hsl(var(--dark-border)) !important;
 }
 
 /* Light mode form styles - completely independent from dark mode */
-input[type="text"], 
-input[type="number"], 
-input[type="email"], 
-input[type="search"],
-select {
+html:not(.dark) input[type="text"], 
+html:not(.dark) input[type="number"], 
+html:not(.dark) input[type="email"], 
+html:not(.dark) input[type="search"],
+html:not(.dark) select,
+html:not(.dark) textarea {
   background-color: hsl(var(--light-card)) !important;
   color: hsl(var(--light-foreground)) !important;
   border-color: hsl(var(--light-border)) !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Dark mode placeholder styling */
+/* Dark mode placeholder styling - explicit selector */
 .dark ::placeholder {
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Light mode placeholder styling */
-::placeholder {
+/* Light mode placeholder styling - explicit selector */
+html:not(.dark) ::placeholder {
   color: rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Focus styles - shared but use theme variables */
-:focus-visible {
-  @apply outline-2 outline-offset-2 outline-primary;
+/* Focus styles - theme-specific versions */
+.dark :focus-visible {
+  @apply outline-2 outline-offset-2;
+  outline-color: hsl(var(--dark-primary));
+}
+
+html:not(.dark) :focus-visible {
+  @apply outline-2 outline-offset-2;
+  outline-color: hsl(var(--light-primary));
 }
