@@ -4,19 +4,28 @@
 @layer utilities {
   /* iOS safe area utilities with proper height values */
   .safe-area-top {
-    padding-top: env(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   .h-safe-area-top {
-    height: env(safe-area-inset-top);
+    height: env(safe-area-inset-top, 0px);
   }
 
   .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .h-safe-area-bottom {
-    height: env(safe-area-inset-bottom);
+    height: env(safe-area-inset-bottom, 0px);
+  }
+  
+  /* iOS-specific padding utilities */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .page-transition {
@@ -29,73 +38,42 @@
 
   /* iOS-specific layout helper classes */
   .ios-status-bar-spacer {
-    height: env(safe-area-inset-top, 44px);
+    height: env(safe-area-inset-top, 0px);
   }
   
   .ios-bottom-spacer {
-    height: env(safe-area-inset-bottom, 34px);
+    height: env(safe-area-inset-bottom, 0px);
   }
   
   .ios-navbar {
-    padding-top: env(safe-area-inset-top, 44px);
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  
+  /* Dynamic viewport heights for iOS */
+  .h-screen-ios {
+    height: 100vh; /* Fallback */
+    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  
+  .min-h-screen-ios {
+    min-height: 100vh; /* Fallback */
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 
-  /* Ensure proper scrolling for iOS */
-  html {
-    overflow: hidden;
-    height: 100%;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  body {
-    height: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+  /* Modern viewport height values */
+  .h-dvh {
+    height: 100dvh;
   }
   
-  /* Theme-specific custom classes - using the new theme variable system */
-  .bg-info-background {
-    background-color: hsl(var(--info-background));
+  .min-h-dvh {
+    min-height: 100dvh;
   }
   
-  .border-info-border {
-    border-color: hsl(var(--info-border));
+  .h-svh {
+    height: 100svh;
   }
   
-  .text-info-title {
-    color: hsl(var(--info-title));
-  }
-  
-  .text-info-description {
-    color: hsl(var(--info-description));
-  }
-  
-  .text-info-icon {
-    color: hsl(var(--info-icon));
-  }
-  
-  .bg-alert-background {
-    background-color: hsl(var(--alert-background));
-  }
-  
-  .text-alert-foreground {
-    color: hsl(var(--alert-foreground));
-  }
-  
-  .border-alert-border {
-    border-color: hsl(var(--alert-border));
-  }
-  
-  .text-alert-title {
-    color: hsl(var(--alert-title));
-  }
-  
-  .text-alert-description {
-    color: hsl(var(--alert-description));
-  }
-  
-  .text-alert-icon {
-    color: hsl(var(--alert-icon));
+  .min-h-svh {
+    min-height: 100svh;
   }
 }

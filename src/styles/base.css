@@ -26,6 +26,27 @@
     --dark-input: 217.2 32.6% 17.5%;
   }
 
+  /* Apply proper theme variables directly in the base layer */
+  html:not(.dark) {
+    --background: var(--light-background);
+    --foreground: var(--light-foreground);
+    --card: var(--light-card);
+    --card-foreground: var(--light-card-foreground);
+    --primary: var(--light-primary);
+    --border: var(--light-border);
+    --input: var(--light-input);
+  }
+
+  .dark {
+    --background: var(--dark-background);
+    --foreground: var(--dark-foreground);
+    --card: var(--dark-card);
+    --card-foreground: var(--dark-card-foreground);
+    --primary: var(--dark-primary);
+    --border: var(--dark-border);
+    --input: var(--dark-input);
+  }
+
   /* iOS safe area utilities */
   html {
     height: 100%;

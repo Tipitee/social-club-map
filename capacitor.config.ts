@@ -13,23 +13,23 @@ const config: CapacitorConfig = {
   android: {
     androidxEnabled: true
   },
-  // Improved iOS configuration with proper sizing and safe area handling
+  // Completely revised iOS configuration for proper layout
   ios: {
-    // Set proper content mode for iOS
+    // Properly manage content display
     preferredContentMode: 'mobile',
     limitsNavigationsToAppBoundDomains: true,
     
-    // Properly handle content and scrolling
-    contentInset: 'automatic',
-    allowsLinkPreview: true,
+    // Critical fixes for layout issues
+    contentInset: 'always',
+    allowsLinkPreview: false,
     scrollEnabled: true,
     
     // Fix viewport and rendering issues
-    overrideUserInterfaceStyle: 'unspecified', // Allow theme to be controlled by app
+    overrideUserInterfaceStyle: 'dark',
     hideWebViewBoundaries: true,
     webViewSuspensionEnabled: false,
     
-    // Fix status bar and notch issues
+    // Status bar configuration for notch devices
     statusBarStyle: "dark"
   },
   // Plugins configuration for proper status bar and keyboard handling
