@@ -13,10 +13,8 @@ import ClubMap from "@/components/club/ClubMap";
 import { ClubResult } from "@/types/club";
 import { toast } from "@/hooks/use-toast";
 import { Capacitor } from "@capacitor/core";
-
 const SEARCH_RESULTS_STORAGE_KEY = "club-search-results";
 const SEARCH_QUERY_STORAGE_KEY = "club-search-query";
-
 const ClubMapPage: React.FC = () => {
   const {
     t
@@ -36,12 +34,10 @@ const ClubMapPage: React.FC = () => {
   } = useClubsSearch();
   const [isNative, setIsNative] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
-
   useEffect(() => {
     setIsNative(Capacitor.isNativePlatform());
     setIsIOS(Capacitor.getPlatform() === 'ios');
   }, []);
-
   useEffect(() => {
     const storedQuery = sessionStorage.getItem(SEARCH_QUERY_STORAGE_KEY);
     const storedResults = sessionStorage.getItem(SEARCH_RESULTS_STORAGE_KEY);
@@ -59,14 +55,12 @@ const ClubMapPage: React.FC = () => {
       }
     }
   }, []);
-
   useEffect(() => {
     if (hasSearched && searchResults.length > 0) {
       sessionStorage.setItem(SEARCH_RESULTS_STORAGE_KEY, JSON.stringify(searchResults));
       sessionStorage.setItem(SEARCH_QUERY_STORAGE_KEY, searchQuery);
     }
   }, [searchResults, searchQuery, hasSearched]);
-
   React.useEffect(() => {
     const checkConnection = async () => {
       const connected = await testSupabaseConnection();
@@ -74,7 +68,6 @@ const ClubMapPage: React.FC = () => {
     };
     checkConnection();
   }, []);
-
   const handleSearch = () => {
     if (!searchQuery.trim()) {
       toast({
@@ -84,7 +77,6 @@ const ClubMapPage: React.FC = () => {
       });
       return;
     }
-
     const isPostalCode = /^\d{1,5}$/.test(searchQuery.trim());
     if (isPostalCode) {
       console.log("[DEBUG] Searching with postal code:", searchQuery);
@@ -93,7 +85,6 @@ const ClubMapPage: React.FC = () => {
     }
     searchClubs(searchQuery);
   };
-
   const handleClubClick = (clubId: string) => {
     navigate(`/clubs/${encodeURIComponent(clubId)}`, {
       state: {
@@ -101,23 +92,19 @@ const ClubMapPage: React.FC = () => {
       }
     });
   };
-
   const getContainerStyle = () => {
     if (isIOS && isNative) {
       return `min-h-[100dvh] bg-background pb-[calc(env(safe-area-inset-bottom)+80px)]`;
     }
     return 'min-h-screen bg-background pb-20';
   };
-
   const getTopPadding = () => {
     if (isIOS && isNative) {
       return 'pt-[calc(env(safe-area-inset-top)+64px)]';
     }
     return 'pt-16';
   };
-
-  return (
-    <div className={getContainerStyle()}>
+  return <div className={getContainerStyle()}>
       <div className={`container px-4 ${getTopPadding()} max-w-7xl mx-auto`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">
           {t('clubs.findLocalClub')}
@@ -156,7 +143,7 @@ const ClubMapPage: React.FC = () => {
                 {searchResults.length === 0 ? <div className="text-center py-8 text-muted-foreground">
                     {t('clubs.noClubsArea')}
                   </div> : <div className="space-y-4 mt-4">
-                    {searchResults.map(club => <div key={club.id} onClick={() => handleClubClick(club.name)} className="p-4 rounded-lg border border-border shadow-md transition-colors cursor-pointer bg-navy-300">
+                    {searchResults.map(club => <div key={club.id} onClick={() => handleClubClick(club.name)} className="p-4 rounded-lg border border-border shadow-md transition-colors cursor-pointer bg-ashGray-500">
                         <div className="flex items-start gap-3">
                           <div className="mt-1">
                             <MapPin size={20} className={club.status === "verified" ? "text-primary" : club.status === "pending" ? "text-amber-500" : "text-muted-foreground"} />
@@ -190,8 +177,6 @@ const ClubMapPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default ClubMapPage;
