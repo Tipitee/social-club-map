@@ -26,13 +26,17 @@ const BottomNav: React.FC = () => {
     { path: "/news", label: t('navigation.news'), icon: Newspaper },
   ];
 
+  // Dynamic style calculation for the bottom nav based on platform
   const getBottomNavStyle = () => {
     if (isIOS && isNativePlatform) {
-      return { 
+      return {
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
+        height: "calc(56px + env(safe-area-inset-bottom, 0px))", // 56px for the nav itself plus safe area padding
       };
     }
-    return {};
+    return {
+      height: "56px" // Standard height for non-iOS platforms
+    };
   };
 
   return (

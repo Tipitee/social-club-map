@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -43,6 +44,7 @@ const queryClient = new QueryClient({
     }
   }
 });
+
 const App = () => {
   // Set up proper viewport meta for iOS
   useEffect(() => {
@@ -69,7 +71,9 @@ const App = () => {
       document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
     }
   }, []);
-  return <QueryClientProvider client={queryClient}>
+
+  return (
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <LanguageProvider>
           <ThemeProvider defaultTheme="system" storageKey="ui-theme">
@@ -80,49 +84,69 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main className="pt-16 py-[81px]"> {/* Add consistent top padding for all pages */}
+                  <main className="pt-16 pb-20"> {/* Adjusted padding-bottom to fix white space */}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
-                      <Route path="/strains/:id" element={<Suspense fallback={<PageLoading />}>
-                            <StrainDetail />
-                          </Suspense>} />
-                      <Route path="/clubs" element={<Suspense fallback={<PageLoading />}>
-                            <ClubMap />
-                          </Suspense>} />
-                      <Route path="/clubs/:id" element={<Suspense fallback={<PageLoading />}>
-                            <ClubDetail />
-                          </Suspense>} />
-                      <Route path="/journal" element={<Suspense fallback={<PageLoading />}>
-                            <Journal />
-                          </Suspense>} />
+                      <Route path="/strains/:id" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <StrainDetail />
+                        </Suspense>
+                      } />
+                      <Route path="/clubs" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <ClubMap />
+                        </Suspense>
+                      } />
+                      <Route path="/clubs/:id" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <ClubDetail />
+                        </Suspense>
+                      } />
+                      <Route path="/journal" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <Journal />
+                        </Suspense>
+                      } />
                       <Route path="/news" element={<News />} />
-                      <Route path="/guide" element={<Suspense fallback={<PageLoading />}>
-                            <CannabisGuide />
-                          </Suspense>} />
-                      <Route path="/profile" element={<Suspense fallback={<PageLoading />}>
-                            <Profile />
-                          </Suspense>} />
-                      <Route path="/settings" element={<Suspense fallback={<PageLoading />}>
-                            <Settings />
-                          </Suspense>} />
+                      <Route path="/guide" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <CannabisGuide />
+                        </Suspense>
+                      } />
+                      <Route path="/profile" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <Profile />
+                        </Suspense>
+                      } />
+                      <Route path="/settings" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <Settings />
+                        </Suspense>
+                      } />
                       <Route path="/auth" element={<Auth />} />
-                      <Route path="/admin-tools" element={<Suspense fallback={<PageLoading />}>
-                            <AdminTools />
-                          </Suspense>} />
+                      <Route path="/admin-tools" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <AdminTools />
+                        </Suspense>
+                      } />
                       <Route path="/admin" element={<Navigate to="/admin-tools" replace />} />
-                      <Route path="*" element={<Suspense fallback={<PageLoading />}>
-                            <NotFound />
-                          </Suspense>} />
+                      <Route path="*" element={
+                        <Suspense fallback={<PageLoading />}>
+                          <NotFound />
+                        </Suspense>
+                      } />
                     </Routes>
                   </main>
                   
                   {/* Bottom Navigation Bar - visible on all pages except Auth */}
                   <Routes>
                     <Route path="/auth" element={null} />
-                    <Route path="*" element={<Suspense fallback={null}>
+                    <Route path="*" element={
+                      <Suspense fallback={null}>
                         <BottomNav />
-                      </Suspense>} />
+                      </Suspense>
+                    } />
                   </Routes>
                 </div>
                 <Toaster />
@@ -132,6 +156,8 @@ const App = () => {
           </ThemeProvider>
         </LanguageProvider>
       </BrowserRouter>
-    </QueryClientProvider>;
+    </QueryClientProvider>
+  );
 };
+
 export default App;

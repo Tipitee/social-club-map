@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Book, Cannabis, Map, BookText, Newspaper, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -10,6 +11,7 @@ const Home: React.FC = () => {
   const { user } = useAuth();
   const isIOS = Capacitor.getPlatform() === 'ios';
   const isNativePlatform = Capacitor.isNativePlatform();
+  
   const sections = [
     {
       path: "/journal",
@@ -55,10 +57,24 @@ const Home: React.FC = () => {
     }
   ];
 
-  return <div className="min-h-screen pb-20 bg-linen dark:bg-navy-dark py-0">
-      <div className={`container py-6 px-4 sm:px-[44px] pt-0`}>
+  // Calculate top padding based on platform
+  const getTopPadding = () => {
+    if (isIOS && isNativePlatform) {
+      return 'pt-8'; // Add extra padding for iOS status bar
+    }
+    return 'pt-0';
+  };
+
+  return (
+    <div className="min-h-screen pb-20 bg-linen dark:bg-navy-dark">
+      <div className={`container py-6 px-4 sm:px-[44px] ${getTopPadding()}`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sections.map(section => <Link key={section.path} to={section.path} className="block hover:scale-[1.02] transition-transform duration-200">
+          {sections.map(section => (
+            <Link 
+              key={section.path} 
+              to={section.path} 
+              className="block hover:scale-[1.02] transition-transform duration-200"
+            >
               <div className={`rounded-xl shadow-md hover:shadow-lg p-6 h-full bg-white dark:bg-navy-light ${section.cardClass}`}>
                 <div className="flex justify-center items-center h-16 w-16 bg-linen/80 dark:bg-navy-400/80 rounded-full mb-4 mx-auto shadow-md">
                   <section.icon className="h-8 w-8 text-primary" />
@@ -70,10 +86,12 @@ const Home: React.FC = () => {
                   {section.description}
                 </p>
               </div>
-            </Link>)}
+            </Link>
+          ))}
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
 
 export default Home;

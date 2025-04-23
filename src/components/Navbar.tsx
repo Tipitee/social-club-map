@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
     return null;
   }
 
-  // iOS navigation styling with proper typing
+  // iOS navigation styling with proper typing and fixed height
   const getNavbarStyle = (): CSSProperties => {
     if (isIOS && isNativePlatform) {
       return {
@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
         right: 0,
         zIndex: 40,
         paddingTop: 'env(safe-area-inset-top, 0px)',
-        height: 'auto'
+        height: 'calc(64px + env(safe-area-inset-top, 0px))' // Fixed height for iOS
       };
     }
     return {
@@ -89,7 +89,24 @@ const Navbar: React.FC = () => {
       left: 0,
       right: 0,
       zIndex: 40,
-      height: 'auto'
+      height: '64px' // Fixed height for other platforms
+    };
+  };
+
+  // Get content style to ensure proper alignment
+  const getNavContentStyle = (): CSSProperties => {
+    if (isIOS && isNativePlatform) {
+      return {
+        paddingTop: 'env(safe-area-inset-top, 0px)',
+        height: '64px', // Fixed height for the actual content
+        display: 'flex',
+        alignItems: 'center'
+      };
+    }
+    return {
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center'
     };
   };
 
@@ -98,7 +115,10 @@ const Navbar: React.FC = () => {
       className="bg-background border-b border-border fixed left-0 right-0 z-40"
       style={getNavbarStyle()}
     >
-      <div className="container flex items-center justify-between px-4 py-3">
+      <div 
+        className="container flex items-center justify-between px-4"
+        style={getNavContentStyle()}
+      >
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
             <div className="h-8 w-28 bg-muted animate-pulse" />

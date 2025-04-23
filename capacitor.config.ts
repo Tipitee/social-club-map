@@ -37,7 +37,7 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: "dark",
       backgroundColor: "#ffffff",
-      overlaysWebView: false,
+      overlaysWebView: true,  // Changed to true to use native iOS behavior
       animated: true
     },
     SplashScreen: {

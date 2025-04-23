@@ -8,7 +8,7 @@
     @apply border-border;
   }
   
-  /* Light theme (default) with explicit light- prefix for all variables */
+  /* Light theme (default) with completely independent variables */
   :root {
     /* Base theme colors */
     --light-background: 34 67% 95%;
@@ -51,7 +51,25 @@
     --light-back-button-hover: 152 15% 68%;
     --light-back-button-text: 197 43% 18%;
     
-    /* Set the current theme variables */
+    /* Light theme specific colors */
+    --light-linen: 34 67% 95%;
+    --light-navy-dark: 197 43% 18%;
+    --light-navy-light: 196 33% 32%;
+    --light-navy-DEFAULT: 196 41% 40%;
+    --light-navy-400: 196 33% 25%;
+    --light-navy-300: 196 33% 30%;
+    --light-navy-100: 196 33% 35%;
+    --light-navy-800: 196 33% 22%;
+    --light-navy-700: 196 33% 27%;
+    --light-navy-600: 196 33% 29%;
+    --light-teal-DEFAULT: 174 59% 39%;
+    --light-teal-dark: 174 59% 34%;
+    --light-strain-indica: 267 70% 67%;
+    --light-strain-sativa: 45 93% 58%;
+    --light-strain-hybrid: 134 41% 57%;
+    --light-oldLace-500: 39 85% 95%;
+    
+    /* Set the current theme variables for light mode */
     --background: var(--light-background);
     --foreground: var(--light-foreground);
     --card: var(--light-card);
@@ -89,11 +107,29 @@
     --back-button-bg: var(--light-back-button-bg);
     --back-button-hover: var(--light-back-button-hover);
     --back-button-text: var(--light-back-button-text);
+    
+    /* Theme-specific colors */
+    --linen: var(--light-linen);
+    --navy-dark: var(--light-navy-dark);
+    --navy-light: var(--light-navy-light);
+    --navy-DEFAULT: var(--light-navy-DEFAULT);
+    --navy-400: var(--light-navy-400);
+    --navy-300: var(--light-navy-300);
+    --navy-100: var(--light-navy-100);
+    --navy-800: var(--light-navy-800);
+    --navy-700: var(--light-navy-700);
+    --navy-600: var(--light-navy-600);
+    --teal-DEFAULT: var(--light-teal-DEFAULT);
+    --teal-dark: var(--light-teal-dark);
+    --strain-indica: var(--light-strain-indica);
+    --strain-sativa: var(--light-strain-sativa);
+    --strain-hybrid: var(--light-strain-hybrid);
+    --oldLace-500: var(--light-oldLace-500);
   }
  
-  /* Dark theme colors with explicit dark- prefix for all variables */
+  /* Dark theme colors with completely independent variables */
   .dark {
-    /* Base theme colors */
+    /* Base theme colors - completely independent from light theme */
     --dark-background: 197 43% 18%;
     --dark-foreground: 210 40% 98%;
     --dark-card: 196 33% 32%;
@@ -134,7 +170,25 @@
     --dark-back-button-hover: 196 33% 20%;
     --dark-back-button-text: 210 40% 98%;
     
-    /* Set the current theme variables */
+    /* Dark theme specific colors */
+    --dark-linen: 197 43% 15%;
+    --dark-navy-dark: 197 43% 12%;
+    --dark-navy-light: 197 33% 25%;
+    --dark-navy-DEFAULT: 197 33% 20%;
+    --dark-navy-400: 197 33% 30%;
+    --dark-navy-300: 197 33% 35%;
+    --dark-navy-100: 197 33% 40%;
+    --dark-navy-800: 197 33% 15%;
+    --dark-navy-700: 197 33% 18%;
+    --dark-navy-600: 197 33% 22%;
+    --dark-teal-DEFAULT: 174 59% 39%;
+    --dark-teal-dark: 174 59% 34%;
+    --dark-strain-indica: 267 70% 60%;
+    --dark-strain-sativa: 45 93% 50%;
+    --dark-strain-hybrid: 134 41% 50%;
+    --dark-oldLace-500: 197 33% 20%;
+    
+    /* Set the current theme variables for dark mode */
     --background: var(--dark-background);
     --foreground: var(--dark-foreground);
     --card: var(--dark-card);
@@ -171,5 +225,23 @@
     --back-button-bg: var(--dark-back-button-bg);
     --back-button-hover: var(--dark-back-button-hover);
     --back-button-text: var(--dark-back-button-text);
+    
+    /* Theme-specific colors */
+    --linen: var(--dark-linen);
+    --navy-dark: var(--dark-navy-dark);
+    --navy-light: var(--dark-navy-light);
+    --navy-DEFAULT: var(--dark-navy-DEFAULT);
+    --navy-400: var(--dark-navy-400);
+    --navy-300: var(--dark-navy-300);
+    --navy-100: var(--dark-navy-100);
+    --navy-800: var(--dark-navy-800);
+    --navy-700: var(--dark-navy-700);
+    --navy-600: var(--dark-navy-600);
+    --teal-DEFAULT: var(--dark-teal-DEFAULT);
+    --teal-dark: var(--dark-teal-dark);
+    --strain-indica: var(--dark-strain-indica);
+    --strain-sativa: var(--dark-strain-sativa);
+    --strain-hybrid: var(--dark-strain-hybrid);
+    --oldLace-500: var(--dark-oldLace-500);
   }
 }
