@@ -2,20 +2,30 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
+// Define language types
 type Language = 'en' | 'de';
 
+// Define context type
 interface LanguageContextType {
   language: Language;
   setLanguage: (language: Language) => void;
 }
 
+// Create context with undefined as default value
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// Language provider component
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // Get language from localStorage or default to English
-  const storedLanguage = (localStorage.getItem('language') as Language) || 'en';
-  const [language, setLanguage] = useState<Language>(storedLanguage);
   const { i18n } = useTranslation();
+  
+  // Get language from localStorage or default to English
+  const getInitialLanguage = (): Language => {
+    const storedLanguage = localStorage.getItem('language') as Language;
+    return storedLanguage || 'en';
+  };
+  
+  // State to track current language
+  const [language, setLanguage] = useState<Language>(getInitialLanguage());
 
   // Effect to sync the i18n instance with our context state
   useEffect(() => {
@@ -64,6 +74,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   );
 };
 
+// Custom hook to use the language context
 export const useLanguage = (): LanguageContextType => {
   const context = useContext(LanguageContext);
   if (context === undefined) {
