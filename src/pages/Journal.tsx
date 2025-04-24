@@ -120,7 +120,7 @@ const Journal: React.FC = () => {
   }
   return <div className="min-h-screen bg-linen dark:bg-navy-dark">
       <Navbar />
-      <div className="container max-w-5xl mx-auto px-[15px] py-[14px]">
+      <div className="container max-w-5xl mx-auto px-[15px] py-[14px] my-[56px]">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">
             {t('navigation.journal')}
