@@ -11,8 +11,11 @@ interface LanguageContextType {
   setLanguage: (language: Language) => void;
 }
 
-// Create context with undefined as default value
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+// Create context with default values instead of undefined
+const LanguageContext = createContext<LanguageContextType>({
+  language: 'en',
+  setLanguage: () => {},
+});
 
 // Language provider component
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -20,8 +23,13 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   
   // Get language from localStorage or default to English
   const getInitialLanguage = (): Language => {
-    const storedLanguage = localStorage.getItem('language') as Language;
-    return storedLanguage || 'en';
+    try {
+      const storedLanguage = localStorage.getItem('language') as Language;
+      return storedLanguage || 'en';
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
+      return 'en';
+    }
   };
   
   // State to track current language
@@ -58,13 +66,18 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const handleSetLanguage = (newLanguage: Language) => {
     console.log("Setting language in context:", newLanguage);
-    localStorage.setItem('language', newLanguage);
-    setLanguage(newLanguage);
-    
-    // Dispatch a custom event for debugging
-    window.dispatchEvent(new CustomEvent('languageChanged', { 
-      detail: { language: newLanguage } 
-    }));
+    try {
+      localStorage.setItem('language', newLanguage);
+      setLanguage(newLanguage);
+      
+      // Dispatch a custom event for debugging
+      window.dispatchEvent(new CustomEvent('languageChanged', { 
+        detail: { language: newLanguage } 
+      }));
+    } catch (error) {
+      console.error('Error setting language:', error);
+      setLanguage(newLanguage); // Still update the state even if localStorage fails
+    }
   };
 
   return (
@@ -77,8 +90,5 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 // Custom hook to use the language context
 export const useLanguage = (): LanguageContextType => {
   const context = useContext(LanguageContext);
-  if (context === undefined) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
   return context;
 };

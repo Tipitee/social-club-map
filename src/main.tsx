@@ -9,8 +9,19 @@ import './styles/utilities.css';
 import './styles/map.css';
 import './styles/forms.css';
 
-createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// Ensure React is available globally for debugging
+window.React = React;
+
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  console.error("Failed to find the root element");
+} else {
+  const root = createRoot(rootElement);
+  
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+}
