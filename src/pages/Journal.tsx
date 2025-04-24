@@ -14,47 +14,53 @@ import { format } from 'date-fns';
 import NewJournalEntry from "@/components/NewJournalEntry";
 import { JournalEntry } from "@/types/journal";
 import { v4 as uuidv4 } from "uuid";
+import { Capacitor } from "@capacitor/core";
+
 const Journal: React.FC = () => {
-  const {
-    t
-  } = useTranslation();
-  const {
-    user
-  } = useAuth();
+  const { t } = useTranslation();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
   const [editedEntry, setEditedEntry] = useState<JournalEntry | null>(null);
   const [showNewEntryModal, setShowNewEntryModal] = useState(false);
+  const isIOS = Capacitor.getPlatform() === 'ios';
+  const isNativePlatform = Capacitor.isNativePlatform();
+
   useEffect(() => {
     if (user) {
-      const mockEntries: JournalEntry[] = [{
-        id: "1",
-        date: "2024-01-20",
-        dosage: "5mg",
-        dosageType: "edible",
-        effectiveness: 4,
-        mood: "relaxed",
-        activity: "reading",
-        sideEffects: ["dry-mouth"],
-        notes: "Felt relaxed and creative."
-      }, {
-        id: "2",
-        date: "2024-01-25",
-        dosage: "10mg",
-        dosageType: "joints",
-        effectiveness: 5,
-        mood: "happy",
-        activity: "music",
-        sideEffects: ["dry-eyes"],
-        notes: "Good for pain relief."
-      }];
+      const mockEntries: JournalEntry[] = [
+        {
+          id: "1",
+          date: "2024-01-20",
+          dosage: "5mg",
+          dosageType: "edible",
+          effectiveness: 4,
+          mood: "relaxed",
+          activity: "reading",
+          sideEffects: ["dry-mouth"],
+          notes: "Felt relaxed and creative."
+        },
+        {
+          id: "2",
+          date: "2024-01-25",
+          dosage: "10mg",
+          dosageType: "joints",
+          effectiveness: 5,
+          mood: "happy",
+          activity: "music",
+          sideEffects: ["dry-eyes"],
+          notes: "Good for pain relief."
+        }
+      ];
       setEntries(mockEntries);
     }
   }, [user]);
+
   const redirectToAuth = () => {
     navigate("/auth");
   };
+
   const handleSaveNew = (entry: Omit<JournalEntry, "id">) => {
     const newEntry = {
       ...entry,
@@ -63,6 +69,7 @@ const Journal: React.FC = () => {
     setEntries(prev => [newEntry, ...prev]);
     setShowNewEntryModal(false);
   };
+
   const startEditing = (id: string) => {
     const entryToEdit = entries.find(entry => entry.id === id);
     if (entryToEdit) {
@@ -72,60 +79,65 @@ const Journal: React.FC = () => {
       });
     }
   };
+
   const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (editedEntry) {
-      const {
-        name,
-        value
-      } = e.target;
+      const { name, value } = e.target;
       setEditedEntry(prev => ({
         ...prev!,
         [name]: value
       }));
     }
   };
+
   const saveEntry = () => {
     if (editedEntry) {
-      setEntries(prev => prev.map(entry => entry.id === editedEntry.id ? {
-        ...editedEntry
-      } : entry));
+      setEntries(prev => prev.map(entry => entry.id === editedEntry.id ? { ...editedEntry } : entry));
       setEditingEntryId(null);
       setEditedEntry(null);
     }
   };
+
   const cancelEditing = () => {
     setEditingEntryId(null);
     setEditedEntry(null);
   };
+
   const deleteEntry = (id: string) => {
     setEntries(prev => prev.filter(entry => entry.id !== id));
     setEditingEntryId(null);
     setEditedEntry(null);
   };
+
   if (!user) {
-    return <div className="min-h-screen bg-linen dark:bg-navy-dark">
+    return (
+      <div className="page-container">
+        {isIOS && isNativePlatform && <div className="ios-status-bar" />}
         <Navbar />
-        <div className="container px-4 py-6 flex items-center justify-center" style={{
-        minHeight: "calc(100vh - 80px)"
-      }}>
+        <div className="page-content flex items-center justify-center min-h-[calc(100vh-144px)]">
           <div className="auth-required-block">
             <h3 className="text-xl font-semibold mb-3">{t('auth.signInRequired')}</h3>
             <p className="mb-4">{t('journal.signInToTrack')}</p>
-            <Button onClick={redirectToAuth} className="bg-teal hover:bg-teal-dark text-white">
+            <Button onClick={redirectToAuth} className="bg-teal hover:bg-teal-dark text-white rounded-md">
               {t('auth.signIn')}
             </Button>
           </div>
         </div>
-      </div>;
+        {isIOS && isNativePlatform && <div className="ios-bottom-safe" />}
+      </div>
+    );
   }
-  return <div className="min-h-screen bg-linen dark:bg-navy-dark">
+
+  return (
+    <div className="page-container">
+      {isIOS && isNativePlatform && <div className="ios-status-bar" />}
       <Navbar />
-      <div className="container max-w-5xl mx-auto px-[15px] py-[14px] my-[56px]">
+      <div className="container max-w-5xl mx-auto px-4 py-6 my-[56px]">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">
             {t('navigation.journal')}
           </h1>
-          <Button onClick={() => setShowNewEntryModal(true)} className="bg-white dark:bg-navy-light hover:bg-gray-100 dark:hover:bg-navy-400 text-teal-DEFAULT border border-teal-DEFAULT/30 shadow-sm">
+          <Button onClick={() => setShowNewEntryModal(true)} className="bg-white dark:bg-navy-light hover:bg-gray-100 dark:hover:bg-navy-400 text-teal border border-teal/30 shadow-sm rounded-md">
             <PlusCircle size={18} className="mr-1" />
             {t('journal.addEntry')}
           </Button>
@@ -137,7 +149,8 @@ const Journal: React.FC = () => {
           {t('journal.existingEntries')}
         </h2>
         <div className="space-y-4">
-          {entries.map(entry => <Card key={entry.id} className="journal-entry">
+          {entries.map(entry => (
+            <Card key={entry.id} className="journal-entry card-rounded">
               <CardContent className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
@@ -146,11 +159,13 @@ const Journal: React.FC = () => {
                       {entry.date}
                     </span>
                   </div>
-                  <Badge variant="outline" className={entry.effectiveness >= 4 ? "bg-teal-DEFAULT/20 text-teal-DEFAULT" : ""}>
+                  <Badge variant="outline" className={entry.effectiveness >= 4 ? "bg-teal/20 text-teal rounded-md" : "rounded-md"}>
                     {t('journal.effectiveness')}: {entry.effectiveness}/5
                   </Badge>
                 </div>
-                {editingEntryId === entry.id ? <>
+                
+                {editingEntryId === entry.id ? (
+                  <>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                       <div>
                         <Label htmlFor="date" className="input-label">
@@ -175,18 +190,20 @@ const Journal: React.FC = () => {
                       <Textarea id="notes" name="notes" value={editedEntry?.notes || ""} onChange={handleEditInputChange} className="input-field form-control bg-white dark:bg-navy-300" />
                     </div>
                     <div className="flex justify-end gap-2">
-                      <Button onClick={cancelEditing} variant="outline" className="border-gray-300 dark:border-gray-600 text-navy-dark dark:text-white bg-white dark:bg-navy-100">
+                      <Button onClick={cancelEditing} variant="outline" className="border-gray-300 dark:border-gray-600 text-navy-dark dark:text-white bg-white dark:bg-navy-100 rounded-md">
                         <X size={16} className="mr-1" />
                         {t('common.cancel')}
                       </Button>
-                      <Button onClick={saveEntry} className="text-teal-DEFAULT border border-teal-DEFAULT/30 shadow-sm bg-white dark:bg-navy-700 hover:bg-gray-50 dark:hover:bg-navy-600">
+                      <Button onClick={saveEntry} className="text-teal border border-teal/30 shadow-sm bg-white dark:bg-navy-700 hover:bg-gray-50 dark:hover:bg-navy-600 rounded-md">
                         {t('journal.save')}
                       </Button>
-                      <Button onClick={() => deleteEntry(entry.id)} variant="destructive" className="bg-red-600 hover:bg-red-500 px-[14px] my-0 py-0">
+                      <Button onClick={() => deleteEntry(entry.id)} variant="destructive" className="bg-red-600 hover:bg-red-500 px-4 py-0 rounded-md">
                         {t('journal.delete')}
                       </Button>
                     </div>
-                  </> : <>
+                  </>
+                ) : (
+                  <>
                     <div className="mb-4">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-lg font-semibold text-navy-dark dark:text-white">
@@ -218,16 +235,21 @@ const Journal: React.FC = () => {
                     </p>
                     
                     <div className="flex justify-end">
-                      <Button onClick={() => startEditing(entry.id)} variant="secondary" size="sm" className="text-navy-dark dark:text-white bg-navy-800 hover:bg-navy-700">
+                      <Button onClick={() => startEditing(entry.id)} variant="secondary" size="sm" className="text-navy-dark dark:text-white bg-navy-800 hover:bg-navy-700 rounded-md">
                         <Edit size={14} className="mr-1" />
                         {t('journal.edit')}
                       </Button>
                     </div>
-                  </>}
+                  </>
+                )}
               </CardContent>
-            </Card>)}
+            </Card>
+          ))}
         </div>
       </div>
-    </div>;
+      {isIOS && isNativePlatform && <div className="ios-bottom-safe" />}
+    </div>
+  );
 };
+
 export default Journal;

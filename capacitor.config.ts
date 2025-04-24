@@ -13,14 +13,14 @@ const config: CapacitorConfig = {
   android: {
     androidxEnabled: true
   },
-  // Completely revised iOS configuration for proper layout
+  // Revised iOS configuration with improved layout handling
   ios: {
     // Properly manage content display
     preferredContentMode: 'mobile',
     limitsNavigationsToAppBoundDomains: true,
     
     // Critical fixes for layout issues
-    contentInset: 'always',
+    contentInset: 'automatic',
     scrollEnabled: true,
     usesFocusEngine: true,
     
@@ -32,10 +32,10 @@ const config: CapacitorConfig = {
     // Status bar configuration for notch devices
     statusBarStyle: "dark",
     
-    // Fix bottom white space by forcing proper colors
+    // Fix bottom white space by forcing black background
     backgroundColor: "#000000"
   },
-  // Plugins configuration for proper status bar and keyboard handling
+  // Improved plugins configuration
   plugins: {
     StatusBar: {
       style: "dark",
@@ -50,7 +50,7 @@ const config: CapacitorConfig = {
       androidScaleType: "CENTER_CROP"
     },
     Keyboard: {
-      resize: "native",
+      resize: "body",
       style: "dark",
       resizeOnFullScreen: true
     }

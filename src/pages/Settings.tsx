@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@/components/theme-provider";
@@ -40,6 +41,7 @@ const Settings: React.FC = () => {
             size="icon" 
             onClick={goBack}
             className="rounded-full hover:bg-accent/20"
+            aria-label={t('common.close')}
           >
             <X className="h-4 w-4 text-foreground" />
           </Button>
@@ -65,7 +67,7 @@ const Settings: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Card className="bg-card border-border shadow-md">
+          <Card className="card-rounded">
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-6 text-foreground">
                 {t('settings.language')}
@@ -78,11 +80,11 @@ const Settings: React.FC = () => {
                 <Select value={i18n.language} onValueChange={changeLanguage}>
                   <SelectTrigger 
                     id="language-select" 
-                    className="bg-card border-border text-foreground"
+                    className="bg-card border-border text-foreground rounded-md"
                   >
                     <SelectValue placeholder={t('language.select')} />
                   </SelectTrigger>
-                  <SelectContent className="bg-card border-border">
+                  <SelectContent className="bg-card border-border rounded-md">
                     <SelectItem value="en" className="text-foreground hover:bg-accent/20 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground">
                       {t('language.en')}
                     </SelectItem>
@@ -95,7 +97,7 @@ const Settings: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Card className="bg-card border-border shadow-md">
+          <Card className="card-rounded">
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-6 text-foreground">
                 {t('settings.preferences')}
@@ -129,7 +131,7 @@ const Settings: React.FC = () => {
           <div className="mt-4 text-center">
             <Button 
               variant="outline" 
-              className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground border-transparent rounded-full" 
+              className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground border-transparent rounded-md" 
             >
               {t('settings.savePreferences')}
             </Button>
