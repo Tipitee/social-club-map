@@ -2,98 +2,44 @@
 @tailwind utilities;
 
 @layer utilities {
-  /* iOS safe area utilities with proper height values */
-  .safe-area-top {
-    padding-top: env(safe-area-inset-top, 0px);
+  /* Enhanced iOS safe area utilities */
+  .ios-safe-top {
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
+  
+  .ios-safe-bottom {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  
+  .min-h-screen-safe {
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  
+  .h-screen-safe {
+    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 
-  .h-safe-area-top {
-    height: env(safe-area-inset-top, 0px);
-  }
-
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-
-  .h-safe-area-bottom {
-    height: env(safe-area-inset-bottom, 0px);
-  }
-  
-  /* iOS-specific padding utilities */
-  .pt-safe {
-    padding-top: env(safe-area-inset-top, 0px);
-  }
-  
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-
-  /* Enhanced page transition utilities */
-  .page-transition {
-    @apply transition-all duration-300 ease-in-out;
-  }
-
-  .loading-indicator {
-    @apply animate-pulse bg-accent/20 rounded;
-  }
-
-  /* iOS-specific layout helper classes */
-  .ios-status-bar-spacer {
-    height: env(safe-area-inset-top, 0px);
-    display: block;
-    width: 100%;
-    background-color: inherit;
-  }
-  
-  .ios-bottom-spacer {
-    height: env(safe-area-inset-bottom, 0px);
-    display: block;
-    width: 100%;
-    background-color: transparent;
-  }
-  
-  .ios-navbar {
-    padding-top: env(safe-area-inset-top, 0px);
-  }
-  
-  /* Dynamic viewport heights for iOS */
-  .h-screen-ios {
-    height: -webkit-fill-available;
-  }
-  
-  .min-h-screen-ios {
-    min-height: -webkit-fill-available;
-  }
-
-  /* Modern viewport height values */
-  .h-dvh {
-    height: 100dvh;
-  }
-  
-  .min-h-dvh {
-    min-height: 100dvh;
-  }
-  
-  .h-svh {
-    height: 100svh;
-  }
-  
-  .min-h-svh {
-    min-height: 100svh;
-  }
-  
-  /* Content areas with proper iOS spacing */
-  .pb-nav-ios-safe {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
-  }
-  
-  .pt-header-ios-safe {
-    padding-top: calc(64px + env(safe-area-inset-top, 0px));
-  }
-  
-  /* Fix for bottom area on iOS */
-  .ios-fixed-bottom {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+  /* iOS status bar and bottom spacing */
+  .ios-status-bar {
+    padding-top: env(safe-area-inset-top);
     background-color: hsl(var(--background));
+  }
+  
+  .ios-bottom-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: hsl(var(--background));
+  }
+  
+  /* General utilities for consistent page layouts */
+  .page-container {
+    @apply min-h-dvh bg-background pb-20;
+  }
+  
+  .page-content {
+    @apply container px-4 py-6 max-w-7xl mx-auto rounded-t-2xl;
+  }
+  
+  .card-rounded {
+    @apply rounded-2xl border border-border bg-card shadow-sm;
   }
 }

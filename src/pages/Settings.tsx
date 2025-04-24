@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@/components/theme-provider";
@@ -15,6 +14,8 @@ const Settings: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
+  const isIOS = Capacitor.getPlatform() === 'ios';
+  const isNativePlatform = Capacitor.isNativePlatform();
   
   const changeLanguage = (value: string) => {
     i18n.changeLanguage(value);
@@ -25,20 +26,11 @@ const Settings: React.FC = () => {
     navigate(-1);
   };
   
-  const isIOS = Capacitor.getPlatform() === 'ios';
-  const isNativePlatform = Capacitor.isNativePlatform();
-  
-  // Calculate proper iOS padding
-  const getIosPadding = () => {
-    if (isIOS && isNativePlatform) {
-      return 'pt-[calc(env(safe-area-inset-top)+16px)]';
-    }
-    return 'pt-16';
-  };
-  
   return (
-    <div className="min-h-dvh bg-background pb-20">
-      <div className={`container px-4 py-6 max-w-7xl mx-auto ${getIosPadding()}`}>
+    <div className="page-container">
+      {isIOS && isNativePlatform && <div className="ios-status-bar" />}
+      
+      <div className={`page-content ${isIOS && isNativePlatform ? 'ios-safe-top' : 'pt-16'}`}>
         <div className="settings-header">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground">
             {t('settings.settings')}
@@ -47,14 +39,14 @@ const Settings: React.FC = () => {
             variant="outline" 
             size="icon" 
             onClick={goBack}
-            className="settings-back-button"
+            className="rounded-full hover:bg-accent/20"
           >
             <X className="h-4 w-4 text-foreground" />
           </Button>
         </div>
         
         <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
-          <Card className="bg-card border-border shadow-md">
+          <Card className="card-rounded">
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-6 text-foreground">
                 {t('settings.appearance')}
@@ -68,7 +60,6 @@ const Settings: React.FC = () => {
                   id="dark-mode" 
                   checked={theme === "dark"}
                   onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
-                  className="data-[state=checked]:bg-primary"
                 />
               </div>
             </CardContent>
@@ -138,13 +129,15 @@ const Settings: React.FC = () => {
           <div className="mt-4 text-center">
             <Button 
               variant="outline" 
-              className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground border-transparent" 
+              className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground border-transparent rounded-full" 
             >
               {t('settings.savePreferences')}
             </Button>
           </div>
         </div>
       </div>
+      
+      {isIOS && isNativePlatform && <div className="ios-bottom-safe" />}
     </div>
   );
 };
