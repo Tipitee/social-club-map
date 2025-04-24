@@ -15,7 +15,7 @@
   }
 
   .navbar-logo {
-    @apply h-10 object-contain transition-opacity duration-200;
+    @apply h-8 object-contain transition-opacity duration-200;
   }
 
   .effect-bar {
@@ -60,14 +60,25 @@
   
   /* iOS specific styling */
   .ios-device .navbar-container {
-    padding-top: env(safe-area-inset-top, 44px);
+    padding-top: env(safe-area-inset-top, 0px);
   }
   
   .ios-device .bottom-nav-container {
-    padding-bottom: env(safe-area-inset-bottom, 34px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   
   .ios-main-content {
     padding-top: env(safe-area-inset-top, 0px);
+  }
+  
+  /* Home page card heights - fixed consistent heights */
+  .home-card-journal,
+  .home-card-strains,
+  .home-card-clubs,
+  .home-card-guide,
+  .home-card-news,
+  .home-card-settings {
+    @apply flex flex-col items-center;
+    height: 180px; /* Consistent fixed height */
   }
 }

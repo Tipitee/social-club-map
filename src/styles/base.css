@@ -4,8 +4,9 @@
 @tailwind utilities;
 
 @layer base {
+  /* Theme system with completely separate variable sets */
   :root {
-    /* Light theme colors - completely independent */
+    /* Light theme variables (only applied in light mode) */
     --light-background: 34 67% 95%;
     --light-foreground: 197 43% 18%;
     --light-card: 0 0% 100%;
@@ -16,10 +17,12 @@
     --light-border: 200 14% 80%;
     --light-input: 200 14% 80%;
     --light-accent: 35 84% 80%;
+    --light-muted: 220 14% 96%;
+    --light-muted-foreground: 220 8% 46%;
   }
   
-  /* Dark theme colors - completely independent */
-  .dark {
+  /* Dark theme variables (only applied in dark mode) */
+  :root {
     --dark-background: 197 43% 18%;
     --dark-foreground: 210 40% 98%;
     --dark-card: 196 33% 32%;
@@ -27,12 +30,14 @@
     --dark-primary: 174 59% 39%;
     --dark-primary-light: 174 59% 59%;
     --dark-primary-dark: 174 59% 29%;
-    --dark-border: 217.2 32.6% 17.5%;
-    --dark-input: 217.2 32.6% 17.5%;
+    --dark-border: 217 32% 17%;
+    --dark-input: 217 32% 17%;
     --dark-accent: 35 84% 50%;
+    --dark-muted: 217 33% 17%;
+    --dark-muted-foreground: 215 20% 65%;
   }
 
-  /* Apply theme variables to standard CSS variables with no mixing */
+  /* Apply light theme variables in light mode */
   html:not(.dark) {
     --background: var(--light-background);
     --foreground: var(--light-foreground);
@@ -44,8 +49,11 @@
     --border: var(--light-border);
     --input: var(--light-input);
     --accent: var(--light-accent);
+    --muted: var(--light-muted);
+    --muted-foreground: var(--light-muted-foreground);
   }
 
+  /* Apply dark theme variables in dark mode */
   .dark {
     --background: var(--dark-background);
     --foreground: var(--dark-foreground);
@@ -57,6 +65,8 @@
     --border: var(--dark-border);
     --input: var(--dark-input);
     --accent: var(--dark-accent);
+    --muted: var(--dark-muted);
+    --muted-foreground: var(--dark-muted-foreground);
   }
 
   /* iOS safe area utilities */
@@ -72,6 +82,7 @@
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
   }
 
   body {
@@ -80,5 +91,6 @@
     -webkit-overflow-scrolling: touch;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    overscroll-behavior-y: none;
   }
 }

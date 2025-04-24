@@ -25,20 +25,21 @@ html:not(.dark) textarea {
 
 /* Dark mode placeholder styling with fully independent variables */
 .dark ::placeholder {
-  color: hsl(var(--dark-foreground) / 70%) !important;
+  color: hsl(var(--dark-muted-foreground)) !important;
 }
 
 /* Light mode placeholder styling with fully independent variables */
 html:not(.dark) ::placeholder {
-  color: hsl(var(--light-foreground) / 50%) !important;
+  color: hsl(var(--light-muted-foreground)) !important;
 }
 
-/* Focus styles - theme-specific with independent variables */
+/* Focus styles for dark mode */
 .dark :focus-visible {
   outline: 2px solid hsl(var(--dark-primary));
   outline-offset: 2px;
 }
 
+/* Focus styles for light mode */
 html:not(.dark) :focus-visible {
   outline: 2px solid hsl(var(--light-primary));
   outline-offset: 2px;

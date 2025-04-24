@@ -51,44 +51,46 @@ const App = () => {
   // Set up proper viewport meta for iOS
   useEffect(() => {
     if (Capacitor.getPlatform() === 'ios') {
-      // Update viewport meta tag for iOS
-      const existingMeta = document.querySelector('meta[name="viewport"]');
-      if (existingMeta) {
-        existingMeta.remove();
+      // Fix iOS viewport
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        viewportMeta.setAttribute('content', 
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
+        );
       }
-
-      // Create new viewport meta with improved iOS viewport fit
-      const meta = document.createElement('meta');
-      meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
-      document.head.appendChild(meta);
-
+      
       // Add iOS styling hooks
       document.documentElement.classList.add('ios-device');
-
-      // Add CSS variables for iOS safe areas that will be used throughout the app
-      document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top, 0px)');
-      document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom, 0px)');
-      document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left, 0px)');
-      document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
       
-      // Fix the iOS status bar appearance
-      const statusBarStyle = document.createElement('meta');
-      statusBarStyle.name = 'apple-mobile-web-app-status-bar-style';
-      statusBarStyle.content = 'black-translucent';
-      document.head.appendChild(statusBarStyle);
+      // Add theme color meta for iOS
+      const themeColor = document.head.querySelector('meta[name="theme-color"]');
+      if (!themeColor) {
+        const meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        meta.content = '#000000';
+        document.head.appendChild(meta);
+      }
       
-      // Enable fullscreen mode for iOS web app
-      const webAppCapable = document.createElement('meta');
-      webAppCapable.name = 'apple-mobile-web-app-capable';
-      webAppCapable.content = 'yes';
-      document.head.appendChild(webAppCapable);
+      // Add iOS web app meta tags
+      if (!document.head.querySelector('meta[name="apple-mobile-web-app-capable"]')) {
+        const capable = document.createElement('meta');
+        capable.name = 'apple-mobile-web-app-capable';
+        capable.content = 'yes';
+        document.head.appendChild(capable);
+      }
       
-      // Set theme color for iOS
-      const themeColor = document.createElement('meta');
-      themeColor.name = 'theme-color';
-      themeColor.content = '#000000';
-      document.head.appendChild(themeColor);
+      if (!document.head.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')) {
+        const statusBarStyle = document.createElement('meta');
+        statusBarStyle.name = 'apple-mobile-web-app-status-bar-style';
+        statusBarStyle.content = 'black-translucent';
+        document.head.appendChild(statusBarStyle);
+      }
+      
+      // Fix body overflow and height
+      document.body.style.minHeight = '100%';
+      document.body.style.height = '-webkit-fill-available';
+      document.body.style.overscrollBehavior = 'none';
+      document.documentElement.style.overscrollBehavior = 'none';
     }
   }, []);
 
@@ -104,7 +106,7 @@ const App = () => {
                     <Navbar />
                   </Suspense>
                   
-                  <main> {/* Let each page control its own padding */}
+                  <main>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

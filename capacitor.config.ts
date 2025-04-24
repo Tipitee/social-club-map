@@ -20,9 +20,10 @@ const config: CapacitorConfig = {
     limitsNavigationsToAppBoundDomains: true,
     
     // Critical fixes for layout issues
-    contentInset: 'always',
+    contentInset: 'never',
     allowsLinkPreview: false,
     scrollEnabled: true,
+    usesFocusEngine: true,
     
     // Fix viewport and rendering issues
     overrideUserInterfaceStyle: 'dark',

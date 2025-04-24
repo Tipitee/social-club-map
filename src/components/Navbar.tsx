@@ -75,13 +75,9 @@ const Navbar: React.FC = () => {
   return (
     <header 
       className="fixed top-0 left-0 right-0 z-40 border-b border-border bg-background"
-      style={{
-        paddingTop: isIOS && isNativePlatform ? 'env(safe-area-inset-top, 0px)' : '0',
-      }}
     >
-      <div 
-        className="container flex items-center justify-between px-4 h-16 w-full"
-      >
+      {isIOS && isNativePlatform && <div className="h-safe-area-top bg-background"></div>}
+      <div className="container flex items-center justify-between px-4 h-16 w-full">
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
             <div className="h-8 w-28 bg-muted animate-pulse" />

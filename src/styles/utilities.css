@@ -59,11 +59,13 @@
   /* Dynamic viewport heights for iOS */
   .h-screen-ios {
     height: 100vh; /* Fallback */
+    height: -webkit-fill-available;
     height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
   
   .min-h-screen-ios {
     min-height: 100vh; /* Fallback */
+    min-height: -webkit-fill-available;
     min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 
@@ -84,12 +86,12 @@
     min-height: 100svh;
   }
   
-  /* Bottom safe area for content */
+  /* Bottom safe area for content - adjusted values */
   .pb-safe-bottom {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
   }
   
-  /* Bottom nav safe area spacer */
+  /* Bottom nav safe area spacer - adjusted values */
   .pb-nav-safe {
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
