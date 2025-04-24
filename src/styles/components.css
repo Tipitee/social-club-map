@@ -88,6 +88,6 @@
   }
 
   .settings-back-button {
-    @apply rounded-full bg-white dark:bg-navy-400 hover:bg-gray-100 dark:hover:bg-navy-300 border-navy-DEFAULT dark:border-navy-500;
+    @apply rounded-full bg-white dark:bg-navy-400 hover:bg-gray-100 dark:hover:bg-navy-300 border-navy dark:border-navy-500;
   }
 }
