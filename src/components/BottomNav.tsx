@@ -32,32 +32,13 @@ const BottomNav: React.FC = () => {
     { path: "/news", label: t('navigation.news'), icon: Newspaper },
   ];
 
-  // Dynamic style for the bottom nav based on platform
-  const getBottomNavStyles = () => {
-    const baseStyles = "fixed bottom-0 left-0 right-0 border-t border-border shadow-lg z-50 bg-background";
-    
-    // iOS-specific styles with safe area insets
-    if (isIOS && isNativePlatform) {
-      return {
-        className: baseStyles,
-        style: {
-          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
-          height: 'calc(64px + env(safe-area-inset-bottom, 0px))'
-        } as React.CSSProperties
-      };
-    }
-    
-    // Default styles for other platforms
-    return {
-      className: `${baseStyles} h-16`,
-      style: {} as React.CSSProperties
-    };
-  };
-
-  const styles = getBottomNavStyles();
-
   return (
-    <div className={styles.className} style={styles.style}>
+    <div 
+      className="fixed bottom-0 left-0 right-0 border-t border-border shadow-lg z-50 bg-background"
+      style={{
+        paddingBottom: isIOS && isNativePlatform ? 'env(safe-area-inset-bottom, 0px)' : '0',
+      }}
+    >
       <div className="flex justify-around items-center h-16">
         {navItems.map((item) => (
           <Link

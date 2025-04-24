@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,12 +14,12 @@ import ClubMap from "@/components/club/ClubMap";
 import { ClubResult } from "@/types/club";
 import { toast } from "@/hooks/use-toast";
 import { Capacitor } from "@capacitor/core";
+
 const SEARCH_RESULTS_STORAGE_KEY = "club-search-results";
 const SEARCH_QUERY_STORAGE_KEY = "club-search-query";
+
 const ClubMapPage: React.FC = () => {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const {
@@ -32,6 +33,7 @@ const ClubMapPage: React.FC = () => {
     setHasSearched,
     searchClubs
   } = useClubsSearch();
+
   const [isNative, setIsNative] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
 
@@ -76,6 +78,7 @@ const ClubMapPage: React.FC = () => {
     };
     checkConnection();
   }, []);
+
   const handleSearch = () => {
     if (!searchQuery.trim()) {
       toast({
@@ -85,14 +88,17 @@ const ClubMapPage: React.FC = () => {
       });
       return;
     }
+    
     const isPostalCode = /^\d{1,5}$/.test(searchQuery.trim());
     if (isPostalCode) {
       console.log("[DEBUG] Searching with postal code:", searchQuery);
     } else {
       console.log("[DEBUG] Searching with city name:", searchQuery);
     }
+    
     searchClubs(searchQuery);
   };
+
   const handleClubClick = (clubId: string) => {
     navigate(`/clubs/${encodeURIComponent(clubId)}`, {
       state: {
@@ -101,23 +107,9 @@ const ClubMapPage: React.FC = () => {
     });
   };
 
-  // Enhanced iOS-safe container styles
-  const getContainerStyle = () => {
-    if (isIOS && isNative) {
-      return 'min-h-[100dvh] bg-background pb-[calc(var(--safe-bottom)+80px)]';
-    }
-    return 'min-h-screen bg-background pb-20';
-  };
-
-  // Enhanced iOS-safe top padding
-  const getTopPadding = () => {
-    if (isIOS && isNative) {
-      return 'pt-[calc(var(--safe-top)+64px)]';
-    }
-    return 'pt-16';
-  };
-  return <div className={getContainerStyle()}>
-      <div className={`container px-4 ${getTopPadding()} max-w-7xl mx-auto`}>
+  return (
+    <div className="bg-background min-h-dvh">
+      <div className={`container mx-auto px-4 ${isIOS && isNative ? 'pt-[calc(env(safe-area-inset-top)+64px)]' : 'pt-16'} pb-[calc(64px+env(safe-area-inset-bottom,0px))]`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">
           {t('clubs.findLocalClub')}
         </h1>
@@ -135,37 +127,67 @@ const ClubMapPage: React.FC = () => {
             <div className="flex flex-col md:flex-row gap-3 mb-6">
               <div className="flex-grow relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
-                <Input placeholder={t('clubs.enterCityPostal')} className="pl-10 border-input placeholder:text-muted-foreground" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSearch()} />
+                <Input 
+                  placeholder={t('clubs.enterCityPostal')} 
+                  className="pl-10 border-border shadow-sm" 
+                  value={searchQuery} 
+                  onChange={e => setSearchQuery(e.target.value)} 
+                  onKeyDown={e => e.key === 'Enter' && handleSearch()} 
+                />
               </div>
-              <Button onClick={handleSearch} className="bg-primary text-primary-foreground hover:bg-primary/90" disabled={loading}>
+              <Button 
+                onClick={handleSearch} 
+                className="bg-primary text-white hover:bg-primary/90 shadow-sm" 
+                disabled={loading}
+              >
                 {loading ? <Loader2 size={18} className="animate-spin mr-2" /> : null}
                 {t('clubs.searchButton')}
               </Button>
             </div>
             
-            {error && <div className="p-4 mb-4 bg-destructive/10 border border-destructive/30 rounded-md text-destructive">
+            {error && (
+              <div className="p-4 mb-4 bg-destructive/10 border border-destructive/30 rounded-md text-destructive">
                 {error}
-              </div>}
+              </div>
+            )}
             
-            {hasSearched && <div className="mt-4">
+            {hasSearched && (
+              <div className="mt-4">
                 <h3 className="text-lg font-medium mb-3 text-card-foreground">
                   {searchQuery && `${t('clubs.resultsFor')} "${searchQuery}"`}
                 </h3>
                 
-                {searchResults.length === 0 ? <div className="text-center py-8 text-muted-foreground">
+                {searchResults.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
                     {t('clubs.noClubsArea')}
-                  </div> : <div className="space-y-4 mt-4">
-                    {searchResults.map(club => <div key={club.id} onClick={() => handleClubClick(club.name)} className="p-4 rounded-lg border border-border shadow-md transition-colors cursor-pointer bg-navy-500">
+                  </div>
+                ) : (
+                  <div className="space-y-4 mt-4">
+                    {searchResults.map(club => (
+                      <div 
+                        key={club.id} 
+                        onClick={() => handleClubClick(club.name)} 
+                        className="p-4 rounded-lg border border-border shadow-md transition-colors cursor-pointer hover:bg-accent/10"
+                      >
                         <div className="flex items-start gap-3">
                           <div className="mt-1">
-                            <MapPin size={20} className={club.status === "verified" ? "text-primary" : club.status === "pending" ? "text-amber-500" : "text-muted-foreground"} />
+                            <MapPin 
+                              size={20} 
+                              className={
+                                club.status === "verified" ? "text-primary" : 
+                                club.status === "pending" ? "text-amber-500" : 
+                                "text-muted-foreground"
+                              } 
+                            />
                           </div>
                           <div className="flex-grow">
                             <div className="flex items-center gap-2">
                               <h4 className="font-semibold text-foreground">{club.name}</h4>
-                              {!club.membership_status && <Badge variant="outline" className="bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-300">
+                              {!club.membership_status && (
+                                <Badge variant="outline" className="bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-300">
                                   {t('clubs.waitlist')}
-                                </Badge>}
+                                </Badge>
+                              )}
                             </div>
                             <p className="text-sm text-foreground">{club.address}</p>
                             <p className="text-sm text-foreground">
@@ -176,19 +198,29 @@ const ClubMapPage: React.FC = () => {
                               {club.distance && `${club.distance.toFixed(1)} ${t('clubs.awayKm')}`}
                             </div>
                           </div>
-                          <Button variant="outline" size="sm" className="border-border text-foreground hover:bg-accent" onClick={e => {
-                    e.stopPropagation();
-                    handleClubClick(club.name);
-                  }}>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="border-border text-foreground hover:bg-accent/20" 
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleClubClick(club.name);
+                            }}
+                          >
                             {t('clubs.details')}
                           </Button>
                         </div>
-                      </div>)}
-                  </div>}
-              </div>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default ClubMapPage;

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, CSSProperties } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -72,42 +72,16 @@ const Navbar: React.FC = () => {
     return null;
   }
 
-  // Enhanced iOS-safe navbar styles
-  const getNavbarStyle = (): CSSProperties => {
-    if (isIOS && isNativePlatform) {
-      return {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 40,
-        paddingTop: 'env(safe-area-inset-top)',
-        height: 'calc(64px + env(safe-area-inset-top))',
-        backgroundColor: 'var(--navbar-bg, var(--background))',
-        borderBottom: '1px solid var(--border)',
-        display: 'flex',
-        alignItems: 'flex-end'
-      };
-    }
-    return {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 40,
-      height: '64px',
-      backgroundColor: 'var(--navbar-bg, var(--background))',
-      borderBottom: '1px solid var(--border)',
-      display: 'flex',
-      alignItems: 'center'
-    };
-  };
-
   return (
     <header 
-      style={getNavbarStyle()}
+      className="fixed top-0 left-0 right-0 z-40 border-b border-border bg-background"
+      style={{
+        paddingTop: isIOS && isNativePlatform ? 'env(safe-area-inset-top, 0px)' : '0',
+      }}
     >
-      <div className="container flex items-center justify-between px-4 h-16 w-full">
+      <div 
+        className="container flex items-center justify-between px-4 h-16 w-full"
+      >
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (
             <div className="h-8 w-28 bg-muted animate-pulse" />
@@ -133,7 +107,7 @@ const Navbar: React.FC = () => {
             <Button 
               variant="outline" 
               size={isMobile ? "sm" : "icon"}
-              className="rounded-full bg-background border-border text-foreground hover:bg-muted"
+              className="rounded-full bg-transparent border-border text-foreground hover:bg-accent/20"
             >
               <Settings className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
             </Button>
@@ -142,19 +116,19 @@ const Navbar: React.FC = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-full bg-background border-border">
+                <Button variant="outline" size="icon" className="rounded-full bg-transparent border-border">
                   <User className="h-5 w-5 text-foreground" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-card border-border">
-                <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                <DropdownMenuItem className="text-card-foreground hover:bg-accent/20">
                   <Link to="/profile">{t('navigation.profile')}</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                <DropdownMenuItem className="text-card-foreground hover:bg-accent/20">
                   <Link to="/settings">{t('navigation.settings')}</Link>
                 </DropdownMenuItem>
                 {isAdmin && (
-                  <DropdownMenuItem className="text-card-foreground hover:bg-muted">
+                  <DropdownMenuItem className="text-card-foreground hover:bg-accent/20">
                     <Link to="/admin-tools" className="flex items-center gap-2">
                       <Shield className="h-4 w-4" />
                       Admin Tools
@@ -164,7 +138,7 @@ const Navbar: React.FC = () => {
                 <DropdownMenuSeparator className="bg-border" />
                 <DropdownMenuItem 
                   onClick={() => signOut()} 
-                  className="text-card-foreground hover:bg-muted"
+                  className="text-card-foreground hover:bg-accent/20"
                 >
                   {t('auth.signOut')}
                 </DropdownMenuItem>
@@ -175,7 +149,7 @@ const Navbar: React.FC = () => {
               <Button 
                 variant="outline" 
                 size={isMobile ? "sm" : "icon"}
-                className="rounded-full bg-background border-border text-foreground hover:bg-muted"
+                className="rounded-full bg-transparent border-border text-foreground hover:bg-accent/20"
               >
                 <LogIn className={isMobile ? "h-4 w-4" : "h-5 w-5"} />
               </Button>

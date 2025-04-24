@@ -1,5 +1,5 @@
 
-/* Dark mode form styles - completely independent from light mode */
+/* Dark mode form styles with fully independent variables */
 .dark input[type="text"], 
 .dark input[type="number"], 
 .dark input[type="email"], 
@@ -11,7 +11,7 @@
   border-color: hsl(var(--dark-border)) !important;
 }
 
-/* Light mode form styles - completely independent from dark mode */
+/* Light mode form styles with fully independent variables */
 html:not(.dark) input[type="text"], 
 html:not(.dark) input[type="number"], 
 html:not(.dark) input[type="email"], 
@@ -23,17 +23,17 @@ html:not(.dark) textarea {
   border-color: hsl(var(--light-border)) !important;
 }
 
-/* Dark mode placeholder styling */
+/* Dark mode placeholder styling with fully independent variables */
 .dark ::placeholder {
   color: hsl(var(--dark-foreground) / 70%) !important;
 }
 
-/* Light mode placeholder styling */
+/* Light mode placeholder styling with fully independent variables */
 html:not(.dark) ::placeholder {
   color: hsl(var(--light-foreground) / 50%) !important;
 }
 
-/* Focus styles - theme-specific */
+/* Focus styles - theme-specific with independent variables */
 .dark :focus-visible {
   outline: 2px solid hsl(var(--dark-primary));
   outline-offset: 2px;

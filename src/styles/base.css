@@ -11,8 +11,11 @@
     --light-card: 0 0% 100%;
     --light-card-foreground: 197 43% 18%;
     --light-primary: 174 59% 39%;
+    --light-primary-light: 174 59% 59%;
+    --light-primary-dark: 174 59% 29%;
     --light-border: 200 14% 80%;
     --light-input: 200 14% 80%;
+    --light-accent: 35 84% 80%;
   }
   
   /* Dark theme colors - completely independent */
@@ -22,19 +25,25 @@
     --dark-card: 196 33% 32%;
     --dark-card-foreground: 210 40% 98%;
     --dark-primary: 174 59% 39%;
+    --dark-primary-light: 174 59% 59%;
+    --dark-primary-dark: 174 59% 29%;
     --dark-border: 217.2 32.6% 17.5%;
     --dark-input: 217.2 32.6% 17.5%;
+    --dark-accent: 35 84% 50%;
   }
 
-  /* Apply proper theme variables directly in the base layer */
+  /* Apply theme variables to standard CSS variables with no mixing */
   html:not(.dark) {
     --background: var(--light-background);
     --foreground: var(--light-foreground);
     --card: var(--light-card);
     --card-foreground: var(--light-card-foreground);
     --primary: var(--light-primary);
+    --primary-light: var(--light-primary-light);
+    --primary-dark: var(--light-primary-dark);
     --border: var(--light-border);
     --input: var(--light-input);
+    --accent: var(--light-accent);
   }
 
   .dark {
@@ -43,11 +52,21 @@
     --card: var(--dark-card);
     --card-foreground: var(--dark-card-foreground);
     --primary: var(--dark-primary);
+    --primary-light: var(--dark-primary-light);
+    --primary-dark: var(--dark-primary-dark);
     --border: var(--dark-border);
     --input: var(--dark-input);
+    --accent: var(--dark-accent);
   }
 
   /* iOS safe area utilities */
+  :root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+  }
+  
   html {
     height: 100%;
     overflow-x: hidden;
@@ -59,13 +78,7 @@
     height: 100%;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-  }
-
-  /* Safe area variables */
-  :root {
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --safe-left: env(safe-area-inset-left, 0px);
-    --safe-right: env(safe-area-inset-right, 0px);
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 }

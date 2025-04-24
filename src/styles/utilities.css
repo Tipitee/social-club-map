@@ -28,21 +28,28 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
+  /* Enhanced page transition utilities */
   .page-transition {
     @apply transition-all duration-300 ease-in-out;
   }
 
   .loading-indicator {
-    @apply animate-pulse bg-muted rounded;
+    @apply animate-pulse bg-accent/20 rounded;
   }
 
   /* iOS-specific layout helper classes */
   .ios-status-bar-spacer {
     height: env(safe-area-inset-top, 0px);
+    display: block;
+    width: 100%;
+    background-color: inherit;
   }
   
   .ios-bottom-spacer {
     height: env(safe-area-inset-bottom, 0px);
+    display: block;
+    width: 100%;
+    background-color: inherit;
   }
   
   .ios-navbar {
@@ -75,5 +82,15 @@
   
   .min-h-svh {
     min-height: 100svh;
+  }
+  
+  /* Bottom safe area for content */
+  .pb-safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+  }
+  
+  /* Bottom nav safe area spacer */
+  .pb-nav-safe {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
 }

@@ -30,13 +30,16 @@ const config: CapacitorConfig = {
     webViewSuspensionEnabled: false,
     
     // Status bar configuration for notch devices
-    statusBarStyle: "dark"
+    statusBarStyle: "dark",
+    
+    // Fix bottom white space
+    backgroundColor: "#000000"
   },
   // Plugins configuration for proper status bar and keyboard handling
   plugins: {
     StatusBar: {
       style: "dark",
-      backgroundColor: "#ffffff",
+      backgroundColor: "#000000",
       overlaysWebView: true,
       animated: true
     },

@@ -31,7 +31,7 @@ const Navbar = lazy(() => import("./components/Navbar"));
 
 // Loading fallback component
 const PageLoading = () => (
-  <div className="min-h-screen bg-background flex items-center justify-center">
+  <div className="min-h-dvh bg-background flex items-center justify-center">
     <div className="animate-spin h-10 w-10 border-4 border-primary rounded-full border-t-transparent"></div>
   </div>
 );
@@ -83,6 +83,12 @@ const App = () => {
       webAppCapable.name = 'apple-mobile-web-app-capable';
       webAppCapable.content = 'yes';
       document.head.appendChild(webAppCapable);
+      
+      // Set theme color for iOS
+      const themeColor = document.createElement('meta');
+      themeColor.name = 'theme-color';
+      themeColor.content = '#000000';
+      document.head.appendChild(themeColor);
     }
   }, []);
 
@@ -93,12 +99,12 @@ const App = () => {
           <ThemeProvider defaultTheme="system" storageKey="ui-theme">
             <AuthProvider>
               <TooltipProvider>
-                <div className="min-h-screen bg-background text-foreground">
+                <div className="min-h-dvh bg-background text-foreground">
                   <Suspense fallback={null}>
                     <Navbar />
                   </Suspense>
                   
-                  <main className="pb-20"> {/* Removed fixed pt-16 to allow each page to control its own top padding */}
+                  <main> {/* Let each page control its own padding */}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
