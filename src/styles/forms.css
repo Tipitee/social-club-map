@@ -1,5 +1,7 @@
 
-/* Dark mode form styles with fully independent variables */
+/* Form styles with completely independent light and dark mode variables */
+
+/* Dark mode form styles */
 .dark input[type="text"], 
 .dark input[type="number"], 
 .dark input[type="email"], 
@@ -11,7 +13,7 @@
   border-color: hsl(var(--dark-border)) !important;
 }
 
-/* Light mode form styles with fully independent variables */
+/* Light mode form styles */
 html:not(.dark) input[type="text"], 
 html:not(.dark) input[type="number"], 
 html:not(.dark) input[type="email"], 
@@ -23,12 +25,12 @@ html:not(.dark) textarea {
   border-color: hsl(var(--light-border)) !important;
 }
 
-/* Dark mode placeholder styling with fully independent variables */
+/* Dark mode placeholder styling */
 .dark ::placeholder {
   color: hsl(var(--dark-muted-foreground)) !important;
 }
 
-/* Light mode placeholder styling with fully independent variables */
+/* Light mode placeholder styling */
 html:not(.dark) ::placeholder {
   color: hsl(var(--light-muted-foreground)) !important;
 }

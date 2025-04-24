@@ -78,7 +78,16 @@
   .home-card-guide,
   .home-card-news,
   .home-card-settings {
-    @apply flex flex-col items-center;
-    height: 180px; /* Consistent fixed height */
+    @apply flex flex-col items-center justify-between;
+    height: 150px; /* Reduced consistent fixed height */
+  }
+
+  /* Setting page styling fix */
+  .settings-header {
+    @apply flex justify-between items-center mb-6;
+  }
+
+  .settings-back-button {
+    @apply rounded-full bg-white dark:bg-navy-400 hover:bg-gray-100 dark:hover:bg-navy-300 border-navy-DEFAULT dark:border-navy-500;
   }
 }

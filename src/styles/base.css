@@ -4,69 +4,95 @@
 @tailwind utilities;
 
 @layer base {
-  /* Theme system with completely separate variable sets */
+  /* Base theme setup with completely separate variable sets */
   :root {
-    /* Light theme variables (only applied in light mode) */
+    /* Light mode variables (default theme) */
     --light-background: 34 67% 95%;
     --light-foreground: 197 43% 18%;
     --light-card: 0 0% 100%;
     --light-card-foreground: 197 43% 18%;
     --light-primary: 174 59% 39%;
-    --light-primary-light: 174 59% 59%;
-    --light-primary-dark: 174 59% 29%;
+    --light-primary-foreground: 0 0% 100%;
+    --light-secondary: 35 84% 80%;
+    --light-secondary-foreground: 197 43% 18%;
     --light-border: 200 14% 80%;
     --light-input: 200 14% 80%;
+    --light-ring: 200 14% 80%;
     --light-accent: 35 84% 80%;
+    --light-accent-foreground: 197 43% 18%;
     --light-muted: 220 14% 96%;
     --light-muted-foreground: 220 8% 46%;
-  }
-  
-  /* Dark theme variables (only applied in dark mode) */
-  :root {
+    --light-popover: 0 0% 100%;
+    --light-popover-foreground: 197 43% 18%;
+    --light-destructive: 0 84.2% 60.2%;
+    --light-destructive-foreground: 0 0% 98%;
+    
+    /* Dark mode variables */
     --dark-background: 197 43% 18%;
     --dark-foreground: 210 40% 98%;
     --dark-card: 196 33% 32%;
     --dark-card-foreground: 210 40% 98%;
     --dark-primary: 174 59% 39%;
-    --dark-primary-light: 174 59% 59%;
-    --dark-primary-dark: 174 59% 29%;
+    --dark-primary-foreground: 0 0% 100%;
+    --dark-secondary: 35 84% 50%;
+    --dark-secondary-foreground: 210 40% 98%;
     --dark-border: 217 32% 17%;
     --dark-input: 217 32% 17%;
+    --dark-ring: 217 32% 17%;
     --dark-accent: 35 84% 50%;
+    --dark-accent-foreground: 210 40% 98%;
     --dark-muted: 217 33% 17%;
     --dark-muted-foreground: 215 20% 65%;
+    --dark-popover: 196 33% 32%;
+    --dark-popover-foreground: 210 40% 98%;
+    --dark-destructive: 0 62.8% 30.6%;
+    --dark-destructive-foreground: 0 0% 98%;
   }
 
-  /* Apply light theme variables in light mode */
+  /* Light mode - apply light variables to the main CSS variables */
   html:not(.dark) {
     --background: var(--light-background);
     --foreground: var(--light-foreground);
     --card: var(--light-card);
     --card-foreground: var(--light-card-foreground);
     --primary: var(--light-primary);
-    --primary-light: var(--light-primary-light);
-    --primary-dark: var(--light-primary-dark);
+    --primary-foreground: var(--light-primary-foreground);
+    --secondary: var(--light-secondary);
+    --secondary-foreground: var(--light-secondary-foreground);
     --border: var(--light-border);
     --input: var(--light-input);
+    --ring: var(--light-ring);
     --accent: var(--light-accent);
+    --accent-foreground: var(--light-accent-foreground);
     --muted: var(--light-muted);
     --muted-foreground: var(--light-muted-foreground);
+    --popover: var(--light-popover);
+    --popover-foreground: var(--light-popover-foreground);
+    --destructive: var(--light-destructive);
+    --destructive-foreground: var(--light-destructive-foreground);
   }
 
-  /* Apply dark theme variables in dark mode */
+  /* Dark mode - apply dark variables to the main CSS variables */
   .dark {
     --background: var(--dark-background);
     --foreground: var(--dark-foreground);
     --card: var(--dark-card);
     --card-foreground: var(--dark-card-foreground);
     --primary: var(--dark-primary);
-    --primary-light: var(--dark-primary-light);
-    --primary-dark: var(--dark-primary-dark);
+    --primary-foreground: var(--dark-primary-foreground);
+    --secondary: var(--dark-secondary);
+    --secondary-foreground: var(--dark-secondary-foreground);
     --border: var(--dark-border);
     --input: var(--dark-input);
+    --ring: var(--dark-ring);
     --accent: var(--dark-accent);
+    --accent-foreground: var(--dark-accent-foreground);
     --muted: var(--dark-muted);
     --muted-foreground: var(--dark-muted-foreground);
+    --popover: var(--dark-popover);
+    --popover-foreground: var(--dark-popover-foreground);
+    --destructive: var(--dark-destructive);
+    --destructive-foreground: var(--dark-destructive-foreground);
   }
 
   /* iOS safe area utilities */

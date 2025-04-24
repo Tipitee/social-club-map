@@ -55,7 +55,7 @@ const App = () => {
       const viewportMeta = document.querySelector('meta[name="viewport"]');
       if (viewportMeta) {
         viewportMeta.setAttribute('content', 
-          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
+          'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no'
         );
       }
       
@@ -86,7 +86,7 @@ const App = () => {
         document.head.appendChild(statusBarStyle);
       }
       
-      // Fix body overflow and height
+      // Fix body scroll behavior
       document.body.style.minHeight = '100%';
       document.body.style.height = '-webkit-fill-available';
       document.body.style.overscrollBehavior = 'none';

@@ -66,7 +66,7 @@ const Home: React.FC = () => {
   // Calculate top padding based on platform - increased for iOS
   const getTopPadding = () => {
     if (isIOS && isNativePlatform) {
-      return 'pt-safe'; // Use utility class
+      return 'pt-[env(safe-area-inset-top)]'; // Use direct env value
     }
     return 'pt-16'; // Standard padding for other platforms
   };

@@ -73,10 +73,8 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <header 
-      className="fixed top-0 left-0 right-0 z-40 border-b border-border bg-background"
-    >
-      {isIOS && isNativePlatform && <div className="h-safe-area-top bg-background"></div>}
+    <header className="fixed top-0 left-0 right-0 z-40 border-b border-border bg-background">
+      {isIOS && <div style={{ height: 'env(safe-area-inset-top)' }} className="bg-background w-full"></div>}
       <div className="container flex items-center justify-between px-4 h-16 w-full">
         <Link to="/" className="flex items-center font-bold text-xl">
           {logoLoading ? (

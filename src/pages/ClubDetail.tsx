@@ -83,16 +83,17 @@ const ClubDetail: React.FC = () => {
     }
   }, [error, location.state, navigate]);
   
-  const getTopPadding = () => {
+  // Calculate proper iOS padding
+  const getIosPadding = () => {
     if (isIOS && isNative) {
-      return 'pt-[calc(env(safe-area-inset-top)+0.5rem)]';
+      return 'pt-[calc(env(safe-area-inset-top)+16px)]';
     }
     return 'pt-16';
   };
   
   if (loading) {
     return (
-      <div className={`min-h-dvh bg-background ${getTopPadding()}`}>
+      <div className={`min-h-dvh bg-background ${getIosPadding()}`}>
         <ClubLoading />
       </div>
     );
@@ -100,7 +101,7 @@ const ClubDetail: React.FC = () => {
 
   if (error || !club) {
     return (
-      <div className={`min-h-dvh bg-background ${getTopPadding()}`}>
+      <div className={`min-h-dvh bg-background ${getIosPadding()}`}>
         <ClubError error={error} />
       </div>
     );
@@ -108,7 +109,7 @@ const ClubDetail: React.FC = () => {
   
   return (
     <div className="min-h-dvh bg-background pb-20">
-      <div className={`container px-4 max-w-7xl mx-auto relative ${getTopPadding()}`}>
+      <div className={`container px-4 max-w-7xl mx-auto relative ${getIosPadding()}`}>
         {isNative && (
           <div className="absolute top-2 right-2 z-10">
             <Button 

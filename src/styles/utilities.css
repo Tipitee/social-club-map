@@ -49,7 +49,7 @@
     height: env(safe-area-inset-bottom, 0px);
     display: block;
     width: 100%;
-    background-color: inherit;
+    background-color: transparent;
   }
   
   .ios-navbar {
@@ -58,15 +58,11 @@
   
   /* Dynamic viewport heights for iOS */
   .h-screen-ios {
-    height: 100vh; /* Fallback */
     height: -webkit-fill-available;
-    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
   
   .min-h-screen-ios {
-    min-height: 100vh; /* Fallback */
     min-height: -webkit-fill-available;
-    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 
   /* Modern viewport height values */
@@ -86,13 +82,18 @@
     min-height: 100svh;
   }
   
-  /* Bottom safe area for content - adjusted values */
-  .pb-safe-bottom {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
+  /* Content areas with proper iOS spacing */
+  .pb-nav-ios-safe {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
   
-  /* Bottom nav safe area spacer - adjusted values */
-  .pb-nav-safe {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  .pt-header-ios-safe {
+    padding-top: calc(64px + env(safe-area-inset-top, 0px));
+  }
+  
+  /* Fix for bottom area on iOS */
+  .ios-fixed-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background-color: hsl(var(--background));
   }
 }

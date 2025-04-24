@@ -20,8 +20,7 @@ const config: CapacitorConfig = {
     limitsNavigationsToAppBoundDomains: true,
     
     // Critical fixes for layout issues
-    contentInset: 'never',
-    allowsLinkPreview: false,
+    contentInset: 'always',
     scrollEnabled: true,
     usesFocusEngine: true,
     
@@ -33,7 +32,7 @@ const config: CapacitorConfig = {
     // Status bar configuration for notch devices
     statusBarStyle: "dark",
     
-    // Fix bottom white space
+    // Fix bottom white space by forcing proper colors
     backgroundColor: "#000000"
   },
   // Plugins configuration for proper status bar and keyboard handling
@@ -51,7 +50,7 @@ const config: CapacitorConfig = {
       androidScaleType: "CENTER_CROP"
     },
     Keyboard: {
-      resize: "body",
+      resize: "native",
       style: "dark",
       resizeOnFullScreen: true
     }
