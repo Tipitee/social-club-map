@@ -5,9 +5,11 @@ import NewsCard from "@/components/news/NewsCard";
 import NewsFilters from "@/components/news/NewsFilters";
 import { newsItems } from "@/data/newsData";
 import { Capacitor } from "@capacitor/core";
-
 const News: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const {
+    t,
+    i18n
+  } = useTranslation();
   const [activeTab, setActiveTab] = useState("all");
   const [visibleCount, setVisibleCount] = useState(6);
   const filteredNews = activeTab === "all" ? newsItems : newsItems.filter(item => item.category === activeTab);
@@ -16,12 +18,10 @@ const News: React.FC = () => {
   const isGerman = i18n.language === 'de';
   const isIOS = Capacitor.getPlatform() === 'ios';
   const isNativePlatform = Capacitor.isNativePlatform();
-
   const loadMore = () => {
     setVisibleCount(prev => prev + 4);
   };
-
-  return <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 py-0">
+  return <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28 py-0 my-[68px]">
       <div className={`container px-4 pt-0 pb-6 max-w-7xl mx-auto`}>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-navy-dark dark:text-white">
           {t('navigation.news')}
@@ -49,5 +49,4 @@ const News: React.FC = () => {
       </div>
     </div>;
 };
-
 export default News;
