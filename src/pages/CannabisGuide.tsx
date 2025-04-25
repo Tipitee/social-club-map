@@ -5,12 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
-  Plant, 
-  Flask, 
   BookOpen, 
+  FlaskConical, 
   ShieldCheck, 
   Leaf, 
-  Activity 
+  Activity,
+  Sprout 
 } from "lucide-react";
 
 const CannabisGuide: React.FC = () => {
@@ -30,11 +30,11 @@ const CannabisGuide: React.FC = () => {
               <span className="hidden md:inline">{t('guide.basics')}</span>
             </TabsTrigger>
             <TabsTrigger value="strains" className="flex items-center gap-2">
-              <Plant className="h-4 w-4" />
+              <Sprout className="h-4 w-4" />
               <span className="hidden md:inline">{t('guide.strains')}</span>
             </TabsTrigger>
             <TabsTrigger value="compounds" className="flex items-center gap-2">
-              <Flask className="h-4 w-4" />
+              <FlaskConical className="h-4 w-4" />
               <span className="hidden md:inline">{t('guide.compounds')}</span>
             </TabsTrigger>
             <TabsTrigger value="effects" className="flex items-center gap-2">
