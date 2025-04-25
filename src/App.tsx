@@ -86,8 +86,8 @@ const App = () => {
         document.head.appendChild(statusBarStyle);
       }
       
-      // Fix body scroll behavior
-      document.body.style.webkitOverflowScrolling = 'touch';
+      // Fix body scroll behavior using type assertion
+      (document.body.style as any).webkitOverflowScrolling = 'touch';
       document.body.style.overscrollBehavior = 'none';
       document.documentElement.style.overscrollBehavior = 'none';
       
