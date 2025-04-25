@@ -28,7 +28,7 @@ const Settings: React.FC = () => {
   const goBack = () => {
     navigate(-1);
   };
-  return <div className="page-container py-[32px]">
+  return <div className="page-container py-[36px]">
       {isIOS && isNativePlatform && <div className="ios-status-bar" />}
       
       <div className={`page-content ${isIOS && isNativePlatform ? 'ios-safe-top' : 'pt-16'}`}>
