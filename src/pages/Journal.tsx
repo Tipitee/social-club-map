@@ -124,7 +124,7 @@ const Journal: React.FC = () => {
   return <div className="page-container">
       {isIOS && isNativePlatform && <div className="ios-status-bar" />}
       <Navbar />
-      <div className="container max-w-5xl mx-auto px-4 my-0 py-0">
+      <div className="container max-w-5xl mx-auto px-4 my-0 py-[42px]">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">
             {t('navigation.journal')}
