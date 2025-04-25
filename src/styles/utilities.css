@@ -2,6 +2,58 @@
 @tailwind utilities;
 
 @layer utilities {
+  /* iOS status bar and navigation utilities */
+  .ios-status-bar {
+    height: env(safe-area-inset-top);
+    background-color: hsl(var(--background));
+    width: 100%;
+    display: block;
+    position: relative;
+    z-index: 100;
+  }
+  
+  .ios-bottom-safe {
+    height: env(safe-area-inset-bottom);
+    background-color: hsl(var(--background));
+    width: 100%;
+    display: block;
+    position: relative;
+    z-index: 100;
+  }
+
+  /* Navigation container styles */
+  .app-container {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background-color: hsl(var(--background));
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+
+  .app-content {
+    flex: 1;
+    margin-top: 16px;
+    padding-bottom: 80px;
+    width: 100%;
+  }
+
+  .nav-header {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bottom-nav-container {
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: hsl(var(--background));
+  }
+
   /* Enhanced iOS safe area utilities */
   .ios-safe-top {
     padding-top: env(safe-area-inset-top);
@@ -18,22 +70,12 @@
   .h-screen-safe {
     height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
-
-  /* iOS status bar and bottom spacing */
-  .ios-status-bar {
-    padding-top: env(safe-area-inset-top);
-    background-color: hsl(var(--background));
-  }
-  
-  .ios-bottom-safe {
-    padding-bottom: env(safe-area-inset-bottom);
-    background-color: hsl(var(--background));
-    width: 100%;
-  }
   
   /* General utilities for consistent page layouts */
   .page-container {
     @apply min-h-dvh bg-background pb-20;
+    padding-top: calc(16px + env(safe-area-inset-top));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
   }
   
   .page-content {

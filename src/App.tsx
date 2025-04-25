@@ -55,7 +55,7 @@ const App = () => {
       const viewportMeta = document.querySelector('meta[name="viewport"]');
       if (viewportMeta) {
         viewportMeta.setAttribute('content', 
-          'width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no'
+          'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no'
         );
       }
       
@@ -91,7 +91,7 @@ const App = () => {
       document.body.style.overscrollBehavior = 'none';
       document.documentElement.style.overscrollBehavior = 'none';
       
-      // Fix the bottom white space issue
+      // Fix background color to eliminate white spaces
       document.body.style.backgroundColor = '#000000';
       document.documentElement.style.backgroundColor = '#000000';
     }
@@ -104,12 +104,12 @@ const App = () => {
           <ThemeProvider defaultTheme="system" storageKey="ui-theme">
             <AuthProvider>
               <TooltipProvider>
-                <div className="min-h-dvh bg-background text-foreground">
+                <div className="app-container">
                   <Suspense fallback={null}>
                     <Navbar />
                   </Suspense>
                   
-                  <main>
+                  <main className="app-content">
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />

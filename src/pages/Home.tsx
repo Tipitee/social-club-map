@@ -63,17 +63,9 @@ const Home: React.FC = () => {
     }
   ];
 
-  // Calculate top padding based on platform - increased for iOS
-  const getTopPadding = () => {
-    if (isIOS && isNativePlatform) {
-      return 'pt-[env(safe-area-inset-top)]'; // Use direct env value
-    }
-    return 'pt-16'; // Standard padding for other platforms
-  };
-
   return (
-    <div className="min-h-dvh pb-20 bg-background px-0 py-[20px]">
-      <div className={`container py-6 px-4 sm:px-6 ${getTopPadding()}`}>
+    <div className="min-h-dvh bg-background px-0 py-5 pb-24 page-container">
+      <div className="container py-6 px-4 sm:px-6 mt-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map(section => (
             <Link key={section.path} to={section.path} className="block hover:scale-[1.02] transition-transform duration-200">

@@ -19,21 +19,16 @@ const config: CapacitorConfig = {
     preferredContentMode: 'mobile',
     limitsNavigationsToAppBoundDomains: true,
     
-    // Fix layout and scrolling issues
-    contentInset: 'never',
-    scrollEnabled: true,
-    usesFocusEngine: true,
+    // Critical layout fixes
+    contentInset: 'automatic',
+    allowsLinkPreview: false,
     
     // Fix viewport and rendering issues
     overrideUserInterfaceStyle: 'dark',
     hideWebViewBoundaries: true,
-    webViewSuspensionEnabled: false,
     
     // Status bar configuration
-    statusBarStyle: "dark",
-    
-    // Ensure proper background color
-    backgroundColor: "#000000"
+    statusBarStyle: "dark"
   },
   // Improved plugins configuration
   plugins: {

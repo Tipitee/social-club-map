@@ -33,7 +33,7 @@ const BottomNav: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 border-t border-border shadow-lg z-50 bg-background">
+    <div className="fixed bottom-0 left-0 right-0 border-t border-border shadow-lg z-50 bg-background bottom-nav-container">
       <div className="flex justify-around items-center h-16">
         {navItems.map((item) => (
           <Link
@@ -50,7 +50,7 @@ const BottomNav: React.FC = () => {
         ))}
       </div>
       {isIOS && isNativePlatform && 
-        <div className="h-[env(safe-area-inset-bottom)] bg-background"></div>
+        <div className="ios-bottom-safe"></div>
       }
     </div>
   );
