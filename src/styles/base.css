@@ -1,31 +1,29 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  /* Base theme setup with completely separate variable sets */
   :root {
-    /* Light mode variables (default theme) */
-    --light-background: 34 67% 95%;
-    --light-foreground: 197 43% 18%;
-    --light-card: 0 0% 100%;
-    --light-card-foreground: 197 43% 18%;
-    --light-primary: 174 59% 39%;
-    --light-primary-foreground: 0 0% 100%;
-    --light-secondary: 35 84% 80%;
-    --light-secondary-foreground: 197 43% 18%;
-    --light-border: 200 14% 80%;
-    --light-input: 200 14% 80%;
-    --light-ring: 200 14% 80%;
-    --light-accent: 35 84% 80%;
-    --light-accent-foreground: 197 43% 18%;
-    --light-muted: 220 14% 96%;
-    --light-muted-foreground: 220 8% 46%;
-    --light-popover: 0 0% 100%;
-    --light-popover-foreground: 197 43% 18%;
-    --light-destructive: 0 84.2% 60.2%;
-    --light-destructive-foreground: 0 0% 98%;
+    /* Light mode variables */
+    --background: 34 67% 95%;
+    --foreground: 197 43% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 197 43% 18%;
+    --primary: 174 59% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 35 84% 80%;
+    --secondary-foreground: 197 43% 18%;
+    --border: 200 14% 80%;
+    --input: 200 14% 80%;
+    --ring: 200 14% 80%;
+    --accent: 35 84% 80%;
+    --accent-foreground: 197 43% 18%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 8% 46%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 197 43% 18%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
     
     /* Dark mode variables */
     --dark-background: 197 43% 18%;
