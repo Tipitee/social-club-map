@@ -49,8 +49,8 @@ const BottomNav: React.FC = () => {
           </Link>
         ))}
       </div>
-      {isIOS && 
-        <div className="ios-bottom-safe"></div>
+      {isIOS && isNativePlatform && 
+        <div className="h-[env(safe-area-inset-bottom)] bg-background"></div>
       }
     </div>
   );

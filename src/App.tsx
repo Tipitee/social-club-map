@@ -55,7 +55,7 @@ const App = () => {
       const viewportMeta = document.querySelector('meta[name="viewport"]');
       if (viewportMeta) {
         viewportMeta.setAttribute('content', 
-          'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no'
+          'width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no'
         );
       }
       
@@ -87,10 +87,13 @@ const App = () => {
       }
       
       // Fix body scroll behavior
-      document.body.style.minHeight = '100%';
-      document.body.style.height = '-webkit-fill-available';
+      document.body.style.webkitOverflowScrolling = 'touch';
       document.body.style.overscrollBehavior = 'none';
       document.documentElement.style.overscrollBehavior = 'none';
+      
+      // Fix the bottom white space issue
+      document.body.style.backgroundColor = '#000000';
+      document.documentElement.style.backgroundColor = '#000000';
     }
   }, []);
 
