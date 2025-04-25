@@ -15,10 +15,13 @@ import NewJournalEntry from "@/components/NewJournalEntry";
 import { JournalEntry } from "@/types/journal";
 import { v4 as uuidv4 } from "uuid";
 import { Capacitor } from "@capacitor/core";
-
 const Journal: React.FC = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
+  const {
+    t
+  } = useTranslation();
+  const {
+    user
+  } = useAuth();
   const navigate = useNavigate();
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
@@ -26,41 +29,35 @@ const Journal: React.FC = () => {
   const [showNewEntryModal, setShowNewEntryModal] = useState(false);
   const isIOS = Capacitor.getPlatform() === 'ios';
   const isNativePlatform = Capacitor.isNativePlatform();
-
   useEffect(() => {
     if (user) {
-      const mockEntries: JournalEntry[] = [
-        {
-          id: "1",
-          date: "2024-01-20",
-          dosage: "5mg",
-          dosageType: "edible",
-          effectiveness: 4,
-          mood: "relaxed",
-          activity: "reading",
-          sideEffects: ["dry-mouth"],
-          notes: "Felt relaxed and creative."
-        },
-        {
-          id: "2",
-          date: "2024-01-25",
-          dosage: "10mg",
-          dosageType: "joints",
-          effectiveness: 5,
-          mood: "happy",
-          activity: "music",
-          sideEffects: ["dry-eyes"],
-          notes: "Good for pain relief."
-        }
-      ];
+      const mockEntries: JournalEntry[] = [{
+        id: "1",
+        date: "2024-01-20",
+        dosage: "5mg",
+        dosageType: "edible",
+        effectiveness: 4,
+        mood: "relaxed",
+        activity: "reading",
+        sideEffects: ["dry-mouth"],
+        notes: "Felt relaxed and creative."
+      }, {
+        id: "2",
+        date: "2024-01-25",
+        dosage: "10mg",
+        dosageType: "joints",
+        effectiveness: 5,
+        mood: "happy",
+        activity: "music",
+        sideEffects: ["dry-eyes"],
+        notes: "Good for pain relief."
+      }];
       setEntries(mockEntries);
     }
   }, [user]);
-
   const redirectToAuth = () => {
     navigate("/auth");
   };
-
   const handleSaveNew = (entry: Omit<JournalEntry, "id">) => {
     const newEntry = {
       ...entry,
@@ -69,7 +66,6 @@ const Journal: React.FC = () => {
     setEntries(prev => [newEntry, ...prev]);
     setShowNewEntryModal(false);
   };
-
   const startEditing = (id: string) => {
     const entryToEdit = entries.find(entry => entry.id === id);
     if (entryToEdit) {
@@ -79,39 +75,38 @@ const Journal: React.FC = () => {
       });
     }
   };
-
   const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (editedEntry) {
-      const { name, value } = e.target;
+      const {
+        name,
+        value
+      } = e.target;
       setEditedEntry(prev => ({
         ...prev!,
         [name]: value
       }));
     }
   };
-
   const saveEntry = () => {
     if (editedEntry) {
-      setEntries(prev => prev.map(entry => entry.id === editedEntry.id ? { ...editedEntry } : entry));
+      setEntries(prev => prev.map(entry => entry.id === editedEntry.id ? {
+        ...editedEntry
+      } : entry));
       setEditingEntryId(null);
       setEditedEntry(null);
     }
   };
-
   const cancelEditing = () => {
     setEditingEntryId(null);
     setEditedEntry(null);
   };
-
   const deleteEntry = (id: string) => {
     setEntries(prev => prev.filter(entry => entry.id !== id));
     setEditingEntryId(null);
     setEditedEntry(null);
   };
-
   if (!user) {
-    return (
-      <div className="page-container">
+    return <div className="page-container">
         {isIOS && isNativePlatform && <div className="ios-status-bar" />}
         <Navbar />
         <div className="page-content flex items-center justify-center min-h-[calc(100vh-144px)]">
@@ -124,15 +119,12 @@ const Journal: React.FC = () => {
           </div>
         </div>
         {isIOS && isNativePlatform && <div className="ios-bottom-safe" />}
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="page-container">
+  return <div className="page-container">
       {isIOS && isNativePlatform && <div className="ios-status-bar" />}
       <Navbar />
-      <div className="container max-w-5xl mx-auto px-4 py-6 my-[56px]">
+      <div className="container max-w-5xl mx-auto px-4 my-0 py-0">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">
             {t('navigation.journal')}
@@ -149,8 +141,7 @@ const Journal: React.FC = () => {
           {t('journal.existingEntries')}
         </h2>
         <div className="space-y-4">
-          {entries.map(entry => (
-            <Card key={entry.id} className="journal-entry card-rounded">
+          {entries.map(entry => <Card key={entry.id} className="journal-entry card-rounded">
               <CardContent className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
@@ -164,8 +155,7 @@ const Journal: React.FC = () => {
                   </Badge>
                 </div>
                 
-                {editingEntryId === entry.id ? (
-                  <>
+                {editingEntryId === entry.id ? <>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                       <div>
                         <Label htmlFor="date" className="input-label">
@@ -201,9 +191,7 @@ const Journal: React.FC = () => {
                         {t('journal.delete')}
                       </Button>
                     </div>
-                  </>
-                ) : (
-                  <>
+                  </> : <>
                     <div className="mb-4">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-lg font-semibold text-navy-dark dark:text-white">
@@ -240,16 +228,12 @@ const Journal: React.FC = () => {
                         {t('journal.edit')}
                       </Button>
                     </div>
-                  </>
-                )}
+                  </>}
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
       </div>
       {isIOS && isNativePlatform && <div className="ios-bottom-safe" />}
-    </div>
-  );
+    </div>;
 };
-
 export default Journal;
