@@ -1,14 +1,16 @@
-
 import React, { useState, useEffect } from "react";
 import { Book, Cannabis, Map, BookText, Newspaper, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { Capacitor } from "@capacitor/core";
-
 const Home: React.FC = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
+  const {
+    t
+  } = useTranslation();
+  const {
+    user
+  } = useAuth();
   const [isIOS, setIsIOS] = useState(false);
   const [isNativePlatform, setIsNativePlatform] = useState(false);
 
@@ -17,58 +19,47 @@ const Home: React.FC = () => {
     setIsIOS(Capacitor.getPlatform() === 'ios');
     setIsNativePlatform(Capacitor.isNativePlatform());
   }, []);
-
-  const sections = [
-    {
-      path: "/journal",
-      icon: Book,
-      title: t('navigation.journal'),
-      description: t('journal.trackYourConsumption'),
-      cardClass: "home-card-journal"
-    },
-    {
-      path: "/strains",
-      icon: Cannabis,
-      title: t('navigation.strains'),
-      description: t('strains.exploreDatabase'),
-      cardClass: "home-card-strains"
-    },
-    {
-      path: "/clubs",
-      icon: Map,
-      title: t('navigation.clubs'),
-      description: t('clubs.findLocalClub'),
-      cardClass: "home-card-clubs"
-    },
-    {
-      path: "/guide",
-      icon: BookText,
-      title: t('navigation.guide'),
-      description: t('guide.learnMore'),
-      cardClass: "home-card-guide"
-    },
-    {
-      path: "/news",
-      icon: Newspaper,
-      title: t('navigation.news'),
-      description: t('news.stayInformed'),
-      cardClass: "home-card-news"
-    },
-    {
-      path: "/settings",
-      icon: Settings,
-      title: t('navigation.settings'),
-      description: t('settings.preferences'),
-      cardClass: "home-card-settings"
-    }
-  ];
-
-  return (
-    <div className="min-h-dvh bg-background px-0 py-5 pb-24 page-container">
+  const sections = [{
+    path: "/journal",
+    icon: Book,
+    title: t('navigation.journal'),
+    description: t('journal.trackYourConsumption'),
+    cardClass: "home-card-journal"
+  }, {
+    path: "/strains",
+    icon: Cannabis,
+    title: t('navigation.strains'),
+    description: t('strains.exploreDatabase'),
+    cardClass: "home-card-strains"
+  }, {
+    path: "/clubs",
+    icon: Map,
+    title: t('navigation.clubs'),
+    description: t('clubs.findLocalClub'),
+    cardClass: "home-card-clubs"
+  }, {
+    path: "/guide",
+    icon: BookText,
+    title: t('navigation.guide'),
+    description: t('guide.learnMore'),
+    cardClass: "home-card-guide"
+  }, {
+    path: "/news",
+    icon: Newspaper,
+    title: t('navigation.news'),
+    description: t('news.stayInformed'),
+    cardClass: "home-card-news"
+  }, {
+    path: "/settings",
+    icon: Settings,
+    title: t('navigation.settings'),
+    description: t('settings.preferences'),
+    cardClass: "home-card-settings"
+  }];
+  return <div className="min-h-dvh bg-background px-0 pb-24 page-container py-0">
       <div className="container py-6 px-4 sm:px-6 mt-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sections.map(section => (
-            <Link key={section.path} to={section.path} className="block hover:scale-[1.02] transition-transform duration-200">
+          {sections.map(section => <Link key={section.path} to={section.path} className="block hover:scale-[1.02] transition-transform duration-200">
               <div className={`rounded-xl shadow-md hover:shadow-lg p-5 bg-card ${section.cardClass}`}>
                 <div className="flex justify-center items-center h-12 w-12 bg-accent/20 dark:bg-accent/10 rounded-full mb-3 mx-auto shadow-sm">
                   <section.icon className="h-6 w-6 text-primary" />
@@ -80,12 +71,9 @@ const Home: React.FC = () => {
                   {section.description}
                 </p>
               </div>
-            </Link>
-          ))}
+            </Link>)}
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Home;

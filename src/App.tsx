@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,11 +29,9 @@ const BottomNav = lazy(() => import("./components/BottomNav"));
 const Navbar = lazy(() => import("./components/Navbar"));
 
 // Loading fallback component
-const PageLoading = () => (
-  <div className="min-h-dvh bg-background flex items-center justify-center">
+const PageLoading = () => <div className="min-h-dvh bg-background flex items-center justify-center">
     <div className="animate-spin h-10 w-10 border-4 border-primary rounded-full border-t-transparent"></div>
-  </div>
-);
+  </div>;
 
 // Configure React Query client with optimized settings for production
 const queryClient = new QueryClient({
@@ -46,7 +43,6 @@ const queryClient = new QueryClient({
     }
   }
 });
-
 const App = () => {
   // Set up proper viewport meta for iOS
   useEffect(() => {
@@ -54,14 +50,12 @@ const App = () => {
       // Fix iOS viewport
       const viewportMeta = document.querySelector('meta[name="viewport"]');
       if (viewportMeta) {
-        viewportMeta.setAttribute('content', 
-          'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no'
-        );
+        viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no');
       }
-      
+
       // Add iOS styling hooks
       document.documentElement.classList.add('ios-device');
-      
+
       // Add theme color meta for iOS
       const themeColor = document.head.querySelector('meta[name="theme-color"]');
       if (!themeColor) {
@@ -70,7 +64,7 @@ const App = () => {
         meta.content = '#000000';
         document.head.appendChild(meta);
       }
-      
+
       // Add iOS web app meta tags
       if (!document.head.querySelector('meta[name="apple-mobile-web-app-capable"]')) {
         const capable = document.createElement('meta');
@@ -78,33 +72,30 @@ const App = () => {
         capable.content = 'yes';
         document.head.appendChild(capable);
       }
-      
       if (!document.head.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')) {
         const statusBarStyle = document.createElement('meta');
         statusBarStyle.name = 'apple-mobile-web-app-status-bar-style';
         statusBarStyle.content = 'black-translucent';
         document.head.appendChild(statusBarStyle);
       }
-      
+
       // Fix body scroll behavior using type assertion
       (document.body.style as any).webkitOverflowScrolling = 'touch';
       document.body.style.overscrollBehavior = 'none';
       document.documentElement.style.overscrollBehavior = 'none';
-      
+
       // Fix background color to eliminate white spaces
       document.body.style.backgroundColor = '#000000';
       document.documentElement.style.backgroundColor = '#000000';
     }
   }, []);
-
-  return (
-    <QueryClientProvider client={queryClient}>
+  return <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <LanguageProvider>
           <ThemeProvider defaultTheme="system" storageKey="ui-theme">
             <AuthProvider>
               <TooltipProvider>
-                <div className="app-container">
+                <div className="app-container py-0 my-0">
                   <Suspense fallback={null}>
                     <Navbar />
                   </Suspense>
@@ -113,65 +104,45 @@ const App = () => {
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
-                      <Route path="/strains/:id" element={
-                        <Suspense fallback={<PageLoading />}>
+                      <Route path="/strains/:id" element={<Suspense fallback={<PageLoading />}>
                           <StrainDetail />
-                        </Suspense>
-                      } />
-                      <Route path="/clubs" element={
-                        <Suspense fallback={<PageLoading />}>
+                        </Suspense>} />
+                      <Route path="/clubs" element={<Suspense fallback={<PageLoading />}>
                           <ClubMap />
-                        </Suspense>
-                      } />
-                      <Route path="/clubs/:id" element={
-                        <Suspense fallback={<PageLoading />}>
+                        </Suspense>} />
+                      <Route path="/clubs/:id" element={<Suspense fallback={<PageLoading />}>
                           <ClubDetail />
-                        </Suspense>
-                      } />
-                      <Route path="/journal" element={
-                        <Suspense fallback={<PageLoading />}>
+                        </Suspense>} />
+                      <Route path="/journal" element={<Suspense fallback={<PageLoading />}>
                           <Journal />
-                        </Suspense>
-                      } />
+                        </Suspense>} />
                       <Route path="/news" element={<News />} />
-                      <Route path="/guide" element={
-                        <Suspense fallback={<PageLoading />}>
+                      <Route path="/guide" element={<Suspense fallback={<PageLoading />}>
                           <CannabisGuide />
-                        </Suspense>
-                      } />
-                      <Route path="/profile" element={
-                        <Suspense fallback={<PageLoading />}>
+                        </Suspense>} />
+                      <Route path="/profile" element={<Suspense fallback={<PageLoading />}>
                           <Profile />
-                        </Suspense>
-                      } />
-                      <Route path="/settings" element={
-                        <Suspense fallback={<PageLoading />}>
+                        </Suspense>} />
+                      <Route path="/settings" element={<Suspense fallback={<PageLoading />}>
                           <Settings />
-                        </Suspense>
-                      } />
+                        </Suspense>} />
                       <Route path="/auth" element={<Auth />} />
-                      <Route path="/admin-tools" element={
-                        <Suspense fallback={<PageLoading />}>
+                      <Route path="/admin-tools" element={<Suspense fallback={<PageLoading />}>
                           <AdminTools />
-                        </Suspense>
-                      } />
+                        </Suspense>} />
                       <Route path="/admin" element={<Navigate to="/admin-tools" replace />} />
-                      <Route path="*" element={
-                        <Suspense fallback={<PageLoading />}>
+                      <Route path="*" element={<Suspense fallback={<PageLoading />}>
                           <NotFound />
-                        </Suspense>
-                      } />
+                        </Suspense>} />
                     </Routes>
                   </main>
                   
                   {/* Bottom Navigation Bar - visible on all pages except Auth */}
                   <Routes>
                     <Route path="/auth" element={null} />
-                    <Route path="*" element={
-                      <Suspense fallback={null}>
+                    <Route path="*" element={<Suspense fallback={null}>
                         <BottomNav />
-                      </Suspense>
-                    } />
+                      </Suspense>} />
                   </Routes>
                 </div>
                 <Toaster />
@@ -181,8 +152,6 @@ const App = () => {
           </ThemeProvider>
         </LanguageProvider>
       </BrowserRouter>
-    </QueryClientProvider>
-  );
+    </QueryClientProvider>;
 };
-
 export default App;
