@@ -57,7 +57,7 @@ const Home: React.FC = () => {
     cardClass: "home-card-settings"
   }];
   return <div className="min-h-dvh bg-background px-0 pb-24 page-container py-0">
-      <div className="container px-4 sm:px-6 mt-16 py-0">
+      <div className="container sm:px-6 mt-16 py-0 my-[53px] px-[159px]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map(section => <Link key={section.path} to={section.path} className="block hover:scale-[1.02] transition-transform duration-200">
               <div className={`rounded-xl shadow-md hover:shadow-lg p-5 bg-card ${section.cardClass}`}>
