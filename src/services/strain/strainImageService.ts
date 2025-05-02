@@ -45,27 +45,25 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Get the public URL for the uploaded image
-    // Avoid type instantiation issues by using a simpler approach
-    const { data } = supabase.storage
-      .from('strain-images')
-      .getPublicUrl(fileName);
-      
-    // Safely extract the URL and check it exists
-    if (!data) {
-      throw new Error('Failed to get public URL data for uploaded image');
+    // Step 4: Get the public URL for the uploaded image using a type-safe approach
+    const bucket = supabase.storage.from('strain-images');
+    const result = bucket.getPublicUrl(fileName);
+    
+    if (!result || typeof result !== 'object') {
+      throw new Error('Failed to get public URL result');
     }
     
-    const imageUrl = data.publicUrl;
+    // Access data and publicUrl properties without complex destructuring
+    const publicUrl = result.data?.publicUrl;
     
-    if (!imageUrl) {
-      throw new Error('Failed to get public URL string for uploaded image');
+    if (!publicUrl || typeof publicUrl !== 'string') {
+      throw new Error('Failed to get valid public URL string');
     }
 
     // Step 5: Update the strain record with the new image URL
     const { error: updateError } = await supabase
       .from('strains')
-      .update({ img_url: imageUrl })
+      .update({ img_url: publicUrl })
       .eq('id', strainId);
 
     if (updateError) {
@@ -73,7 +71,7 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to update strain record: ${updateError.message}`);
     }
 
-    return imageUrl;
+    return publicUrl;
   } catch (error) {
     console.error("Error in generateStrainImage:", error);
     toast({
