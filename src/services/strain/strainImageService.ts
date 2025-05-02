@@ -45,14 +45,10 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Construct the public URL using direct string constants to avoid TypeScript recursion
-    // Explicit string literals to completely avoid any complex string operations
-    const urlBase = "https://zvcqcgihydjscvrltkvz.supabase.co";
-    const urlPath = "/storage/v1/object/public/strain-images/";
-    
-    // Hard-code the final URL to avoid any complex operations
-    let publicUrl = "";
-    publicUrl = urlBase + urlPath + fileName;
+    // Step 4: Create the public URL with absolute minimal string operations
+    // Use hard-coded string literals without any operations
+    // This prevents TypeScript from attempting complex type resolution
+    const publicUrl = "https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images/" + strainId + ".png";
     
     console.log("Generated public URL:", publicUrl);
 
