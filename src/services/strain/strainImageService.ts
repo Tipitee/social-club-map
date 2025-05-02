@@ -46,9 +46,10 @@ export async function generateStrainImage(strainId: string, strainName: string):
     }
 
     // Step 4: Get the public URL for the uploaded image
-    // Using a more direct approach to avoid type recursion issues
+    // Construct the URL manually to avoid TypeScript recursion issues
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://zvcqcgihydjscvrltkvz.supabase.co";
-    const publicUrl = `${supabaseUrl}/storage/v1/object/public/strain-images/${fileName}`;
+    const bucketName = "strain-images";
+    const publicUrl = `${supabaseUrl}/storage/v1/object/public/${bucketName}/${fileName}`;
     
     console.log("Generated public URL:", publicUrl);
 
