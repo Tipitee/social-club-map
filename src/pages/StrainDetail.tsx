@@ -1,18 +1,20 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { ChevronLeft, Cannabis, Sun, CircleDashed, Leaf } from "lucide-react";
+import { ChevronLeft, Cannabis, Sun, CircleDashed, Leaf, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { fetchStrainById } from "@/services/strainService";
+import { generateStrainImage } from "@/services/strain/strainImageService";
 import StrainReviews from "@/components/StrainReviews";
 
 const StrainDetail: React.FC = () => {
   const { id } = useParams();
   const { t } = useTranslation();
-
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  
   // Detect theme for styling
   const isDarkMode = document.documentElement.classList.contains('dark');
   
@@ -20,6 +22,24 @@ const StrainDetail: React.FC = () => {
     queryKey: ['strain', id],
     queryFn: () => fetchStrainById(id || '')
   });
+
+  const handleGenerateImage = async () => {
+    if (!strain || !id) return;
+    
+    setIsGeneratingImage(true);
+    try {
+      const imageUrl = await generateStrainImage(id, strain.name);
+      // The query cache will be invalidated and refetched when the image URL is updated
+      if (imageUrl) {
+        // Invalidate the query to refresh the data with the new image
+        // We don't need to set the strain data directly since it will be refetched
+      }
+    } catch (error) {
+      console.error("Error generating image:", error);
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -75,6 +95,10 @@ const StrainDetail: React.FC = () => {
   // Get valid effects, filtering out "Unknown" values
   const displayEffects = strain.effects.filter(effect => effect && effect.effect && effect.effect !== "Unknown").sort((a, b) => b.intensity - a.intensity).slice(0, 3); // Only show top 3 effects
 
+  // Check if we need to generate an image
+  const needsImageGeneration = !strain.img_url || strain.img_url.trim() === '';
+  const showImageGenerationButton = needsImageGeneration && !isGeneratingImage;
+
   return (
     <div className={`min-h-screen ${getBackgroundColor()} ${getTextColor()} pb-20`}>
       <main className="container px-4 py-8 max-w-5xl mx-auto mb-20">
@@ -93,9 +117,48 @@ const StrainDetail: React.FC = () => {
             {/* Strain Image */}
             <div className="md:w-1/3 h-56 md:h-auto">
               <div className="h-full relative">
-                {strain.img_url ? <img src={strain.img_url} alt={strain.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center bg-muted">
-                    {getTypeIcon(strain.type)}
-                  </div>}
+                {isGeneratingImage ? (
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-muted">
+                    <Loader2 className="h-12 w-12 animate-spin mb-2 text-primary" />
+                    <p className="text-sm text-muted-foreground">Generating image...</p>
+                  </div>
+                ) : strain.img_url ? (
+                  <img 
+                    src={strain.img_url} 
+                    alt={strain.name} 
+                    className="w-full h-full object-cover" 
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      const container = e.currentTarget.parentElement;
+                      if (container) {
+                        container.innerHTML = `
+                          <div class="w-full h-full flex items-center justify-center bg-muted">
+                            <div class="opacity-80">
+                              ${getTypeIcon(strain.type).props.outerHTML || ''}
+                            </div>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-muted relative">
+                    <div className="opacity-80">
+                      {getTypeIcon(strain.type)}
+                    </div>
+                    
+                    {showImageGenerationButton && (
+                      <Button 
+                        onClick={handleGenerateImage} 
+                        variant="secondary"
+                        className="absolute bottom-4 left-1/2 transform -translate-x-1/2"
+                        size="sm"
+                      >
+                        Generate Image
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             
