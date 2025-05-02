@@ -46,15 +46,18 @@ export async function generateStrainImage(strainId: string, strainName: string):
     }
 
     // Step 4: Get the public URL for the uploaded image
-    const { data: publicUrlData } = supabase.storage
+    // Fix the typing issue by using a direct approach with proper type handling
+    const { data } = supabase.storage
       .from('strain-images')
       .getPublicUrl(fileName);
 
-    if (!publicUrlData) {
+    // Ensure we have valid data
+    if (!data || !data.publicUrl) {
       throw new Error('Failed to get public URL for uploaded image');
     }
 
-    const imageUrl = publicUrlData.publicUrl;
+    // Extract the URL directly from the data object
+    const imageUrl = data.publicUrl;
 
     // Step 5: Update the strain record with the new image URL
     const { error: updateError } = await supabase
