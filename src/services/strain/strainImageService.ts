@@ -46,10 +46,13 @@ export async function generateStrainImage(strainId: string, strainName: string):
     }
 
     // Step 4: Get the public URL for the uploaded image
-    // Create URL manually to avoid type recursion issues
-    const supabaseUrl = supabase.storage.url;
-    const bucketName = 'strain-images';
-    const publicUrl = `${supabaseUrl}/object/public/${bucketName}/${fileName}`;
+    // Use the getPublicUrl method with proper type handling
+    const { data } = supabase.storage
+      .from('strain-images')
+      .getPublicUrl(fileName);
+      
+    // Safely access the publicUrl property
+    const publicUrl = data?.publicUrl;
     
     if (!publicUrl) {
       throw new Error('Failed to create public URL for uploaded image');
