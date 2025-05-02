@@ -50,6 +50,10 @@ export async function generateStrainImage(strainId: string, strainName: string):
       .from('strain-images')
       .getPublicUrl(fileName);
 
+    if (!publicUrlData) {
+      throw new Error('Failed to get public URL for uploaded image');
+    }
+
     const imageUrl = publicUrlData.publicUrl;
 
     // Step 5: Update the strain record with the new image URL
