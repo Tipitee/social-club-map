@@ -45,20 +45,14 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Construct public URL manually to avoid TypeScript recursion issues
-    // Instead of using string operations, use array join which is less likely to cause recursion
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://zvcqcgihydjscvrltkvz.supabase.co";
+    // Step 4: Construct the public URL using direct string constants to avoid TypeScript recursion
+    // Explicit string literals to completely avoid any complex string operations
+    const urlBase = "https://zvcqcgihydjscvrltkvz.supabase.co";
+    const urlPath = "/storage/v1/object/public/strain-images/";
     
-    // Construct URL parts as an array and join them
-    const urlParts = [
-      supabaseUrl,
-      "/storage/v1/object/public/",
-      "strain-images/",
-      fileName
-    ];
-    
-    // Join array elements without using + operator or template literals
-    const publicUrl = urlParts.join("");
+    // Hard-code the final URL to avoid any complex operations
+    let publicUrl = "";
+    publicUrl = urlBase + urlPath + fileName;
     
     console.log("Generated public URL:", publicUrl);
 
