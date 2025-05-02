@@ -45,11 +45,10 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Get the public URL for the uploaded image
-    // Construct the URL manually to avoid TypeScript recursion issues
+    // Step 4: Construct public URL manually to avoid TypeScript recursion issues
+    // Using string literals instead of template expressions to avoid deep type instantiation
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://zvcqcgihydjscvrltkvz.supabase.co";
-    const bucketName = "strain-images";
-    const publicUrl = `${supabaseUrl}/storage/v1/object/public/${bucketName}/${fileName}`;
+    const publicUrl = supabaseUrl + "/storage/v1/object/public/strain-images/" + fileName;
     
     console.log("Generated public URL:", publicUrl);
 
