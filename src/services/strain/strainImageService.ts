@@ -46,9 +46,11 @@ export async function generateStrainImage(strainId: string, strainName: string):
     }
 
     // Step 4: Construct public URL manually to avoid TypeScript recursion issues
-    // Using string literals instead of template expressions to avoid deep type instantiation
+    // Avoid template literals completely and use simple string concatenation
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://zvcqcgihydjscvrltkvz.supabase.co";
-    const publicUrl = supabaseUrl + "/storage/v1/object/public/strain-images/" + fileName;
+    const storagePrefix = "/storage/v1/object/public/";
+    const bucketName = "strain-images/";
+    const publicUrl = supabaseUrl.concat(storagePrefix, bucketName, fileName);
     
     console.log("Generated public URL:", publicUrl);
 
