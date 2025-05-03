@@ -45,10 +45,10 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Create the URL with maximally simplified approach
-    // Use hard-coded string parts with basic + concatenation
-    const baseUrl = "https://zvcqcgihydjscvrltkvz.supabase.co";
-    const publicUrl = baseUrl + "/storage/v1/object/public/strain-images/" + strainId + ".png";
+    // Step 4: Create the URL with an absolutely minimal approach to avoid type recursion
+    const storageUrl = "https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images/";
+    const imageFile = strainId + ".png";
+    const publicUrl = storageUrl + imageFile;
     
     console.log("Generated public URL:", publicUrl);
 
