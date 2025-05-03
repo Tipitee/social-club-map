@@ -53,15 +53,14 @@ export async function generateStrainImage(strainId: string, strainName: string):
     console.log("Generated public URL:", publicUrl);
 
     // Step 5: Update the strain record with the new image URL
-    // Explicitly use any to break the type recursion chain
-    const updateOperation = supabase
-      .from('strains')
-      .update({ img_url: publicUrl })
-      .eq('id', strainId);
-    
-    // Execute update as a separate step
-    const updateResult = await updateOperation;
-    const updateError = updateResult.error;
+    // Use low-level PostgreSQL query to avoid TypeScript recursion issues
+    const { error: updateError } = await supabase.rpc(
+      'update_strain_image', 
+      { 
+        strain_id: strainId,
+        image_url: publicUrl
+      }
+    );
 
     if (updateError) {
       console.error("Error updating strain record:", updateError);
