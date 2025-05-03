@@ -17,9 +17,11 @@ const ClubDetail: React.FC = () => {
   // Safely access state and provide default value
   const fromSearch = location.state?.fromSearch || false;
   const [isNative, setIsNative] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
   
   useEffect(() => {
     setIsNative(Capacitor.isNativePlatform());
+    setIsIOS(Capacitor.getPlatform() === 'ios');
   }, []);
   
   // Handle the case where id might be undefined
@@ -81,9 +83,17 @@ const ClubDetail: React.FC = () => {
     }
   }, [error, location.state, navigate]);
   
+  // Calculate proper iOS padding
+  const getIosPadding = () => {
+    if (isIOS && isNative) {
+      return 'pt-[calc(env(safe-area-inset-top)+16px)]';
+    }
+    return 'pt-16';
+  };
+  
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className={`min-h-dvh bg-background ${getIosPadding()}`}>
         <ClubLoading />
       </div>
     );
@@ -91,15 +101,15 @@ const ClubDetail: React.FC = () => {
 
   if (error || !club) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className={`min-h-dvh bg-background ${getIosPadding()}`}>
         <ClubError error={error} />
       </div>
     );
   }
   
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <div className="container px-4 max-w-7xl mx-auto relative">
+    <div className="min-h-dvh bg-background pb-20">
+      <div className={`container px-4 max-w-7xl mx-auto relative ${getIosPadding()}`}>
         {isNative && (
           <div className="absolute top-2 right-2 z-10">
             <Button 

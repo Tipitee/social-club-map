@@ -1,33 +1,48 @@
 
+/* Form styles with completely independent light and dark mode variables */
+
+/* Dark mode form styles */
 .dark input[type="text"], 
 .dark input[type="number"], 
 .dark input[type="email"], 
 .dark input[type="search"],
-.dark select {
+.dark select,
+.dark textarea {
   background-color: hsl(var(--dark-card)) !important; 
   color: hsl(var(--dark-foreground)) !important;
   border-color: hsl(var(--dark-border)) !important;
 }
 
-input[type="text"], 
-input[type="number"], 
-input[type="email"], 
-input[type="search"],
-select {
+/* Light mode form styles */
+html:not(.dark) input[type="text"], 
+html:not(.dark) input[type="number"], 
+html:not(.dark) input[type="email"], 
+html:not(.dark) input[type="search"],
+html:not(.dark) select,
+html:not(.dark) textarea {
   background-color: hsl(var(--light-card)) !important;
   color: hsl(var(--light-foreground)) !important;
   border-color: hsl(var(--light-border)) !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
 
+/* Dark mode placeholder styling */
 .dark ::placeholder {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: hsl(var(--dark-muted-foreground)) !important;
 }
 
-::placeholder {
-  color: rgba(0, 0, 0, 0.5) !important;
+/* Light mode placeholder styling */
+html:not(.dark) ::placeholder {
+  color: hsl(var(--light-muted-foreground)) !important;
 }
 
-:focus-visible {
-  @apply outline-2 outline-offset-2 outline-primary;
+/* Focus styles for dark mode */
+.dark :focus-visible {
+  outline: 2px solid hsl(var(--dark-primary));
+  outline-offset: 2px;
+}
+
+/* Focus styles for light mode */
+html:not(.dark) :focus-visible {
+  outline: 2px solid hsl(var(--light-primary));
+  outline-offset: 2px;
 }

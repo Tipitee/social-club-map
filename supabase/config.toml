@@ -1,5 +1,6 @@
 
 project_id = "zvcqcgihydjscvrltkvz"
-
 [functions.geocode-clubs]
+verify_jwt = false
+[functions.generate-strain-image]
 verify_jwt = false

@@ -15,7 +15,7 @@
   }
 
   .navbar-logo {
-    @apply h-10 object-contain transition-opacity duration-200;
+    @apply h-8 object-contain transition-opacity duration-200;
   }
 
   .effect-bar {
@@ -58,16 +58,23 @@
     align-items: center !important;
   }
   
-  /* iOS specific styling */
-  .ios-device .navbar-container {
-    padding-top: env(safe-area-inset-top, 44px);
+  /* Setting page styling fix */
+  .settings-header {
+    @apply flex justify-between items-center mb-6;
+  }
+
+  .settings-back-button {
+    @apply rounded-full bg-white hover:bg-gray-100 dark:hover:bg-accent/20;
   }
   
-  .ios-device .bottom-nav-container {
-    padding-bottom: env(safe-area-inset-bottom, 34px);
-  }
-  
-  .ios-main-content {
-    padding-top: env(safe-area-inset-top, 0px);
+  /* Home page card heights - fixed consistent heights */
+  .home-card-journal,
+  .home-card-strains,
+  .home-card-clubs,
+  .home-card-guide,
+  .home-card-news,
+  .home-card-settings {
+    @apply flex flex-col items-center justify-between rounded-2xl;
+    height: 150px;
   }
 }

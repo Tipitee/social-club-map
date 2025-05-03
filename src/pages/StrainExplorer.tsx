@@ -12,13 +12,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
-
 const LAST_VIEWED_STRAIN_KEY = "last-viewed-strain";
 const LAST_SCROLL_POSITION_KEY = "last-scroll-position";
-
 const StrainExplorer: React.FC = () => {
-  const { t } = useTranslation();
-
+  const {
+    t
+  } = useTranslation();
   const [strains, setStrains] = useState<Strain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +30,6 @@ const StrainExplorer: React.FC = () => {
   const {
     toast
   } = useToast();
-
   const [filters, setFilters] = useState<StrainFiltersType>({
     type: null,
     thcRange: [0, 30],
@@ -40,9 +38,7 @@ const StrainExplorer: React.FC = () => {
     sort: 'name',
     search: ''
   });
-
   const strainsPerPage = 20;
-
   useEffect(() => {
     return () => {
       if (strainListRef.current) {
@@ -50,7 +46,6 @@ const StrainExplorer: React.FC = () => {
       }
     };
   }, []);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       const savedPosition = sessionStorage.getItem(LAST_SCROLL_POSITION_KEY);
@@ -75,7 +70,6 @@ const StrainExplorer: React.FC = () => {
     }, 100);
     return () => clearTimeout(timer);
   }, [loading, strains]);
-
   useEffect(() => {
     const loadStrains = async () => {
       try {
@@ -85,12 +79,13 @@ const StrainExplorer: React.FC = () => {
         if (!response) {
           throw new Error('Failed to fetch strains data');
         }
-        const { strains: data, total } = response;
-        
+        const {
+          strains: data,
+          total
+        } = response;
         if (!data || !Array.isArray(data)) {
           throw new Error('Invalid strains data received');
         }
-
         let filteredData = [...data];
         if (filters.type) {
           filteredData = filteredData.filter(strain => strain.type === filters.type);
@@ -111,7 +106,6 @@ const StrainExplorer: React.FC = () => {
         if (filters.terpene) {
           filteredData = filteredData.filter(strain => strain.most_common_terpene === filters.terpene);
         }
-
         filteredData.sort((a, b) => {
           const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
           const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
@@ -137,7 +131,6 @@ const StrainExplorer: React.FC = () => {
     };
     loadStrains();
   }, [filters, toast, t]);
-
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && !loading && !loadingMore && strains.length < totalStrains) {
@@ -155,7 +148,6 @@ const StrainExplorer: React.FC = () => {
       }
     };
   }, [loadingMore, loading, strains, totalStrains]);
-
   const handleFilterChange = (newFilters: StrainFiltersType) => {
     setFilters(newFilters);
     window.scrollTo({
@@ -165,11 +157,9 @@ const StrainExplorer: React.FC = () => {
     sessionStorage.removeItem(LAST_VIEWED_STRAIN_KEY);
     sessionStorage.removeItem(LAST_SCROLL_POSITION_KEY);
   };
-
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
-
   const clearFilter = (filterType: keyof StrainFiltersType) => {
     if (filterType === 'type') {
       setFilters(prev => ({
@@ -198,7 +188,6 @@ const StrainExplorer: React.FC = () => {
       }));
     }
   };
-
   const handleLoadMore = async () => {
     if (loadingMore || currentPage * strainsPerPage >= totalStrains) return;
     try {
@@ -220,7 +209,6 @@ const StrainExplorer: React.FC = () => {
       if (filters.terpene) {
         filteredData = filteredData.filter(strain => strain.most_common_terpene === filters.terpene);
       }
-
       filteredData.sort((a, b) => {
         const aHasImage = Boolean(a.img_url && a.img_url.trim() !== '');
         const bHasImage = Boolean(b.img_url && b.img_url.trim() !== '');
@@ -243,7 +231,6 @@ const StrainExplorer: React.FC = () => {
       setLoadingMore(false);
     }
   };
-
   const renderSkeletonLoader = () => <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {Array.from({
       length: 8
@@ -264,18 +251,15 @@ const StrainExplorer: React.FC = () => {
           </CardContent>
         </Card>)}
     </div>;
-
   const handleStrainClick = (strainId: string) => {
     sessionStorage.setItem(LAST_VIEWED_STRAIN_KEY, strainId);
     sessionStorage.setItem(LAST_SCROLL_POSITION_KEY, window.scrollY.toString());
   };
-
   const activeFilterCount = [filters.type, filters.effect, filters.terpene, filters.search, filters.thcRange[0] > 0 || filters.thcRange[1] < 30 ? 'thc' : null].filter(Boolean).length;
   const remainingStrains = totalStrains - currentPage * strainsPerPage;
-
   return <div className="min-h-screen bg-linen dark:bg-navy-dark pb-28">
       <Navbar />
-      <div className="container px-4 py-6 max-w-7xl mx-auto">
+      <div className="container px-4 max-w-7xl mx-auto py-[77px]">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
             <h1 className="text-2xl md:text-3xl font-bold text-navy-dark dark:text-white">{t('strains.strainsExplorer')}</h1>
@@ -284,11 +268,9 @@ const StrainExplorer: React.FC = () => {
             <Button onClick={toggleFilters} variant="default" className="flex items-center gap-2 filter-toggle-button h-9 px-3">
               <Filter size={16} />
               {showFilters ? t('strains.hideFilters') : t('strains.showFilters')}
-              {activeFilterCount > 0 && (
-                <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">
+              {activeFilterCount > 0 && <Badge variant="secondary" className="ml-1 h-5 w-5 flex items-center justify-center p-0 rounded-full bg-white text-teal-DEFAULT">
                   {activeFilterCount}
-                </Badge>
-              )}
+                </Badge>}
             </Button>
           </div>
         </div>
@@ -361,5 +343,4 @@ const StrainExplorer: React.FC = () => {
       </div>
     </div>;
 };
-
 export default StrainExplorer;

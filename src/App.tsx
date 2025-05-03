@@ -29,7 +29,7 @@ const BottomNav = lazy(() => import("./components/BottomNav"));
 const Navbar = lazy(() => import("./components/Navbar"));
 
 // Loading fallback component
-const PageLoading = () => <div className="min-h-screen bg-background flex items-center justify-center">
+const PageLoading = () => <div className="min-h-dvh bg-background flex items-center justify-center">
     <div className="animate-spin h-10 w-10 border-4 border-primary rounded-full border-t-transparent"></div>
   </div>;
 
@@ -47,26 +47,46 @@ const App = () => {
   // Set up proper viewport meta for iOS
   useEffect(() => {
     if (Capacitor.getPlatform() === 'ios') {
-      // Update viewport meta tag for iOS
-      const existingMeta = document.querySelector('meta[name="viewport"]');
-      if (existingMeta) {
-        existingMeta.remove();
+      // Fix iOS viewport
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no');
       }
-
-      // Create new viewport meta with improved iOS viewport fit
-      const meta = document.createElement('meta');
-      meta.name = 'viewport';
-      meta.content = 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
-      document.head.appendChild(meta);
 
       // Add iOS styling hooks
       document.documentElement.classList.add('ios-device');
 
-      // Add CSS variables for iOS safe areas that will be used throughout the app
-      document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top, 0px)');
-      document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom, 0px)');
-      document.documentElement.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left, 0px)');
-      document.documentElement.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right, 0px)');
+      // Add theme color meta for iOS
+      const themeColor = document.head.querySelector('meta[name="theme-color"]');
+      if (!themeColor) {
+        const meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        meta.content = '#000000';
+        document.head.appendChild(meta);
+      }
+
+      // Add iOS web app meta tags
+      if (!document.head.querySelector('meta[name="apple-mobile-web-app-capable"]')) {
+        const capable = document.createElement('meta');
+        capable.name = 'apple-mobile-web-app-capable';
+        capable.content = 'yes';
+        document.head.appendChild(capable);
+      }
+      if (!document.head.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')) {
+        const statusBarStyle = document.createElement('meta');
+        statusBarStyle.name = 'apple-mobile-web-app-status-bar-style';
+        statusBarStyle.content = 'black-translucent';
+        document.head.appendChild(statusBarStyle);
+      }
+
+      // Fix body scroll behavior using type assertion
+      (document.body.style as any).webkitOverflowScrolling = 'touch';
+      document.body.style.overscrollBehavior = 'none';
+      document.documentElement.style.overscrollBehavior = 'none';
+
+      // Fix background color to eliminate white spaces
+      document.body.style.backgroundColor = '#000000';
+      document.documentElement.style.backgroundColor = '#000000';
     }
   }, []);
   return <QueryClientProvider client={queryClient}>
@@ -75,45 +95,45 @@ const App = () => {
           <ThemeProvider defaultTheme="system" storageKey="ui-theme">
             <AuthProvider>
               <TooltipProvider>
-                <div className="min-h-screen bg-background text-foreground">
+                <div className="app-container py-0 my-0">
                   <Suspense fallback={null}>
                     <Navbar />
                   </Suspense>
                   
-                  <main className="pt-16 py-[81px]"> {/* Add consistent top padding for all pages */}
+                  <main className="app-content">
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/strains" element={<StrainExplorer />} />
                       <Route path="/strains/:id" element={<Suspense fallback={<PageLoading />}>
-                            <StrainDetail />
-                          </Suspense>} />
+                          <StrainDetail />
+                        </Suspense>} />
                       <Route path="/clubs" element={<Suspense fallback={<PageLoading />}>
-                            <ClubMap />
-                          </Suspense>} />
+                          <ClubMap />
+                        </Suspense>} />
                       <Route path="/clubs/:id" element={<Suspense fallback={<PageLoading />}>
-                            <ClubDetail />
-                          </Suspense>} />
+                          <ClubDetail />
+                        </Suspense>} />
                       <Route path="/journal" element={<Suspense fallback={<PageLoading />}>
-                            <Journal />
-                          </Suspense>} />
+                          <Journal />
+                        </Suspense>} />
                       <Route path="/news" element={<News />} />
                       <Route path="/guide" element={<Suspense fallback={<PageLoading />}>
-                            <CannabisGuide />
-                          </Suspense>} />
+                          <CannabisGuide />
+                        </Suspense>} />
                       <Route path="/profile" element={<Suspense fallback={<PageLoading />}>
-                            <Profile />
-                          </Suspense>} />
+                          <Profile />
+                        </Suspense>} />
                       <Route path="/settings" element={<Suspense fallback={<PageLoading />}>
-                            <Settings />
-                          </Suspense>} />
+                          <Settings />
+                        </Suspense>} />
                       <Route path="/auth" element={<Auth />} />
                       <Route path="/admin-tools" element={<Suspense fallback={<PageLoading />}>
-                            <AdminTools />
-                          </Suspense>} />
+                          <AdminTools />
+                        </Suspense>} />
                       <Route path="/admin" element={<Navigate to="/admin-tools" replace />} />
                       <Route path="*" element={<Suspense fallback={<PageLoading />}>
-                            <NotFound />
-                          </Suspense>} />
+                          <NotFound />
+                        </Suspense>} />
                     </Routes>
                   </main>
                   

@@ -11,8 +11,9 @@ const config: CapacitorConfig = {
   android: {
     androidxEnabled: true
   },
-  // Improved iOS configuration with proper sizing and safe area handling
+  // Completely revised iOS configuration with improved layout handling
   ios: {
+<<<<<<< HEAD
     preferredContentMode: 'mobile',
     limitsNavigationsToAppBoundDomains: true,
     contentInset: 'automatic',
@@ -23,11 +24,29 @@ const config: CapacitorConfig = {
     webViewSuspensionEnabled: false,
     statusBarStyle: "dark"
   },
+=======
+    // Content display settings
+    preferredContentMode: 'mobile',
+    limitsNavigationsToAppBoundDomains: true,
+    
+    // Critical layout fixes
+    contentInset: 'automatic',
+    allowsLinkPreview: false,
+    
+    // Fix viewport and rendering issues
+    overrideUserInterfaceStyle: 'dark',
+    hideWebViewBoundaries: true,
+    
+    // Status bar configuration
+    statusBarStyle: "dark"
+  },
+  // Improved plugins configuration
+>>>>>>> 8be8790b9a4fe4846e29f73461d4a0e16c12dccf
   plugins: {
     StatusBar: {
       style: "dark",
-      backgroundColor: "#ffffff",
-      overlaysWebView: false,
+      backgroundColor: "#000000",
+      overlaysWebView: true,
       animated: true
     },
     SplashScreen: {
