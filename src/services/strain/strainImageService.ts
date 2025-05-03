@@ -46,9 +46,8 @@ export async function generateStrainImage(strainId: string, strainName: string):
     }
 
     // Step 4: Create public URL - avoid any string interpolation or manipulation
-    const bucketName = "strain-images";
-    const supabaseUrl = "https://zvcqcgihydjscvrltkvz.supabase.co";
-    const publicUrl = supabaseUrl + "/storage/v1/object/public/" + bucketName + "/" + fileName;
+    // Using a pre-constructed literal string to avoid TypeScript recursive inference issues
+    const publicUrl = `https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images/${fileName}`;
     
     console.log("Generated public URL:", publicUrl);
 
