@@ -1,6 +1,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { SupabaseResponse } from "@/types/supabase";
 
 /**
  * Generates an image for a strain using the OpenAI API
@@ -45,17 +46,21 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Create public URL - avoid any string interpolation or manipulation
-    // Using a pre-constructed literal string to avoid TypeScript recursive inference issues
-    const publicUrl = `https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images/${fileName}`;
+    // Step 4: Create public URL using a fixed approach to avoid TypeScript inference issues
+    const storageUrl = "https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images/";
+    // Use string concatenation instead of template literals to avoid TypeScript recursive inference
+    const publicUrl = storageUrl + fileName;
     
     console.log("Generated public URL:", publicUrl);
 
     // Step 5: Update the strain record with the new image URL
-    const { error: updateError } = await supabase
+    // Create a separate update operation to avoid type recursion
+    const updateResult: SupabaseResponse<any> = await supabase
       .from('strains')
       .update({ img_url: publicUrl })
       .eq('id', strainId);
+    
+    const updateError = updateResult.error;
 
     if (updateError) {
       console.error("Error updating strain record:", updateError);
