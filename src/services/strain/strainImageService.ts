@@ -46,20 +46,21 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Create public URL using a fixed approach to avoid TypeScript inference issues
+    // Step 4: Create public URL without using template literals
     const storageUrl = "https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images/";
-    // Use string concatenation instead of template literals to avoid TypeScript recursive inference
     const publicUrl = storageUrl + fileName;
     
     console.log("Generated public URL:", publicUrl);
 
     // Step 5: Update the strain record with the new image URL
-    // Create a separate update operation to avoid type recursion
-    const updateResult: SupabaseResponse<any> = await supabase
+    // Explicitly use any to break the type recursion chain
+    const updateOperation = supabase
       .from('strains')
       .update({ img_url: publicUrl })
       .eq('id', strainId);
     
+    // Execute update as a separate step
+    const updateResult = await updateOperation;
     const updateError = updateResult.error;
 
     if (updateError) {
