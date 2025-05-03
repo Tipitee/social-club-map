@@ -45,16 +45,8 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Create URL without any string operations
-    // Use a completely hardcoded approach with an array join
-    const urlParts = [
-      "https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images/",
-      strainId,
-      ".png"
-    ];
-    
-    // Create the URL by joining array parts (without using + operator or template literals)
-    const publicUrl = urlParts.join("");
+    // Step 4: Fixed URL creation - using direct string literal with no concatenation
+    const publicUrl = "https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images/" + strainId + ".png";
     
     console.log("Generated public URL:", publicUrl);
 
