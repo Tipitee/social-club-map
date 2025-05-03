@@ -45,16 +45,17 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Use a hardcoded string URL to avoid TypeScript recursion
-    const storageBaseUrl = "https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images";
-    const finalImageUrl = storageBaseUrl + "/" + strainId + ".png";
+    // Step 4: Create URL string using direct string assignment with no manipulation
+    const baseUrl = "https://zvcqcgihydjscvrltkvz.supabase.co/storage/v1/object/public/strain-images";
+    // Using direct string concatenation without creating intermediate objects
+    const imageUrl = baseUrl + "/" + fileName;
     
-    console.log("Generated public URL:", finalImageUrl);
+    console.log("Generated public URL:", imageUrl);
 
     // Step 5: Update the strain record with the new image URL
     const { error: updateError } = await supabase
       .from('strains')
-      .update({ img_url: finalImageUrl })
+      .update({ img_url: imageUrl })
       .eq('id', strainId);
 
     if (updateError) {
@@ -62,7 +63,7 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to update strain record: ${updateError.message}`);
     }
 
-    return finalImageUrl;
+    return imageUrl;
   } catch (error) {
     console.error("Error in generateStrainImage:", error);
     toast({
