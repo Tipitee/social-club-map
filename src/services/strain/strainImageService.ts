@@ -45,13 +45,18 @@ export async function generateStrainImage(strainId: string, strainName: string):
       throw new Error(`Failed to upload image: ${uploadError.message}`);
     }
 
-    // Step 4: Use a completely hardcoded URL structure
-    // Avoid any string operations that might cause TypeScript to recurse deeply
-    const baseUrl = "https://zvcqcgihydjscvrltkvz.supabase.co";
-    const storagePath = "/storage/v1/object/public/strain-images/";
+    // Step 4: Extremely simplified URL construction - no interpolation or complex operations
+    // Using completely separate string literals and basic concatenation
+    const domain = "https://zvcqcgihydjscvrltkvz.supabase.co";
+    const path = "/storage/v1/object/public/strain-images/";
+    const file = strainId;
+    const ext = ".png";
     
-    // Create the full URL as a single string literal
-    const publicUrl = baseUrl + storagePath + strainId + ".png";
+    // Create the URL with simple addition operators only
+    let publicUrl = domain;
+    publicUrl = publicUrl + path;
+    publicUrl = publicUrl + file;
+    publicUrl = publicUrl + ext;
     
     console.log("Generated public URL:", publicUrl);
 
