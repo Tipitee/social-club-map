@@ -194,7 +194,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_strain_image: {
+        Args: { strain_id: string; image_url: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
